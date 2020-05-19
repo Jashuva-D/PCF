@@ -4,7 +4,8 @@ import { IInputs } from '../../generated/ManifestTypes';
 import {IContact} from '../models/IContact';
 import {Column} from 'react-table';
 import RenderReactTable from './RenderReactTable';
-import {IconButton, Checkbox,PrimaryButton} from "office-ui-fabric-react";
+import {IconButton, Checkbox,PrimaryButton,DefaultButton} from "office-ui-fabric-react";
+import { Dialog, DialogType, DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 
 
 
@@ -16,82 +17,60 @@ interface DisplayListState {
     rows : IContact[],
     selectedrows : string[]
     allselected : boolean,
-    oneunselected : boolean
+    oneunselected : boolean,
+    opendeleteconfirmation : boolean
+    opendeletemultiple : boolean
 }
 
-class DisplayList extends React.Component<DisplayListProps,DisplayListState>{
+class DisplayList extends React.Component<DisplayListProps,DisplayListState> {
+    
     constructor(props : DisplayListProps){
         super(props);
-        debugger;
         this.state = {
             oneunselected : false,
             allselected : false,
             selectedrows : [],
             columns : [],
-            rows : []
+            rows : [],
+            opendeleteconfirmation : false,
+            opendeletemultiple : false
         }
     }
-    componentDidMount(){
-      var columns  = [
-        {
-          width : 45,
-          Header : <Checkbox 
-                      onChange = {(event ,selected) => {
-                                           if(selected != undefined){
-                                             var temp = [] as string[]
-                                             this.state.rows.forEach(x => temp.push(x.contactid));
-                                             this.setState({allselected : selected,selectedrows : selected ? temp : []})
-                                           }
-                                        }}
-                      //checked = {this.state.allselected}
-                  />,
-          Cell : props => <Checkbox 
-                          onChange = {(x,y) => {
-                                        if(y){
-                                            var selected = this.state.selectedrows.find(x => x == (props.original as IContact).contactid);
-                                            if(selected == undefined || selected == null){
-                                              this.setState({selectedrows : [...this.state.selectedrows,(props.original as IContact).contactid]})
+    GetConstantColumns(estate : DisplayListState) { 
+      return [
+                  {
+                    id : "checkboxcolumn",
+                    width : 45,
+                    Header : <Checkbox 
+                                onChange = {(event ,selected) => {
+                                                    if(selected != undefined){
+                                                      var temp = [] as string[]
+                                                      this.state.rows.forEach(x => temp.push(x.contactid));
+                                                      this.setState({allselected : selected,selectedrows : selected ? temp : []})
+                                                    }
+                                                  }}
+                                checked = {estate.allselected  && estate.rows.length > 0}
+                            />,
+                    Cell : props => <Checkbox 
+                                    onChange = {(x,y) => {
+                                                  if(y){
+                                                      var selected = this.state.selectedrows.find(x => x == (props.original as IContact).contactid);
+                                                      if(selected == undefined || selected == null){
+                                                        this.setState({selectedrows : [...this.state.selectedrows,(props.original as IContact).contactid]})
+                                                      }
+                                                  }
+                                                  else{
+                                                    this.setState({allselected : false,selectedrows : this.state.selectedrows.filter(x => x != (props.original as IContact).contactid)})
+                                                  }
+                                                }
                                             }
-                                        }
-                                        else{
-                                          this.setState({allselected : false,selectedrows : this.state.selectedrows.filter(x => x != (props.original as IContact).contactid)})
-                                        }
-                                      }
-                                  }
-                          checked = {this.state.selectedrows.find(x => x == (props.original as IContact).contactid) != undefined ? true : this.state.allselected }
-                      />
-          
-        },
-        {
-          Header : "Delete",
-          accessor : "contactid",
-          id : "",
-          width : 65,
-          Cell : props => <IconButton 
-                            iconProps ={{iconName : "delete"}}
-                              onClick = {() => {
-                                var selectedrecord = props.original as IContact
-                                this.props.context.webAPI.deleteRecord("contact",selectedrecord.contactid).then(
-                                  () => {
-                                      this.props.context.webAPI.retrieveMultipleRecords("contact").then(
-                                        (response) => {
-                                          var GetRecords = () : IContact[] =>{
-                                            var contacts  = [] as IContact[];
-                                            response.entities.map(x => contacts.push({firstname: x.firstname,fullname: x.fullname,middlename:x.middlename,lastname:x.lastname,contactid:x.contactid} as IContact) );
-                                            return contacts;
-                                          }    
-                                          this.setState({columns:columns,rows:GetRecords()})
-                                        }
-                                      )
-                                  }
-                                )
-                                //var remainingrecords = this.state.rows.filter(x => x.contactid != selectedrecord.contactid )
-                                //this.setState({rows : [...remainingrecords]})
-
-                            }}
-                          />
-          //Cell : props => <div>Hello</div>
-        },
+                                    checked = {this.state.selectedrows.find(x => x == (props.original as IContact).contactid) != undefined ? true : this.state.allselected }
+                                />
+                }
+            ] as Column[]
+    }
+    componentDidMount(){
+      let columnsL  = [
         {
         Header : "First Name",
         accessor : "firstname"
@@ -129,22 +108,28 @@ class DisplayList extends React.Component<DisplayListProps,DisplayListState>{
       //   rows : GetRecords()
         
       // });
+      
       this.props.context.webAPI.retrieveMultipleRecords("contact").then(
         (response) => {
-          var GetRecords = () : IContact[] =>{
+          let GetRecords = () : IContact[] =>{
             var contacts  = [] as IContact[];
             response.entities.map(x => contacts.push({firstname: x.firstname,fullname: x.fullname,middlename:x.middlename,lastname:x.lastname,contactid:x.contactid} as IContact) );
             return contacts;
           }    
-          this.setState({columns:columns,rows:GetRecords()})
+          this.setState({columns:columnsL,rows:GetRecords()})
         }
       )
     }
     public render() : JSX.Element{
       debugger;
-      const records = this.state.rows;
-      const columns = this.state.columns;
-      
+      const dialogContentProps = {
+        type: DialogType.normal,
+        title: 'Delete Confirmation',
+        closeButtonAriaLabel: 'Close',
+        subText: 'Are you sure, you want to delete ?',
+      };
+      let records = [...this.state.rows];
+      let columns = [...this.GetConstantColumns(this.state),...(this.state.columns).filter(x=>x.id != "checkboxcolumn" || x.id == null || x.id == undefined)]
       return (
           <div className="headerDiv">
             
@@ -152,19 +137,33 @@ class DisplayList extends React.Component<DisplayListProps,DisplayListState>{
                 <PrimaryButton
                   className="headerButton"
                   text="Delete"
+                  disabled = {this.state.selectedrows.length == 0}
                   onClick={() => {
-                    // var remainingrows = [] as IContact[];
-                    // this.state.rows.forEach(x => {
-                    //   debugger;
-                    //     var selectedrecord = this.state.selectedrows.find(y => y == x.contactid);
-                    //     if(selectedrecord == undefined || selectedrecord == null){
-                    //       remainingrows.push(x);
-                    //     }
-                    // })
-                    // this.setState({
-                    //   rows : [...remainingrows]
-                    // })
-                    var deletedcount = 0;
+                    this.setState({opendeleteconfirmation : true})
+                    
+                  }}
+                />
+            </div>
+            <br></br><br></br>
+            <div>
+              <RenderReactTable 
+                columns = {[...columns]} 
+                rows = {[...records]}
+              />
+            </div>
+            <div>
+            <Dialog
+              hidden={!this.state.opendeleteconfirmation}
+              onDismiss={() => {}}
+              dialogContentProps={dialogContentProps}
+            >
+              <DialogFooter>
+                <PrimaryButton onClick={()=> {
+                  this.setState({
+                    opendeletemultiple : true,
+                    opendeleteconfirmation : false
+                  })
+                   var deletedcount = 0;
                     var totalcount = this.state.selectedrows.length;
                     this.state.selectedrows.forEach(x => {
                       this.props.context.webAPI.deleteRecord("contact",x).then(
@@ -173,27 +172,30 @@ class DisplayList extends React.Component<DisplayListProps,DisplayListState>{
                           if(deletedcount == totalcount){
                             this.props.context.webAPI.retrieveMultipleRecords("contact").then(
                               (response) => {
-                                var GetRecords = () : IContact[] =>{
+                                let GetRecords = () : IContact[] =>{
                                   var contacts  = [] as IContact[];
                                   response.entities.map(x => contacts.push({firstname: x.firstname,fullname: x.fullname,middlename:x.middlename,lastname:x.lastname,contactid:x.contactid} as IContact) );
                                   return contacts;
                                 }    
-                                this.setState({allselected: false,selectedrows: [],columns:columns,rows:GetRecords()})
+                                this.setState({opendeletemultiple : false,allselected: false,selectedrows: [],columns:columns,rows:GetRecords()})
                               }
                             )
                           }
                         }
                       )
                     })
-                  }}
-                />
-            </div>
-            <br></br><br></br>
-            <div>
-              <RenderReactTable 
-                columns = {...columns} 
-                rows = {...records}
-              />
+                    }} text="Yes" />
+                <DefaultButton onClick={()=> {this.setState({opendeleteconfirmation:false})}} text="No" />
+              </DialogFooter>
+            </Dialog>
+            <Dialog 
+              hidden = {!this.state.opendeletemultiple}
+              dialogContentProps = {{
+                type: DialogType.normal,
+                title: 'Deleting....',
+                closeButtonAriaLabel: 'Close',
+                }}
+            />
             </div>
           </div>
       
@@ -204,3 +206,37 @@ class DisplayList extends React.Component<DisplayListProps,DisplayListState>{
 }
 
 export default DisplayList;
+
+
+// var remainingrows = [] as IContact[];
+                    // this.state.rows.forEach(x => {
+                    //   debugger;
+                    //     var selectedrecord = this.state.selectedrows.find(y => y == x.contactid);
+                    //     if(selectedrecord == undefined || selectedrecord == null){
+                    //       remainingrows.push(x);
+                    //     }
+                    // })
+                    // this.setState({
+                    //   rows : [...remainingrows]
+                    // })
+                    // var deletedcount = 0;
+                    // var totalcount = this.state.selectedrows.length;
+                    // this.state.selectedrows.forEach(x => {
+                    //   this.props.context.webAPI.deleteRecord("contact",x).then(
+                    //     (resp) => {
+                    //       deletedcount++;
+                    //       if(deletedcount == totalcount){
+                    //         this.props.context.webAPI.retrieveMultipleRecords("contact").then(
+                    //           (response) => {
+                    //             var GetRecords = () : IContact[] =>{
+                    //               var contacts  = [] as IContact[];
+                    //               response.entities.map(x => contacts.push({firstname: x.firstname,fullname: x.fullname,middlename:x.middlename,lastname:x.lastname,contactid:x.contactid} as IContact) );
+                    //               return contacts;
+                    //             }    
+                    //             this.setState({allselected: false,selectedrows: [],columns:columns,rows:GetRecords()})
+                    //           }
+                    //         )
+                    //       }
+                    //     }
+                    //   )
+                    // })
