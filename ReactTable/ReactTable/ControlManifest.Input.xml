@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="ReactTablePCF" constructor="ReactTable" version="0.0.9" display-name-key="ReactTable" description-key="ReactTable description" control-type="standard">
+  <control namespace="ReactTablePCF" constructor="ReactTable" version="0.0.12" display-name-key="ReactTable" description-key="ReactTable description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
     <!-- 
@@ -17,7 +17,7 @@
     <resources>
       <code path="index.ts" order="1"/>
       <css path="../node_modules/react-table/react-table.css" order="2" />
-      <!--<css path="./src/css/customstyles.css" order="3" /> -->
+      <css path="./src/css/custostyles.css" order="3" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/ReactTable.css" order="1" />
       <resx path="strings/ReactTable.1033.resx" version="1.0.0" />
