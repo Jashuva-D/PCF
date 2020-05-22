@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="ReactTablePCF" constructor="ReactTable" version="0.0.15" display-name-key="ReactTable" description-key="ReactTable description" control-type="standard">
+  <control namespace="ReactTablePCF" constructor="ReactTable" version="0.0.26" display-name-key="ReactTable" description-key="ReactTable description" control-type="standard">
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
     <!-- 

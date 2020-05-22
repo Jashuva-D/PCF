@@ -8,3 +8,10 @@
 .headerButton {
     margin-left: 5px;
 }
+.loadingData {
+    width: 50%;
+    margin: auto;
+}
+.loadingData h4 {
+    width: 150px;
+}
