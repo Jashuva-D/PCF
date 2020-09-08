@@ -37,6 +37,11 @@ export class HelloWorld implements ComponentFramework.StandardControl<IInputs, I
 		var label = document.createElement("label");
 		label.innerHTML = "Hello World...!";
 		childdiv2.appendChild(label);
+		childdiv2.id = "85b84e4a-420d-431a-b957-8daf87ae64a8";
+
+		var existingdiv = document.getElementById("85b84e4a-420d-431a-b957-8daf87ae64a8");
+		if(existingdiv != null)
+			this.customdiv.removeChild(existingdiv);
 
 		this.customdiv.appendChild(childdiv2);
 	}
