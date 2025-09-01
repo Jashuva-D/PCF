@@ -48,7 +48,6 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
     }
     render(): React.ReactNode {
         return <div>
-            Hello, this line is added from the custom control. {Object.keys(this.props.context.parameters.sampleDataSet.records).length}
             <DetailsList
                 items={this.state.items}
                 columns = {this.state.columns}
