@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import { DetailsList, IColumn } from "@fluentui/react";
+import { DetailsList, IColumn, SelectionMode } from "@fluentui/react";
 
 interface AssignedPeopleProps {
     context : ComponentFramework.Context<IInputs>
@@ -22,7 +22,8 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
         var columns = this.props.context.parameters.sampleDataSet.columns.map(x => {
             debugger;
             return x;
-        });
+        }).filter(x => x.isHidden == false);
+        
         var records = Object.keys(this.props.context.parameters.sampleDataSet.records).map(x => {
             debugger;
             var eachrecord = {} as any;
@@ -37,8 +38,9 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                 return {
                     name : x.displayName,
                     fieldName : x.name,
-                    minWidth : 60,
-                    maxWidth : 60
+                    minWidth : 150,
+                    maxWidth : 300,
+                    isResizable : true
                 } as IColumn
             }),
             items : records
@@ -50,6 +52,7 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
             <DetailsList
                 items={this.state.items}
                 columns = {this.state.columns}
+                selectionMode={SelectionMode.none}
             />
         </div>
     }
