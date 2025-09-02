@@ -19,6 +19,7 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
         }
     }
     componentDidMount(): void {
+        var obj = this;
         var columns = this.props.context.parameters.sampleDataSet.columns.map(x => {
             debugger;
             return x;
@@ -45,7 +46,13 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                         debugger;
                         if(x.dataType == "Lookup.Simple"){
                             return <Link onClick={() => {
-
+                                var value = item[x.name];
+                                if(value != null){
+                                    obj.props.context.navigation.openForm({
+                                        entityName : value.etn,
+                                        entityId : value.id.guid
+                                    })
+                                }
                             }}>{item[x.name]}</Link>
                         }
                         else {
