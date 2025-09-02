@@ -30,7 +30,7 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
             var eachrecord = {} as any;
             var data = this.props.context.parameters.sampleDataSet.records[x];
             columns.forEach(y => {
-                eachrecord[y.name] = data.getFormattedValue(y.name);
+                eachrecord[y.name] = data.getValue(y.name);
             });
             return eachrecord;
         });
@@ -53,7 +53,7 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                                         entityId : value.id.guid
                                     })
                                 }
-                            }}>{item[x.name]}</Link>
+                            }}>{item[x.name] != null ? item[x.name].name : null}</Link>
                         }
                         else {
                             return <Text>{item[x.name]}</Text>
