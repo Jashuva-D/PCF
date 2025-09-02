@@ -42,13 +42,14 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                     maxWidth : 300,
                     isResizable : true,
                     onRender : (item) => {
+                        debugger;
                         if(x.dataType == "Lookup.Simple"){
                             return <Link onClick={() => {
 
-                            }}>item[{x.name}]</Link>
+                            }}>{item[x.name]}</Link>
                         }
                         else {
-                            <Text>{item[x.name]}</Text>
+                            return <Text>{item[x.name]}</Text>
                         }
                         
                     }
