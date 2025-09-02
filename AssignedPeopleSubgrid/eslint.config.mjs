@@ -36,7 +36,8 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "no-var": "off",
-      "no-debugger": "off"
+      "no-debugger": "off",
+      "@typescript-eslint/no-empty-function" : "off"
     },
   },
 ];

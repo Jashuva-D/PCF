@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import { DetailsList, IColumn, SelectionMode } from "@fluentui/react";
+import { DetailsList, IColumn, SelectionMode, Link, Text } from "@fluentui/react";
 
 interface AssignedPeopleProps {
     context : ComponentFramework.Context<IInputs>
@@ -40,7 +40,18 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                     fieldName : x.name,
                     minWidth : 150,
                     maxWidth : 300,
-                    isResizable : true
+                    isResizable : true,
+                    onRender : (item) => {
+                        if(x.dataType == "Lookup.Simple"){
+                            return <Link onClick={() => {
+
+                            }}>item[{x.name}]</Link>
+                        }
+                        else {
+                            <Text>{item[x.name]}</Text>
+                        }
+                        
+                    }
                 } as IColumn
             }),
             items : records
