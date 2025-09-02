@@ -37,6 +37,7 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
         this.setState({
             columns : columns.map(x => {
                 return {
+                    key : x.name,
                     name : x.displayName,
                     fieldName : x.name,
                     minWidth : 150,
