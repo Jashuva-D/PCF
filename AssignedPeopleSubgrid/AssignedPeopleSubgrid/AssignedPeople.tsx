@@ -21,12 +21,10 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
     componentDidMount(): void {
         var obj = this;
         var columns = this.props.context.parameters.sampleDataSet.columns.map(x => {
-            debugger;
             return x;
         }).filter(x => x.isHidden == false);
         
         var records = Object.keys(this.props.context.parameters.sampleDataSet.records).map(x => {
-            debugger;
             var eachrecord = {} as any;
             var data = this.props.context.parameters.sampleDataSet.records[x];
             columns.forEach(y => {
@@ -44,7 +42,6 @@ class AssignedPeople extends React.Component<AssignedPeopleProps,AssignedPeopleS
                     maxWidth : 300,
                     isResizable : true,
                     onRender : (item) => {
-                        debugger;
                         if(x.dataType == "Lookup.Simple"){
                             return <Link onClick={() => {
                                 var value = item[x.name];
