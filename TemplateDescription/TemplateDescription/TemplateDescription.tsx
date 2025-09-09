@@ -63,8 +63,11 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
         }
     }
     componentDidUpdate(prevProps: Readonly<TemplateDescriptionProps>, prevState: Readonly<TemplateDescriptionState>, snapshot?: any): void {
+        var obj = this;
         if(prevProps.subject != this.props.subject){
-            this.Refresh();
+            setTimeout(function(){
+                obj.Refresh();
+            },5000)
         }
     }
     render(): React.ReactNode {
