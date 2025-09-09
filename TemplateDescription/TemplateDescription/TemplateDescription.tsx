@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Stack, StackItem, Icon, initializeIcons} from "@fluentui/react";
+import {Stack, StackItem, Icon, initializeIcons, Label, Tooltip} from "@fluentui/react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
 interface TemplateDescriptionProps {
@@ -62,9 +62,12 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
         const description = this.state.description;
         return <Stack>
                 <StackItem>
-                    <Stack horizontal horizontalAlign="end">
+                    <Stack horizontal horizontalAlign="space-between">
+                        <StackItem>
+                            <Label>Template Description</Label>
+                        </StackItem>
                         <StackItem style={{padding : 20}}>
-                            <Icon iconName={"refresh"} onClick={this.Refresh.bind(this)}></Icon>
+                            <Tooltip content={"Refresh"}><Icon iconName={"refresh"} onClick={this.Refresh.bind(this)}></Icon></Tooltip>
                         </StackItem>
                     </Stack>
                 </StackItem>
