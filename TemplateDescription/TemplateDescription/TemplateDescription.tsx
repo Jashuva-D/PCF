@@ -1,9 +1,10 @@
 import * as React from "react";
-import {Stack, StackItem, Icon, initializeIcons, Label, Tooltip, TooltipHost} from "@fluentui/react";
+import {Stack, StackItem, Icon, initializeIcons, Label, TooltipHost} from "@fluentui/react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 
 interface TemplateDescriptionProps {
-    context : ComponentFramework.Context<IInputs,IOutputs>
+    context : ComponentFramework.Context<IInputs,IOutputs>,
+    subject : string | null
 }
 interface TemplateDescriptionState {
     description : string | null
@@ -14,7 +15,7 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
         super(props);
         initializeIcons();
         this.state = {
-            description : "<b>Bold Text</b>"
+            description : ""
         }
     }
     componentDidMount(): void {
@@ -61,15 +62,20 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
             })
         }
     }
+    componentDidUpdate(prevProps: Readonly<TemplateDescriptionProps>, prevState: Readonly<TemplateDescriptionState>, snapshot?: any): void {
+        if(prevProps.subject != this.props.subject){
+            this.Refresh();
+        }
+    }
     render(): React.ReactNode {
         const description = this.state.description;
         return <Stack>
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
-                        <StackItem style={{paddingTop : 20, paddingBottom: 20}}>
+                        <StackItem style={{paddingTop : 100, paddingBottom: 20}}>
                             <Label>Template Description</Label>
                         </StackItem>
-                        <StackItem style={{padding : 20}}>
+                        <StackItem style={{paddingTop : 10, paddingRight : 20, paddingBottom: 20}}>
                             <TooltipHost content={"Refresh"}><Icon iconName={"refresh"} onClick={this.Refresh.bind(this)}></Icon></TooltipHost>
                         </StackItem>
                     </Stack>

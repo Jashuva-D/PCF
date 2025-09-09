@@ -32,7 +32,7 @@ export class TemplateDescription implements ComponentFramework.StandardControl<I
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        ReactDOM.render(React.createElement(TemplateDescriptionComp,{context : context}),this._container);
+        ReactDOM.render(React.createElement(TemplateDescriptionComp,{context : context, subject : context.parameters.sampleProperty.raw}),this._container);
     }
 
     /**
