@@ -65,9 +65,16 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
     componentDidUpdate(prevProps: Readonly<TemplateDescriptionProps>, prevState: Readonly<TemplateDescriptionState>, snapshot?: any): void {
         var obj = this;
         if(prevProps.subject != this.props.subject){
-            setTimeout(function(){
-                obj.Refresh();
-            },5000)
+            const templateid = (parent as any).Xrm.Page.getAttribute("templateid").getValue();
+            if(templateid != null){
+                obj.props.context.webAPI.retrieveRecord("template",templateid[0].id).then(function(resp){
+                    debugger;
+                    obj.setState({
+                        description : resp.description
+                    })
+                })
+            }
+            
         }
     }
     render(): React.ReactNode {
