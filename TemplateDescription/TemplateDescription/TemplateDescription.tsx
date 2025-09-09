@@ -40,6 +40,9 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
     }
     Refresh(){
         var obj = this;
+        this.setState({
+            description : ""
+        })
         var currentrecordid = (this.props.context as any).page.entityId;
         if(currentrecordid != undefined && currentrecordid != null){
             this.props.context.webAPI.retrieveRecord("email",currentrecordid).then(function(resp){
@@ -63,7 +66,7 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
         return <Stack>
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
-                        <StackItem style={{padding : 20}}>
+                        <StackItem style={{paddingTop : 20, paddingBottom: 20}}>
                             <Label>Template Description</Label>
                         </StackItem>
                         <StackItem style={{padding : 20}}>
