@@ -82,7 +82,7 @@ class TemplateDescriptionComp extends React.Component<TemplateDescriptionProps,T
         return <Stack>
                 <StackItem>
                     <Stack horizontal horizontalAlign="space-between">
-                        <StackItem style={{paddingTop : 5, paddingBottom: 20}}>
+                        <StackItem style={{paddingTop : 0, paddingBottom: 20}}>
                             <Label>Template Description</Label>
                         </StackItem>
                         {/* <StackItem style={{paddingTop : 5, paddingRight : 20, paddingBottom: 20}}>
