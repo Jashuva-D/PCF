@@ -32,22 +32,22 @@ class Notes extends React.Component<NotesProps,NotesState> {
         this.setState({notes: notes});
     }
     componentDidMount(): void {
-        this.GetFakeData();
-        // var obj = this;
-        // var currentrecordid = (this.props.context as any).page.entityId;
-        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
-        //     let notes = [] as any[]
-        //     resp.entities.forEach(x => {
-        //         notes.push({
-        //             comments: x.camp_comment,
-        //             createdon: new Date(x.createdon),
-        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
-        //         })
-        //     })
-        //     obj.setState({ notes: notes });
-        // }).catch(function(err){
-        //     console.log(err);
-        // });
+        //this.GetFakeData();
+        var obj = this;
+        var currentrecordid = (this.props.context as any).page.entityId;
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
+            let notes = [] as any[]
+            resp.entities.forEach(x => {
+                notes.push({
+                    comments: x.camp_comment,
+                    createdon: new Date(x.createdon),
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+                })
+            })
+            obj.setState({ notes: notes });
+        }).catch(function(err){
+            console.log(err);
+        });
         
     }
     render(): React.ReactNode {
