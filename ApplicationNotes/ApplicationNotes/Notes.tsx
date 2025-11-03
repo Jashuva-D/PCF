@@ -1,3 +1,4 @@
+// ...existing code...
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
@@ -31,33 +32,44 @@ class Notes extends React.Component<NotesProps,NotesState> {
         this.setState({notes: notes});
     }
     componentDidMount(): void {
-        //this.GetFakeData();
-        var obj = this;
-        var currentrecordid = (this.props.context as any).page.entityId;
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
-            let notes = [] as any[]
-            resp.entities.forEach(x => {
-                notes.push({
-                    comments: x.camp_comment,
-                    createdon: new Date(x.createdon),
-                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
-                })
-            })
-            obj.setState({ notes: notes });
-        }).catch(function(err){
-            console.log(err);
-        });
+        this.GetFakeData();
+        // var obj = this;
+        // var currentrecordid = (this.props.context as any).page.entityId;
+        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
+        //     let notes = [] as any[]
+        //     resp.entities.forEach(x => {
+        //         notes.push({
+        //             comments: x.camp_comment,
+        //             createdon: new Date(x.createdon),
+        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+        //         })
+        //     })
+        //     obj.setState({ notes: notes });
+        // }).catch(function(err){
+        //     console.log(err);
+        // });
         
     }
     render(): React.ReactNode {
         const notes = this.state.notes;
         return <div>
-            <Stack>
-                {notes.map(x => {
-                    return <StackItem>
-                            <Note createdon={x.createdon} createdby={x.createdby} comment={x.comments}></Note>
-                        </StackItem>
-                })}
+            <Stack tokens={{childrenGap: 15}}>
+                {notes.map((x, idx) => (
+                    <StackItem
+                        key={idx}
+                        styles={{
+                            root: {
+                                border: "1px solid #ddd",
+                                borderRadius: 6,
+                                padding: 12,
+                                marginBottom: 10,
+                                background: "#fff"
+                            }
+                        }}
+                    >
+                        <Note createdon={x.createdon} createdby={x.createdby} comment={x.comments}></Note>
+                    </StackItem>
+                ))}
             </Stack>
             {/* <CommentWithScreenshot></CommentWithScreenshot> */}
         </div>
@@ -65,3 +77,4 @@ class Notes extends React.Component<NotesProps,NotesState> {
 }
 
 export default Notes;
+// ...existing code...
