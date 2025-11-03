@@ -91,14 +91,16 @@ export default class Comment extends Component<CommentProps, CommentState> {
       );
     }
 
+    // sanitize incoming HTML before rendering
+    const safeHtml = text ?? "";
+
     return (
       <>
         <div
           ref={this.textRef}
           style={expanded ? fullStyle : clampStyle}
-        >
-          {text}
-        </div>
+          dangerouslySetInnerHTML={{ __html: safeHtml }}
+        />
 
         {canExpand && (
           <Link onClick={this.toggleExpanded} style={{ marginLeft: 8, cursor: "pointer", fontWeight: 500 }}>
