@@ -14,7 +14,10 @@ interface NotesState {
 class Notes extends React.Component<NotesProps,NotesState> {
     constructor(props: NotesProps){
         initializeIcons();
-        super(props)
+        super(props);
+        this.state = {
+            notes: [],
+        }
     }
     GetFakeData(){
         var notes = [];
@@ -25,12 +28,13 @@ class Notes extends React.Component<NotesProps,NotesState> {
                 createdby: "Joshua Devireddy"
             })
         }
-        return notes;
+        this.setState({notes: notes});
     }
-    async componentDidMount(): Promise<void> {
+    componentDidMount(): void {
+        //this.GetFakeData();
         var obj = this;
         var currentrecordid = (this.props.context as any).page.entityId;
-        await this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
@@ -40,7 +44,10 @@ class Notes extends React.Component<NotesProps,NotesState> {
                 })
             })
             obj.setState({ notes: notes });
+        }).catch(function(err){
+            console.log(err);
         });
+        
     }
     render(): React.ReactNode {
         const notes = this.state.notes;
