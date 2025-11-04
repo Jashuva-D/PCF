@@ -11,7 +11,7 @@
 
 # msbuild output directories
 /bin/*
-!/bin/solution.zip
+!/bin/Debug/Solution.zip
 /obj
 
 # MSBuild Binary and Structured Log
