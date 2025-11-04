@@ -10,8 +10,7 @@
 /out
 
 # msbuild output directories
-/bin/*
-!/bin/Debug/Solution.zip
+/bin
 /obj
 
 # MSBuild Binary and Structured Log
