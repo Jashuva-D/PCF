@@ -2,7 +2,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
-import { Icon, initializeIcons, Label, Stack, StackItem, Text, TextField } from "@fluentui/react";
+import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField,IconButton } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
 
@@ -11,6 +11,10 @@ interface NotesProps {
 }
 interface NotesState {
     notes: any[],
+    newnote: boolean,
+    filteredNotes: any[],
+    filterApplied?: boolean,
+    searchText?: string
 }
 class Notes extends React.Component<NotesProps,NotesState> {
     constructor(props: NotesProps){
@@ -18,6 +22,9 @@ class Notes extends React.Component<NotesProps,NotesState> {
         super(props);
         this.state = {
             notes: [],
+            newnote: false,
+            filteredNotes: [],
+            filterApplied: false
         }
     }
     GetFakeData(){
@@ -50,10 +57,110 @@ class Notes extends React.Component<NotesProps,NotesState> {
         });
         
     }
+    onAddNoteClick(){
+        this.setState({newnote: true});
+        this.props.context.navigation.openForm({
+            entityName: "camp_applicationnotes",
+            createFromEntity: {
+                entityType: (this.props.context as any).page.entityType,
+                id: (this.props.context as any).page.entityId
+            }
+        });
+    }
+    onSearchClick(){
+        if(this.state.filterApplied){
+            this.setState({ filterApplied: false, searchText: "" });
+        }
+        else{
+            const searchTerm = this.state.searchText?.toLowerCase();
+            const filteredNotes = this.state.notes.filter(note =>
+                note.comments.toLowerCase().includes(searchTerm)
+            );
+            this.setState({ filterApplied: true, filteredNotes: filteredNotes });
+        }
+        
+    }
     render(): React.ReactNode {
-        const notes = this.state.notes;
+        const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
+            <Stack tokens={{childrenGap: 5}}>
+                <StackItem align ="start">
+                   <DefaultButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></DefaultButton>
+                </StackItem>
+                <StackItem>
+                    {/* <TextField 
+                        value = {this.state.searchText || ""} 
+                        placeholder="Search Notes..." 
+                        styles={{root: {width: "100%", marginTop: 10}}} 
+                        iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search", onSelect: () => alert("clicked"), onClick: () => alert("clicked") }} 
+                        onChange={(e, newValue) => {
+                            this.setState({ searchText: newValue || "" });
+                        }}
+                        // onRenderSuffix={() => (
+                        //     <IconButton 
+
+                        //         onClick={this.onSearchClick.bind(this)}
+                        //         style={{ border: "none", outline: "none", display: "none"}}
+                        //     />
+                        // )}
+                    >
+                    </TextField> */}
+                     <TextField  
+                        placeholder="Search Notes..."
+                        onChange={(e, newValue) => {
+                            this.setState({ searchText: newValue || "" });
+                        }}
+                        onRenderSuffix={() => (
+                            <IconButton 
+                                iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search" }} 
+                                ariaLabel="Search" 
+                                styles={{
+                                    root: {
+                                        cursor: "pointer",
+                                        border: "none",
+                                        outline: "none",
+                                        background: "transparent",
+                                    },
+                                    rootHovered: {
+                                        cursor: "pointer",
+                                        background: "transparent",
+                                    },
+                                    rootFocused: {
+                                        cursor: "pointer",
+                                        background: "transparent",
+                                        outline: "none",
+                                        boxShadow: "none",
+                                    },
+                                    rootPressed:{
+                                        cursor: "pointer",
+                                        background: "transparent",
+                                        outline: "none",
+                                        boxShadow: "none",
+                                    },
+                                    icon: {
+                                        color: "inherit"
+                                    }
+                                }}
+                                onClick={this.onSearchClick.bind(this)}
+                                onMouseDown={(e) => {
+                                    // prevent the button from taking focus on click which causes the highlight
+                                    e.preventDefault();
+                                }}
+                            />
+                        )}
+                    /> 
+                </StackItem>
+                {this.state.newnote == true && <>
+                    <StackItem>
+                        <TextField placeholder="Add a new note..." styles={{root: {width: "100%"}}} multiline rows={6}></TextField>
+                    </StackItem>
+                    <StackItem align="end">
+                        <PrimaryButton text="Submit" style={{borderRadius: 6}}></PrimaryButton>
+                    </StackItem>
+                </>}
+            </Stack>
             <Stack tokens={{childrenGap: 15}}>
+                
                 {notes.map((x, idx) => (
                     <StackItem
                         key={idx}
