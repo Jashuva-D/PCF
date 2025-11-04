@@ -90,61 +90,19 @@ class Notes extends React.Component<NotesProps,NotesState> {
                         <DefaultButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></DefaultButton>
                         </StackItem>
                         <StackItem>
-                            {/* <TextField 
-                                value = {this.state.searchText || ""} 
-                                placeholder="Search Notes..." 
-                                styles={{root: {width: "100%", marginTop: 10}}} 
-                                iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search", onSelect: () => alert("clicked"), onClick: () => alert("clicked") }} 
-                                onChange={(e, newValue) => {
-                                    this.setState({ searchText: newValue || "" });
-                                }}
-                                // onRenderSuffix={() => (
-                                //     <IconButton 
-
-                                //         onClick={this.onSearchClick.bind(this)}
-                                //         style={{ border: "none", outline: "none", display: "none"}}
-                                //     />
-                                // )}
-                            >
-                            </TextField> */}
                             <TextField  
+                                value={this.state.searchText || ""}
                                 placeholder="Search Notes..."
                                 onChange={(e, newValue) => {
                                     this.setState({ searchText: newValue || "" });
-                                }}
-                                onRenderSuffix={() => (
-                                    <IconButton 
-                                        iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search" }} 
-                                        ariaLabel="Search" 
-                                        styles={{
-                                            root: {
-                                                cursor: "pointer",
-                                                border: "none",
-                                                outline: "none",
-                                                background: "transparent",
-                                            },
-                                            rootHovered: {
-                                                cursor: "pointer",
-                                                background: "transparent",
-                                            },
-                                            rootFocused: {
-                                                cursor: "pointer",
-                                                background: "transparent",
-                                                outline: "none",
-                                                boxShadow: "none",
-                                            },
-                                            rootPressed:{
-                                                cursor: "pointer",
-                                                background: "transparent",
-                                                outline: "none",
-                                                boxShadow: "none",
-                                            },
-                                            icon: {
-                                                color: "inherit"
-                                            }
-                                        }}
-                                        onClick={this.onSearchClick.bind(this)}
-                                        onMouseDown={(e) => {
+                                    }}
+                                    onRenderSuffix={() => (
+                                        <IconButton
+                                            iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search" }}
+                                            ariaLabel="Search"
+                                            styles={{ root: { cursor: "pointer", border: "none", outline: "none", background: "transparent" }, rootHovered: { cursor: "pointer", background: "transparent" }, rootFocused: { cursor: "pointer", background: "transparent", outline: "none", boxShadow: "none" }, rootPressed: { cursor: "pointer", background: "transparent", outline: "none", boxShadow: "none" }, icon: { color: "inherit" } }}
+                                            onClick={this.onSearchClick.bind(this)}
+                                            onMouseDown={(e) => {
                                             // prevent the button from taking focus on click which causes the highlight
                                             e.preventDefault();
                                         }}
