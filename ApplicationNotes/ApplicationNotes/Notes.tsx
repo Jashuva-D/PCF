@@ -16,6 +16,7 @@ interface NotesState {
     filterApplied?: boolean,
     searchText?: string,
     displaySummary?: boolean,
+    summary?: string
 }
 class Notes extends React.Component<NotesProps,NotesState> {
     constructor(props: NotesProps){
@@ -25,7 +26,10 @@ class Notes extends React.Component<NotesProps,NotesState> {
             notes: [],
             newnote: false,
             filteredNotes: [],
-            filterApplied: false
+            filterApplied: false,
+            searchText: "",
+            displaySummary: false,
+            summary: ""
         }
     }
     GetFakeData(){
@@ -82,6 +86,34 @@ class Notes extends React.Component<NotesProps,NotesState> {
         
     }
     onGenerateSummaryClick(){
+        var obj = this;
+        var currentrecordid = (this.props.context as any).page.entityId;
+        var request = {
+            entity: { entityType: "camp_application", id: currentrecordid }, // entity
+
+            getMetadata: function () {
+                return {
+                    boundParameter: "entity",
+                    parameterTypes: {
+                        entity: { typeName: "mscrm.camp_application", structuralProperty: 5 }
+                    },
+                    operationType: 0, operationName: "camp_GenerateAppNotesSummary"
+                };
+            }
+        };
+
+        (obj.props.context.webAPI as any).execute(request).then(
+            function success(response : any) {
+                if (response.ok) { return response.json(); }
+            }
+        ).then(function (responseBody : any) {
+            var result = responseBody;
+            console.log(result);
+            var summary = result["summary"] as string;
+            obj.setState({ summary: summary }); // Edm.String
+        }).catch(function (error : any) {
+            console.log(error.message);
+        });
         this.setState({displaySummary: true});
     }
     render(): React.ReactNode {
@@ -132,7 +164,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                         </>}
                         {this.state.displaySummary == true &&
                             <StackItem>
-                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10}>{this.props.context.parameters.summary.raw}</TextField>
+                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10}>{this.state.summary}</TextField>
                             </StackItem>
                         }
                     </Stack>
