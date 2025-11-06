@@ -164,7 +164,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                         </>}
                         {this.state.displaySummary == true &&
                             <StackItem>
-                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10}>{this.state.summary}</TextField>
+                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10} value={this.state.summary}></TextField>
                             </StackItem>
                         }
                     </Stack>
