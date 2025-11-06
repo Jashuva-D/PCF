@@ -14,7 +14,8 @@ interface NotesState {
     newnote: boolean,
     filteredNotes: any[],
     filterApplied?: boolean,
-    searchText?: string
+    searchText?: string,
+    displaySummary?: boolean,
 }
 class Notes extends React.Component<NotesProps,NotesState> {
     constructor(props: NotesProps){
@@ -80,6 +81,9 @@ class Notes extends React.Component<NotesProps,NotesState> {
         }
         
     }
+    onGenerateSummaryClick(){
+        this.setState({displaySummary: true});
+    }
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
@@ -87,7 +91,14 @@ class Notes extends React.Component<NotesProps,NotesState> {
                 <StackItem>
                     <Stack tokens={{childrenGap: 5}}>
                         <StackItem align ="start">
-                        <DefaultButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></DefaultButton>
+                            <Stack horizontal tokens={{childrenGap: 10}}>
+                                <StackItem>
+                                    <DefaultButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></DefaultButton>
+                                </StackItem>
+                                <StackItem>
+                                    <DefaultButton iconProps={{ iconName: "Bot" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{borderRadius: 6}}></DefaultButton>
+                                </StackItem>
+                            </Stack>
                         </StackItem>
                         <StackItem>
                             <TextField  
@@ -116,8 +127,14 @@ class Notes extends React.Component<NotesProps,NotesState> {
                             </StackItem>
                             <StackItem align="end">
                                 <PrimaryButton text="Submit" style={{borderRadius: 6}}></PrimaryButton>
+                                <DefaultButton text="Cancel" style={{marginLeft: 10, borderRadius: 6}} onClick={() => this.setState({newnote: false})}></DefaultButton>
                             </StackItem>
                         </>}
+                        {this.state.displaySummary == true &&
+                            <StackItem>
+                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10}>{this.props.context.parameters.summary.raw}</TextField>
+                            </StackItem>
+                        }
                     </Stack>
                 </StackItem>
                 <StackItem>
@@ -145,9 +162,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
             </Stack> 
-            
-            
-            {/* <CommentWithScreenshot></CommentWithScreenshot> */}
+            { <CommentWithScreenshot></CommentWithScreenshot> }
         </div>
     }
 }
