@@ -40,7 +40,8 @@ export default [
       "@typescript-eslint/no-explicit-any" : "off",
       "@typescript-eslint/no-this-alias": "off",
       "promise/always-return": "off",
-      "prefer-const": "off"
+      "prefer-const": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
     },
   },
 ];

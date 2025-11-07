@@ -1,8 +1,13 @@
 import * as React from "react";
 import { useRef, useState, useEffect } from "react";
-import { Stack, PrimaryButton, Label } from "@fluentui/react";
+import { Stack, PrimaryButton, Label, StackItem, DefaultButton } from "@fluentui/react";
 
-const CommentWithResizableImages: React.FC = () => {
+interface CommentWithResizableImagesProps {
+  onSubmit?: (html: string) => void;
+  onCancel?: () => void;
+}
+
+const CommentWithResizableImages: React.FC<CommentWithResizableImagesProps> = (props : CommentWithResizableImagesProps) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [htmlContent, setHtmlContent] = useState("");
 
@@ -25,25 +30,31 @@ const CommentWithResizableImages: React.FC = () => {
             reader.onload = (event) => {
               const img = document.createElement("img");
               img.src = event.target?.result as string;
-              img.style.maxWidth = "100%";
+              img.style.width = "100%";
+              img.style.height = "auto";
               img.style.borderRadius = "8px";
-              img.style.margin = "4px 0";
               img.style.display = "block";
               img.style.cursor = "pointer";
+
+              const wrapper = document.createElement("div");
+              wrapper.setAttribute("contenteditable", "false");
+              wrapper.style.display = "inline-block";
+              wrapper.style.resize = "both";
+              wrapper.style.overflow = "auto";
+              wrapper.style.maxWidth = "100%";
+              wrapper.style.borderRadius = "8px";
+              wrapper.style.margin = "4px 0";
+
+              wrapper.appendChild(img);
 
               const sel = window.getSelection();
               if (sel && sel.rangeCount > 0) {
                 const range = sel.getRangeAt(0);
-                range.insertNode(img);
+                range.insertNode(wrapper);
                 range.collapse(false);
               } else {
-                editorRef.current?.appendChild(img);
+                editorRef.current?.appendChild(wrapper);
               }
-
-              // Allow manual resizing
-              img.setAttribute("contenteditable", "false");
-              img.style.resize = "both";
-              img.style.overflow = "auto";
             };
             reader.readAsDataURL(file);
             handled = true;
@@ -60,30 +71,37 @@ const CommentWithResizableImages: React.FC = () => {
   };
 
   return (
-    <Stack tokens={{ childrenGap: 12 }} style={{ width: "100%", maxWidth: 600 }}>
-      <Label>Comment (paste screenshot using Ctrl+V)</Label>
-
-      <div
-        ref={editorRef}
-        contentEditable
-        suppressContentEditableWarning
-        onPaste={handlePaste}
-        style={{
-          minHeight: 150,
-          border: "1px solid #ccc",
-          borderRadius: 8,
-          padding: 10,
-          outline: "none",
-          whiteSpace: "pre-wrap",
-          overflowWrap: "break-word",
-          backgroundColor: "#fff",
-          resize: "none",
-        }}
-      ></div>
-
-      <PrimaryButton text="Save" onClick={handleSave} />
-
-      {htmlContent && (
+    <Stack tokens={{ childrenGap: 10 }} style={{ width: "100%" }}>
+      <StackItem>
+        <div
+          ref={editorRef}
+          contentEditable={true}
+          suppressContentEditableWarning={true}
+          onPaste={handlePaste}
+          style={{
+            minHeight: 150,
+            border: "1px solid #ccc",
+            borderRadius: 8,
+            padding: 10,
+            outline: "none",
+            whiteSpace: "pre-wrap",
+            overflowWrap: "break-word",
+            backgroundColor: "#fff",
+            //resize: "none",
+          }}
+        ></div>
+      </StackItem>
+      <StackItem align="end">
+        <Stack horizontal tokens={{ childrenGap: 10 }}>
+          <StackItem>
+            <PrimaryButton text="Submit" onClick={handleSave} style={{ borderRadius: 6 }}  />
+          </StackItem>
+          <StackItem>
+            <DefaultButton text="Cancel" onClick={() => { setHtmlContent(""); props.onCancel && props.onCancel(); }} style={{ borderRadius: 6 }} />
+          </StackItem>
+        </Stack>
+      </StackItem>
+      {/* {htmlContent && (
         <div
           style={{
             marginTop: 10,
@@ -96,9 +114,10 @@ const CommentWithResizableImages: React.FC = () => {
           <Label>Preview:</Label>
           <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
         </div>
-      )}
+      )} */}
     </Stack>
   );
+
 };
 
 export default CommentWithResizableImages;
