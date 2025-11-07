@@ -130,13 +130,14 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                     <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
                                 </StackItem>
                                 <StackItem>
-                                    <PrimaryButton iconProps={{ iconName: "Bot" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
+                                    <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
                                 </StackItem>
                             </Stack>
                         </StackItem>
                         <StackItem><br></br></StackItem>
                         {this.state.enablesearch === true && (
-                            <StackItem style={{ width: "50%" }}>
+
+                            <StackItem style={{ width: "min(400px, 50vw)" }}>
                                 <TextField
                                     value={this.state.searchText || ""}
                                     placeholder="Search Notes..."
@@ -199,11 +200,16 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                 <PrimaryButton text="Submit" style={{borderRadius: 6}}></PrimaryButton>
                                 <DefaultButton text="Cancel" style={{marginLeft: 10, borderRadius: 6}} onClick={() => this.setState({newnote: false, enablesearch: true, displaySummary: false})}></DefaultButton>
                             </StackItem>
+                            <CommentWithScreenshot onCancel={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })} />
                         </>}
-                        {this.state.displaySummary == true &&
-                            <StackItem>
-                                <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10} value={this.state.summary}></TextField>
-                            </StackItem>
+                        {this.state.displaySummary == true && <>
+                                <StackItem>
+                                    <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10} value={this.state.summary}></TextField>
+                                </StackItem>
+                                <StackItem align="end">
+                                    <PrimaryButton text="Close" style={{borderRadius: 6}} onClick={() => this.setState({displaySummary: false, enablesearch: true, newnote: false})}></PrimaryButton>
+                                </StackItem>
+                            </>
                         }
                     </Stack>
                 </StackItem>
@@ -232,7 +238,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
             </Stack> 
-            {this.state.newnote && <CommentWithScreenshot onCancel={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })} />}
+            
         </div>
     }
 }
