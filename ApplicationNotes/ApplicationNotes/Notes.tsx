@@ -5,6 +5,7 @@ import { IInputs } from "./generated/ManifestTypes";
 import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField,IconButton } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
+import RichText from "./RichText";
 
 interface NotesProps {
     context: ComponentFramework.Context<IInputs>,
@@ -118,6 +119,10 @@ class Notes extends React.Component<NotesProps,NotesState> {
         });
         this.setState({displaySummary: true, enablesearch: false, newnote: false});
     }
+    onSearchClear(){
+        this.setState({ filterApplied: false, searchText: "" });
+    }
+
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
@@ -132,75 +137,84 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                 <StackItem>
                                     <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
                                 </StackItem>
+                                <StackItem style={{ width: "min(400px, 50vw)" }}>
+                                    <TextField
+                                        value={this.state.searchText || ""}
+                                        placeholder="Search Notes..."
+                                        onChange={(e, newValue) => {
+                                            this.setState({ searchText: newValue || "" });
+                                        }}
+                                        styles={{
+                                            root: { width: "100%" },
+                                            fieldGroup: { background: "transparent" },
+                                            prefix: { background: "#0078D4" },
+                                            suffix: { background: "transparent" },
+                                        }}
+                                        onRenderPrefix={() => (
+                                            <IconButton
+                                                iconProps={{ iconName: "Search" }}
+                                                ariaLabel="Search"
+                                                styles={{
+                                                    root: {
+                                                        cursor: "pointer",
+                                                        border: "none",
+                                                        outline: "none",
+                                                        background: "transparent",
+                                                        backgroundColor: "transparent",
+                                                        boxShadow: "none",
+                                                    },
+                                                    rootHovered: {
+                                                        cursor: "pointer",
+                                                        background: "transparent",
+                                                        backgroundColor: "transparent",
+                                                    },
+                                                    rootFocused: {
+                                                        cursor: "pointer",
+                                                        background: "transparent",
+                                                        backgroundColor: "transparent",
+                                                        outline: "none",
+                                                        boxShadow: "none",
+                                                    },
+                                                    rootPressed: {
+                                                        cursor: "pointer",
+                                                        background: "transparent",
+                                                        backgroundColor: "transparent",
+                                                        outline: "none",
+                                                        boxShadow: "none",
+                                                    },
+                                                    icon: { color: "white" },
+                                                }}
+                                                onClick={this.onSearchClick.bind(this)}
+                                                onMouseDown={(e) => {
+                                                    e.preventDefault();
+                                                }}
+                                            />
+                                        )}
+                                        onRenderSuffix={() =>
+                                            this.state.filterApplied ? (
+                                                <Icon
+                                                    iconName="Clear"
+                                                    style={{ marginRight: 8, cursor: "pointer" }}
+                                                    onClick={this.onSearchClear.bind(this)}
+                                                />
+                                            ) : null
+                                        }
+                                    />
+                                </StackItem>
                             </Stack>
                         </StackItem>
                         <StackItem><br></br></StackItem>
-                        {this.state.enablesearch === true && (
-
-                            <StackItem style={{ width: "min(400px, 50vw)" }}>
-                                <TextField
-                                    value={this.state.searchText || ""}
-                                    placeholder="Search Notes..."
-                                    onChange={(e, newValue) => {
-                                        this.setState({ searchText: newValue || "" });
-                                    }}
-                                    styles={{
-                                        root: { width: "100%" },
-                                        fieldGroup: { background: "transparent" },
-                                        suffix: { background: "#0078D4" }
-                                    }}
-                                    onRenderSuffix={() => (
-                                        <IconButton
-                                            iconProps={{ iconName: this.state.filterApplied ? "Clear" : "Search" }}
-                                            ariaLabel="Search"
-                                            styles={{
-                                                root: {
-                                                    cursor: "pointer",
-                                                    border: "none",
-                                                    outline: "none",
-                                                    background: "transparent",
-                                                    backgroundColor: "transparent",
-                                                    boxShadow: "none"
-                                                },
-                                                rootHovered: {
-                                                    cursor: "pointer",
-                                                    background: "transparent",
-                                                    backgroundColor: "transparent"
-                                                },
-                                                rootFocused: {
-                                                    cursor: "pointer",
-                                                    background: "transparent",
-                                                    backgroundColor: "transparent",
-                                                    outline: "none",
-                                                    boxShadow: "none"
-                                                },
-                                                rootPressed: {
-                                                    cursor: "pointer",
-                                                    background: "transparent",
-                                                    backgroundColor: "transparent",
-                                                    outline: "none",
-                                                    boxShadow: "none"
-                                                },
-                                                icon: { color: "white" } // set to white
-                                            }}
-                                            onClick={this.onSearchClick.bind(this)}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault();
-                                            }}
-                                        />
-                                    )}
-                                />
-                            </StackItem>
-                        )}
+                        
                         {this.state.newnote == true && <>
-                            <StackItem>
+                            {/* <StackItem>
                                 <TextField placeholder="Add a new note..." styles={{root: {width: "100%"}}} multiline rows={6}></TextField>
                             </StackItem>
                             <StackItem align="end">
                                 <PrimaryButton text="Submit" style={{borderRadius: 6}}></PrimaryButton>
                                 <DefaultButton text="Cancel" style={{marginLeft: 10, borderRadius: 6}} onClick={() => this.setState({newnote: false, enablesearch: true, displaySummary: false})}></DefaultButton>
-                            </StackItem>
-                            <CommentWithScreenshot onCancel={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })} />
+                            </StackItem> */}
+                            {/* <CommentWithScreenshot onCancel={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })} /> */}
+                            <RichText closeCallBack={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })}></RichText>
                         </>}
                         {this.state.displaySummary == true && <>
                                 <StackItem>
@@ -238,7 +252,6 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
             </Stack> 
-            
         </div>
     }
 }

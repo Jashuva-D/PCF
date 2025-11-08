@@ -42,6 +42,8 @@ export default [
       "promise/always-return": "off",
       "prefer-const": "off",
       "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-empty-function": "off",
     },
   },
 ];
