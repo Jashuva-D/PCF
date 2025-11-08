@@ -2,6 +2,8 @@ import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
 import { Stack, StackItem,PrimaryButton, DefaultButton } from "@fluentui/react";
+
+
 interface RichTextProps{
     closeCallBack: () => void;
 }
@@ -16,6 +18,28 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
       value: ""
     };
   }
+  modules : any = {
+    toolbar: [
+      [{ font: [] }],
+      [{ size: ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ color: [] }, { background: [] }],
+      [{ header: 1 }, { header: 2 }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ align: [] }],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+  };
+
+  formats : any = [
+    'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'header', 'list', 'bullet',
+    'align',
+    'link', 'image', 'video'
+  ];
 
   handleChange = (content: string) => {
     this.setState({ value: content });
@@ -28,9 +52,16 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
     return (
         <Stack tokens={{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
             <StackItem>
-                <ReactQuill theme="snow" value={this.state.value} onChange={this.handleChange} />
+                <ReactQuill
+                    theme="snow"
+                    value={this.state.value}
+                    onChange={this.handleChange.bind(this)}
+                    modules={this.modules}
+                    formats={this.formats}
+                    placeholder="Start typing..."
+                    style={{ height: "180px" }}
+                />
             </StackItem>
-
             <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
                     <StackItem>
