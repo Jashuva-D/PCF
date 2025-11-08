@@ -54,7 +54,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <ReactQuill
                     theme="snow"
-                    value={this.state.value == "" ? "\n\n\n\n\n" :  this.state.value}
+                    value={this.state.value == ""}
                     onChange={this.handleChange.bind(this)}
                     modules={this.modules}
                     formats={this.formats}
@@ -62,7 +62,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                     styles={{ root: { borderRadius: 6 } }}
                     style={{
                         borderRadius: 6,
-                        border: "1px #d1d1d1",
+                        border: "1px solid #d1d1d1",
                         overflow: "hidden", // ensures inner content stays rounded
                     }}
                     rows={6}

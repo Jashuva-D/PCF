@@ -1,0 +1,5 @@
+.ql-editor {
+  min-height: 180px;
+  overflow-y: hidden;
+  transition: height 0.2s ease-out;
+}
