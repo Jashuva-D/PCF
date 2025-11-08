@@ -49,20 +49,21 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
   }
 
   render() {
-    return (
-        <Stack tokens={{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
+    return (<>
+        <Stack tokens = {{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
             <StackItem>
                 <ReactQuill
                     theme="snow"
-                    value={this.state.value}
+                    value={this.state.value == "" ? "" :  this.state.value}
                     onChange={this.handleChange.bind(this)}
                     modules={this.modules}
                     formats={this.formats}
                     placeholder="Start typing..."
-                    style={{ height: "180px" }}
-                />
+                    //style={ { height: "180px" }}
+                > 
+                </ReactQuill>
             </StackItem>
-            <StackItem align="end">
+             <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
                     <StackItem>
                         <PrimaryButton
@@ -71,7 +72,6 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                             style={{ borderRadius: 6 }}
                         />
                     </StackItem>
-
                     <StackItem>
                         <DefaultButton
                             text="Cancel"
@@ -83,8 +83,9 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                         />
                     </StackItem>
                 </Stack>
-            </StackItem>
+            </StackItem> 
         </Stack>
+        </>
     );
   }
 }

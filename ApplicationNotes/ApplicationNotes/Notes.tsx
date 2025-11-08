@@ -76,17 +76,11 @@ class Notes extends React.Component<NotesProps,NotesState> {
         });
     }
     onSearchClick(){
-        if(this.state.filterApplied){
-            this.setState({ filterApplied: false, searchText: "" });
-        }
-        else{
-            const searchTerm = this.state.searchText?.toLowerCase();
-            const filteredNotes = this.state.notes.filter(note =>
-                note.comments?.toLowerCase().includes(searchTerm)
-            );
-            this.setState({ filterApplied: true, filteredNotes: filteredNotes });
-        }
-        
+       const searchTerm = this.state.searchText?.toLowerCase();
+        const filteredNotes = this.state.notes.filter(note =>
+            note.comments?.toLowerCase().includes(searchTerm)
+        );
+        this.setState({ filterApplied: true, filteredNotes: filteredNotes });
     }
     onGenerateSummaryClick(){
         var obj = this;
@@ -129,14 +123,8 @@ class Notes extends React.Component<NotesProps,NotesState> {
             <Stack tokens={{childrenGap: 10}}>
                 <StackItem>
                     <Stack tokens={{childrenGap: 5}}>
-                        <StackItem align ="start">
-                            <Stack horizontal tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
-                                </StackItem>
-                                <StackItem>
-                                    <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{borderRadius: 6}}></PrimaryButton>
-                                </StackItem>
+                        <StackItem>
+                            <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between">
                                 <StackItem style={{ width: "min(400px, 50vw)" }}>
                                     <TextField
                                         value={this.state.searchText || ""}
@@ -145,7 +133,6 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                             this.setState({ searchText: newValue || "" });
                                         }}
                                         styles={{
-                                            root: { width: "100%" },
                                             fieldGroup: { background: "transparent" },
                                             prefix: { background: "#0078D4" },
                                             suffix: { background: "transparent" },
@@ -201,10 +188,19 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                         }
                                     />
                                 </StackItem>
+                                <StackItem align="end">
+                                    <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                        <StackItem>
+                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{ borderRadius: 6 }}></PrimaryButton>
+                                        </StackItem>
+                                        <StackItem>
+                                            <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6    }}></PrimaryButton>
+                                        </StackItem>
+                                    </Stack>
+                                </StackItem>
                             </Stack>
                         </StackItem>
-                        <StackItem><br></br></StackItem>
-                        
+                        <br></br><br></br>
                         {this.state.newnote == true && <>
                             {/* <StackItem>
                                 <TextField placeholder="Add a new note..." styles={{root: {width: "100%"}}} multiline rows={6}></TextField>
@@ -228,7 +224,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
                 <StackItem>
-                    <Stack tokens={{ childrenGap: 15 }}>
+                    <Stack tokens={{ childrenGap: 10 }}>
                         {notes.map((x, idx) => (
                             <StackItem
                                 key={idx}
