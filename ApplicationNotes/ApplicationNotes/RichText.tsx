@@ -59,7 +59,9 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                     modules={this.modules}
                     formats={this.formats}
                     placeholder="Start typing..."
-                    minHeight={"200px"}
+                    styles={{ root: { borderRadius: 6 } }}
+                    style={{ borderRadius: 6 }}
+                    rows={6}
                 />
             </StackItem>
              <StackItem align="end">

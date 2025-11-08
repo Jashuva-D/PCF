@@ -50,7 +50,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
         //this.GetFakeData();
         var obj = this;
         var currentrecordid = (this.props.context as any).page.entityId;
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}`).then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
@@ -127,13 +127,15 @@ class Notes extends React.Component<NotesProps,NotesState> {
                             <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between">
                                 <StackItem style={{ width: "min(400px, 50vw)" }}>
                                     <TextField
+                                        style={{ borderRadius: "10" }}
                                         value={this.state.searchText || ""}
                                         placeholder="Search Notes..."
                                         onChange={(e, newValue) => {
                                             this.setState({ searchText: newValue || "" });
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent" },
+                                            fieldGroup: { background: "transparent",borderRadius: 6 },
+                                            field: {borderRadius: 6},
                                             prefix: { background: "#0078D4" },
                                             suffix: { background: "transparent" },
                                         }}
@@ -200,7 +202,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                 </StackItem>
                             </Stack>
                         </StackItem>
-                        <br></br><br></br>
+                        <br></br>
                         {this.state.newnote == true && <>
                             {/* <StackItem>
                                 <TextField placeholder="Add a new note..." styles={{root: {width: "100%"}}} multiline rows={6}></TextField>
@@ -224,7 +226,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
                 <StackItem>
-                    <Stack tokens={{ childrenGap: 10 }}>
+                    <Stack tokens={{ childrenGap: 5 }}>
                         {notes.map((x, idx) => (
                             <StackItem
                                 key={idx}
