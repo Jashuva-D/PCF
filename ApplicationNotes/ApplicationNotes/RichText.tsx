@@ -60,7 +60,11 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                     formats={this.formats}
                     placeholder="Start typing..."
                     styles={{ root: { borderRadius: 6 } }}
-                    style={{ borderRadius: 6 }}
+                    style={{
+                        borderRadius: 6,
+                        border: "1px #d1d1d1",
+                        overflow: "hidden", // ensures inner content stays rounded
+                    }}
                     rows={6}
                 />
             </StackItem>

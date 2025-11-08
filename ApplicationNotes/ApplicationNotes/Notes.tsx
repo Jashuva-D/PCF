@@ -134,7 +134,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                             this.setState({ searchText: newValue || "" });
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent",borderRadius: 6 },
+                                            fieldGroup: { background: "transparent",borderRadius: 6, border: "1px solid #d1d1d1" },
                                             field: {borderRadius: 6},
                                             prefix: { background: "#0078D4" },
                                             suffix: { background: "transparent" },
