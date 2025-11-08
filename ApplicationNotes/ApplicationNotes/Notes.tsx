@@ -194,7 +194,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
                                             <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{ borderRadius: 6 }}></PrimaryButton>
                                         </StackItem>
                                         <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6    }}></PrimaryButton>
+                                            <PrimaryButton iconProps={{ iconName: "Robot" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6    }}></PrimaryButton>
                                         </StackItem>
                                     </Stack>
                                 </StackItem>
@@ -253,4 +253,3 @@ class Notes extends React.Component<NotesProps,NotesState> {
 }
 
 export default Notes;
-// ...existing code...

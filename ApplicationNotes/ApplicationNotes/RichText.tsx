@@ -51,17 +51,16 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
   render() {
     return (<>
         <Stack tokens = {{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
-            <StackItem>
+            <StackItem styles={{ root: { flexGrow: 0}}}>
                 <ReactQuill
                     theme="snow"
-                    value={this.state.value == "" ? "" :  this.state.value}
+                    value={this.state.value == "" ? "\n\n\n\n\n" :  this.state.value}
                     onChange={this.handleChange.bind(this)}
                     modules={this.modules}
                     formats={this.formats}
                     placeholder="Start typing..."
-                    //style={ { height: "180px" }}
-                > 
-                </ReactQuill>
+                    minHeight={"200px"}
+                />
             </StackItem>
              <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
@@ -85,7 +84,6 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                 </Stack>
             </StackItem> 
         </Stack>
-        </>
-    );
+    </>);
   }
 }
