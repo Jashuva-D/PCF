@@ -111,10 +111,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: false, searchText: "" });
     }
     onSubmitCallBack() {
-        this.setState({ newnote: false });
-        this.Refresh();
-    }
-    Refresh() {
         var obj = this;
         this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
             let notes = [] as any[]
@@ -125,14 +121,17 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
                 })
             })
-            obj.setState({ notes: notes });
+            obj.setState({ notes: notes, newnote: false });
         }).catch(function (err) {
             console.log(err);
         });
     }
+    Refresh() {
+        
+    }
 
     render(): React.ReactNode {
-        const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
+        const notes = this.state.filterApplied ? this.state.filteredNotes : [...this.state.notes];
         return <div>
             <Stack tokens={{ childrenGap: 10 }}>
                 <StackItem>
