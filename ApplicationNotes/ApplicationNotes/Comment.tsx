@@ -10,7 +10,7 @@ export interface CommentProps {
   text: string;
   editmode: boolean;
   editCancel: () => void;
-  editSubmit: (content?: string) => void;
+  editSubmit: (recordid: string, content?: string) => void;
 }
 
 interface CommentState {
@@ -91,7 +91,7 @@ export default class Comment extends Component<CommentProps, CommentState> {
           context={this.props.context}
           recordid={this.props.recordid}
           cancelCallBack={this.props.editCancel}
-          submitCallBack={(content?: string) => { this.props.editSubmit(content) }}
+          submitCallBack={this.props.editSubmit}
           content={editText}
         />
       );

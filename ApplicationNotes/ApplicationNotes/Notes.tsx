@@ -110,21 +110,26 @@ class Notes extends React.Component<NotesProps, NotesState> {
     onSearchClear() {
         this.setState({ filterApplied: false, searchText: "" });
     }
-    onSubmitCallBack() {
-        var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
-            let notes = [] as any[]
-            resp.entities.forEach(x => {
-                notes.push({
-                    comments: x.camp_comment,
-                    createdon: new Date(x.createdon),
-                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
-                })
-            })
-            obj.setState({ notes: notes, newnote: false });
-        }).catch(function (err) {
-            console.log(err);
-        });
+    onSubmitCallBack(recordid?: string, content?: string) {
+        var updatedNotes = [{recordid, comments: content},...this.state.notes];
+        this.setState({ notes: updatedNotes, newnote: false});
+        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+        //     let notes = [] as any[]
+        //     resp.entities.forEach(x => {
+        //         notes.push({
+        //             comments: x.camp_comment,
+        //             createdon: new Date(x.createdon),
+        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+        //         })
+        //     })
+        //     obj.setState({ notes: notes, newnote: false });
+        // }).catch(function (err) {
+        //     console.log(err);
+        // });
+    }
+    deleteCallBack(recordid?:string) {
+        var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
+        this.setState({ notes: updatedNotes });
     }
     Refresh() {
         
@@ -247,6 +252,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             createdon={x.createdon}
                             createdby={x.createdby}
                             comment={x.comments}
+                            deleteCallBack={this.deleteCallBack.bind(this)}
                         />
                     ))}
                 </StackItem>

@@ -8,7 +8,7 @@ import { IInputs } from "./generated/ManifestTypes";
 interface RichTextProps{
     context: ComponentFramework.Context<IInputs>,
     cancelCallBack: () => void,
-    submitCallBack: (content?: string) => void,
+    submitCallBack: (recordid: string,content?: string) => void,
     content? : string,
     recordid?: string
 }

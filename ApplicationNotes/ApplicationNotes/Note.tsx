@@ -8,7 +8,8 @@ interface NoteProps {
     recordid?: string,
     comment?: string,
     createdon: Date,
-    createdby: string
+    createdby: string,
+    deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
     editmode : boolean,
@@ -28,12 +29,20 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : true
         })
     }
+    onDeleteClick(){
+        var obj = this;
+        if(this.props.recordid && this.props.recordid !== "") {
+            this.props.context?.webAPI.deleteRecord("camp_applicationnotes", this.props.recordid!).then(function(resp){
+                obj.props.deleteCallBack(obj.props.recordid);
+            });
+        }
+    }
     editCancel(){
         this.setState({
             editmode : false
         })
     }
-    editSubmit(content?:string){
+    editSubmit(recordid:string, content?:string){
         this.setState({
             editmode : false,
             content : content!
@@ -55,10 +64,10 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence"></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="edit" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)} title="Edit"></Icon>
+                                        <Icon iconName="edit" style={{color: "#0078D4"}} title="Edit Note" onClick={this.onEditClick.bind(this)}></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note"></Icon>
+                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note" onClick={this.onDeleteClick.bind(this)}></Icon>
                                     </StackItem>
                                     <StackItem>
                                         <Text style={{padding: 10}}>Posted: {(createdon as Date).toLocaleDateString("en-US")}</Text>
