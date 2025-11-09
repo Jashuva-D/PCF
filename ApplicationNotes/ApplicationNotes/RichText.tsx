@@ -6,10 +6,11 @@ import { IInputs } from "./generated/ManifestTypes";
 
 
 interface RichTextProps{
-    context?: ComponentFramework.Context<IInputs>,
-    closeCallBack: () => void,
-    submitCallBack: () => void,
-    content? : string
+    context: ComponentFramework.Context<IInputs>,
+    cancelCallBack: () => void,
+    submitCallBack: (content?: string) => void,
+    content? : string,
+    recordid?: string
 }
 interface RichTextState {
   value: string;
@@ -48,16 +49,23 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
   handleChange = (content: string) => {
     this.setState({ value: content });
   };
-  handleSave() {
+  onSubmit() {
     var obj = this;
-    let record = {
-        camp_comment: this.state.value,
-        "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`
+    if(this.props.recordid && this.props.recordid !== "") {
+      let record = {
+          camp_comment: this.state.value,
+          "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`
+      }
+      this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
+        obj.props.submitCallBack && obj.props.submitCallBack(obj.state.value);
+      });
     }
-    this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
-        obj.props.submitCallBack && obj.props.submitCallBack();
-    });
-  };
+    else {
+        this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, { camp_comment: this.state.value }).then(function(resp){
+            obj.props.submitCallBack && obj.props.submitCallBack(obj.state.value);
+        });
+    }
+  }
 
   render() {
     return (<>
@@ -83,7 +91,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                     <StackItem>
                         <PrimaryButton
                             text="Submit"
-                            onClick={this.handleSave.bind(this)}
+                            onClick={this.onSubmit.bind(this)}
                             style={{ borderRadius: 6 }}
                         />
                     </StackItem>
@@ -92,7 +100,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                             text="Cancel"
                             onClick={() => {
                                 this.handleChange("");
-                                this.props.closeCallBack && this.props.closeCallBack();
+                                this.props.cancelCallBack && this.props.cancelCallBack();
                             }}
                             style={{ borderRadius: 6 }}
                         />

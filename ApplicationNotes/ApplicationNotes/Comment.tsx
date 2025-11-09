@@ -5,8 +5,11 @@ import { Link, TextField } from "@fluentui/react";
 import RichText from "./RichText";
 
 export interface CommentProps {
+  context: ComponentFramework.Context<any>;
   text: string;
   editmode: boolean;
+  editCancel: () => void;
+  editSubmit: (content?: string) => void;
 }
 
 interface CommentState {
@@ -83,16 +86,10 @@ export default class Comment extends Component<CommentProps, CommentState> {
 
     if (editmode) {
       return (
-        // <TextField
-        //   multiline
-        //   value={editText}
-        //   onChange={this.onEditChange}
-        //   style={{ width: 1000 }}
-        // />
         <RichText
-          context={undefined as any}
-          closeCallBack={this.toggleExpanded}
-          submitCallBack={this.toggleExpanded}
+          context={this.props.context}
+          cancelCallBack={this.props.editCancel}
+          submitCallBack={(content?: string) => { this.props.editSubmit(content) }}
           content={editText}
         />
       );
