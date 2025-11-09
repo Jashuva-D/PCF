@@ -5,6 +5,7 @@ import Comment from "./Comment";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
+    recordid?: string,
     comment?: string,
     createdon: Date,
     createdby: string

@@ -6,6 +6,7 @@ import RichText from "./RichText";
 
 export interface CommentProps {
   context: ComponentFramework.Context<any>;
+  recordid?: string;
   text: string;
   editmode: boolean;
   editCancel: () => void;
@@ -88,6 +89,7 @@ export default class Comment extends Component<CommentProps, CommentState> {
       return (
         <RichText
           context={this.props.context}
+          recordid={this.props.recordid}
           cancelCallBack={this.props.editCancel}
           submitCallBack={(content?: string) => { this.props.editSubmit(content) }}
           content={editText}
