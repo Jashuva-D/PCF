@@ -247,6 +247,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 <StackItem>
                     {notes.map((x, idx) => (
                         <Note
+                            key={x.recordid}
                             context={this.props.context}
                             recordid={x.recordid}
                             createdon={x.createdon}
