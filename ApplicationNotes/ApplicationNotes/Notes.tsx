@@ -54,7 +54,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
-                    recordid: x.camp_applicationnotesid,
+                    recordid: x.activityid,
                     comments: x.camp_comment,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
