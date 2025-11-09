@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,TextField } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Tooltip } from "@fluentui/react";
 import Comment from "./Comment";
 
 interface NoteProps {
@@ -27,7 +27,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     render(): React.ReactNode {
         const {comment,createdon,createdby} = this.props;
         const {editmode} = this.state;
-        return <Stack>
+        return <Stack tokens={{childrenGap: 5}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 10, marginBottom: 10, backgroundColor: "#f3f2f1"}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
@@ -36,16 +36,22 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 10}}>
                                     <StackItem>
-                                        <Icon iconName="upload" style={{color: "#0078D4"}}></Icon>
+                                        <Tooltip content="Push to Confluence"><Icon iconName="upload" style={{color: "#0078D4"}} ></Icon></Tooltip>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="download" style={{color: "#0078D4"}}></Icon>
+                                        <Tooltip content="Download"><Icon iconName="download" style={{color: "#0078D4"}}></Icon></Tooltip>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="edit" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon>
+                                        <Tooltip content="Edit"><Icon iconName="edit" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon></Tooltip>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="save" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon>
+                                        <Tooltip content="Save"><Icon iconName="save" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon></Tooltip>
+                                    </StackItem>
+                                    <StackItem>
+                                        <Tooltip content="Delete Note"><Icon iconName="delete" style={{color: "#0078D4"}}></Icon></Tooltip>
+                                    </StackItem>
+                                    <StackItem>
+                                        <Tooltip content="Cancel"><Icon iconName="clear" style={{color: "#0078D4"}}></Icon></Tooltip>
                                     </StackItem>
                                     <StackItem>
                                         <Text style={{padding: 10}}>Posted: {(createdon as Date).toLocaleDateString("en-US")}</Text>

@@ -2,6 +2,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { Link, TextField } from "@fluentui/react";
+import RichText from "./RichText";
 
 export interface CommentProps {
   text: string;
@@ -11,11 +12,11 @@ export interface CommentProps {
 interface CommentState {
   expanded: boolean;
   editText: string;
-  canExpand: boolean; // whether the content exceeds 2 lines (show Read More)
+  canExpand: boolean; 
 }
 
 export default class Comment extends Component<CommentProps, CommentState> {
-  // initialize ref as class field to avoid constructor-related issues
+  
   textRef = React.createRef<HTMLDivElement>();
 
   constructor(props: CommentProps) {
@@ -82,16 +83,21 @@ export default class Comment extends Component<CommentProps, CommentState> {
 
     if (editmode) {
       return (
-        <TextField
-          multiline
-          value={editText}
-          onChange={this.onEditChange}
-          style={{ width: 1000 }}
+        // <TextField
+        //   multiline
+        //   value={editText}
+        //   onChange={this.onEditChange}
+        //   style={{ width: 1000 }}
+        // />
+        <RichText
+          context={undefined as any}
+          closeCallBack={this.toggleExpanded}
+          submitCallBack={this.toggleExpanded}
+          content={editText}
         />
       );
     }
 
-    // sanitize incoming HTML before rendering
     const safeHtml = text ?? "";
 
     return (
@@ -111,4 +117,3 @@ export default class Comment extends Component<CommentProps, CommentState> {
     );
   }
 }
-// ...existing code...

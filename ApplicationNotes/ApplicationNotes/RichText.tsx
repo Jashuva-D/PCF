@@ -6,9 +6,10 @@ import { IInputs } from "./generated/ManifestTypes";
 
 
 interface RichTextProps{
-    context: ComponentFramework.Context<IInputs>,
+    context?: ComponentFramework.Context<IInputs>,
     closeCallBack: () => void,
-    submitCallBack: () => void
+    submitCallBack: () => void,
+    content? : string
 }
 interface RichTextState {
   value: string;
@@ -18,7 +19,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
   constructor(props: RichTextProps) {
     super(props);
     this.state = {
-      value: ""
+      value: props.content ?? ""
     };
   }
   modules : any = {
@@ -53,8 +54,8 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
         camp_comment: this.state.value,
         "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`
     }
-    this.props.context.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
-        obj.props.closeCallBack && obj.props.closeCallBack();
+    this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
+        obj.props.submitCallBack && obj.props.submitCallBack();
     });
   };
 
