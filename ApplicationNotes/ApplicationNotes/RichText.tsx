@@ -51,6 +51,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
     var obj = this;
     let record = {
         camp_comment: this.state.value,
+        "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`
     }
     this.props.context.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
         obj.props.closeCallBack && obj.props.closeCallBack();
