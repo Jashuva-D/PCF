@@ -1,11 +1,14 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton } from "@fluentui/react";
+import { Stack, StackItem,PrimaryButton, DefaultButton, IInputProps } from "@fluentui/react";
+import { IInputs } from "./generated/ManifestTypes";
 
 
 interface RichTextProps{
-    closeCallBack: () => void;
+    context: ComponentFramework.Context<IInputs>,
+    closeCallBack: () => void,
+    submitCallBack: () => void
 }
 interface RichTextState {
   value: string;
@@ -45,8 +48,14 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
     this.setState({ value: content });
   };
   handleSave() {
-
-  }
+    var obj = this;
+    let record = {
+        camp_comment: this.state.value,
+    }
+    this.props.context.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
+        obj.props.closeCallBack && obj.props.closeCallBack();
+    });
+  };
 
   render() {
     return (<>
@@ -54,12 +63,11 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <ReactQuill
                     theme="snow"
-                    value={this.state.value == ""}
+                    value={this.state.value}
                     onChange={this.handleChange.bind(this)}
                     modules={this.modules}
                     formats={this.formats}
                     placeholder="Start typing..."
-                    styles={{ root: { borderRadius: 6 } }}
                     style={{
                         borderRadius: 6,
                         border: "1px solid #d1d1d1",

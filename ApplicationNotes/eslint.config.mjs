@@ -44,6 +44,7 @@ export default [
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-empty-function": "off",
+      "promise/catch-or-return": "off",
     },
   },
 ];

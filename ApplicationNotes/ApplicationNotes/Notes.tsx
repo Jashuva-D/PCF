@@ -67,13 +67,6 @@ class Notes extends React.Component<NotesProps,NotesState> {
     }
     onAddNoteClick(){
         this.setState({newnote: true, enablesearch: false, displaySummary: false});
-        this.props.context.navigation.openForm({
-            entityName: "camp_applicationnotes",
-            createFromEntity: {
-                entityType: (this.props.context as any).page.entityType,
-                id: (this.props.context as any).page.entityId
-            }
-        });
     }
     onSearchClick(){
        const searchTerm = this.state.searchText?.toLowerCase();
@@ -115,6 +108,25 @@ class Notes extends React.Component<NotesProps,NotesState> {
     }
     onSearchClear(){
         this.setState({ filterApplied: false, searchText: "" });
+    }
+    onSubmitCallBack(){
+        this.Refresh();
+    }
+    Refresh(){
+        var obj = this;
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+            let notes = [] as any[]
+            resp.entities.forEach(x => {
+                notes.push({
+                    comments: x.camp_comment,
+                    createdon: new Date(x.createdon),
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+                })
+            })
+            obj.setState({ notes: notes });
+        }).catch(function(err){
+            console.log(err);
+        });
     }
 
     render(): React.ReactNode {
@@ -204,22 +216,23 @@ class Notes extends React.Component<NotesProps,NotesState> {
                         </StackItem>
                         <br></br>
                         {this.state.newnote == true && <>
-                            {/* <StackItem>
-                                <TextField placeholder="Add a new note..." styles={{root: {width: "100%"}}} multiline rows={6}></TextField>
-                            </StackItem>
-                            <StackItem align="end">
-                                <PrimaryButton text="Submit" style={{borderRadius: 6}}></PrimaryButton>
-                                <DefaultButton text="Cancel" style={{marginLeft: 10, borderRadius: 6}} onClick={() => this.setState({newnote: false, enablesearch: true, displaySummary: false})}></DefaultButton>
-                            </StackItem> */}
-                            {/* <CommentWithScreenshot onCancel={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })} /> */}
-                            <RichText closeCallBack={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })}></RichText>
+                            <RichText context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} closeCallBack={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })}></RichText>
                         </>}
                         {this.state.displaySummary == true && <>
                                 <StackItem>
-                                    <TextField placeholder="Summary..." styles={{root: {width: "100%"}}} multiline rows={10} value={this.state.summary}></TextField>
+                                    <TextField 
+                                        placeholder="Summary..." 
+                                        styles={{
+                                            root: { width: "100%" },
+                                            fieldGroup: { background: "transparent",borderRadius: 6, border: "1px solid #d1d1d1" },
+                                            field: {borderRadius: 6}
+                                        }}
+                                        multiline rows={10} 
+                                        value={this.state.summary} 
+                                    />
                                 </StackItem>
                                 <StackItem align="end">
-                                    <PrimaryButton text="Close" style={{borderRadius: 6}} onClick={() => this.setState({displaySummary: false, enablesearch: true, newnote: false})}></PrimaryButton>
+                                    <PrimaryButton text="Close" style={{borderRadius: 6}} onClick={() => this.setState({displaySummary: false, enablesearch: true, newnote: false, summary: ""})}></PrimaryButton>
                                 </StackItem>
                             </>
                         }
