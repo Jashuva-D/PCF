@@ -68,7 +68,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>
                     <StackItem>
-                        <Comment context={this.props.context} text={content ?? ""} editmode={editmode} editCancel={this.editCancel.bind(this)} editSubmit={this.editSubmit.bind(this)}></Comment>
+                        <Comment context={this.props.context} text={content ?? ""} recordid={this.props.recordid} editmode={editmode} editCancel={this.editCancel.bind(this)} editSubmit={this.editSubmit.bind(this)}></Comment>
                     </StackItem>
                 </Stack>
     }
