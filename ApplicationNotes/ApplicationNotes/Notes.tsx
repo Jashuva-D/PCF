@@ -111,7 +111,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: false, searchText: "" });
     }
     onSubmitCallBack(recordid?: string, content?: string) {
-        var updatedNotes = [{recordid, comments: content},...this.state.notes];
+        var updatedNotes = [{recordid, comments: content, createdby: "Anuradha", createdon: new Date()},...this.state.notes];
         this.setState({ notes: updatedNotes, newnote: false});
         // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
         //     let notes = [] as any[]
