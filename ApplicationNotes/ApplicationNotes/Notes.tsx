@@ -136,7 +136,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
 
     render(): React.ReactNode {
-        const notes = this.state.filterApplied ? this.state.filteredNotes : [...this.state.notes];
+        const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
             <Stack tokens={{ childrenGap: 10 }}>
                 <StackItem>
