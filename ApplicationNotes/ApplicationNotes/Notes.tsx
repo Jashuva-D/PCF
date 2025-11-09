@@ -47,7 +47,7 @@ class Notes extends React.Component<NotesProps,NotesState> {
         this.setState({notes: notes});
     }
     componentDidMount(): void {
-        //this.GetFakeData();
+        this.GetFakeData();
         var obj = this;
         var currentrecordid = (this.props.context as any).page.entityId;
         this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes",`?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
@@ -239,28 +239,26 @@ class Notes extends React.Component<NotesProps,NotesState> {
                     </Stack>
                 </StackItem>
                 <StackItem>
-                    <Stack tokens={{ childrenGap: 5 }}>
                         {notes.map((x, idx) => (
-                            <StackItem
-                                key={idx}
-                                styles={{
-                                    root: {
-                                        border: "1px solid #ddd",
-                                        borderRadius: 6,
-                                        padding: 12,
-                                        marginBottom: 10,
-                                        background: "#fff",
-                                    },
-                                }}
-                            >
+                            // <StackItem
+                            //     key={idx}
+                            //     styles={{
+                            //         root: {
+                            //             border: "1px solid #ddd",
+                            //             borderRadius: 6,
+                            //             padding: 12,
+                            //             marginBottom: 10,
+                            //             background: "#fff",
+                            //         },
+                            //     }}
+                            // >
                                 <Note
                                     createdon={x.createdon}
                                     createdby={x.createdby}
                                     comment={x.comments}
                                 />
-                            </StackItem>
+                            // </StackItem>
                         ))}
-                    </Stack>
                 </StackItem>
             </Stack> 
         </div>

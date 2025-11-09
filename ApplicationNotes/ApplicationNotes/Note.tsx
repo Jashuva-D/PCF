@@ -36,22 +36,19 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 10}}>
                                     <StackItem>
-                                        <Tooltip content="Push to Confluence"><Icon iconName="upload" style={{color: "#0078D4"}} ></Icon></Tooltip>
+                                        <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence"></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Tooltip content="Download"><Icon iconName="download" style={{color: "#0078D4"}}></Icon></Tooltip>
+                                        <Icon iconName="edit" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)} title="Edit"></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Tooltip content="Edit"><Icon iconName="edit" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon></Tooltip>
+                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note"></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Tooltip content="Save"><Icon iconName="save" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)}></Icon></Tooltip>
+                                        <Icon iconName="save" style={{color: "#0078D4"}} onClick={this.onEditClick.bind(this)} title="Save"></Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Tooltip content="Delete Note"><Icon iconName="delete" style={{color: "#0078D4"}}></Icon></Tooltip>
-                                    </StackItem>
-                                    <StackItem>
-                                        <Tooltip content="Cancel"><Icon iconName="clear" style={{color: "#0078D4"}}></Icon></Tooltip>
+                                        <Icon iconName="clear" style={{color: "#0078D4"}} title="Cancel"></Icon>
                                     </StackItem>
                                     <StackItem>
                                         <Text style={{padding: 10}}>Posted: {(createdon as Date).toLocaleDateString("en-US")}</Text>
