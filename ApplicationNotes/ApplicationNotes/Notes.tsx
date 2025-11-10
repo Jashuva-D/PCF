@@ -61,7 +61,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     comments: x.camp_comment,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
-                    modifiedon: new Date(x.modifiedon)
+                    modifiedon: new Date(x.modifiedon),
+                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
+                    topicowner: x.camp_topicowner
                 })
             })
             obj.setState({ notes: notes });
@@ -131,7 +133,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     recordid: x.activityid,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
-                    modifiedon: new Date(x.modifiedon)
+                    modifiedon: new Date(x.modifiedon),
+                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"]
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -143,6 +146,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
+            
             <Stack tokens={{ childrenGap: 10 }}>
                 <StackItem>
                     <Stack tokens={{ childrenGap: 5 }}>
@@ -263,8 +267,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             recordid={x.recordid}
                             createdon={x.createdon}
                             modifiedon={x.modifiedon}
+                            modifiedby={x.modifiedby}
                             createdby={x.createdby}
                             comment={x.comments}
+                            topicowner={x.topicowner}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                         />
                     ))}

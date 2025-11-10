@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Tooltip } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Link } from "@fluentui/react";
 import Comment from "./Comment";
 
 interface NoteProps {
@@ -10,11 +10,14 @@ interface NoteProps {
     createdon: Date,
     createdby: string,
     modifiedon?: Date,
+    modifiedby?: string,
+    topicowner? : string,
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
     editmode : boolean,
-    content? : string
+    content? : string,
+    displayDetails? : boolean
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -22,7 +25,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         super(props);
         this.state = {
             editmode : false,
-            content : props.comment
+            content : props.comment,
+            displayDetails : false
         }
     }
     onEditClick(){
@@ -50,17 +54,23 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
     }
     render(): React.ReactNode {
-        const {createdon,createdby,modifiedon} = this.props;
+        const {createdon,createdby,modifiedon, modifiedby} = this.props;
         const {editmode, content} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 10, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
-                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
-                                    <Label style = { {color : "#0078D4"}}>{createdby}</Label> 
-                                    <span style={{padding: 5}}>Updated: {modifiedon?.toLocaleDateString('en-US')}</span>
-                                </Stack>
+                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}><Label style = { {color : "#0078D4"}}>{createdby}</Label> <Link underline={false} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}>view details</Link></Stack>
+                                {this.state.displayDetails && (
+                                    <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
+                                        <span style={{padding: 5, color:"#0078D4"}}>Posted By: </span><span style={{padding: 5}}>{createdby}</span>
+                                        <span style={{padding: 5, color:"#0078D4"}}>Posted On: </span><span style={{padding: 5}}>{createdon?.toLocaleDateString('en-US')}</span>
+                                        <span style={{padding: 5, color:"#0078D4"}}>Updated By:</span><span style={{padding: 5}}>{modifiedby}</span>
+                                        <span style={{padding: 5, color:"#0078D4"}}>Updated On: </span><span style={{padding: 5}}>{modifiedon?.toLocaleDateString('en-US')}</span>
+                                        <span style={{padding: 5, color:"#0078D4"}}>Topic Owner: </span><span>{this.props.topicowner ?? ""}</span>
+                                    </Stack>
+                                )}
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>

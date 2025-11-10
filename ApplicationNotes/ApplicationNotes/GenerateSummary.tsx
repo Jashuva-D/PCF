@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import { Stack, StackItem, TextField, PrimaryButton, ProgressIndicator } from "@fluentui/react";
+import { Stack, StackItem, TextField, PrimaryButton, ProgressIndicator, Label } from "@fluentui/react";
 
 interface GenerateSummaryProps {
     context: ComponentFramework.Context<IInputs>;
@@ -57,11 +57,11 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
     }
 
     render(): React.ReactNode {
-        return <Stack>
+        return <Stack tokens={{ childrenGap: 10 }}>
             {this.state.generating && <StackItem>
-                <ProgressIndicator label="Generating Summary..." />
+                <ProgressIndicator onRenderProgress={() => <Label style={{color: "#0078D4", alignContent: "center"}}>Generating...</Label>} />
             </StackItem>}
-            {this.state.displaySummary && <StackItem>
+            {this.state.displaySummary && <>
                 <StackItem>
                     <TextField
                         placeholder="Summary..."
@@ -77,7 +77,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                 <StackItem align="end">
                     <PrimaryButton text="Close" style={{ borderRadius: 6 }} onClick={() => { this.setState({ displaySummary: false, summary: "" }); this.props.closeCallback();}}></PrimaryButton>
                 </StackItem>
-            </StackItem>}
+            </>}
         </Stack>
     } 
 }
