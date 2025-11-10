@@ -9,6 +9,7 @@ interface NoteProps {
     comment?: string,
     createdon: Date,
     createdby: string,
+    modifiedon?: Date,
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
@@ -49,25 +50,57 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
     }
     render(): React.ReactNode {
-        const {createdon,createdby} = this.props;
+        const {createdon,createdby,modifiedon} = this.props;
         const {editmode, content} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 10, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
-                                <Label style = { {color : "#0078D4"}}>{createdby}</Label>
+                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
+                                    <Label style = { {color : "#0078D4"}}>{createdby}</Label> 
+                                    <span style={{padding: 5}}>Updated: {modifiedon?.toLocaleDateString('en-US')}</span>
+                                </Stack>
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
                                     <StackItem>
-                                        <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence"></Icon>
+                                        <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence" 
+                                            styles={{
+                                                root: {
+                                                    cursor: "pointer",
+                                                    ":hover": {
+                                                        transform: "scale(1.3)", // 💥 increase size on hover
+                                                        color: "#005A9E",
+                                                        backgroundColor: "#f3f2f1",
+                                                    },
+                                                }
+                                            }}>
+                                        </Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="edit" style={{color: "#0078D4"}} title="Edit Note" onClick={this.onEditClick.bind(this)}></Icon>
+                                        <Icon iconName="edit" style={{color: "#0078D4"}} title="Edit Note" onClick={this.onEditClick.bind(this)} 
+                                            styles={{root: {
+                                                cursor: "pointer",
+                                                ":hover": {
+                                                        transform: "scale(1.3)", // 💥 increase size on hover
+                                                        color: "#005A9E",
+                                                        backgroundColor: "#f3f2f1",
+                                                },
+                                            }}}>
+                                        </Icon>
                                     </StackItem>
                                     <StackItem>
-                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note" onClick={this.onDeleteClick.bind(this)}></Icon>
+                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note" onClick={this.onDeleteClick.bind(this)} 
+                                            styles={{root: {
+                                                cursor: "pointer",
+                                                ":hover": {
+                                                    transform: "scale(1.3)", // 💥 increase size on hover
+                                                    color: "#005A9E",
+                                                    backgroundColor: "#f3f2f1",
+                                                },
+                                            }}}>
+                                        </Icon>
                                     </StackItem>
                                     <StackItem>
                                         <Text style={{padding: 10}}>Posted: {(createdon as Date).toLocaleDateString("en-US")}</Text>

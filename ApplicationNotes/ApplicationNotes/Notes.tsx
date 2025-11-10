@@ -41,13 +41,15 @@ class Notes extends React.Component<NotesProps, NotesState> {
             notes.push({
                 comments: i % 2 == 0 ? "Small lines of text" : "Innovation drives the modern world forward, shaping how we live, work, and communicate in ways that were once unimaginable. Technology has become an inseparable part of our daily existence, influencing everything from education and healthcare to entertainment and transportation. As digital transformation accelerates, the demand for smarter systems, faster communication, and safer online environments continues to grow. Artificial intelligence and machine learning are no longer futuristic ideas but active contributors to decision-making and automation across industries. In this dynamic era, adaptability has become the most valuable skill, enabling people to learn new tools, navigate uncertainty, and turn challenges into opportunities. Every innovation starts with curiosity—a single thought that challenges the status quo and evolves into something remarkable. When creativity meets persistence, boundaries dissolve, and new horizons emerge, proving that progress is not just about invention but about continuous improvement and meaningful impact.",
                 createdon: new Date((new Date()).setDate(new Date().getDate() + i)),
-                createdby: "Anu Inampudi"
+                createdby: "Anu Inampudi",
+                modifiedon: new Date((new Date().setDate(new Date().getDate() + i + 1))),
+                recordid: `noteid-${i}`
             })
         }
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
-        //this.GetFakeData();
+        this.GetFakeData();
         var obj = this;
         var currentrecordid = (this.props.context as any).page.entityId;
         this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
@@ -111,21 +113,22 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: false, searchText: "" });
     }
     onSubmitCallBack(recordid?: string, content?: string) {
-        var updatedNotes = [{recordid, comments: content, createdby: "Anuradha", createdon: new Date()},...this.state.notes];
-        this.setState({ notes: updatedNotes, newnote: false});
-        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
-        //     let notes = [] as any[]
-        //     resp.entities.forEach(x => {
-        //         notes.push({
-        //             comments: x.camp_comment,
-        //             createdon: new Date(x.createdon),
-        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
-        //         })
-        //     })
-        //     obj.setState({ notes: notes, newnote: false });
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
+        var obj = this;
+        //var updatedNotes = [{recordid, comments: content, createdby: "Anuradha ", createdon: new Date()},...this.state.notes];
+        //this.setState({ notes: updatedNotes, newnote: false});
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+            let notes = [] as any[]
+            resp.entities.forEach(x => {
+                notes.push({
+                    comments: x.camp_comment,
+                    createdon: new Date(x.createdon),
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+                })
+            })
+            obj.setState({ notes: notes, newnote: false });
+        }).catch(function (err) {
+            console.log(err);
+        });
     }
     deleteCallBack(recordid?:string) {
         var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
@@ -150,6 +153,11 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         placeholder="Search Notes..."
                                         onChange={(e, newValue) => {
                                             this.setState({ searchText: newValue || "" });
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                this.onSearchClick.bind(this)();
+                                            }
                                         }}
                                         styles={{
                                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
@@ -251,6 +259,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             context={this.props.context}
                             recordid={x.recordid}
                             createdon={x.createdon}
+                            modifiedon={x.modifiedon}
                             createdby={x.createdby}
                             comment={x.comments}
                             deleteCallBack={this.deleteCallBack.bind(this)}
