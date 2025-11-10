@@ -59,7 +59,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     recordid: x.activityid,
                     comments: x.camp_comment,
                     createdon: new Date(x.createdon),
-                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
+                    modifiedon: new Date(x.modifiedon)
                 })
             })
             obj.setState({ notes: notes });
@@ -113,29 +114,29 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: false, searchText: "" });
     }
     onSubmitCallBack(recordid?: string, content?: string) {
-        var obj = this;
-        //var updatedNotes = [{recordid, comments: content, createdby: "Anuradha ", createdon: new Date()},...this.state.notes];
-        //this.setState({ notes: updatedNotes, newnote: false});
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
-            let notes = [] as any[]
-            resp.entities.forEach(x => {
-                notes.push({
-                    comments: x.camp_comment,
-                    createdon: new Date(x.createdon),
-                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"]
-                })
-            })
-            obj.setState({ notes: notes, newnote: false });
-        }).catch(function (err) {
-            console.log(err);
-        });
+        this.Refresh();
     }
     deleteCallBack(recordid?:string) {
         var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
         this.setState({ notes: updatedNotes });
     }
     Refresh() {
-        
+        var obj = this;
+        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+            let notes = [] as any[]
+            resp.entities.forEach(x => {
+                notes.push({
+                    comments: x.camp_comment,
+                    recordid: x.activityid,
+                    createdon: new Date(x.createdon),
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
+                    modifiedon: new Date(x.modifiedon)
+                })
+            })
+            obj.setState({ notes: notes, newnote: false });
+        }).catch(function (err) {
+            console.log(err);
+        });
     }
 
     render(): React.ReactNode {
