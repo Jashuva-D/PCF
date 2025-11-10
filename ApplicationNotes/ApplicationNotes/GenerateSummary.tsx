@@ -59,7 +59,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
     render(): React.ReactNode {
         return <Stack tokens={{ childrenGap: 10 }}>
             {this.state.generating && <StackItem>
-                <ProgressIndicator onRenderProgress={() => <Label style={{color: "#0078D4", alignContent: "center"}}>Generating...</Label>} />
+                <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label="Generating Summary...."  />
             </StackItem>}
             {this.state.displaySummary && <>
                 <StackItem>

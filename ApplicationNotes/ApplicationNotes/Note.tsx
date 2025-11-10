@@ -61,14 +61,14 @@ class Note extends React.Component<NoteProps,NoteState> {
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
-                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}><Label style = { {color : "#0078D4"}}>{createdby}</Label> <Link underline={false} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}>view details</Link></Stack>
+                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}><Label style = { {color : "#0078D4"}}>{createdby}</Label> <Link underline={false} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}} style={{fontSize: 10}}>{this.state.displayDetails ? "Hide Details" : "View Details"}</Link></Stack>
                                 {this.state.displayDetails && (
                                     <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
-                                        <span style={{padding: 5, color:"#0078D4"}}>Posted By: </span><span style={{padding: 5}}>{createdby}</span>
-                                        <span style={{padding: 5, color:"#0078D4"}}>Posted On: </span><span style={{padding: 5}}>{createdon?.toLocaleDateString('en-US')}</span>
-                                        <span style={{padding: 5, color:"#0078D4"}}>Updated By:</span><span style={{padding: 5}}>{modifiedby}</span>
-                                        <span style={{padding: 5, color:"#0078D4"}}>Updated On: </span><span style={{padding: 5}}>{modifiedon?.toLocaleDateString('en-US')}</span>
-                                        <span style={{padding: 5, color:"#0078D4"}}>Topic Owner: </span><span>{this.props.topicowner ?? ""}</span>
+                                        <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Posted By: </span><span style={{fontSize: 12}}>{createdby}</span>
+                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Posted On: </span><span style={{fontSize: 12}}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
+                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated By:</span><span style={{fontSize: 12}}>{modifiedby}</span>
+                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated On: </span><span style={{fontSize: 12}}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
+                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
                                     </Stack>
                                 )}
                             </StackItem>
