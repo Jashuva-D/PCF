@@ -2,10 +2,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
-import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton } from "@fluentui/react";
+import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
 import RichText from "./RichText";
+import GenerateSummary from "./GenerateSummary";
 
 interface NotesProps {
     context: ComponentFramework.Context<IInputs>,
@@ -16,7 +17,7 @@ interface NotesState {
     filteredNotes: any[],
     filterApplied?: boolean,
     searchText?: string,
-    displaySummary?: boolean,
+    generateSummary?: boolean,
     summary?: string,
     enablesearch?: boolean,
 }
@@ -30,7 +31,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             filteredNotes: [],
             filterApplied: false,
             searchText: "",
-            displaySummary: false,
+            generateSummary: false,
             summary: "",
             enablesearch: true
         }
@@ -70,7 +71,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
 
     }
     onAddNoteClick() {
-        this.setState({ newnote: true, enablesearch: false, displaySummary: false });
+        this.setState({ newnote: true, enablesearch: false, generateSummary: false });
     }
     onSearchClick() {
         const searchTerm = this.state.searchText?.toLowerCase();
@@ -80,35 +81,35 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: true, filteredNotes: filteredNotes });
     }
     onGenerateSummaryClick() {
-        var obj = this;
-        var currentrecordid = (this.props.context as any).page.entityId;
-        var request = {
-            entity: { entityType: "camp_application", id: currentrecordid }, // entity
+        // var obj = this;
+        // var currentrecordid = (this.props.context as any).page.entityId;
+        // var request = {
+        //     entity: { entityType: "camp_application", id: currentrecordid }, // entity
 
-            getMetadata: function () {
-                return {
-                    boundParameter: "entity",
-                    parameterTypes: {
-                        entity: { typeName: "mscrm.camp_application", structuralProperty: 5 }
-                    },
-                    operationType: 0, operationName: "camp_GenerateAppNotesSummary"
-                };
-            }
-        };
+        //     getMetadata: function () {
+        //         return {
+        //             boundParameter: "entity",
+        //             parameterTypes: {
+        //                 entity: { typeName: "mscrm.camp_application", structuralProperty: 5 }
+        //             },
+        //             operationType: 0, operationName: "camp_GenerateAppNotesSummary"
+        //         };
+        //     }
+        // };
 
-        (obj.props.context.webAPI as any).execute(request).then(
-            function success(response: any) {
-                if (response.ok) { return response.json(); }
-            }
-        ).then(function (responseBody: any) {
-            var result = responseBody;
-            console.log(result);
-            var summary = result["summary"] as string;
-            obj.setState({ summary: summary }); // Edm.String
-        }).catch(function (error: any) {
-            console.log(error.message);
-        });
-        this.setState({ displaySummary: true, enablesearch: false, newnote: false });
+        // (obj.props.context.webAPI as any).execute(request).then(
+        //     function success(response: any) {
+        //         if (response.ok) { return response.json(); }
+        //     }
+        // ).then(function (responseBody: any) {
+        //     var result = responseBody;
+        //     console.log(result);
+        //     var summary = result["summary"] as string;
+        //     obj.setState({ summary: summary }); // Edm.String
+        // }).catch(function (error: any) {
+        //     console.log(error.message);
+        // });
+        this.setState({ generateSummary: true, enablesearch: false, newnote: false });
     }
     onSearchClear() {
         this.setState({ filterApplied: false, searchText: "" });
@@ -231,9 +232,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         </StackItem>
                         <br></br>
                         {this.state.newnote == true && <>
-                            <RichText context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, displaySummary: false })}></RichText>
+                            <RichText context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })}></RichText>
                         </>}
-                        {this.state.displaySummary == true && <>
+                        {this.state.generateSummary == true && <GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} />}
+                        {/* {this.state.displaySummary == true && <>
                             <StackItem>
                                 <TextField
                                     placeholder="Summary..."
@@ -250,7 +252,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                 <PrimaryButton text="Close" style={{ borderRadius: 6 }} onClick={() => this.setState({ displaySummary: false, enablesearch: true, newnote: false, summary: "" })}></PrimaryButton>
                             </StackItem>
                         </>
-                        }
+                        } */}
                     </Stack>
                 </StackItem>
                 <StackItem>
