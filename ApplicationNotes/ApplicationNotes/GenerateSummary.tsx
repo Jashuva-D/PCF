@@ -70,7 +70,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
                             field: { borderRadius: 6 }
                         }}
-                        multiline rows={10}
+                        multiline autoAdjustHeight
                         value={this.state.summary}
                     />
                 </StackItem>

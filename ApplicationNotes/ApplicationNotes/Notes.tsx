@@ -83,34 +83,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ filterApplied: true, filteredNotes: filteredNotes });
     }
     onGenerateSummaryClick() {
-        // var obj = this;
-        // var currentrecordid = (this.props.context as any).page.entityId;
-        // var request = {
-        //     entity: { entityType: "camp_application", id: currentrecordid }, // entity
-
-        //     getMetadata: function () {
-        //         return {
-        //             boundParameter: "entity",
-        //             parameterTypes: {
-        //                 entity: { typeName: "mscrm.camp_application", structuralProperty: 5 }
-        //             },
-        //             operationType: 0, operationName: "camp_GenerateAppNotesSummary"
-        //         };
-        //     }
-        // };
-
-        // (obj.props.context.webAPI as any).execute(request).then(
-        //     function success(response: any) {
-        //         if (response.ok) { return response.json(); }
-        //     }
-        // ).then(function (responseBody: any) {
-        //     var result = responseBody;
-        //     console.log(result);
-        //     var summary = result["summary"] as string;
-        //     obj.setState({ summary: summary }); // Edm.String
-        // }).catch(function (error: any) {
-        //     console.log(error.message);
-        // });
         this.setState({ generateSummary: true, enablesearch: false, newnote: false });
     }
     onSearchClear() {
@@ -157,7 +129,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         value={this.state.searchText || ""}
                                         placeholder="Search Notes..."
                                         onChange={(e, newValue) => {
-                                            this.setState({ searchText: newValue || "" });
+                                            if(newValue == null || newValue == ""){
+                                                this.setState({searchText: "", filterApplied : false})
+                                            }
+                                            else {
+                                                this.setState({ searchText: newValue || "" });
+                                            }
                                         }}
                                         onKeyDown={(e) => {
                                             if (e.key === "Enter") {
@@ -211,7 +188,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                             />
                                         )}
                                         onRenderSuffix={() =>
-                                            this.state.filterApplied ? (
+                                            this.state.searchText != "" ? (
                                                 <Icon
                                                     iconName="Clear"
                                                     style={{ marginRight: 8, cursor: "pointer" }}
@@ -233,32 +210,18 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                 </StackItem>
                             </Stack>
                         </StackItem>
-                        <br></br>
-                        {this.state.newnote == true && <>
+                        
+                        {this.state.newnote == true && <><br></br>
                             <RichText context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })}></RichText>
                         </>}
                         {this.state.generateSummary == true && <GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} />}
-                        {/* {this.state.displaySummary == true && <>
-                            <StackItem>
-                                <TextField
-                                    placeholder="Summary..."
-                                    styles={{
-                                        root: { width: "100%" },
-                                        fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
-                                        field: { borderRadius: 6 }
-                                    }}
-                                    multiline rows={10}
-                                    value={this.state.summary}
-                                />
-                            </StackItem>
-                            <StackItem align="end">
-                                <PrimaryButton text="Close" style={{ borderRadius: 6 }} onClick={() => this.setState({ displaySummary: false, enablesearch: true, newnote: false, summary: "" })}></PrimaryButton>
-                            </StackItem>
-                        </>
-                        } */}
                     </Stack>
                 </StackItem>
                 <StackItem>
+                    <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
+                </StackItem>
+                <StackItem>
+                    {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     {notes.map((x, idx) => (
                         <Note
                             key={x.recordid}
@@ -272,7 +235,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             topicowner={x.topicowner}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                         />
-                    ))}
+                    ))} 
                 </StackItem>
             </Stack>
         </div>

@@ -57,19 +57,20 @@ class Note extends React.Component<NoteProps,NoteState> {
         const {createdon,createdby,modifiedon, modifiedby} = this.props;
         const {editmode, content} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
-        return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 10, marginBottom: 10, backgroundColor: backgroundColor}}}>
+        return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}><Label style = { {color : "#0078D4"}}>{createdby}</Label> <Link underline={false} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}} style={{fontSize: 10}}>{this.state.displayDetails ? "Hide Details" : "View Details"}</Link></Stack>
                                 {this.state.displayDetails && (
-                                    <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
+                                    <Stack horizontal tokens={{childrenGap: 10, padding: 2}} styles={{root: {paddingBottom: 10}}}>
                                         <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Posted By: </span><span style={{fontSize: 12}}>{createdby}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Posted On: </span><span style={{fontSize: 12}}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated By:</span><span style={{fontSize: 12}}>{modifiedby}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated On: </span><span style={{fontSize: 12}}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
                                     </Stack>
+                                    
                                 )}
                             </StackItem>
                             <StackItem>
@@ -80,7 +81,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                                 root: {
                                                     cursor: "pointer",
                                                     ":hover": {
-                                                        transform: "scale(1.3)", // 💥 increase size on hover
+                                                        transform: "scale(1.3)", 
                                                         color: "#005A9E",
                                                         backgroundColor: "#f3f2f1",
                                                     },
@@ -93,7 +94,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             styles={{root: {
                                                 cursor: "pointer",
                                                 ":hover": {
-                                                        transform: "scale(1.3)", // 💥 increase size on hover
+                                                        transform: "scale(1.3)",
                                                         color: "#005A9E",
                                                         backgroundColor: "#f3f2f1",
                                                 },
@@ -105,7 +106,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             styles={{root: {
                                                 cursor: "pointer",
                                                 ":hover": {
-                                                    transform: "scale(1.3)", // 💥 increase size on hover
+                                                    transform: "scale(1.3)",
                                                     color: "#005A9E",
                                                     backgroundColor: "#f3f2f1",
                                                 },
