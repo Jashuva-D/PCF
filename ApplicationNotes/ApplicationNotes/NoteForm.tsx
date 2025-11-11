@@ -1,26 +1,32 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton, IInputProps } from "@fluentui/react";
+import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 
 
-interface RichTextProps{
+interface NoteFormProps{
     context: ComponentFramework.Context<IInputs>,
     cancelCallBack: () => void,
     submitCallBack: (recordid: string,content?: string) => void,
     content? : string,
-    recordid?: string
+    recordid?: string,
+    topic?: string,
+    topicowner?: string
 }
-interface RichTextState {
+interface NoteFormState {
   value: string;
+  topic: string;
+  topicowner: string
 }
 
-export default class RichText extends React.Component<RichTextProps, RichTextState> {
-  constructor(props: RichTextProps) {
+class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
+  constructor(props: NoteFormProps) {
     super(props);
     this.state = {
-      value: props.content ?? ""
+      value: props.content ?? "",
+      topic: props.topic ?? "",
+      topicowner: props.topicowner ?? ""
     };
   }
   modules : any = {
@@ -68,9 +74,36 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
   }
 
   render() {
+    const options = [
+      {key: "1", text: "Routine Check-In Meeting"},
+      {key: "2", text: "Quarterly Strategic Review Meeting"},
+      {key: "3", text: "Security Deep Dive"},
+      {key: "4", text: "Cost Optimization"},
+      {key: "5", text: "Technical Deep Dive"},
+      {key: "6", text: "Other"}
+    ]
     return (<>
         <Stack tokens = {{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
+          <StackItem>
+            <Stack horizontal tokens={{childrenGap: 10}}>
+              <StackItem>
+                <TextField label="Topic" value={this.state.topic}/>
+              </StackItem>
+              <StackItem>
+                <TextField label="Topic Owner" value={this.state.topicowner}></TextField>
+              </StackItem>
+              <StackItem>
+                <Dropdown 
+                  label="Interaction Type"
+                  options={options}
+                  dropdownWidth={200}
+                />
+              </StackItem>
+            </Stack>
+          </StackItem>
+            
             <StackItem styles={{ root: { flexGrow: 0}}}>
+                <Label>Comments</Label>
                 <ReactQuill
                     theme="snow"
                     value={this.state.value}
@@ -81,7 +114,7 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
                     style={{
                         borderRadius: 6,
                         border: "1px solid #d1d1d1",
-                        overflow: "hidden", // ensures inner content stays rounded
+                        overflow: "hidden", 
                     }}
                     rows={6}
                 />
@@ -111,3 +144,5 @@ export default class RichText extends React.Component<RichTextProps, RichTextSta
     </>);
   }
 }
+
+export default NoteForm;

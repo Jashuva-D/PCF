@@ -5,7 +5,7 @@ import { IInputs } from "./generated/ManifestTypes";
 import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
-import RichText from "./RichText";
+import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
 
 interface NotesProps {
@@ -44,7 +44,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 createdon: new Date((new Date()).setDate(new Date().getDate() + i)),
                 createdby: "Anu Inampudi",
                 modifiedon: new Date((new Date().setDate(new Date().getDate() + i + 1))),
-                recordid: `noteid-${i}`
+                recordid: `noteid-${i}`,
+                topic: "Test"
             })
         }
         this.setState({ notes: notes });
@@ -106,7 +107,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
-                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"]
+                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
+                    topic: x.summary
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -212,9 +214,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         </StackItem>
                         
                         {this.state.newnote == true && <><br></br>
-                            <RichText context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })}></RichText>
+                            <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })}></NoteForm>
                         </>}
-                        {this.state.generateSummary == true && <GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} />}
+                        {this.state.generateSummary == true && <><br /><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></>}
                     </Stack>
                 </StackItem>
                 <StackItem>
@@ -233,6 +235,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             createdby={x.createdby}
                             comment={x.comments}
                             topicowner={x.topicowner}
+                            topic={x.topic}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                         />
                     ))} 

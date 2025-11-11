@@ -48,7 +48,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
             var result = responseBody;
             console.log(result);
             var summary = result["summary"] as string;
-            obj.setState({displaySummary: true, summary: summary, generating: false }); // Edm.String
+            obj.setState({displaySummary: true, summary: summary, generating: false });
         }).catch(function (error: any) {
             console.log(error.message);
             obj.setState({ generating: false });
@@ -59,7 +59,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
     render(): React.ReactNode {
         return <Stack tokens={{ childrenGap: 10 }}>
             {this.state.generating && <StackItem>
-                <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label="Generating Summary...."  />
+                <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label={<Label style={{color : "#0078D4", alignItems: "center"}}>Generating Summary</Label>}  />
             </StackItem>}
             {this.state.displaySummary && <>
                 <StackItem>

@@ -2,20 +2,17 @@
 import * as React from "react";
 import { Component } from "react";
 import { Link, TextField } from "@fluentui/react";
-import RichText from "./RichText";
+import NoteForm from "./NoteForm";
 
 export interface CommentProps {
   context: ComponentFramework.Context<any>;
   recordid?: string;
   text: string;
   editmode: boolean;
-  editCancel: () => void;
-  editSubmit: (recordid: string, content?: string) => void;
 }
 
 interface CommentState {
   expanded: boolean;
-  editText: string;
   canExpand: boolean; 
 }
 
@@ -27,7 +24,6 @@ export default class Comment extends Component<CommentProps, CommentState> {
     super(props);
     this.state = {
       expanded: false,
-      editText: props.text ?? "",
       canExpand: false,
     };
   }
@@ -39,7 +35,7 @@ export default class Comment extends Component<CommentProps, CommentState> {
   componentDidUpdate(prevProps: CommentProps, prevState: CommentState) {
     if (prevProps.text !== this.props.text) {
       this.setState(
-        { editText: this.props.text ?? "", expanded: false, canExpand: false },
+        { expanded: false, canExpand: false },
         () => requestAnimationFrame(() => this.measureOverflow())
       );
       return;
@@ -63,13 +59,9 @@ export default class Comment extends Component<CommentProps, CommentState> {
     this.setState((s) => ({ expanded: !s.expanded }));
   };
 
-  onEditChange = (ev?: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
-    this.setState({ editText: newValue ?? "" });
-  };
-
   render() {
-    const { text, editmode } = this.props;
-    const { expanded, editText, canExpand } = this.state;
+    const { text } = this.props;
+    const { expanded, canExpand } = this.state;
 
     const clampStyle: React.CSSProperties = {
       display: "-webkit-box",
@@ -84,19 +76,7 @@ export default class Comment extends Component<CommentProps, CommentState> {
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
     };
-
-    if (editmode) {
-      return (
-        <RichText
-          context={this.props.context}
-          recordid={this.props.recordid}
-          cancelCallBack={this.props.editCancel}
-          submitCallBack={this.props.editSubmit}
-          content={editText}
-        />
-      );
-    }
-
+    
     const safeHtml = text ?? "";
 
     return (

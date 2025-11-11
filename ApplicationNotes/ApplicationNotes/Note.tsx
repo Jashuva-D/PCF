@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Stack, StackItem, Label, Icon, Text,Link } from "@fluentui/react";
 import Comment from "./Comment";
+import NoteForm from "./NoteForm";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -12,11 +13,14 @@ interface NoteProps {
     modifiedon?: Date,
     modifiedby?: string,
     topicowner? : string,
+    topic? : string,
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
     editmode : boolean,
     content? : string,
+    topic? : string,
+    topicowner? : string,
     displayDetails? : boolean
 }
 
@@ -47,10 +51,12 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : false
         })
     }
-    editSubmit(recordid:string, content?:string){
+    editSubmit(recordid:string, content?:string, topic?: string, topicOwner? : string){
         this.setState({
             editmode : false,
-            content : content!
+            content : content ?? "",
+            topic : topic ?? "",
+            topicowner : topicOwner ?? ""
         })
     }
     render(): React.ReactNode {
@@ -69,6 +75,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated By:</span><span style={{fontSize: 12}}>{modifiedby}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated On: </span><span style={{fontSize: 12}}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
+                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic: </span><span style={{fontSize: 12}}>{this.props.topic}</span>
                                     </Stack>
                                     
                                 )}
@@ -121,7 +128,21 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>
                     <StackItem>
-                        <Comment context={this.props.context} text={content ?? ""} recordid={this.props.recordid} editmode={editmode} editCancel={this.editCancel.bind(this)} editSubmit={this.editSubmit.bind(this)}></Comment>
+                        {this.state.editmode && <NoteForm
+                            context={this.props.context}
+                            recordid={this.props.recordid}
+                            cancelCallBack={this.editCancel.bind(this)}
+                            submitCallBack={this.editSubmit.bind(this)}
+                            content={ content ?? ""}
+                            topic={this.props.topic}
+                            topicowner={this.props.topicowner}
+                        />}
+                        { !this.state.editmode && <Comment 
+                            context={this.props.context} 
+                            text={ content ?? ""} 
+                            recordid={this.props.recordid} 
+                            editmode={editmode}
+                        />}
                     </StackItem>
                 </Stack>
     }
