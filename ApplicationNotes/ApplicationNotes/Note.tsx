@@ -1,8 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Link } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
+import {ActivityStateCode} from "./Constants";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -14,6 +15,7 @@ interface NoteProps {
     modifiedby?: string,
     topicowner? : string,
     topic? : string,
+    statecode : number,
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
@@ -60,14 +62,19 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
     }
     render(): React.ReactNode {
-        const {createdon,createdby,modifiedon, modifiedby} = this.props;
+        const {createdon,createdby,modifiedon, modifiedby, statecode} = this.props;
         const {editmode, content} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
-                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}><Label style = { {color : "#0078D4"}}>{createdby}</Label> <Link underline={false} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}} style={{fontSize: 10}}>{this.state.displayDetails ? "Hide Details" : "View Details"}</Link></Stack>
+                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
+                                    <Label style = { {color : "#0078D4"}}>{createdby}</Label>
+                                    {/* <Label style = {{color : statecode == 0 ? "green" : statecode == 1 ? "black" : statecode == 2 ? "red" : "yellow"}}>{ActivityStateCode[statecode]}</Label> */}
+                                    <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
+                                    <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title="View Details" iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
+                                </Stack>
                                 {this.state.displayDetails && (
                                     <Stack horizontal tokens={{childrenGap: 10, padding: 2}} styles={{root: {paddingBottom: 10}}}>
                                         <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Posted By: </span><span style={{fontSize: 12}}>{createdby}</span>
@@ -77,7 +84,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
                                         <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic: </span><span style={{fontSize: 12}}>{this.props.topic}</span>
                                     </Stack>
-                                    
                                 )}
                             </StackItem>
                             <StackItem>

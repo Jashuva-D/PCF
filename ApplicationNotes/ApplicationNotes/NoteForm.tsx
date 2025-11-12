@@ -16,8 +16,8 @@ interface NoteFormProps{
 }
 interface NoteFormState {
   value: string;
-  topic: string;
-  topicowner: string
+  topic?: string;
+  topicowner?: string
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
@@ -87,7 +87,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
               <StackItem>
-                <TextField label="Topic" value={this.state.topic}/>
+                <TextField label="Topic" value={this.state.topic} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem>
                 <TextField label="Topic Owner" value={this.state.topicowner}></TextField>

@@ -66,9 +66,9 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                     <TextField
                         placeholder="Summary..."
                         styles={{
-                            root: { width: "100%" },
+                            root: { width: "100%", padding: 10 },
                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
-                            field: { borderRadius: 6 }
+                            field: { borderRadius: 6 },
                         }}
                         multiline autoAdjustHeight
                         value={this.state.summary}
