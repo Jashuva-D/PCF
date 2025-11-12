@@ -68,8 +68,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
                     topicowner: x.camp_topicowner,
+                    topic: x.subject,
                     statecode: x.statecode,
-                    status: x["statecode@OData.Community.Display.V1.FormattedValue"],
+                    interactiontype: x.camp_interactiontype
                 })
             })
             obj.setState({ notes: notes });
@@ -107,15 +108,16 @@ class Notes extends React.Component<NotesProps, NotesState> {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
-                    comments: x.camp_comment,
                     recordid: x.activityid,
+                    comments: x.camp_comment,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-                    topic: x.summary,
+                    topic: x.subject,
                     topicowner: x.camp_topicowner,
-                    statecode: x.statecode
+                    statecode: x.statecode,
+                    interactiontype: x.camp_interactiontype
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -244,6 +246,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             topicowner={x.topicowner}
                             topic={x.topic}
                             statecode={x.statecode}
+                            interactiontype={x.interactiontype}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                         />
                     ))} 

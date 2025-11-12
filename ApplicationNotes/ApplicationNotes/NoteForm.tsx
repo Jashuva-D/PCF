@@ -3,6 +3,7 @@ const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
 import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
+import { Interactiontypes } from "./Constants";
 
 
 interface NoteFormProps{
@@ -12,21 +13,24 @@ interface NoteFormProps{
     content? : string,
     recordid?: string,
     topic?: string,
-    topicowner?: string
+    topicowner?: string,
+    interactiontype? : number
 }
 interface NoteFormState {
-  value: string;
+  comment: string;
   topic?: string;
-  topicowner?: string
+  topicowner?: string,
+  interactiontype? : number
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   constructor(props: NoteFormProps) {
     super(props);
     this.state = {
-      value: props.content ?? "",
+      comment: props.content ?? "",
       topic: props.topic ?? "",
-      topicowner: props.topicowner ?? ""
+      topicowner: props.topicowner ?? "",
+      interactiontype: props.interactiontype
     };
   }
   modules : any = {
@@ -53,35 +57,37 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   ];
 
   handleChange = (content: string) => {
-    this.setState({ value: content });
+    this.setState({ comment: content });
   };
   onSubmit() {
     var obj = this;
     if(this.props.recordid && this.props.recordid !== "") {
-        this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, { camp_comment: this.state.value }).then(function(resp){
-            obj.props.submitCallBack && obj.props.submitCallBack(obj.props.recordid!, obj.state.value);
-        });
+      const record = {
+        camp_comment: this.state.comment,
+        subject: this.state.topic,
+        camp_topicowner: this.state.topicowner,
+        camp_interactiontype : this.state.interactiontype,
+      }
+      this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, record).then(function(resp){
+          obj.props.submitCallBack && obj.props.submitCallBack(obj.props.recordid!, obj.state.comment);
+      });
     }
     else {
-        let record = {
-          camp_comment: this.state.value,
-          "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`
+        const record = {
+          camp_comment: this.state.comment,
+          "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`,
+          subject: this.state.topic,
+          camp_topicowner: this.state.topicowner,
+          camp_interactiontype : this.state.interactiontype,
         }
         this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
-            obj.props.submitCallBack && obj.props.submitCallBack(resp.id, obj.state.value);
+            obj.props.submitCallBack && obj.props.submitCallBack(resp.id, obj.state.comment);
         });
     }
   }
 
   render() {
-    const options = [
-      {key: "1", text: "Routine Check-In Meeting"},
-      {key: "2", text: "Quarterly Strategic Review Meeting"},
-      {key: "3", text: "Security Deep Dive"},
-      {key: "4", text: "Cost Optimization"},
-      {key: "5", text: "Technical Deep Dive"},
-      {key: "6", text: "Other"}
-    ]
+    
     return (<>
         <Stack tokens = {{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
           <StackItem>
@@ -90,13 +96,19 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <TextField label="Topic" value={this.state.topic} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem>
-                <TextField label="Topic Owner" value={this.state.topicowner}></TextField>
+                <TextField label="Topic Owner" value={this.state.topicowner} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
               </StackItem>
               <StackItem>
                 <Dropdown 
                   label="Interaction Type"
-                  options={options}
+                  options={Interactiontypes}
                   dropdownWidth={200}
+                  onChange={(evt,option) => {this.setState({interactiontype : option?.key as number})}}
+                  selectedKey={this.state.interactiontype}
+                  styles={{
+                    root: {width: 200},
+                    dropdown: {width: 200}
+                  }}
                 />
               </StackItem>
             </Stack>
@@ -106,7 +118,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <Label>Comments</Label>
                 <ReactQuill
                     theme="snow"
-                    value={this.state.value}
+                    value={this.state.comment}
                     onChange={this.handleChange.bind(this)}
                     modules={this.modules}
                     formats={this.formats}

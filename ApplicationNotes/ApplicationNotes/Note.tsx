@@ -16,6 +16,7 @@ interface NoteProps {
     topicowner? : string,
     topic? : string,
     statecode : number,
+    interactiontype? : number
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
@@ -142,6 +143,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             content={ content ?? ""}
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
+                            interactiontype={this.props.interactiontype}
                         />}
                         { !this.state.editmode && <Comment 
                             context={this.props.context} 
