@@ -9,7 +9,7 @@ import { Interactiontypes } from "./Constants";
 interface NoteFormProps{
     context: ComponentFramework.Context<IInputs>,
     cancelCallBack: () => void,
-    submitCallBack: (recordid: string,content?: string) => void,
+    submitCallBack: (record: any) => void,
     content? : string,
     recordid?: string,
     topic?: string,
@@ -69,7 +69,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         camp_interactiontype : this.state.interactiontype,
       }
       this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, record).then(function(resp){
-          obj.props.submitCallBack && obj.props.submitCallBack(obj.props.recordid!, obj.state.comment);
+          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
       });
     }
     else {
@@ -81,7 +81,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           camp_interactiontype : this.state.interactiontype,
         }
         this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
-            obj.props.submitCallBack && obj.props.submitCallBack(resp.id, obj.state.comment);
+            obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
         });
     }
   }

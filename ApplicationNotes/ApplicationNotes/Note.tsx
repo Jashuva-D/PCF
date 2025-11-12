@@ -54,12 +54,12 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : false
         })
     }
-    editSubmit(recordid:string, content?:string, topic?: string, topicOwner? : string){
+    editSubmit(record: any){ //recordid:string, content?:string, topic?: string, topicOwner? : string){
         this.setState({
             editmode : false,
-            content : content ?? "",
-            topic : topic ?? "",
-            topicowner : topicOwner ?? ""
+            content : record.comments ?? "",
+            topic : record.topic ?? "",
+            topicowner : record.topicOwner ?? ""
         })
     }
     render(): React.ReactNode {
