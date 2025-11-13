@@ -149,7 +149,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>
                     {this.state.displayDetails && (<StackItem>
-                        <Stack horizontal horizontalAlign="space-between">
+                        <Stack horizontal>
                         <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span></span>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
