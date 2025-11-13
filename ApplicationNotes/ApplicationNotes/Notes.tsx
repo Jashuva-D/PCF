@@ -117,7 +117,11 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     topic: x.subject,
                     topicowner: x.camp_topicowner,
                     statecode: x.statecode,
-                    interactiontype: x.camp_interactiontype
+                    interactiontype: x.camp_interactiontype,
+                    submittoconfluence: x.camp_sharewithconfluence,
+                    confluencepageid : x.camp_confluenceurl,
+                    confluencespace : x.camp_confluencespace,
+                    confluencepagetitle : x.camp_confluencepagetitle
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -247,7 +251,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             topic={x.topic}
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
+                            submittoconfluence={x.submittoconfluence}
+                            confluencepageid={x.confluencepageid}
+                            confluencespace={x.confluencespace}
+                            confluencepagetitle={x.confluencepagetitle}
                             deleteCallBack={this.deleteCallBack.bind(this)}
+                            refresh = {this.Refresh.bind(this)}
                         />
                     ))} 
                 </StackItem>

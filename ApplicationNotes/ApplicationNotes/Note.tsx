@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import {ActivityStateCode} from "./Constants";
+import {ActivityStateCode, Interactiontypes} from "./Constants";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -16,7 +16,12 @@ interface NoteProps {
     topicowner? : string,
     topic? : string,
     statecode : number,
-    interactiontype? : number
+    interactiontype? : number,
+    submittoconfluence? : boolean
+    confluencepageid? : string,
+    confluencespace? : string,
+    confluencepagetitle? : string
+    refresh: () => void,
     deleteCallBack: (recordid?:string) => void
 }
 interface NoteState {
@@ -24,7 +29,8 @@ interface NoteState {
     content? : string,
     topic? : string,
     topicowner? : string,
-    displayDetails? : boolean
+    displayDetails? : boolean,
+    interactiontype? : number
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -43,11 +49,23 @@ class Note extends React.Component<NoteProps,NoteState> {
     }
     onDeleteClick(){
         var obj = this;
-        if(this.props.recordid && this.props.recordid !== "") {
-            this.props.context?.webAPI.deleteRecord("camp_applicationnotes", this.props.recordid!).then(function(resp){
-                obj.props.deleteCallBack(obj.props.recordid);
-            });
-        }
+
+        this.props.context.navigation.openConfirmDialog({
+            title: "Confirm Delete",
+            text : "Are you sure to delete the record ?",
+            confirmButtonLabel: "Delete",
+            cancelButtonLabel: "Cancel"
+        }).then(function(resp){
+            if(resp.confirmed){
+                if(obj.props.recordid && obj.props.recordid !== "") {
+                        obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
+                        obj.props.deleteCallBack(obj.props.recordid);
+                    },function(err){
+                        obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
+                    });
+                };
+            }
+        })
     }
     editCancel(){
         this.setState({
@@ -55,15 +73,17 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
     }
     editSubmit(record: any){ //recordid:string, content?:string, topic?: string, topicOwner? : string){
-        this.setState({
-            editmode : false,
-            content : record.comments ?? "",
-            topic : record.topic ?? "",
-            topicowner : record.topicOwner ?? ""
-        })
+        // this.setState({
+        //     editmode : false,
+        //     content : record.comments ?? "",
+        //     topic : record.topic ?? "",
+        //     topicowner : record.topicOwner ?? "",
+        //     interactiontype : record.interactiontype
+        // })
+        this.props.refresh();
     }
     render(): React.ReactNode {
-        const {createdon,createdby,modifiedon, modifiedby, statecode} = this.props;
+        const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const {editmode, content} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
@@ -76,16 +96,20 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title="View Details" iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
-                                {this.state.displayDetails && (
+                                {this.state.displayDetails && (<>
                                     <Stack horizontal tokens={{childrenGap: 10, padding: 2}} styles={{root: {paddingBottom: 10}}}>
                                         <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Posted By: </span><span style={{fontSize: 12}}>{createdby}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Posted On: </span><span style={{fontSize: 12}}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated By:</span><span style={{fontSize: 12}}>{modifiedby}</span>
                                         <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated On: </span><span style={{fontSize: 12}}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
-                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
-                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic: </span><span style={{fontSize: 12}}>{this.props.topic}</span>
                                     </Stack>
-                                )}
+                                    <Stack horizontal>
+                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic: </span><span style={{fontSize: 12}}>{this.props.topic}</span>
+                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
+                                        <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Interaction Type: </span><span style={{fontSize: 12}}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
+                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Submitted to Confluence: </span><span style={{fontSize: 12}}>{this.props.submittoconfluence ? "Yes": "No"}</span>
+                                    </Stack>
+                                </>)}
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
@@ -144,6 +168,10 @@ class Note extends React.Component<NoteProps,NoteState> {
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
                             interactiontype={this.props.interactiontype}
+                            submittoconfluence={this.props.submittoconfluence}
+                            confluencepageid={this.props.confluencepageid}
+                            confluencepagetitle={this.props.confluencepagetitle}
+                            confluencespace={this.props.confluencespace}
                         />}
                         { !this.state.editmode && <Comment 
                             context={this.props.context} 

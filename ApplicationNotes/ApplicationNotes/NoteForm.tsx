@@ -1,7 +1,7 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown } from "@fluentui/react";
+import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 import { Interactiontypes } from "./Constants";
 
@@ -14,13 +14,21 @@ interface NoteFormProps{
     recordid?: string,
     topic?: string,
     topicowner?: string,
-    interactiontype? : number
+    interactiontype? : number,
+    submittoconfluence? : boolean,
+    confluencepageid? : string,
+    confluencespace? : string,
+    confluencepagetitle? : string
 }
 interface NoteFormState {
   comment: string;
   topic?: string;
   topicowner?: string,
-  interactiontype? : number
+  interactiontype? : number,
+  submittoconfluence? : boolean,
+  confluencepageid? : string,
+  confluencespace? : string,
+  confluencepagetitle? : string
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
@@ -30,7 +38,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       comment: props.content ?? "",
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
-      interactiontype: props.interactiontype
+      interactiontype: props.interactiontype,
+      submittoconfluence : props.submittoconfluence,
+      confluencepageid : props.confluencepageid,
+      confluencepagetitle : props.confluencepagetitle,
+      confluencespace : props.confluencespace
     };
   }
   modules : any = {
@@ -67,6 +79,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         subject: this.state.topic,
         camp_topicowner: this.state.topicowner,
         camp_interactiontype : this.state.interactiontype,
+        camp_sharewithconfluence : this.state.submittoconfluence,
+        camp_confluenceurl : this.state.confluencepageid,
+        camp_confluencespace : this.state.confluencespace,
+        camp_confluencepagetitle : this.state.confluencepagetitle
       }
       this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, record).then(function(resp){
           obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
@@ -79,6 +95,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           subject: this.state.topic,
           camp_topicowner: this.state.topicowner,
           camp_interactiontype : this.state.interactiontype,
+          camp_sharewithconfluence : this.state.submittoconfluence,
+          camp_confluenceurl : this.state.confluencepageid,
+          camp_confluencespace : this.state.confluencespace,
+          camp_confluencepagetitle : this.state.confluencepagetitle
         }
         this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
             obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
@@ -89,7 +109,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   render() {
     
     return (<>
-        <Stack tokens = {{ childrenGap: 10 }} styles={{ root: { width: "100%" } }}>
+        <Stack tokens = {{ childrenGap: 15 }} styles={{ root: { width: "100%" } }}>
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
               <StackItem>
@@ -111,7 +131,22 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   }}
                 />
               </StackItem>
+              <StackItem>
+                <Toggle label="Submit to Confluence" onText="Yes" offText="No" onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} />
+              </StackItem>
             </Stack>
+
+            {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}}>
+              <StackItem>
+                <TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+              </StackItem>
+              <StackItem>
+                <TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
+              </StackItem>
+              <StackItem>
+                <TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
+              </StackItem>
+            </Stack>}
           </StackItem>
             
             <StackItem styles={{ root: { flexGrow: 0}}}>

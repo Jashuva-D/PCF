@@ -4,6 +4,7 @@ export enum ActivityStateCode {
     Canceled = 2,
     Scheduled = 3
 }
+
 export const Interactiontypes = [
     {key: 1, text: "Routine Check-In Meeting"},
     {key: 2, text: "Quarterly Strategic Review Meeting"},
