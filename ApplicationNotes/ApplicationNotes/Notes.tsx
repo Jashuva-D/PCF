@@ -21,7 +21,11 @@ interface NotesState {
     generateSummary?: boolean,
     summary?: string,
     enablesearch?: boolean,
-    showmessage : boolean
+    showalert : boolean,
+    alert? : {
+        messagetype : MessageBarType,
+        message : string
+    }
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -36,7 +40,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             generateSummary: false,
             summary: "",
             enablesearch: true,
-            showmessage: false
+            showalert : false,
         }
     }
     GetFakeData() {
@@ -106,7 +110,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     deleteCallBack(recordid?:string) {
         var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
         this.setState({ notes: updatedNotes });
-        this.showMessage();
+        this.showAlertMessage(MessageBarType.success, "Record deleted successfully");
     }
     Refresh() {
         var obj = this;
@@ -135,11 +139,17 @@ class Notes extends React.Component<NotesProps, NotesState> {
             console.log(err);
         });
     }
-    showMessage(){
+    showAlertMessage(messagetype: MessageBarType, message: string){
         var obj = this;
-        this.setState({ showmessage: true});
+        this.setState({ 
+            showalert: true, 
+            alert : {
+                messagetype : messagetype,
+                message : message
+            }
+        });
         setTimeout(() => {
-            obj.setState({showmessage : false})
+            obj.setState({showalert : false})
         }, 10000);
     }
 
@@ -248,8 +258,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 <StackItem>
                     <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
                 </StackItem>
-                { this.state.showmessage && <StackItem>
-                    <MessageBar  messageBarType={MessageBarType.success}>Record deleted successfully...</MessageBar>
+                { this.state.showalert && <StackItem>
+                    <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
                 </StackItem> }
                 <StackItem>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
@@ -273,6 +283,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             confluencepagetitle={x.confluencepagetitle}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                             refresh = {this.Refresh.bind(this)}
+                            showalert = {this.showAlertMessage.bind(this)}
                         />
                     ))} 
                 </StackItem>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import {ActivityStateCode, Interactiontypes} from "./Constants";
@@ -22,7 +22,8 @@ interface NoteProps {
     confluencespace? : string,
     confluencepagetitle? : string
     refresh: () => void,
-    deleteCallBack: (recordid?:string) => void
+    deleteCallBack: (recordid?:string) => void,
+    showalert : (type: MessageBarType, message: string) => void
 }
 interface NoteState {
     editmode : boolean,
@@ -30,7 +31,11 @@ interface NoteState {
     topic? : string,
     topicowner? : string,
     displayDetails? : boolean,
-    interactiontype? : number
+    interactiontype? : number,
+    confluencepageid? : string,
+    confluencespace? : string,
+    confluencepagetitle? : string,
+    enablesubmittoconfluence : boolean
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -39,7 +44,11 @@ class Note extends React.Component<NoteProps,NoteState> {
         this.state = {
             editmode : false,
             content : props.comment,
-            displayDetails : false
+            displayDetails : false,
+            confluencepageid : props.confluencepageid,
+            confluencespace : props.confluencespace,
+            confluencepagetitle : props.confluencepagetitle,
+            enablesubmittoconfluence: false
         }
     }
     onEditClick(){
@@ -85,6 +94,30 @@ class Note extends React.Component<NoteProps,NoteState> {
         this.props.refresh();
         
     }
+    onSubmitToConfluence(){
+        var obj = this;
+        this.props.context.navigation.openConfirmDialog({
+            title: "Confirm Submit",
+            text : "Do you want to confluence ?",
+            confirmButtonLabel: "Delete",
+            cancelButtonLabel: "Cancel"
+        }).then(function(resp){
+            if(resp.confirmed){
+                var record = {
+                    camp_sharewithconfluence : true,
+                    camp_confluenceurl : obj.state.confluencepageid,
+                    camp_confluencespace : obj.state.confluencespace,
+                    camp_confluencepagetitle : obj.state.confluencepagetitle
+                }
+                obj.props.context.webAPI.updateRecord("camp_applicationnotes",obj.props.recordid!,record).then(function(resp){
+                    obj.props.showalert(MessageBarType.success,"Submitting to confluence is completed successfully !");
+                },function(err){
+                    obj.props.showalert(MessageBarType.error,`Record update failed: ERROR: ${err.message}`);
+                });
+            }
+        })
+        
+    }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const {editmode, content} = this.state;
@@ -114,7 +147,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                                                         backgroundColor: "#f3f2f1",
                                                     },
                                                 }
-                                            }}>
+                                            }}
+                                            onClick={() => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}}
+                                            >
                                         </Icon>
                                     </StackItem>
                                     <StackItem>
@@ -150,25 +185,40 @@ class Note extends React.Component<NoteProps,NoteState> {
                     </StackItem>
                     {this.state.displayDetails && (<StackItem>
                         <Stack horizontal>
-                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span><span style={{ fontSize: 12 }}>{modifiedby}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
-                        </Stack>
-                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></span>
-                        </Stack>
-                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></span>
-                        </Stack>
+                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span><span style={{ fontSize: 12 }}>{modifiedby}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
+                            </Stack>
+                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></span>
+                            </Stack>
+                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></span>
+                                <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></span>
+                            </Stack>
+                            
                         </Stack>
                     </StackItem>)}
+                    {this.state.enablesubmittoconfluence && <StackItem>
+                            <Stack tokens={{childrenGap : 10}}>
+                                <Stack horizontal tokens={{childrenGap : 10}}>
+                                    <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
+                                    <StackItem><TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt,newvalue) => {this.setState({confluencespace : newvalue})}} /></StackItem>
+                                    <StackItem><TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/></StackItem>
+                                </Stack>
+                                <Stack horizontal style={{alignItems : "end"}} tokens={{childrenGap: 10}}>
+                                    <PrimaryButton text="Submit" style={{borderRadius : 6}} onClick={this.onSubmitToConfluence.bind(this)}/>
+                                    <DefaultButton text="Cancel" style={{borderRadius : 6}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/>
+                                </Stack>
+                            </Stack>
+                        </StackItem>
+                    }
                     <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem>
                     <StackItem>
                         {this.state.editmode && <NoteForm
