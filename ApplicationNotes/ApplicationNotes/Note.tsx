@@ -49,10 +49,9 @@ class Note extends React.Component<NoteProps,NoteState> {
     }
     onDeleteClick(){
         var obj = this;
-
         this.props.context.navigation.openConfirmDialog({
             title: "Confirm Delete",
-            text : "Are you sure to delete the record ?",
+            text : "Are you sure, you want to delete the record ?",
             confirmButtonLabel: "Delete",
             cancelButtonLabel: "Cancel"
         }).then(function(resp){
@@ -80,7 +79,11 @@ class Note extends React.Component<NoteProps,NoteState> {
         //     topicowner : record.topicOwner ?? "",
         //     interactiontype : record.interactiontype
         // })
+        this.setState({
+            editmode : false
+        })
         this.props.refresh();
+        
     }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
@@ -96,20 +99,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title="View Details" iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
-                                {this.state.displayDetails && (<>
-                                    <Stack horizontal tokens={{childrenGap: 10, padding: 2}} styles={{root: {paddingBottom: 10}}}>
-                                        <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Posted By: </span><span style={{fontSize: 12}}>{createdby}</span>
-                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Posted On: </span><span style={{fontSize: 12}}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
-                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated By:</span><span style={{fontSize: 12}}>{modifiedby}</span>
-                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Updated On: </span><span style={{fontSize: 12}}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
-                                    </Stack>
-                                    <Stack horizontal>
-                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic: </span><span style={{fontSize: 12}}>{this.props.topic}</span>
-                                        <span style={{color:"#0078D4", fontSize: 12, fontWeight: "bold"}}>Topic Owner: </span><span style={{fontSize: 12}}>{this.props.topicowner ?? ""}</span>
-                                        <span style={{ color:"#0078D4", fontSize: 12, fontWeight: "bold"}} >Interaction Type: </span><span style={{fontSize: 12}}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
-                                        <span style={{color: "#0078D4", fontSize: 12, fontWeight: "bold"}}>Submitted to Confluence: </span><span style={{fontSize: 12}}>{this.props.submittoconfluence ? "Yes": "No"}</span>
-                                    </Stack>
-                                </>)}
+                                
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
@@ -158,6 +148,26 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
+                    {this.state.displayDetails && (<StackItem>
+                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By:</span><span style={{ fontSize: 12 }}>{modifiedby}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
+                        </Stack>
+                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span>
+                        </Stack>
+                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span>
+                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
+                        </Stack>
+                    </StackItem>)}
+                    <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem>
                     <StackItem>
                         {this.state.editmode && <NoteForm
                             context={this.props.context}

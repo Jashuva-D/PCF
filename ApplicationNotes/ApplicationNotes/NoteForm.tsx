@@ -132,7 +132,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 />
               </StackItem>
               <StackItem>
-                <Toggle label="Submit to Confluence" onText="Yes" offText="No" onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} />
+                <Toggle label="Submit to Confluence" onText="Yes" offText="No" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} />
               </StackItem>
             </Stack>
 
@@ -144,7 +144,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
               </StackItem>
               <StackItem>
-                <TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
+                <TextField label="Confluence Page Title" style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
               </StackItem>
             </Stack>}
           </StackItem>

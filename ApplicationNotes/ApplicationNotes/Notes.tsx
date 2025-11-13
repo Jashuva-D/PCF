@@ -48,35 +48,37 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 topic: "Test",
                 topicowner: "Anuradha Inampudi",
                 modifiedby: "Anuradha Inampudi",
-                statecode: i%3 == 0 ? 3 : (i%2 == 0 ? 0 : 1)
+                statecode: i%3 == 0 ? 3 : (i%2 == 0 ? 0 : 1),
+                submittoconfluence: i%3 == 0 ? false : (i%2 == 0 ? true : false),
             })
         }
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
         this.GetFakeData();
-        var obj = this;
-        var currentrecordid = (this.props.context as any).page.entityId;
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
-            let notes = [] as any[]
-            resp.entities.forEach(x => {
-                notes.push({
-                    recordid: x.activityid,
-                    comments: x.camp_comment,
-                    createdon: new Date(x.createdon),
-                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
-                    modifiedon: new Date(x.modifiedon),
-                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-                    topicowner: x.camp_topicowner,
-                    topic: x.subject,
-                    statecode: x.statecode,
-                    interactiontype: x.camp_interactiontype
-                })
-            })
-            obj.setState({ notes: notes });
-        }).catch(function (err) {
-            console.log(err);
-        });
+        this.Refresh();
+        // var obj = this;
+        // var currentrecordid = (this.props.context as any).page.entityId;
+        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
+        //     let notes = [] as any[]
+        //     resp.entities.forEach(x => {
+        //         notes.push({
+        //             recordid: x.activityid,
+        //             comments: x.camp_comment,
+        //             createdon: new Date(x.createdon),
+        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
+        //             modifiedon: new Date(x.modifiedon),
+        //             modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
+        //             topicowner: x.camp_topicowner,
+        //             topic: x.subject,
+        //             statecode: x.statecode,
+        //             interactiontype: x.camp_interactiontype
+        //         })
+        //     })
+        //     obj.setState({ notes: notes });
+        // }).catch(function (err) {
+        //     console.log(err);
+        // });
 
     }
     onAddNoteClick() {
