@@ -2,11 +2,12 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
-import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator } from "@fluentui/react";
+import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
 import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
+
 
 interface NotesProps {
     context: ComponentFramework.Context<IInputs>,
@@ -20,6 +21,7 @@ interface NotesState {
     generateSummary?: boolean,
     summary?: string,
     enablesearch?: boolean,
+    showmessage : boolean
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -33,7 +35,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
             searchText: "",
             generateSummary: false,
             summary: "",
-            enablesearch: true
+            enablesearch: true,
+            showmessage: false
         }
     }
     GetFakeData() {
@@ -103,6 +106,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     deleteCallBack(recordid?:string) {
         var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
         this.setState({ notes: updatedNotes });
+        this.showMessage();
     }
     Refresh() {
         var obj = this;
@@ -130,6 +134,13 @@ class Notes extends React.Component<NotesProps, NotesState> {
         }).catch(function (err) {
             console.log(err);
         });
+    }
+    showMessage(){
+        var obj = this;
+        this.setState({ showmessage: true});
+        setTimeout(() => {
+            obj.setState({showmessage : false})
+        }, 5000);
     }
 
     render(): React.ReactNode {
@@ -237,6 +248,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 <StackItem>
                     <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
                 </StackItem>
+                { this.state.showmessage && <StackItem>
+                    <MessageBar  messageBarType={MessageBarType.success}>Record deleted successfully...</MessageBar>
+                </StackItem> }
                 <StackItem>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     {notes.map((x, idx) => (

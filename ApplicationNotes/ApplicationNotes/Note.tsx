@@ -150,13 +150,13 @@ class Note extends React.Component<NoteProps,NoteState> {
                     </StackItem>
                     {this.state.displayDetails && (<StackItem>
                         <Stack horizontal>
-                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span></span>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
-                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By:</span><span style={{ fontSize: 12 }}>{modifiedby}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span><span style={{ fontSize: 12 }}>{modifiedby}</span></span>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
                         </Stack>
-                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 50 } }}>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span></span>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></span>
                             <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></span>
