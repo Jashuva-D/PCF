@@ -98,7 +98,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         var obj = this;
         this.props.context.navigation.openConfirmDialog({
             title: "Confirm Submit",
-            text : "Are you sure, you want to submit to confluence ?",
+            text : "Are you sure you want to submit to confluence ?",
             confirmButtonLabel: "Submit",
             cancelButtonLabel: "Cancel"
         }).then(function(resp){
@@ -110,6 +110,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                     camp_confluencepagetitle : obj.state.confluencepagetitle
                 }
                 obj.props.context.webAPI.updateRecord("camp_applicationnotes",obj.props.recordid!,record).then(function(resp){
+                    obj.setState({enablesubmittoconfluence : false})
                     obj.props.showalert(MessageBarType.success,"Submitting to confluence is completed successfully !");
                 },function(err){
                     obj.props.showalert(MessageBarType.error,`Record update failed: ERROR: ${err.message}`);
