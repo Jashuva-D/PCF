@@ -51,7 +51,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         var obj = this;
         this.props.context.navigation.openConfirmDialog({
             title: "Confirm Delete",
-            text : "Are you sure, you want to delete the record ?",
+            text : "Do you want to delete the record? This action will permanently remove it.",
             confirmButtonLabel: "Delete",
             cancelButtonLabel: "Cancel"
         }).then(function(resp){
@@ -149,22 +149,24 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>
                     {this.state.displayDetails && (<StackItem>
-                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By:</span><span style={{ fontSize: 12 }}>{modifiedby}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span>
+                        <Stack horizontal horizontalAlign="space-between">
+                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span><span style={{ fontSize: 12 }}>{createdby}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By:</span><span style={{ fontSize: 12 }}>{modifiedby}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '')}</span></span>
                         </Stack>
-                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span>
+                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span><span style={{ fontSize: 12 }}>{this.props.topic}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></span>
                         </Stack>
-                        <Stack horizontal tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span>
-                            <span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span>
+                        <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></span>
+                            <span><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></span>
+                        </Stack>
                         </Stack>
                     </StackItem>)}
                     <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem>
