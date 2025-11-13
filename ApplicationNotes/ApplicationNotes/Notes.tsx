@@ -140,7 +140,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ showmessage: true});
         setTimeout(() => {
             obj.setState({showmessage : false})
-        }, 5000);
+        }, 10000);
     }
 
     render(): React.ReactNode {
