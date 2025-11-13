@@ -66,7 +66,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                     <TextField
                         placeholder="Summary..."
                         styles={{
-                            root: { width: "100%", padding: 10 },
+                            root: { width: "100%" },
                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", padding: 10 },
                             field: { borderRadius: 6, padding: "8px 12px" },
                         }}
