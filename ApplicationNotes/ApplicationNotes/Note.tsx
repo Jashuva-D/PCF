@@ -98,8 +98,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         var obj = this;
         this.props.context.navigation.openConfirmDialog({
             title: "Confirm Submit",
-            text : "Do you want to confluence ?",
-            confirmButtonLabel: "Delete",
+            text : "Are you sure, you want to submit to confluence ?",
+            confirmButtonLabel: "Submit",
             cancelButtonLabel: "Cancel"
         }).then(function(resp){
             if(resp.confirmed){
@@ -205,7 +205,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             
                         </Stack>
                     </StackItem>)}
-                    {this.state.enablesubmittoconfluence && <StackItem>
+                    {this.state.enablesubmittoconfluence && <StackItem style={{paddingBottom: 10}}>
                             <Stack tokens={{childrenGap : 10}}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
