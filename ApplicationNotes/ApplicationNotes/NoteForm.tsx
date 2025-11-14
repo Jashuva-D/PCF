@@ -4,6 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 import { Interactiontypes } from "./Constants";
+import Quill from "quill";
 
 
 interface NoteFormProps{
@@ -44,9 +45,17 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       confluencepagetitle : props.confluencepagetitle,
       confluencespace : props.confluencespace
     };
+    const RQ = ReactQuill.Quill;
+    const fluentChevronDown = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M8.94 12.94a1.5 1.5 0 0 1 2.224 2.007l-.103.114L7.12 19H8.5a1.5 1.5 0 0 1 .144 2.993L8.5 22h-5a1.5 1.5 0 0 1-1.493-1.356L2 20.5v-5a1.5 1.5 0 0 1 2.993-.144L5 15.5v1.379zM20.5 2a1.5 1.5 0 0 1 1.493 1.356L22 3.5v5a1.5 1.5 0 0 1-2.993.144L19 8.5V7.121l-3.94 3.94a1.5 1.5 0 0 1-2.224-2.008l.103-.114L16.88 5H15.5a1.5 1.5 0 0 1-.144-2.993L15.5 2z"/></g></svg>`;
+    const icons = RQ.import("ui/icons");
+    icons["expand"] = fluentChevronDown;
+
   }
-  modules : any = {
-    toolbar: [
+  
+
+  modules = {
+  toolbar: {
+    container: [
       [{ font: [] }],
       [{ size: ['small', false, 'large', 'huge'] }],
       ['bold', 'italic', 'underline', 'strike'],
@@ -55,9 +64,18 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       [{ list: 'ordered' }, { list: 'bullet' }],
       [{ align: [] }],
       ['link', 'image', 'video'],
-      ['clean']
+      ['clean'],
+      [{ expand: "expand", class: "expand-button" }]
     ],
-  };
+    handlers: {
+      expand: () => {
+        document.querySelector(".ql-editor")!.setAttribute(
+              "style","min-height: 500px;"
+        );
+      }
+    }
+  }
+};
 
   formats : any = [
     'font', 'size',
@@ -162,8 +180,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                         borderRadius: 6,
                         border: "1px solid #d1d1d1",
                         overflow: "hidden", 
+                        "min-height" : "200px"
                     }}
-                    rows={6}
+                    rows={8}
                 />
             </StackItem>
              <StackItem align="end">
