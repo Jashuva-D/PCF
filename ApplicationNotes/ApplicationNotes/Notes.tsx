@@ -40,7 +40,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             generateSummary: false,
             summary: "",
             enablesearch: true,
-            showalert : false,
+            showalert : false
         }
     }
     GetFakeData() {
@@ -250,7 +250,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         </StackItem>
                         
                         {this.state.newnote == true && <><br></br>
-                            <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })}></NoteForm>
+                            <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
                         </>}
                         {this.state.generateSummary == true && <><br /><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></>}
                     </Stack>

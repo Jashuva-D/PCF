@@ -23,7 +23,7 @@ interface NoteProps {
     confluencepagetitle? : string
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
-    showalert : (type: MessageBarType, message: string) => void
+    showalert : (type: MessageBarType, message: string) => void,
 }
 interface NoteState {
     editmode : boolean,
