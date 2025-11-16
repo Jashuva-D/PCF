@@ -140,7 +140,31 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         camp_confluencepagetitle : this.state.confluencepagetitle
       }
       this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, record).then(function(resp){
-          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+          var request = {
+            entity: { entityType: "camp_applicationnotes", id: obj.props.recordid! },
+            getMetadata: function () {
+              return {
+                boundParameter: "entity",
+                parameterTypes: {
+                  entity: { typeName: "mscrm.camp_applicationnotes", structuralProperty: 5 }
+                },
+                operationType: 0, operationName: "camp_PushToConfluencePage"
+              };
+            }
+          };
+
+          (obj.props.context.webAPI as any).execute(request).then(
+            function success(response : any) {
+              if (response.ok) { 
+                console.log("Success"); 
+                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+              }
+            }
+          ).catch(function (error : any) {
+              obj.props.context.navigation.openErrorDialog({
+                message: error.message
+              })
+          });
       });
     }
     else {
