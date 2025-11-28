@@ -262,7 +262,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                                 this.handleChange("");
                                 this.props.cancelCallBack && this.props.cancelCallBack();
                             }}
-                            style={{ borderRadius: 6 }}
+                            style={{ borderRadius: 6, borderColor:"#D20103" , backgroundColor: "#D20103"}}
+                            styles={{root: {color : "white"}}}
                         />
                     </StackItem>
                 </Stack>

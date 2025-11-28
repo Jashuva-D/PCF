@@ -122,13 +122,13 @@ class Note extends React.Component<NoteProps,NoteState> {
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const {editmode, content} = this.state;
-        const backgroundColor = editmode ?  "#ffffff" : "#f3f2f1" ;
+        const backgroundColor = editmode ?  "#ffffff" : "rgba(252, 252, 252, 1)";
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
-                                    <Label style = { {color : "#0078D4"}}>{createdby}</Label>
+                                    <Label style = { {color : "#0078D4", fontSize: "15px"}}>{createdby}</Label>
                                     {/* <Label style = {{color : statecode == 0 ? "green" : statecode == 1 ? "black" : statecode == 2 ? "red" : "yellow"}}>{ActivityStateCode[statecode]}</Label> */}
                                     <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title="View Details" iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
