@@ -215,7 +215,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               </StackItem>
             </Stack>
 
-            {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}}>
+            {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>
                 <TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
               </StackItem>
