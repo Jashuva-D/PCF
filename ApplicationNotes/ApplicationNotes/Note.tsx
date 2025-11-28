@@ -189,21 +189,21 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <table>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{createdby ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdby ?? ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{modifiedby ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedby ?? ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
                                         </tr>
                                     </table>
                                 </Stack>
@@ -211,21 +211,21 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <table>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.topic}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topic}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></td>
                                         </tr>
                                     </table>
                                 </Stack>
@@ -233,17 +233,17 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
                                 <Stack horizontal tokens={{childrenGap: 10}}>
                                     <table>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span></td>
+                                            <td style={{padding : 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span></td>
-                                            <td><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></td>
+                                        <tr style={{padding: 5}}>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span></td>
+                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></td>
                                         </tr>
                                     </table>
                                 </Stack>
