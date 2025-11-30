@@ -121,8 +121,9 @@ class Note extends React.Component<NoteProps,NoteState> {
     }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
-        const {editmode, content} = this.state;
-        const backgroundColor = editmode ?  "#ffffff" : "rgb(249,249,249,1)";
+        const content = this.state.editmode ? this.state.content : this.props.comment;
+        const {editmode} = this.state;
+        const backgroundColor = editmode ?  "#ffffff" : "rgb(248,247,246,1)";
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
