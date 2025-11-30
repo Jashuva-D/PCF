@@ -122,7 +122,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const {editmode, content} = this.state;
-        const backgroundColor = editmode ?  "#ffffff" : "rgba(252, 252, 252, 1)";
+        const backgroundColor = editmode ?  "#ffffff" : "rgb(249,249,249,1)";
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
@@ -131,7 +131,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Label style = { {color : "#0078D4", fontSize: "15px"}}>{createdby}</Label>
                                     {/* <Label style = {{color : statecode == 0 ? "green" : statecode == 1 ? "black" : statecode == 2 ? "red" : "yellow"}}>{ActivityStateCode[statecode]}</Label> */}
                                     <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
-                                    <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title="View Details" iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
+                                    <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title={this.state.displayDetails ? "Close Details" : "View Details"} iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
                                 
                             </StackItem>
@@ -190,19 +190,23 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <table>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdby ?? ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedby ?? ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
                                         </tr>
                                     </table>
@@ -212,19 +216,23 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <table>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topic}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></td>
                                         </tr>
                                     </table>
@@ -234,15 +242,18 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 <Stack horizontal tokens={{childrenGap: 10}}>
                                     <table>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding : 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></td>
                                         </tr>
                                         <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title: </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title </span></td>
+                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
                                             <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></td>
                                         </tr>
                                     </table>
@@ -258,8 +269,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <StackItem><TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/></StackItem>
                                 </Stack>
                                 <Stack horizontal style={{alignItems : "end"}} tokens={{childrenGap: 10}}>
-                                    <PrimaryButton text="Submit" style={{borderRadius : 6}} onClick={this.onSubmitToConfluence.bind(this)}/>
-                                    <DefaultButton text="Cancel" style={{borderRadius : 6}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/>
+                                    <PrimaryButton text="Submit" style={{borderRadius : 6}} styles={{rootHovered: { color: "black"}}} onClick={this.onSubmitToConfluence.bind(this)}/>
+                                    <DefaultButton text="Cancel" style={{borderRadius : 6, borderColor:"#D20103" , backgroundColor: "#D20103"}} styles={{root: {color : "white"}}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/>
                                 </Stack>
                             </Stack>
                         </StackItem>

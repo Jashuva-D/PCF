@@ -253,6 +253,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
                             style={{ borderRadius: 6 }}
+                            styles={{rootHovered: {color : "black"}}}
                         />
                     </StackItem>
                     <StackItem>
