@@ -15,6 +15,11 @@ export class ApplicationNotes implements ComponentFramework.StandardControl<IInp
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement
     ): void {
+
+        // Set the container background color and remove padding
+        container.style.backgroundColor = "rgb(243, 243, 243)";
+        container.style.padding = "0";
+
         this._container = container;
     }
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle } from "@fluentui/react";
+import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 import { Interactiontypes } from "./Constants";
 import Quill from "quill";
@@ -196,7 +196,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   render() {
     
     return (<>
-        <Stack tokens = {{ childrenGap: 15 }} styles={{ root: { width: "100%" } }}>
+        <Stack tokens = {{ childrenGap: 15 }} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: "#ffffff"}}}>
+          <StackItem><Text variant="xxLarge">Add Note</Text></StackItem>
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
               <StackItem>
@@ -218,11 +219,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   }}
                 />
               </StackItem>
-              <StackItem>
-                <Toggle label="Submit to Confluence" onText="Yes" offText="No" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} />
-              </StackItem>
             </Stack>
-
             {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>
                 <TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
@@ -234,8 +231,12 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <TextField label="Confluence Page Title" style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
               </StackItem>
             </Stack>}
+            <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
+                <StackItem>
+                    <Toggle inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} styles={{label: {order: 1}, container: {display: 'flex', flexDirection: 'row-reverse'}}} />
+                </StackItem>
+            </Stack>
           </StackItem>
-            
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <Label>Comments</Label>
                 <ReactQuill

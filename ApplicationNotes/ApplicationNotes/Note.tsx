@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import {ActivityStateCode, Interactiontypes} from "./Constants";
@@ -123,7 +123,9 @@ class Note extends React.Component<NoteProps,NoteState> {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const content = this.state.editmode ? this.state.content : this.props.comment;
         const {editmode} = this.state;
-        const backgroundColor = editmode ?  "#ffffff" : "rgb(248,247,246,1)";
+        const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
+        var buttons = [{key: "edit", text: "", iconProps:{iconName: "Edit"}, styles: { icon : { fontSize: 10}}}, {key: "delete", text: "", iconProps:{iconName: "Delete"}, styles: { icon : { fontSize: 10}}} ] as ICommandBarItemProps[];
+        var overflowbuttons = [{key: "expanddetails", text: "Expand Details", iconProps:{iconName: "ChevronUnfold10", }},{key: "pushtoconfluence", text: "Push to Confluence", iconProps:{iconName: "Upload"}} ] as ICommandBarItemProps[];
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
@@ -139,6 +141,18 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
                                     <StackItem>
+                                        <Text style={{padding: 40}}>{`${(createdon as Date).toLocaleDateString("en-US")} ${(createdon as Date).toLocaleTimeString("en-US",{hour : "2-digit", minute: "2-digit", hour12: true}).toUpperCase()}`}</Text>
+                                    </StackItem>
+                                    <CommandBar
+                                        items={buttons}
+                                        overflowItems={overflowbuttons}
+                                        overflowButtonProps={{
+                                            menuIconProps: {
+                                                iconName: "MoreVertical" 
+                                            }
+                                        }}
+                                    />
+                                    {/* <StackItem>
                                         <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence" 
                                             styles={{
                                                 root: {
@@ -177,10 +191,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                                                 },
                                             }}}>
                                         </Icon>
-                                    </StackItem>
-                                    <StackItem>
-                                        <Text style={{padding: 10}}>Posted: {(createdon as Date).toLocaleDateString("en-US")}</Text>
-                                    </StackItem>
+                                    </StackItem> */}
+                                    
                                 </Stack>
                             </StackItem>
                         </Stack>
