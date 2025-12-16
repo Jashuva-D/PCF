@@ -157,7 +157,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
-            <Stack tokens={{ childrenGap: 10 }}>
+            <Stack tokens={{ childrenGap: 10 }} style={{padding: 20}}>
                 <StackItem>
                     <Stack tokens={{ childrenGap: 5 }}>
                         <StackItem>

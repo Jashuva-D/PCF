@@ -197,14 +197,14 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     
     return (<>
         <Stack tokens = {{ childrenGap: 15 }} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: "#ffffff"}}}>
-          <StackItem><Text variant="xxLarge">Add Note</Text></StackItem>
+          <StackItem><Text variant="xLarge">Add Note</Text></StackItem>
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
               <StackItem>
-                <TextField label="Topic" value={this.state.topic} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
+                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem>
-                <TextField label="Topic Owner" value={this.state.topicowner} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
+                <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
               </StackItem>
               <StackItem>
                 <Dropdown 
@@ -215,20 +215,22 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   selectedKey={this.state.interactiontype}
                   styles={{
                     root: {width: 200},
-                    dropdown: {width: 200}
+                    dropdown: {width: 200, borderRadius: 10},
+                    callout: {borderRadius: 5},
+                    title: {borderRadius: 5}
                   }}
                 />
               </StackItem>
             </Stack>
             {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>
-                <TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
               </StackItem>
               <StackItem>
-                <TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
+                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
               </StackItem>
               <StackItem>
-                <TextField label="Confluence Page Title" style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
+                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
               </StackItem>
             </Stack>}
             <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
