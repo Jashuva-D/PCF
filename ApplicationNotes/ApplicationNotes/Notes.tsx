@@ -157,7 +157,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
-            <Stack style={{ padding: 25 }}>
+            <Stack style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24 }}>
                 <StackItem>
                     <Stack tokens={{ childrenGap: 5 }}>
                         <StackItem>
@@ -250,24 +250,23 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             </Stack>
                         </StackItem>
                         
-                        {this.state.newnote == true && <><br></br>
-                            <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
-                        </>}
-                        {this.state.generateSummary == true && <><br /><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></>}
+                        { this.state.showalert && <StackItem>
+                            <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
+                        </StackItem> }
+                        {this.state.generateSummary == true && <StackItem><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></StackItem>}
                     </Stack>
                 </StackItem>
             </Stack>
-            <Stack tokens={{ childrenGap: 10 }} style={{padding: 20, backgroundColor: "rgb(243,243,243)"}}>
-                {/* <StackItem>
-                    <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
-                </StackItem> */}
-                { this.state.showalert && <StackItem>
-                    <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
-                </StackItem> }
+            <Stack tokens={{ childrenGap: 10 }} style={{padding: 24, backgroundColor: "rgb(243,243,243)"}}>
+                
+                {this.state.newnote == true && <StackItem>
+                    <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
+                </StackItem>}
                 <StackItem styles={{root: { backgroundColor: "rgb(243, 243, 243)" }}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
+                    <Stack tokens={{childrenGap: 24}}>
                     {notes.map((x, idx) => (
-                        <Note
+                        <StackItem><Note
                             key={x.recordid}
                             context={this.props.context}
                             recordid={x.recordid}
@@ -288,7 +287,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             refresh = {this.Refresh.bind(this)}
                             showalert = {this.showAlertMessage.bind(this)}
                         />
-                    ))} 
+                        </StackItem>
+                    ))}
+                    </Stack>
+                     
                 </StackItem>
             </Stack>
         </div>

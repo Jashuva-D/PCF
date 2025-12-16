@@ -124,10 +124,10 @@ class Note extends React.Component<NoteProps,NoteState> {
         const content = this.state.editmode ? this.state.content : this.props.comment;
         const {editmode} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
-        
+
         var buttons = [
-            {key: "edit", text: "", iconProps:{iconName: "Edit"}, styles: { icon : { fontSize: 10}}, onClick: this.onEditClick.bind(this)}, 
-            {key: "delete", text: "", iconProps:{iconName: "Delete"}, styles: { icon : { fontSize: 10}, onClick: this.onDeleteClick.bind(this)}} 
+            {key: "edit", text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10}, 
+            {key: "delete", text: "Delete", iconOnly:true, iconProps:{iconName: "Delete"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onDeleteClick.bind(this)} 
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
@@ -136,29 +136,31 @@ class Note extends React.Component<NoteProps,NoteState> {
         else overflowbuttons.push({key: "collapsedetails", text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         overflowbuttons.push({key: "pushtoconfluence", text: "Push to Confluence", iconProps:{iconName: "Upload"}, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}}); 
         
-        return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
+        return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
-                            <StackItem>
+                            {/* <StackItem>
                                 <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
                                     <Label style = { {color : "#0078D4", fontSize: "15px"}}>{createdby}</Label>
-                                    {/* <Label style = {{color : statecode == 0 ? "green" : statecode == 1 ? "black" : statecode == 2 ? "red" : "yellow"}}>{ActivityStateCode[statecode]}</Label> */}
                                     <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title={this.state.displayDetails ? "Close Details" : "View Details"} iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
-                                
+                            </StackItem> */}
+                            <StackItem style={{paddingTop: 16, paddingLeft: 5}}  >
+                                <span  style={{ padding: "6px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                    {ActivityStateCode[statecode]}
+                                </span>
                             </StackItem>
                             <StackItem>
-                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
-                                    <StackItem>
-                                        <Text style={{padding: 40}}>{`${(createdon as Date).toLocaleDateString("en-US")} ${(createdon as Date).toLocaleTimeString("en-US",{hour : "2-digit", minute: "2-digit", hour12: true}).toUpperCase()}`}</Text>
-                                    </StackItem>
+                                <Stack horizontal>
+                                    <Text style={{paddingTop: 12}}>{`${(createdon as Date).toLocaleDateString("en-US")} ${(createdon as Date).toLocaleTimeString("en-US",{hour : "2-digit", minute: "2-digit", hour12: true}).toUpperCase()}`}</Text>
                                     <CommandBar
                                         items={buttons}
                                         overflowItems={overflowbuttons}
                                         overflowButtonProps={{
                                             menuIconProps: {
-                                                iconName: "MoreVertical" 
+                                                iconName: "MoreVertical",
+                                                style: { fontSize: 15   }
                                             }
                                         }}
                                     />
