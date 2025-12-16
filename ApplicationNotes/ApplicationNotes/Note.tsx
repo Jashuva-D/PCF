@@ -124,8 +124,18 @@ class Note extends React.Component<NoteProps,NoteState> {
         const content = this.state.editmode ? this.state.content : this.props.comment;
         const {editmode} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
-        var buttons = [{key: "edit", text: "", iconProps:{iconName: "Edit"}, styles: { icon : { fontSize: 10}}}, {key: "delete", text: "", iconProps:{iconName: "Delete"}, styles: { icon : { fontSize: 10}}} ] as ICommandBarItemProps[];
-        var overflowbuttons = [{key: "expanddetails", text: "Expand Details", iconProps:{iconName: "ChevronUnfold10", }},{key: "pushtoconfluence", text: "Push to Confluence", iconProps:{iconName: "Upload"}} ] as ICommandBarItemProps[];
+        
+        var buttons = [
+            {key: "edit", text: "", iconProps:{iconName: "Edit"}, styles: { icon : { fontSize: 10}}, onClick: this.onEditClick.bind(this)}, 
+            {key: "delete", text: "", iconProps:{iconName: "Delete"}, styles: { icon : { fontSize: 10}, onClick: this.onDeleteClick.bind(this)}} 
+        ] as ICommandBarItemProps[];
+
+        var overflowbuttons = [] as ICommandBarItemProps[];
+        if(!this.state.displayDetails)
+            overflowbuttons.push({key: "expanddetails", text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        else overflowbuttons.push({key: "collapsedetails", text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        overflowbuttons.push({key: "pushtoconfluence", text: "Push to Confluence", iconProps:{iconName: "Upload"}, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}}); 
+        
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, marginBottom: 10, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">

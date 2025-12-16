@@ -157,7 +157,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
-            <Stack tokens={{ childrenGap: 10 }} style={{padding: 20}}>
+            <Stack style={{ padding: 25 }}>
                 <StackItem>
                     <Stack tokens={{ childrenGap: 5 }}>
                         <StackItem>
@@ -256,13 +256,15 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         {this.state.generateSummary == true && <><br /><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></>}
                     </Stack>
                 </StackItem>
-                <StackItem>
+            </Stack>
+            <Stack tokens={{ childrenGap: 10 }} style={{padding: 20, backgroundColor: "rgb(243,243,243)"}}>
+                {/* <StackItem>
                     <hr style={{ border: "1px solid #ddd", margin: "10px 0" }} />
-                </StackItem>
+                </StackItem> */}
                 { this.state.showalert && <StackItem>
                     <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
                 </StackItem> }
-                <StackItem>
+                <StackItem styles={{root: { backgroundColor: "rgb(243, 243, 243)" }}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     {notes.map((x, idx) => (
                         <Note

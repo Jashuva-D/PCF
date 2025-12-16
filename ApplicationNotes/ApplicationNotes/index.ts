@@ -17,7 +17,7 @@ export class ApplicationNotes implements ComponentFramework.StandardControl<IInp
     ): void {
 
         // Set the container background color and remove padding
-        container.style.backgroundColor = "rgb(243, 243, 243)";
+        //container.style.backgroundColor = "rgb(243, 243, 243)";
         container.style.padding = "0";
 
         this._container = container;
