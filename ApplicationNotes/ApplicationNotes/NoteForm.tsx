@@ -1,7 +1,7 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text } from "@fluentui/react";
+import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text, IToggleStyleProps } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 import { Interactiontypes } from "./Constants";
 import Quill from "quill";
@@ -234,7 +234,14 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             </Stack>}
             <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
                 <StackItem>
-                    <Toggle inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} styles={{label: {order: 1}, container: {display: 'flex', flexDirection: 'row-reverse'}}} />
+                    <Toggle color="#0D2499" inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
+                    styles={{
+                      label: {order: 1}, 
+                      thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499"}, 
+                      container: {display: 'flex', flexDirection: 'row-reverse'},
+                      pill: {backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff"},
+                    }}
+                     />
                 </StackItem>
             </Stack>
           </StackItem>
@@ -259,11 +266,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
              <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
                     <StackItem>
-                        <PrimaryButton
+                        <DefaultButton
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
-                            style={{ borderRadius: 6 }}
-                            styles={{rootHovered: {color : "black"}}}
+                            style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
                         />
                     </StackItem>
                     <StackItem>
@@ -273,8 +279,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                                 this.handleChange("");
                                 this.props.cancelCallBack && this.props.cancelCallBack();
                             }}
-                            style={{ borderRadius: 6, borderColor:"#D20103" , backgroundColor: "#D20103"}}
-                            styles={{root: {color : "white"}}}
+                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
                         />
                     </StackItem>
                 </Stack>

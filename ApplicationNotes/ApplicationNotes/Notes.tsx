@@ -123,6 +123,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     comments: x.camp_comment,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
+                    createdbyid: x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
                     topic: x.subject,
@@ -183,7 +184,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         styles={{
                                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
                                             field: { borderRadius: 6 },
-                                            prefix: { background: "#0078D4" },
+                                            prefix: { background: "#0D2499" },
                                             suffix: { background: "transparent" },
                                         }}
                                         onRenderPrefix={() => (
@@ -240,10 +241,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                 <StackItem align="end">
                                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                                         <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{ borderRadius: 6 }}></PrimaryButton>
+                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499" }}></PrimaryButton>
                                         </StackItem>
                                         <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "Robot" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6 }}></PrimaryButton>
+                                            <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499" }}></PrimaryButton>
                                         </StackItem>
                                     </Stack>
                                 </StackItem>
@@ -274,6 +275,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             modifiedon={x.modifiedon}
                             modifiedby={x.modifiedby}
                             createdby={x.createdby}
+                            createdbyid={x.createdbyid}
                             comment={x.comments}
                             topicowner={x.topicowner}
                             topic={x.topic}

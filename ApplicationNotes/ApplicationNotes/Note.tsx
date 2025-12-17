@@ -1,9 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar } from "@fluentui/react";
+import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar, Persona, PersonaSize } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import {ActivityStateCode, Interactiontypes} from "./Constants";
+import { create } from "domain";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -11,6 +12,7 @@ interface NoteProps {
     comment?: string,
     createdon: Date,
     createdby: string,
+    createdbyid?: string,
     modifiedon?: Date,
     modifiedby?: string,
     topicowner? : string,
@@ -146,10 +148,23 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title={this.state.displayDetails ? "Close Details" : "View Details"} iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
                             </StackItem> */}
-                            <StackItem style={{paddingTop: 16, paddingLeft: 5}}  >
-                                <span  style={{ padding: "6px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
-                                    {ActivityStateCode[statecode]}
-                                </span>
+                            <StackItem style={{paddingTop: 8, paddingLeft: 5}}  >
+                                <Persona
+                                    imageUrl={"/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id="+ this.props.createdbyid}
+                                    size={PersonaSize.size40}
+                                    hidePersonaDetails={false}
+                                    text={createdby}
+                                    onRenderSecondaryText={() => 
+                                        <span  style={{ alignContent: "start", padding: "2px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                            {ActivityStateCode[statecode]} 
+                                        </span>
+                                    }
+                                    />
+                                {/* { <span  style={{ alignContent: "start", padding: "2px", height: "48px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                    {ActivityStateCode[statecode]} 
+                                </span> */ }
+                                
+                                    
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal>
@@ -300,7 +315,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack>
                         </StackItem>
                     }
-                    <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem>
+                     {/* <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem> */}
                     <StackItem>
                         {this.state.editmode && <NoteForm
                             context={this.props.context}
@@ -316,12 +331,15 @@ class Note extends React.Component<NoteProps,NoteState> {
                             confluencepagetitle={this.props.confluencepagetitle}
                             confluencespace={this.props.confluencespace}
                         />}
-                        { !this.state.editmode && <Comment 
-                            context={this.props.context} 
-                            text={ content ?? ""} 
-                            recordid={this.props.recordid} 
-                            editmode={editmode}
-                        />}
+                        { !this.state.editmode && <>
+                            
+                            <Comment 
+                                context={this.props.context} 
+                                text={ content ?? ""} 
+                                recordid={this.props.recordid} 
+                                editmode={editmode}
+                            />
+                        </>}
                     </StackItem>
                 </Stack>
     }
