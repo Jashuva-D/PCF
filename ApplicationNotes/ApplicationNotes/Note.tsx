@@ -224,9 +224,60 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.displayDetails && (<StackItem>
-                        <Stack horizontal>
-                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
+                    {this.state.displayDetails && (<StackItem style={{marginTop: 20}}>
+                        <Stack horizontal tokens={{childrenGap: 100}}>
+                            <Stack tokens={{childrenGap: 20}}>
+                                <StackItem>
+                                    <Label>Posted By</Label>
+                                    <Text>{createdby ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Posted On</Label>
+                                    <Text>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Updated By</Label>
+                                    <Text>{modifiedby ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Updated On</Label>
+                                    <Text>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
+                                </StackItem>
+                            </Stack>
+                            <Stack tokens={{childrenGap: 20}}>
+                                <StackItem>
+                                    <Label>Topic</Label>
+                                    <Text>{this.props.topic ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Topic Owner</Label>
+                                    <Text>{this.props.topicowner ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Interaction Type</Label>
+                                    <Text>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Submitted to Confluence</Label>
+                                    <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
+                                </StackItem>
+                            </Stack>
+                            <Stack tokens={{childrenGap: 20}}>
+                                <StackItem>
+                                    <Label>Confluence Page ID</Label>
+                                    <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Confluence Space</Label>
+                                    <Text>{this.props.confluencespace ?? "\u00A0"}</Text>
+                                </StackItem>
+                                <StackItem>
+                                    <Label>Confluence Page Title</Label>
+                                    <Text>{this.props.confluencepagetitle ?? "\u00A0"}</Text>
+                                </StackItem>
+                            </Stack>
+
+                            {/* <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <table>
                                         <tr style={{padding: 5}}>
@@ -298,7 +349,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         </tr>
                                     </table>
                                 </Stack>
-                            </Stack>
+                            </Stack> */}
                         </Stack>
                     </StackItem>)}
                     {this.state.enablesubmittoconfluence && <StackItem style={{paddingBottom: 10}}>

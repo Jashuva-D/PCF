@@ -165,7 +165,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="space-between">
                                 <StackItem style={{ width: "min(400px, 50vw)" }}>
                                     <TextField
-                                        style={{ borderRadius: "10" }}
+                                        style={{ borderRadius: "10", height: 32 }}
                                         value={this.state.searchText || ""}
                                         placeholder="Search Notes..."
                                         onChange={(e, newValue) => {
@@ -182,8 +182,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                             }
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" },
-                                            field: { borderRadius: 6 },
+                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 44},
+                                            field: { borderRadius: 6, height : 44, fontSize: 18, paddingTop: 10 },
                                             prefix: { background: "#0D2499" },
                                             suffix: { background: "transparent" },
                                         }}
@@ -241,10 +241,33 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                 <StackItem align="end">
                                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                                         <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499" }}></PrimaryButton>
+                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} 
+                                                style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
+                                                styles={ { 
+                                                    root: {
+                                                        height: 44,
+                                                        padding: "0 20px",
+                                                    },
+                                                    label: {
+                                                        fontSize: 14,
+                                                        lineHeight: 44,
+                                                    },
+                                                }} />
                                         </StackItem>
                                         <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499" }}></PrimaryButton>
+                                            <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
+                                                style={{ borderRadius: 6, backgroundColor: "#0D2499" }}
+                                                styles={ { 
+                                                    root: {
+                                                        height: 44,
+                                                        padding: "0 20px",
+                                                    },
+                                                    label: {
+                                                        fontSize: 14,
+                                                        lineHeight: 44,
+                                                    },
+                                                }}
+                                            />
                                         </StackItem>
                                     </Stack>
                                 </StackItem>

@@ -235,12 +235,12 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
                 <StackItem>
                     <Toggle color="#0D2499" inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
-                    styles={{
-                      label: {order: 1}, 
-                      thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499"}, 
-                      container: {display: 'flex', flexDirection: 'row-reverse'},
-                      pill: {backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff"},
-                    }}
+                        styles={{
+                          label: {order: 1}, 
+                          thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499"}, 
+                          container: {display: 'flex', flexDirection: 'row-reverse'},
+                          pill: {backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff"},
+                        }}
                      />
                 </StackItem>
             </Stack>
