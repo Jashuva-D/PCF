@@ -228,51 +228,51 @@ class Note extends React.Component<NoteProps,NoteState> {
                         <Stack horizontal tokens={{childrenGap: 100}}>
                             <Stack tokens={{childrenGap: 20}}>
                                 <StackItem>
-                                    <Label>Posted By</Label>
+                                    <Label style={{color: "#808080"}}>Posted By</Label>
                                     <Text>{createdby ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Posted On</Label>
+                                    <Label style={{color: "#808080"}}>Posted On</Label>
                                     <Text>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Updated By</Label>
+                                    <Label style={{color: "#808080"}}>Updated By</Label>
                                     <Text>{modifiedby ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Updated On</Label>
+                                    <Label style={{color: "#808080"}}>Updated On</Label>
                                     <Text>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
                                 </StackItem>
                             </Stack>
                             <Stack tokens={{childrenGap: 20}}>
                                 <StackItem>
-                                    <Label>Topic</Label>
+                                    <Label style={{color: "#808080"}}>Topic</Label>
                                     <Text>{this.props.topic ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Topic Owner</Label>
+                                    <Label style={{color: "#808080"}}>Topic Owner</Label>
                                     <Text>{this.props.topicowner ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Interaction Type</Label>
+                                    <Label style={{color: "#808080"}}>Interaction Type</Label>
                                     <Text>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Submitted to Confluence</Label>
+                                    <Label style={{color: "#808080"}}>Submitted to Confluence</Label>
                                     <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
                                 </StackItem>
                             </Stack>
                             <Stack tokens={{childrenGap: 20}}>
                                 <StackItem>
-                                    <Label>Confluence Page ID</Label>
+                                    <Label style={{color: "#808080"}}>Confluence Page ID</Label>
                                     <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Confluence Space</Label>
+                                    <Label style={{color: "#808080"}}>Confluence Space</Label>
                                     <Text>{this.props.confluencespace ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label>Confluence Page Title</Label>
+                                    <Label style={{color: "#808080"}}>Confluence Page Title</Label>
                                     <Text>{this.props.confluencepagetitle ?? "\u00A0"}</Text>
                                 </StackItem>
                             </Stack>
@@ -367,7 +367,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </StackItem>
                     }
                      {/* <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem> */}
-                    <StackItem>
+                    <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
                             context={this.props.context}
                             recordid={this.props.recordid}
@@ -383,7 +383,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                             confluencespace={this.props.confluencespace}
                         />}
                         { !this.state.editmode && <>
-                            
                             <Comment 
                                 context={this.props.context} 
                                 text={ content ?? ""} 
