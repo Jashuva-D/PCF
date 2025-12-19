@@ -8,6 +8,7 @@ import CommentWithScreenshot from "./ComponentWithScreenshot";
 import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
 import TestComponent from "./TestComponent";
+import { ClockIcon } from "./icons";
 
 
 interface NotesProps {
@@ -182,13 +183,16 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                             }
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 44},
-                                            field: { borderRadius: 6, height : 44, fontSize: 18, paddingTop: 10 },
+                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 36},
+                                            field: { borderRadius: 6, height : 36, fontSize: 15, padding: 8 },
                                             prefix: { background: "#0D2499" },
                                             suffix: { background: "transparent" },
                                         }}
                                         onRenderPrefix={() => (
-                                            <IconButton
+                                            
+
+                                             <ClockIcon size={24} color="white"/>
+                                            /* <IconButton
                                                 iconProps={{ iconName: "Search" }}
                                                 ariaLabel="Search"
                                                 styles={{
@@ -225,7 +229,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 onMouseDown={(e) => {
                                                     e.preventDefault();
                                                 }}
-                                            />
+                                            /> */
+                                            
                                         )}
                                         onRenderSuffix={() =>
                                             this.state.searchText != "" ? (
@@ -245,12 +250,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
                                                 styles={ { 
                                                     root: {
-                                                        height: 44,
+                                                        height: 36,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
-                                                        fontSize: 14,
-                                                        lineHeight: 44,
+                                                        fontSize: 15,
+                                                        lineHeight: 36,
                                                     },
                                                 }} />
                                         </StackItem>
@@ -259,12 +264,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 style={{ borderRadius: 6, backgroundColor: "#0D2499" }}
                                                 styles={ { 
                                                     root: {
-                                                        height: 44,
+                                                        height: 36,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
-                                                        fontSize: 14,
-                                                        lineHeight: 44,
+                                                        fontSize: 15,
+                                                        lineHeight: 36,
                                                     },
                                                 }}
                                             />
