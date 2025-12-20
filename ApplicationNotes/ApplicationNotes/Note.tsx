@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar, Persona, PersonaSize } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import {ActivityStateCode, Interactiontypes} from "./Constants";
+import {ActivityStateCode, CMSAlertType, Interactiontypes} from "./Constants";
 import { create } from "domain";
 import CMSDialog from "./CMSDialog";
 
@@ -26,7 +26,7 @@ interface NoteProps {
     confluencepagetitle? : string
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
-    showalert : (type: MessageBarType, message: string) => void,
+    showalert : (type: CMSAlertType, message: string) => void,
 }
 interface NoteState {
     editmode : boolean,
@@ -129,9 +129,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                 }
                 obj.props.context.webAPI.updateRecord("camp_applicationnotes",obj.props.recordid!,record).then(function(resp){
                     obj.setState({enablesubmittoconfluence : false})
-                    obj.props.showalert(MessageBarType.success,"Submitting to confluence is completed successfully !");
+                    obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
                 },function(err){
-                    obj.props.showalert(MessageBarType.error,`Record update failed: ERROR: ${err.message}`);
+                    obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
                 });
             }
         })
@@ -188,11 +188,11 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     hidePersonaDetails={false}
                                     text={createdby}
                                     onRenderSecondaryText={() => 
-                                        <span  style={{ alignContent: "start", padding: "2px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                        <div  style={{ alignContent: "start", padding: 6, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                             {ActivityStateCode[statecode]} 
-                                        </span>
+                                        </div>
                                     }
-                                    />
+                                />
                                 {/* { <span  style={{ alignContent: "start", padding: "2px", height: "48px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                     {ActivityStateCode[statecode]} 
                                 </span> */ }
@@ -427,7 +427,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                     <CMSDialog 
                         isOpen={this.state.showDialog!} 
                         title={this.state.dialogTitle}
-                        subText={this.state.dialogSubtext} 
+                        subText={this.state.dialogSubtext}
+                        confirmButtonText={this.state.dialogConfirmButtonLabel}
+                        cancelButtonText={this.state.dialogCancelButtonLabel}
                         onDismiss={() => {
                             this.setState({showDialog: false});
                             this.state.dialogDismissCallback && this.state.dialogDismissCallback();

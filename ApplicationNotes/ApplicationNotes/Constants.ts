@@ -13,3 +13,10 @@ export const Interactiontypes = [
     {key: 5, text: "Technical Deep Dive"},
     {key: 6, text: "Other"}
 ]
+
+export enum CMSAlertType {
+    Success = "success",
+    Info = "info",
+    Warning = "warning",
+    Error = "error"
+}

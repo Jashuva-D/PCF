@@ -10,6 +10,8 @@ import GenerateSummary from "./GenerateSummary";
 import TestComponent from "./TestComponent";
 import { ClockIcon, SearchIcon } from "./icons";
 import CMSDialog from "./CMSDialog";
+import CMSAlert from "./CMSAlert";
+import { CMSAlertType } from "./Constants";
 
 
 interface NotesProps {
@@ -26,7 +28,7 @@ interface NotesState {
     enablesearch?: boolean,
     showalert : boolean,
     alert? : {
-        messagetype : MessageBarType,
+        messagetype : CMSAlertType,
         message : string
     }
     showDialog?: boolean,
@@ -120,7 +122,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     deleteCallBack(recordid?:string) {
         var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
         this.setState({ notes: updatedNotes });
-        this.showAlertMessage(MessageBarType.success, "Record deleted successfully");
+        this.showAlertMessage(CMSAlertType.Success, "Record deleted successfully");
     }
     Refresh() {
         var obj = this;
@@ -150,7 +152,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             console.log(err);
         });
     }
-    showAlertMessage(messagetype: MessageBarType, message: string){
+    showAlertMessage(messagetype: CMSAlertType, message: string){
         var obj = this;
         this.setState({ 
             showalert: true, 
@@ -169,7 +171,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         return <div>
             <Stack style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24 }}>
                 <StackItem>
-                    <Stack tokens={{ childrenGap: 5 }}>
+                    <Stack tokens={{ childrenGap: 20 }}>
                         <StackItem>
                             <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="space-between">
                                 <StackItem grow>
@@ -285,11 +287,17 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             </Stack>
                         </StackItem>
                         
-                        { this.state.showalert && <StackItem>
+                        {/* { this.state.showalert && <StackItem>
                             <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
+                        </StackItem> } */}
+                        { this.state.showalert && <StackItem>
+                            <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />
                         </StackItem> }
                         {this.state.generateSummary == true && <StackItem><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></StackItem>}
                     </Stack>
+                </StackItem>
+                <StackItem>
+                    
                 </StackItem>
             </Stack>
             <Stack tokens={{ childrenGap: 10 }} style={{padding: 24, backgroundColor: "rgb(243,243,243)"}}>
@@ -297,7 +305,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 {this.state.newnote == true && <StackItem>
                     <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
                 </StackItem>}
-                <StackItem styles={{root: { backgroundColor: "rgb(243, 243, 243)" }}}>
+                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 400, backgroundColor: "rgb(243, 243, 243)"}}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     <Stack tokens={{childrenGap: 24}}>
                     {notes.map((x, idx) => (
@@ -330,7 +338,11 @@ class Notes extends React.Component<NotesProps, NotesState> {
             </Stack>
             <PrimaryButton text="Open Dialog" onClick={() => 
                 this.setState({
-                    showDialog: true,
+                    showalert: true,
+                    alert: {
+                        messagetype: CMSAlertType.Success,
+                        message: "This is a sample alert message from Notes component."
+                    },
                     dialogConfirmCallback: () => {
                         console.log("Confirm clicked");    
                     },
