@@ -5,6 +5,7 @@ import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import {ActivityStateCode, Interactiontypes} from "./Constants";
 import { create } from "domain";
+import CMSDialog from "./CMSDialog";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -37,7 +38,15 @@ interface NoteState {
     confluencepageid? : string,
     confluencespace? : string,
     confluencepagetitle? : string,
-    enablesubmittoconfluence : boolean
+    enablesubmittoconfluence : boolean,
+    showDialog?: boolean,
+    dialogTitle?: string,
+    dialogSubtext?: string,
+    dialogConfirmButtonLabel? : string,
+    dialogCancelButtonLabel? : string,
+    dialogConfirmCallback?: () => void,
+    dialogCancelCallback?: () => void,
+    dialogDismissCallback?: () => void,
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -60,22 +69,29 @@ class Note extends React.Component<NoteProps,NoteState> {
     }
     onDeleteClick(){
         var obj = this;
-        this.props.context.navigation.openConfirmDialog({
-            title: "Confirm Delete",
-            text : "Do you want to delete the record? This action will permanently remove it.",
-            confirmButtonLabel: "Delete",
-            cancelButtonLabel: "Cancel"
-        }).then(function(resp){
-            if(resp.confirmed){
-                if(obj.props.recordid && obj.props.recordid !== "") {
-                        obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
-                        obj.props.deleteCallBack(obj.props.recordid);
-                    },function(err){
-                        obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
-                    });
-                };
-            }
-        })
+        // this.props.context.navigation.openConfirmDialog({
+        //     title: "Confirm Delete",
+        //     text : "Do you want to delete the record? This action will permanently remove it.",
+        //     confirmButtonLabel: "Delete",
+        //     cancelButtonLabel: "Cancel"
+        // }).then(function(resp){
+        //     if(resp.confirmed){
+        //         if(obj.props.recordid && obj.props.recordid !== "") {
+        //                 obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
+        //                 obj.props.deleteCallBack(obj.props.recordid);
+        //             },function(err){
+        //                 obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
+        //             });
+        //         };
+        //     }
+        // })
+        if(obj.props.recordid && obj.props.recordid !== "") {
+            obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
+                obj.props.deleteCallBack(obj.props.recordid);
+            },function(err){
+                obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
+            });
+        };
     }
     editCancel(){
         this.setState({
@@ -129,7 +145,24 @@ class Note extends React.Component<NoteProps,NoteState> {
 
         var buttons = [
             {key: `${this.props.recordid}_edit`, text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10}, 
-            {key: `${this.props.recordid}_delete`, text: "Delete", iconOnly:true, iconProps:{iconName: "Delete"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onDeleteClick.bind(this)} 
+            { 
+                key: `${this.props.recordid}_delete`, 
+                text: "Delete", iconOnly:true, 
+                iconProps:{iconName: "Delete"}, 
+                buttonStyles: {icon: { fontSize: 15 }}, 
+                onClick: () => {
+                    this.setState({
+                        showDialog: true,
+                        dialogCancelButtonLabel: "Cancel",
+                        dialogConfirmButtonLabel: "Delete",
+                        dialogTitle: "Confirm Delete",
+                        dialogSubtext: "Do you want to delete the record? This action will permanently remove it.",
+                        dialogConfirmCallback: () => {
+                            this.onDeleteClick();
+                        }
+                    })
+                }
+            } 
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
@@ -391,6 +424,23 @@ class Note extends React.Component<NoteProps,NoteState> {
                             />
                         </>}
                     </StackItem>
+                    <CMSDialog 
+                        isOpen={this.state.showDialog!} 
+                        title={this.state.dialogTitle}
+                        subText={this.state.dialogSubtext} 
+                        onDismiss={() => {
+                            this.setState({showDialog: false});
+                            this.state.dialogDismissCallback && this.state.dialogDismissCallback();
+                        }}
+                        onConfirm={() => {
+                            this.setState({showDialog: false});
+                            this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                        }} 
+                        onCancel={() => {
+                            this.setState({showDialog: false});
+                            this.state.dialogCancelCallback && this.state.dialogCancelCallback();
+                        }}
+                    />
                 </Stack>
     }
 }

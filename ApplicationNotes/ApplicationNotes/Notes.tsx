@@ -9,6 +9,7 @@ import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
 import TestComponent from "./TestComponent";
 import { ClockIcon, SearchIcon } from "./icons";
+import CMSDialog from "./CMSDialog";
 
 
 interface NotesProps {
@@ -28,7 +29,12 @@ interface NotesState {
         messagetype : MessageBarType,
         message : string
     }
-    showDialog?: boolean
+    showDialog?: boolean,
+    dialogTitle?: string,
+    dialogSubtext?: string,
+    dialogConfirmCallback?: () => void,
+    dialogCancelCallback?: () => void,
+    dialogDismissCallback?: () => void,
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -322,16 +328,34 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     </Stack>
                 </StackItem>
             </Stack>
-            {/* <PrimaryButton text="Open Dialog" onClick={() => this.setState({showDialog: true})} />
-            <Dialog
-                hidden={!(this.state.showDialog)}
-                onDismiss={() => {}}
-            >
-                <DialogFooter>
-                    <PrimaryButton onClick={() => {}} text="OK" />
-                    <DefaultButton onClick={() => {}} text="Cancel" />
-                </DialogFooter>
-            </Dialog> */}
+            <PrimaryButton text="Open Dialog" onClick={() => 
+                this.setState({
+                    showDialog: true,
+                    dialogConfirmCallback: () => {
+                        console.log("Confirm clicked");    
+                    },
+                    dialogCancelCallback: () => {
+                        console.log("Cancel clicked");  
+                    }
+                })
+                } />
+            <CMSDialog 
+                isOpen={this.state.showDialog!} 
+                title={this.state.dialogTitle}
+                subText={this.state.dialogSubtext} 
+                onDismiss={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogDismissCallback && this.state.dialogDismissCallback();
+                }}
+                onConfirm={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                }} 
+                onCancel={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogCancelCallback && this.state.dialogCancelCallback();
+                }}
+            />
         </div>
     }
 }
