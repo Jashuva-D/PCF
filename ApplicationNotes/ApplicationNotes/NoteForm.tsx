@@ -237,11 +237,18 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     <Toggle color="#0D2499" inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
                         styles={{
                           label: {order: 1}, 
-                          thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499"}, 
+                          thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499",height: 22, width: 22, padding: 0}, 
                           container: {display: 'flex', flexDirection: 'row-reverse'},
-                          pill: {backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff"},
+                          pill: {
+                            backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff", 
+                            height: 24, padding: 0, width: 40, borderRadius: 12, 
+                            selectors: {
+                              ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
+                            }
+                          }
+                          
                         }}
-                     />
+                    />
                 </StackItem>
             </Stack>
           </StackItem>
@@ -279,7 +286,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                                 this.handleChange("");
                                 this.props.cancelCallBack && this.props.cancelCallBack();
                             }}
-                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
+                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)" }}
+                            styles={{
+                              root: {
+                                transition: "background-color 0.2s ease",
+                                selectors: {
+                                  '&:hover': { backgroundColor: "#ffff"  }
+                                }
+                              }
+                            }}
                         />
                     </StackItem>
                 </Stack>

@@ -187,6 +187,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     size={PersonaSize.size40}
                                     hidePersonaDetails={false}
                                     text={createdby}
+                                    onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
                                     onRenderSecondaryText={() => 
                                         <div  style={{ alignContent: "start", padding: 6, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                             {ActivityStateCode[statecode]} 
