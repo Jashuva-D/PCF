@@ -2,13 +2,13 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
-import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType } from "@fluentui/react";
+import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType,Dialog, DialogFooter } from "@fluentui/react";
 import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
 import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
 import TestComponent from "./TestComponent";
-import { ClockIcon } from "./icons";
+import { ClockIcon, SearchIcon } from "./icons";
 
 
 interface NotesProps {
@@ -28,6 +28,7 @@ interface NotesState {
         messagetype : MessageBarType,
         message : string
     }
+    showDialog?: boolean
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -42,7 +43,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
             generateSummary: false,
             summary: "",
             enablesearch: true,
-            showalert : false
+            showalert : false,
+            showDialog: false
         }
     }
     GetFakeData() {
@@ -164,9 +166,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     <Stack tokens={{ childrenGap: 5 }}>
                         <StackItem>
                             <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="space-between">
-                                <StackItem style={{ width: "min(400px, 50vw)" }}>
+                                <StackItem grow>
                                     <TextField
-                                        style={{ borderRadius: "10", height: 32 }}
+                                        style={{ borderRadius: "10" }}
                                         value={this.state.searchText || ""}
                                         placeholder="Search Notes..."
                                         onChange={(e, newValue) => {
@@ -183,15 +185,13 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                             }
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 36},
-                                            field: { borderRadius: 6, height : 36, fontSize: 15, padding: 8 },
-                                            prefix: { background: "#0D2499" },
+                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 40},
+                                            field: { borderRadius: 6, height : 40, fontSize: 15, padding: 8 },
+                                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
                                             suffix: { background: "transparent" },
                                         }}
                                         onRenderPrefix={() => (
-                                            
-
-                                             <ClockIcon size={24} color="white"/>
+                                             <span style={{borderRadius: 20}}><SearchIcon size={24} color="white"/> </span>
                                             /* <IconButton
                                                 iconProps={{ iconName: "Search" }}
                                                 ariaLabel="Search"
@@ -243,33 +243,33 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         }
                                     />
                                 </StackItem>
-                                <StackItem align="end">
+                                <StackItem>
                                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
+                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }} 
                                                 styles={ { 
                                                     root: {
-                                                        height: 36,
+                                                        height: 40,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
                                                         fontSize: 15,
-                                                        lineHeight: 36,
+                                                        lineHeight: 40,
                                                     },
                                                 }} />
                                         </StackItem>
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: "#0D2499" }}
+                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
                                                 styles={ { 
                                                     root: {
-                                                        height: 36,
+                                                        height: 40,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
                                                         fontSize: 15,
-                                                        lineHeight: 36,
+                                                        lineHeight: 40,
                                                     },
                                                 }}
                                             />
@@ -320,9 +320,18 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         </StackItem>
                     ))}
                     </Stack>
-                     
                 </StackItem>
             </Stack>
+            {/* <PrimaryButton text="Open Dialog" onClick={() => this.setState({showDialog: true})} />
+            <Dialog
+                hidden={!(this.state.showDialog)}
+                onDismiss={() => {}}
+            >
+                <DialogFooter>
+                    <PrimaryButton onClick={() => {}} text="OK" />
+                    <DefaultButton onClick={() => {}} text="Cancel" />
+                </DialogFooter>
+            </Dialog> */}
         </div>
     }
 }
