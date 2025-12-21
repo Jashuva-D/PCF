@@ -193,8 +193,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                             }
                                         }}
                                         styles={{
-                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 40},
-                                            field: { borderRadius: 6, height : 40, fontSize: 15, padding: 8 },
+                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 36},
+                                            field: { borderRadius: 6, height : 36, fontSize: 15, padding: 8 },
                                             prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
                                             suffix: { background: "transparent" },
                                         }}
@@ -258,12 +258,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }} 
                                                 styles={ { 
                                                     root: {
-                                                        height: 40,
+                                                        height: 36,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
                                                         fontSize: 15,
-                                                        lineHeight: 40,
+                                                        lineHeight: 36,
                                                     },
                                                 }} />
                                         </StackItem>
@@ -272,12 +272,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
                                                 styles={ { 
                                                     root: {
-                                                        height: 40,
+                                                        height: 36,
                                                         padding: "0 20px",
                                                     },
                                                     label: {
                                                         fontSize: 15,
-                                                        lineHeight: 40,
+                                                        lineHeight: 36,
                                                     },
                                                 }}
                                             />
@@ -305,7 +305,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 {this.state.newnote == true && <StackItem>
                     <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
                 </StackItem>}
-                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 400, backgroundColor: "rgb(243, 243, 243)"}}}>
+                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 800, backgroundColor: "rgb(243, 243, 243)"}}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     <Stack tokens={{childrenGap: 24}}>
                     {notes.map((x, idx) => (

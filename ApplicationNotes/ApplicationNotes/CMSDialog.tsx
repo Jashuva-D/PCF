@@ -28,6 +28,9 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                 dialogContentProps={{
                     title: this.props.title!,
                     subText: this.props.subText!,
+                    styles: {
+                        subText: { whiteSpace: "pre-line" }
+                    }
                 }}
                 modalProps={{
                     isBlocking: true,
@@ -43,7 +46,7 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                         onClick={this.props.onConfirm}
                         style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
                     />
-                    <Link text={this.props.cancelButtonText || "Cancel"} underline={true} onClick={this.props.onCancel}> <Label style={{ color: "#0D2499" }}>Cancel</Label></Link>
+                    <Link text={this.props.cancelButtonText || "Cancel"} underline={true} onClick={this.props.onCancel} style={{cursor: "pointer"}}> <Label style={{ color: "#0D2499", cursor: "pointer" }}>Cancel</Label></Link>
                 </Stack> 
                 
                 

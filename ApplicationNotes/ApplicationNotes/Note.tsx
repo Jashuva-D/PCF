@@ -156,7 +156,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         dialogCancelButtonLabel: "Cancel",
                         dialogConfirmButtonLabel: "Delete",
                         dialogTitle: "Confirm Delete",
-                        dialogSubtext: "Do you want to delete the record? This action will permanently remove it.",
+                        dialogSubtext: "Do you want to delete the record? \n This action will permanently remove it.",
                         dialogConfirmCallback: () => {
                             this.onDeleteClick();
                         }

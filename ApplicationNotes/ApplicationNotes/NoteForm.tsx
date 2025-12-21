@@ -37,19 +37,21 @@ interface NoteFormState {
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   private RQ = ReactQuill.Quill;
-  private expand = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <g fill="none">
-      <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-      <path fill="currentColor" d="M8.94 12.94a1.5 1.5 0 0 1 2.224 2.007l-.103.114L7.12 19H8.5a1.5 1.5 0 0 1 .144 2.993L8.5 22h-5a1.5 1.5 0 0 1-1.493-1.356L2 20.5v-5a1.5 1.5 0 0 1 2.993-.144L5 15.5v1.379zM20.5 2a1.5 1.5 0 0 1 1.493 1.356L22 3.5v5a1.5 1.5 0 0 1-2.993.144L19 8.5V7.121l-3.94 3.94a1.5 1.5 0 0 1-2.224-2.008l.103-.114L16.88 5H15.5a1.5 1.5 0 0 1-.144-2.993L15.5 2z" />
-    </g>
-  </svg>`;
-  private collapse = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <rect width="24" height="24" fill="none" />
-    <g fill="none">
-      <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
-      <path fill="currentColor" d="M10.5 12a1.5 1.5 0 0 1 1.493 1.356L12 13.5v5a1.5 1.5 0 0 1-2.993.144L9 18.5v-1.379l-3.94 3.94a1.5 1.5 0 0 1-2.224-2.008l.103-.114L6.88 15H5.5a1.5 1.5 0 0 1-.144-2.993L5.5 12zm8.44-9.06a1.5 1.5 0 0 1 2.224 2.007l-.103.114L17.12 9h1.38a1.5 1.5 0 0 1 .144 2.993L18.5 12h-5a1.5 1.5 0 0 1-1.493-1.356L12 10.5v-5a1.5 1.5 0 0 1 2.993-.144L15 5.5v1.379l3.94-3.94Z" />
-    </g>
-  </svg>`;
+  // private expand = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  //   <g fill="none">
+  //     <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+  //     <path fill="currentColor" d="M8.94 12.94a1.5 1.5 0 0 1 2.224 2.007l-.103.114L7.12 19H8.5a1.5 1.5 0 0 1 .144 2.993L8.5 22h-5a1.5 1.5 0 0 1-1.493-1.356L2 20.5v-5a1.5 1.5 0 0 1 2.993-.144L5 15.5v1.379zM20.5 2a1.5 1.5 0 0 1 1.493 1.356L22 3.5v5a1.5 1.5 0 0 1-2.993.144L19 8.5V7.121l-3.94 3.94a1.5 1.5 0 0 1-2.224-2.008l.103-.114L16.88 5H15.5a1.5 1.5 0 0 1-.144-2.993L15.5 2z" />
+  //   </g>
+  // </svg>`;
+  private expand = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M4.22 6.53a.75.75 0 0 0 1.06 0L8 3.81l2.72 2.72a.75.75 0 1 0 1.06-1.06L8.53 2.22a.75.75 0 0 0-1.06 0L4.22 5.47a.75.75 0 0 0 0 1.06m0 2.94a.75.75 0 0 1 1.06 0L8 12.19l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 0 1 0-1.06"/></svg>`;
+  // private collapse = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  //   <rect width="24" height="24" fill="none" />
+  //   <g fill="none">
+  //     <path d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z" />
+  //     <path fill="currentColor" d="M10.5 12a1.5 1.5 0 0 1 1.493 1.356L12 13.5v5a1.5 1.5 0 0 1-2.993.144L9 18.5v-1.379l-3.94 3.94a1.5 1.5 0 0 1-2.224-2.008l.103-.114L6.88 15H5.5a1.5 1.5 0 0 1-.144-2.993L5.5 12zm8.44-9.06a1.5 1.5 0 0 1 2.224 2.007l-.103.114L17.12 9h1.38a1.5 1.5 0 0 1 .144 2.993L18.5 12h-5a1.5 1.5 0 0 1-1.493-1.356L12 10.5v-5a1.5 1.5 0 0 1 2.993-.144L15 5.5v1.379l3.94-3.94Z" />
+  //   </g>
+  // </svg>`;
+  private collapse = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M11.78 3.53L8.53 6.78a.75.75 0 0 1-1.06 0L4.22 3.53a.75.75 0 0 1 1.06-1.06L8 5.19l2.72-2.72a.75.75 0 1 1 1.06 1.06M8.53 9.22a.75.75 0 0 0-1.06 0l-3.25 3.25a.75.75 0 1 0 1.06 1.06L8 10.81l2.72 2.72a.75.75 0 1 0 1.06-1.06z"/></svg>`;
   private icons = this.RQ.import("ui/icons");
 
   constructor(props: NoteFormProps) {
@@ -234,14 +236,38 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             </Stack>}
             <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
                 <StackItem>
-                    <Toggle color="#0D2499" inlineLabel label="Share with Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
+                    <Toggle inlineLabel label="Submit to Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
                         styles={{
                           label: {order: 1}, 
-                          thumb: {backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#0D2499",height: 22, width: 22, padding: 0}, 
+                          root: {
+                              selectors: {
+                              "&:hover .ms-Toggle-thumb": {
+                                backgroundColor: "#ffffff !important"
+                              }
+                            }
+                          },
+                          thumb: {
+                            backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
+                            color: "red",
+                            height: 20, width: 20, padding: 1,
+                            selectors: {
+                              ":hover": {
+                                backgroundColor: "#ffffff"   // 🔒 keep same color
+                              },
+
+                              '[aria-checked="true"] &': {
+                                backgroundColor: "#ffffff"
+                              },
+
+                              '[aria-checked="true"]:hover &': {
+                                backgroundColor: "#ffffff"   // 🔒 even when ON + hover
+                              }
+                            }
+                          }, 
                           container: {display: 'flex', flexDirection: 'row-reverse'},
                           pill: {
-                            backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#ffffff", 
-                            height: 24, padding: 0, width: 40, borderRadius: 12, 
+                            backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)", 
+                            height: 24, padding: 0, width: 44, borderRadius: 12, 
                             selectors: {
                               ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
                             }
@@ -263,7 +289,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     placeholder="Start typing..."
                     style={{
                         borderRadius: 6,
-                        border: "1px solid #d1d1d1",
+                        border: "1px #d1d1d1",
                         overflow: "hidden", 
                         "min-height" : "200px"
                     }}
@@ -291,7 +317,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                               root: {
                                 transition: "background-color 0.2s ease",
                                 selectors: {
-                                  '&:hover': { backgroundColor: "#ffff"  }
+                                  '&:hover': { backgroundColor: "#ffffff"  }
                                 }
                               }
                             }}
