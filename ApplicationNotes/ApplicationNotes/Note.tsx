@@ -69,22 +69,6 @@ class Note extends React.Component<NoteProps,NoteState> {
     }
     onDeleteClick(){
         var obj = this;
-        // this.props.context.navigation.openConfirmDialog({
-        //     title: "Confirm Delete",
-        //     text : "Do you want to delete the record? This action will permanently remove it.",
-        //     confirmButtonLabel: "Delete",
-        //     cancelButtonLabel: "Cancel"
-        // }).then(function(resp){
-        //     if(resp.confirmed){
-        //         if(obj.props.recordid && obj.props.recordid !== "") {
-        //                 obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
-        //                 obj.props.deleteCallBack(obj.props.recordid);
-        //             },function(err){
-        //                 obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
-        //             });
-        //         };
-        //     }
-        // })
         if(obj.props.recordid && obj.props.recordid !== "") {
             obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
                 obj.props.deleteCallBack(obj.props.recordid);
@@ -187,9 +171,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     size={PersonaSize.size40}
                                     hidePersonaDetails={false}
                                     text={createdby}
-                                    onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
-                                    onRenderSecondaryText={() => 
-                                        <div  style={{ alignContent: "start", padding: 6, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                    onRenderSecondaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
+                                    onRenderPrimaryText={() => 
+                                        <div  style={{ alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                             {ActivityStateCode[statecode]} 
                                         </div>
                                     }
@@ -197,8 +181,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 {/* { <span  style={{ alignContent: "start", padding: "2px", height: "48px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                     {ActivityStateCode[statecode]} 
                                 </span> */ }
-                                
-                                    
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal>
@@ -258,7 +240,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.displayDetails && (<StackItem style={{marginTop: 20}}>
+                    {this.state.displayDetails && (<StackItem style={{marginTop: 20, marginLeft: 20}}>
                         <Stack horizontal tokens={{childrenGap: 100}}>
                             <Stack tokens={{childrenGap: 20}}>
                                 <StackItem>
@@ -386,7 +368,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack> */}
                         </Stack>
                     </StackItem>)}
-                    {this.state.enablesubmittoconfluence && <StackItem style={{paddingBottom: 10}}>
+                    {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
                             <Stack tokens={{childrenGap : 10}}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
@@ -394,8 +376,18 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <StackItem><TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/></StackItem>
                                 </Stack>
                                 <Stack horizontal style={{alignItems : "end"}} tokens={{childrenGap: 10}}>
-                                    <PrimaryButton text="Submit" style={{borderRadius : 6}} styles={{rootHovered: { color: "black"}}} onClick={this.onSubmitToConfluence.bind(this)}/>
-                                    <DefaultButton text="Cancel" style={{borderRadius : 6, borderColor:"#D20103" , backgroundColor: "#D20103"}} styles={{root: {color : "white"}}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/>
+                                    <DefaultButton 
+                                        text= "Submit"
+                                        style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
+                                        onClick={this.onSubmitToConfluence.bind(this)}
+                                    />
+                                    <DefaultButton 
+                                        text="Cancel"
+                                        style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
+                                        onClick={() => {this.setState({enablesubmittoconfluence : false})}}
+                                    />
+                                    {/* <PrimaryButton text="Submit" style={{borderRadius : 6}} styles={{rootHovered: { color: "black"}}} onClick={this.onSubmitToConfluence.bind(this)}/>
+                                    <DefaultButton text="Cancel" style={{borderRadius : 6, borderColor:"#D20103" , backgroundColor: "#D20103"}} styles={{root: {color : "white"}}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/> */}
                                 </Stack>
                             </Stack>
                         </StackItem>
@@ -415,6 +407,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             confluencepageid={this.props.confluencepageid}
                             confluencepagetitle={this.props.confluencepagetitle}
                             confluencespace={this.props.confluencespace}
+                            showalert={this.props.showalert}
                         />}
                         { !this.state.editmode && <>
                             <Comment 

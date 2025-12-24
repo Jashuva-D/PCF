@@ -116,7 +116,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     onSearchClear() {
         this.setState({ filterApplied: false, searchText: "" });
     }
-    onSubmitCallBack(recordid?: string, content?: string) {
+    onSubmitCallBack(recordid?: string, content?: string) { 
         this.Refresh();
     }
     deleteCallBack(recordid?:string) {
@@ -303,7 +303,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
             <Stack tokens={{ childrenGap: 10 }} style={{padding: 24, backgroundColor: "rgb(243,243,243)"}}>
                 
                 {this.state.newnote == true && <StackItem>
-                    <NoteForm context={this.props.context} submitCallBack={this.onSubmitCallBack.bind(this)} cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} ></NoteForm>
+                    <NoteForm 
+                        context={this.props.context} 
+                        submitCallBack={this.onSubmitCallBack.bind(this)} 
+                        cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} 
+                        showalert={this.showAlertMessage.bind(this)}
+                    />
                 </StackItem>}
                 <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 800, backgroundColor: "rgb(243, 243, 243)"}}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
@@ -336,11 +341,11 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     </Stack>
                 </StackItem>
             </Stack>
-            {/* <PrimaryButton text="Open Dialog" onClick={() => 
+            { <PrimaryButton text="Open Dialog" onClick={() => 
                 this.setState({
                     showalert: true,
                     alert: {
-                        messagetype: CMSAlertType.Success,
+                        messagetype: CMSAlertType.Warning,
                         message: "This is a sample alert message from Notes component."
                     },
                     dialogConfirmCallback: () => {
@@ -350,7 +355,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         console.log("Cancel clicked");  
                     }
                 })
-                } /> */}
+                } /> }
             <CMSDialog 
                 isOpen={this.state.showDialog!} 
                 title={this.state.dialogTitle}
