@@ -341,7 +341,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     </Stack>
                 </StackItem>
             </Stack>
-            { <PrimaryButton text="Open Dialog" onClick={() => 
+            {/* <PrimaryButton text="Open Dialog" onClick={() => 
                 this.setState({
                     showalert: true,
                     alert: {
@@ -355,7 +355,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         console.log("Cancel clicked");  
                     }
                 })
-                } /> }
+                } /> */}
             <CMSDialog 
                 isOpen={this.state.showDialog!} 
                 title={this.state.dialogTitle}

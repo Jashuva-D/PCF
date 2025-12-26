@@ -165,19 +165,27 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title={this.state.displayDetails ? "Close Details" : "View Details"} iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
                                 </Stack>
                             </StackItem> */}
-                            <StackItem style={{paddingTop: 8, paddingLeft: 5}}  >
-                                <Persona
-                                    imageUrl={"/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id="+ this.props.createdbyid}
-                                    size={PersonaSize.size40}
-                                    hidePersonaDetails={false}
-                                    text={createdby}
-                                    onRenderSecondaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
-                                    onRenderPrimaryText={() => 
-                                        <div  style={{ alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
-                                            {ActivityStateCode[statecode]} 
-                                        </div>
-                                    }
-                                />
+                            <StackItem style={{paddingLeft: 5}}  >
+                                <Stack tokens={{childrenGap: 10}}>
+                                    <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                        {ActivityStateCode[statecode]} 
+                                    </div>
+                                    <Persona
+                                        style={{paddingTop: 10}}
+                                        imageUrl={"/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id="+ this.props.createdbyid}
+                                        size={PersonaSize.size40}
+                                        hidePersonaDetails={false}
+                                        text={createdby}
+                                        onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
+                                        // onRenderPrimaryText={() => 
+                                        //     <div  style={{ alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
+                                        //         {ActivityStateCode[statecode]} 
+                                        //     </div>
+                                        // }
+                                    />
+                                </Stack>
+                                
+                                
                                 {/* { <span  style={{ alignContent: "start", padding: "2px", height: "48px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
                                     {ActivityStateCode[statecode]} 
                                 </span> */ }
