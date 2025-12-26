@@ -6,6 +6,7 @@ import { IInputs } from "./generated/ManifestTypes";
 import { CMSAlertType, Interactiontypes } from "./Constants";
 import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
+import CMSSpinner from "./CMSSpinner";
 
 
 interface NoteFormProps{
@@ -287,11 +288,16 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             </StackItem>
              <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
+                    {this.state.displayprogress && <StackItem>
+                      <CMSSpinner />
+                    </StackItem> 
+                    }
                     <StackItem>
                         <DefaultButton
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
                             style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
+                            disabled={this.state.displayprogress}
                         />
                     </StackItem>
                     <StackItem>
@@ -301,21 +307,14 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                                 this.handleChange("");
                                 this.props.cancelCallBack && this.props.cancelCallBack();
                             }}
-                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)" }}
-                            styles={{
-                              root: {
-                                transition: "background-color 0.2s ease",
-                                selectors: {
-                                  '&:hover': { backgroundColor: "#ffffff"  }
-                                }
-                              }
-                            }}
+                            disabled={this.state.displayprogress}
+                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)", borderColor: "#262626" }}
                         />
                     </StackItem>
                 </Stack>
             </StackItem> 
         </Stack>
-        {this.state.displayprogress && <ProgressBarAlert message={this.state.progressmessage}></ProgressBarAlert>}
+        {/* {this.state.displayprogress && <ProgressBarAlert message={this.state.progressmessage}></ProgressBarAlert>} */}
     </>);
   }
 }

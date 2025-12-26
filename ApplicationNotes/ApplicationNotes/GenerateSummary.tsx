@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { Stack, StackItem, TextField, PrimaryButton, ProgressIndicator, Label } from "@fluentui/react";
+import CMSSpinner from "./CMSSpinner";
 
 interface GenerateSummaryProps {
     context: ComponentFramework.Context<IInputs>;
@@ -59,7 +60,8 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
     render(): React.ReactNode {
         return <Stack tokens={{ childrenGap: 10 }}>
             {this.state.generating && <StackItem>
-                <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label={<Label style={{color : "#0078D4", alignItems: "center"}}>Generating Summary</Label>}  />
+                {/* <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label={<Label style={{color : "#0078D4", alignItems: "center"}}>Generating Summary</Label>}  /> */}
+                <CMSSpinner />
             </StackItem>}
             {this.state.displaySummary && <>
                 <StackItem>

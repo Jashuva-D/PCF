@@ -12,6 +12,7 @@ import { ClockIcon, SearchIcon } from "./icons";
 import CMSDialog from "./CMSDialog";
 import CMSAlert from "./CMSAlert";
 import { CMSAlertType } from "./Constants";
+import CMSSpinner from "./CMSSpinner";
 
 
 interface NotesProps {
@@ -37,6 +38,7 @@ interface NotesState {
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
+    spinner: boolean
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -52,7 +54,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
             summary: "",
             enablesearch: true,
             showalert : false,
-            showDialog: false
+            showDialog: false,
+            spinner: false
         }
     }
     GetFakeData() {
@@ -293,6 +296,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         { this.state.showalert && <StackItem>
                             <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />
                         </StackItem> }
+                        { this.state.spinner && <StackItem>
+                            <CMSSpinner />
+                        </StackItem> }
                         {this.state.generateSummary == true && <StackItem><GenerateSummary context={this.props.context} closeCallback={() => this.setState({ generateSummary: false })} /></StackItem>}
                     </Stack>
                 </StackItem>
@@ -341,21 +347,11 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     </Stack>
                 </StackItem>
             </Stack>
-            {/* <PrimaryButton text="Open Dialog" onClick={() => 
+            <PrimaryButton text="Open Dialog" onClick={() => 
                 this.setState({
-                    showalert: true,
-                    alert: {
-                        messagetype: CMSAlertType.Warning,
-                        message: "This is a sample alert message from Notes component."
-                    },
-                    dialogConfirmCallback: () => {
-                        console.log("Confirm clicked");    
-                    },
-                    dialogCancelCallback: () => {
-                        console.log("Cancel clicked");  
-                    }
+                    spinner: true
                 })
-                } /> */}
+            } /> 
             <CMSDialog 
                 isOpen={this.state.showDialog!} 
                 title={this.state.dialogTitle}
