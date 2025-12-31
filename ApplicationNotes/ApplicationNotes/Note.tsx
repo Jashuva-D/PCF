@@ -198,7 +198,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     </div>
                                     <Persona
                                         style={{paddingTop: 10}}
-                                        imageUrl={"/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id="+ this.props.createdbyid}
+                                        imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
                                         size={PersonaSize.size40}
                                         hidePersonaDetails={false}
                                         text={createdby}

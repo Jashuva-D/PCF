@@ -145,6 +145,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             function success(response : any) {
               if (response.ok) { 
                 console.log("Success"); 
+                obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
                 obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
                 obj.setState({displayprogress : false})
               }
@@ -182,7 +183,16 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_confluencepagetitle : this.state.confluencepagetitle
         }
         this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
+            obj.setState({displayprogress : false});
+            obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
             obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+        },function(error){
+            obj.setState({displayprogress: false});
+            obj.props.context.navigation.openErrorDialog({
+              message: error.message
+            }).then(() => {
+              obj.props.showalert(CMSAlertType.Error, "Error creating note: \n" + error?.message);
+            },() => {});
         });
     }
   }
