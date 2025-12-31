@@ -117,25 +117,26 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     obj.setState({displayprogress: true, progressmessage: "Submitting..."})
     if(this.props.recordid && this.props.recordid !== "") {
       const record = {
-        camp_comment: this.state.comment,
+        cr549_comment: this.state.comment,
         subject: this.state.topic,
-        camp_topicowner: this.state.topicowner,
-        camp_interactiontype : this.state.interactiontype,
-        camp_sharewithconfluence : this.state.submittoconfluence,
-        camp_confluenceurl : this.state.confluencepageid,
-        camp_confluencespace : this.state.confluencespace,
-        camp_confluencepagetitle : this.state.confluencepagetitle
+        cr549_topicowner: this.state.topicowner,
+        cr549_interactiontype : this.state.interactiontype,
+        cr549_sharewithconfluence : this.state.submittoconfluence,
+        cr549_confluenceurl : this.state.confluencepageid,
+        cr549_confluencespace : this.state.confluencespace,
+        cr549_confluencepagetitle : this.state.confluencepagetitle
       }
-      this.props.context?.webAPI.updateRecord("camp_applicationnotes", this.props.recordid!, record).then(function(resp){
+      this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function(resp){
+        if(obj.state.submittoconfluence){
           var request = {
-            entity: { entityType: "camp_applicationnotes", id: obj.props.recordid! },
+            entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
             getMetadata: function () {
               return {
                 boundParameter: "entity",
                 parameterTypes: {
-                  entity: { typeName: "mscrm.camp_applicationnotes", structuralProperty: 5 }
+                  entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
                 },
-                operationType: 0, operationName: "camp_PushToConfluencePage"
+                operationType: 0, operationName: "crm2_PushToConfluencePage"
               };
             }
           };
@@ -144,7 +145,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             function success(response : any) {
               if (response.ok) { 
                 console.log("Success"); 
-                obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
                 obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
                 obj.setState({displayprogress : false})
               }
@@ -155,31 +155,34 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 message: error.message
               })
           });
+        }
+        else {
+          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+          obj.setState({
+            displayprogress: false,
+          })
+        }
+      }, function(err: any){
+        obj.setState({displayprogress: false})
+        obj.props.context.navigation.openErrorDialog({
+            message: err.message
+        });
       });
     }
     else {
         const record = {
-          camp_comment: this.state.comment,
-          "regardingobjectid_camp_application_camp_applicationnotes@odata.bind": `/camp_applications(${(this.props.context as any).page.entityId})`,
+          cr549_comment: this.state.comment,
+          "regardingobjectid_cr549_application_cr549_applicationnotes@odata.bind": `/cr549_applications(${(this.props.context as any).page.entityId})`,
           subject: this.state.topic,
-          camp_topicowner: this.state.topicowner,
-          camp_interactiontype : this.state.interactiontype,
-          camp_sharewithconfluence : this.state.submittoconfluence,
-          camp_confluenceurl : this.state.confluencepageid,
-          camp_confluencespace : this.state.confluencespace,
-          camp_confluencepagetitle : this.state.confluencepagetitle
+          cr549_topicowner: this.state.topicowner,
+          cr549_interactiontype : this.state.interactiontype,
+          cr549_sharewithconfluence : this.state.submittoconfluence,
+          cr549_confluenceurl : this.state.confluencepageid,
+          cr549_confluencespace : this.state.confluencespace,
+          cr549_confluencepagetitle : this.state.confluencepagetitle
         }
-        this.props.context?.webAPI.createRecord("camp_applicationnotes",record).then(function(resp){
-            obj.setState({displayprogress : false});
-            obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+        this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
             obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-        },function(error){
-            obj.setState({displayprogress: false});
-            obj.props.context.navigation.openErrorDialog({
-              message: error.message
-            }).then(() => {
-              obj.props.showalert(CMSAlertType.Error, "Error creating note: \n" + error?.message);
-            },() => {});
         });
     }
   }

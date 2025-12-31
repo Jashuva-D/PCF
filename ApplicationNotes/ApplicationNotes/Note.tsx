@@ -106,14 +106,40 @@ class Note extends React.Component<NoteProps,NoteState> {
         }).then(function(resp){
             if(resp.confirmed){
                 var record = {
-                    camp_sharewithconfluence : true,
-                    camp_confluenceurl : obj.state.confluencepageid,
-                    camp_confluencespace : obj.state.confluencespace,
-                    camp_confluencepagetitle : obj.state.confluencepagetitle
+                    cr549_sharewithconfluence : true,
+                    cr549_confluenceurl : obj.state.confluencepageid,
+                    cr549_confluencespace : obj.state.confluencespace,
+                    cr549_confluencepagetitle : obj.state.confluencepagetitle
                 }
-                obj.props.context.webAPI.updateRecord("camp_applicationnotes",obj.props.recordid!,record).then(function(resp){
-                    obj.setState({enablesubmittoconfluence : false})
-                    obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
+                obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
+                    // obj.setState({enablesubmittoconfluence : false});
+                    // obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
+                    var request = {
+                        entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
+                        getMetadata: function () {
+                        return {
+                            boundParameter: "entity",
+                            parameterTypes: {
+                            entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
+                            },
+                            operationType: 0, operationName: "crm2_PushToConfluencePage"
+                        };
+                        }
+                    };
+
+                    (obj.props.context.webAPI as any).execute(request).then(
+                        function success(response : any) {
+                        if (response.ok) { 
+                            console.log("Success"); 
+                            obj.setState({enablesubmittoconfluence : false});
+                            obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
+                        }
+                        }
+                    ).catch(function (error : any) {
+                        obj.props.context.navigation.openErrorDialog({
+                            message: error.message
+                        });
+                    });
                 },function(err){
                     obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
                 });
