@@ -129,25 +129,25 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
                     recordid: x.activityid,
-                    comments: x.camp_comment,
+                    comments: x.cr549_comment,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     createdbyid: x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
                     topic: x.subject,
-                    topicowner: x.camp_topicowner,
+                    topicowner: x.cr549_topicowner,
                     statecode: x.statecode,
-                    interactiontype: x.camp_interactiontype,
-                    submittoconfluence: x.camp_sharewithconfluence,
-                    confluencepageid : x.camp_confluenceurl,
-                    confluencespace : x.camp_confluencespace,
-                    confluencepagetitle : x.camp_confluencepagetitle
+                    interactiontype: x.cr549_interactiontype,
+                    submittoconfluence: x.cr549_sharewithconfluence,
+                    confluencepageid : x.cr549_confluenceurl,
+                    confluencespace : x.cr549_confluencespace,
+                    confluencepagetitle : x.cr549_confluencepagetitle
                 })
             })
             obj.setState({ notes: notes, newnote: false });
