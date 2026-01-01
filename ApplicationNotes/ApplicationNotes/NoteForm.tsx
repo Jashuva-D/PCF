@@ -158,6 +158,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           });
         }
         else {
+          obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
           obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
           obj.setState({
             displayprogress: false,

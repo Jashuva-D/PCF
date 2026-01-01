@@ -62,6 +62,26 @@ class Note extends React.Component<NoteProps,NoteState> {
             enablesubmittoconfluence: false
         }
     }
+    // componentDidUpdate(prevProps: Readonly<NoteProps>, prevState: Readonly<NoteState>, snapshot?: any): void {
+    //     if(prevProps.comment != this.props.comment ||
+    //         prevProps.recordid != this.props.recordid ||
+    //         prevProps.comment != this.props.comment ||
+    //         prevProps.modifiedon != this.props.modifiedon || 
+    //         prevProps.modifiedby != this.props.modifiedby ||
+    //         prevProps.topicowner != this.props.topicowner ||
+    //         prevProps.topic != this.props.topic || 
+    //         prevProps.statecode != this.props.statecode ||
+    //         prevProps.interactiontype != this.props.interactiontype ||
+    //         prevProps.submittoconfluence != this.props.submittoconfluence ||
+    //         prevProps.confluencepageid != this.props.submittoconfluence ||
+    //         prevProps.confluencespace != this.props.confluencespace ||
+    //         prevProps.confluencepagetitle != this.props.confluencepagetitle
+    //     ) {
+    //         this.setState({
+
+    //         })
+    //     }
+    // }
     onEditClick(){
         this.setState({
             editmode : true
@@ -70,10 +90,10 @@ class Note extends React.Component<NoteProps,NoteState> {
     onDeleteClick(){
         var obj = this;
         if(obj.props.recordid && obj.props.recordid !== "") {
-            obj.props.context?.webAPI.deleteRecord("camp_applicationnotes", obj.props.recordid!).then(function(resp){
+            obj.props.context?.webAPI.deleteRecord("cr549_applicationnotes", obj.props.recordid!).then(function(resp){
                 obj.props.deleteCallBack(obj.props.recordid);
             },function(err){
-                obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message })
+                obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message });
             });
         };
     }
@@ -433,7 +453,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             recordid={this.props.recordid}
                             cancelCallBack={this.editCancel.bind(this)}
                             submitCallBack={this.editSubmit.bind(this)}
-                            content={ content ?? ""}
+                            content={ this.props.comment ?? ""}
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
                             interactiontype={this.props.interactiontype}
@@ -446,7 +466,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         { !this.state.editmode && <>
                             <Comment 
                                 context={this.props.context} 
-                                text={ content ?? ""} 
+                                text={ this.props.comment ?? ""} 
                                 recordid={this.props.recordid} 
                                 editmode={editmode}
                             />
