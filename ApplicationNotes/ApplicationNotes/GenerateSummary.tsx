@@ -28,15 +28,15 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
         this.setState({ generating: true });
 
         var request = {
-            entity: { entityType: "camp_application", id: currentrecordid }, // entity
+            entity: { entityType: "cr549_application", id: currentrecordid }, // entity
 
             getMetadata: function () {
                 return {
                     boundParameter: "entity",
                     parameterTypes: {
-                        entity: { typeName: "mscrm.camp_application", structuralProperty: 5 }
+                        entity: { typeName: "mscrm.cr549_application", structuralProperty: 5 }
                     },
-                    operationType: 0, operationName: "camp_GenerateAppNotesSummary"
+                    operationType: 0, operationName: "crm2_GenerateAppNotesSummary"
                 };
             }
         };
@@ -59,7 +59,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
 
     render(): React.ReactNode {
         return <Stack tokens={{ childrenGap: 10 }}>
-            {this.state.generating && <StackItem>
+            {this.state.generating && <StackItem align="center">
                 {/* <ProgressIndicator styles={{ root: { textAlign: "center", color: "#0078D4"} }} label={<Label style={{color : "#0078D4", alignItems: "center"}}>Generating Summary</Label>}  /> */}
                 <CMSSpinner />
             </StackItem>}
