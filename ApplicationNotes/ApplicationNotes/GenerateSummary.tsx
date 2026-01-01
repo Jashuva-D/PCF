@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import { Stack, StackItem, TextField, PrimaryButton, ProgressIndicator, Label } from "@fluentui/react";
+import { Stack, StackItem, TextField, PrimaryButton, ProgressIndicator, Label, DefaultButton } from "@fluentui/react";
 import CMSSpinner from "./CMSSpinner";
 
 interface GenerateSummaryProps {
@@ -78,7 +78,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                     />
                 </StackItem>
                 <StackItem align="end">
-                    <PrimaryButton text="Close" style={{ borderRadius: 6 }} onClick={() => { this.setState({ displaySummary: false, summary: "" }); this.props.closeCallback();}}></PrimaryButton>
+                    <DefaultButton text="Close" style={{ borderRadius: 6, backgroundColor: "#0D2499" }} onClick={() => { this.setState({ displaySummary: false, summary: "" }); this.props.closeCallback();}} />
                 </StackItem>
             </>}
         </Stack>
