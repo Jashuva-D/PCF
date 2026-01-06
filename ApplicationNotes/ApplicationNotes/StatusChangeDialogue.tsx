@@ -19,8 +19,8 @@ class StatusChangeDialog extends React.Component<StatusChangeDialogProps, Status
     }
     onSave(){
         var rec = {
-            "statecode": this.state.status,
-            "statuscode": this.state.status == ActivityStateCode.Open ? 1 : this.state.status === ActivityStateCode.Completed ? 2 : 3
+            "statecode": this.state.status as number,
+            "statuscode": this.state.status == 0 ? 1 : this.state.status == 1 ? 2 : 3
         }
         this.props.context.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid, rec).then(() => {
             this.props.onComplete && this.props.onComplete();
@@ -29,9 +29,9 @@ class StatusChangeDialog extends React.Component<StatusChangeDialogProps, Status
 
     render() {
         const options = [
-            { key: '0', text: 'Completed'}, 
-            { key: '1', text: 'Cancelled'},
-            { key: "2", text: "Open" }
+            { key: "0", text: "Open" },
+            { key: "1", text: "Completed"}, 
+            { key: "2", text: "Cancelled"},
         ];
         return (
             <Dialog
