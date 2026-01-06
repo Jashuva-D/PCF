@@ -203,7 +203,7 @@ class Note extends React.Component<NoteProps,NoteState> {
             overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Push to Confluence", iconProps:{iconName: "Upload"}, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
-        overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "status"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
+        overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
