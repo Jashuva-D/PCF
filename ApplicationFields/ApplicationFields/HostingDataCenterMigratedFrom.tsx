@@ -31,7 +31,7 @@ class HostingDataCenterMigratedFrom extends React.Component<HostingDataCenterMig
 
     render(): React.ReactNode {
         return <>
-            <TextField value={this.state.value}></TextField>
+            <TextField value={this.state.value} disabled></TextField>
         </>
     }  
 } 
