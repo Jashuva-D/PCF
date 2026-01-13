@@ -12,7 +12,7 @@ class HostingDataCenterMigratedFrom extends React.Component<HostingDataCenterMig
     constructor(props: HostingDataCenterMigratedFromProps) {
         super(props);
         this.state = {
-            value: ''
+            value: undefined
         };
     }
     componentDidMount() {
@@ -31,7 +31,7 @@ class HostingDataCenterMigratedFrom extends React.Component<HostingDataCenterMig
 
     render(): React.ReactNode {
         return <>
-            <TextField value={this.state.value} disabled></TextField>
+            <TextField style={{ color: "#000000"}} value={this.state.value ?? ""} disabled></TextField>
         </>
     }  
 } 
