@@ -7,28 +7,31 @@ import { CMSAlertType, Interactiontypes } from "./Constants";
 import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
 import CMSSpinner from "./CMSSpinner";
+import { title } from "process";
 
 
 interface NoteFormProps{
-    context: ComponentFramework.Context<IInputs>,
-    cancelCallBack: () => void,
-    submitCallBack: (record: any) => void,
-    content? : string,
-    recordid?: string,
-    topic?: string,
-    topicowner?: string,
-    interactiontype? : number,
-    submittoconfluence? : boolean,
-    confluencepageid? : string,
-    confluencespace? : string,
-    confluencepagetitle? : string,
-    showalert : (type: CMSAlertType, message: string) => void,
+  context: ComponentFramework.Context<IInputs>,
+  cancelCallBack: () => void,
+  submitCallBack: (record: any) => void,
+  content? : string,
+  recordid?: string,
+  topic?: string,
+  topicowner?: string,
+  interactiontype? : number,
+  otherinteractiontype? : string,
+  submittoconfluence? : boolean,
+  confluencepageid? : string,
+  confluencespace? : string,
+  confluencepagetitle? : string,
+  showalert : (type: CMSAlertType, message: string) => void,
 }
 interface NoteFormState {
   comment: string;
   topic?: string;
   topicowner?: string,
   interactiontype? : number,
+  otherinteractiontype? : string,
   submittoconfluence? : boolean,
   confluencepageid? : string,
   confluencespace? : string,
@@ -50,6 +53,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
+      otherinteractiontype: props.otherinteractiontype,
       submittoconfluence : props.submittoconfluence,
       confluencepageid : props.confluencepageid,
       confluencepagetitle : props.confluencepagetitle,
@@ -75,8 +79,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         [{ align: [] }],
         ['link', 'image', 'video'],
         ['clean'],
-        [{ expand: "expand", class: "expand-button" }],
-        [{ collapse: "collapse", class: "collapse-button"}]
+        [{ expand: "expand", class: "expand-button", title: "Expand" }],
+        [{ collapse: "collapse", class: "collapse-button", title: "Collapse"}]
       ],
       handlers: {
         expand: () => {
@@ -109,6 +113,37 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     'link', 'image', 'video'
   ];
 
+  private addQuillTooltips() {
+  const tooltipMap: Record<string, string> = {
+    'ql-font': 'Font',
+    'ql-size': 'Font Size',
+    'ql-bold': 'Bold',
+    'ql-italic': 'Italic',
+    'ql-underline': 'Underline',
+    'ql-strike': 'Strikethrough',
+    'ql-color': 'Text Color',
+    'ql-background': 'Background Color',
+    'ql-header': 'Heading',
+    'ql-list.ql-ordered': 'Numbered List',
+    'ql-list.ql-bullet': 'Bullet List',
+    'ql-align': 'Text Alignment',
+    'ql-link': 'Insert Link',
+    'ql-image': 'Insert Image',
+    'ql-video': 'Insert Video',
+    'ql-clean': 'Clear Formatting',
+    'ql-expand': 'Expand Editor',
+    'ql-collapse': 'Collapse Editor'
+  };
+
+  Object.keys(tooltipMap).forEach(selector => {
+    const el = document.querySelector(`.${selector.replace('.', ' ')}`);
+    if (el) {
+      el.setAttribute('title', tooltipMap[selector]);
+    }
+  });
+}
+
+
   handleChange = (content: string) => {
     this.setState({ comment: content });
   };
@@ -124,7 +159,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         cr549_sharewithconfluence : this.state.submittoconfluence,
         cr549_confluenceurl : this.state.confluencepageid,
         cr549_confluencespace : this.state.confluencespace,
-        cr549_confluencepagetitle : this.state.confluencepagetitle
+        cr549_confluencepagetitle : this.state.confluencepagetitle,
+        cr549_otherinteractiontype : this.state.otherinteractiontype
       }
       this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function(resp){
         if(obj.state.submittoconfluence){
@@ -181,7 +217,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_sharewithconfluence : this.state.submittoconfluence,
           cr549_confluenceurl : this.state.confluencepageid,
           cr549_confluencespace : this.state.confluencespace,
-          cr549_confluencepagetitle : this.state.confluencepagetitle
+          cr549_confluencepagetitle : this.state.confluencepagetitle,
+          cr549_otherinteractiontype : this.state.otherinteractiontype
         }
         this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
             obj.setState({displayprogress : false});
@@ -196,6 +233,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             },() => {});
         });
     }
+  }
+  componentDidMount(): void {
+    setTimeout(() => {
+      this.addQuillTooltips();
+  }, 0);
   }
 
   render() {
@@ -226,6 +268,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   }}
                 />
               </StackItem>
+              {this.state.interactiontype && this.state.interactiontype === 6 && (
+                <StackItem>
+                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({otherinteractiontype: newvalue})}}></TextField>
+                </StackItem>
+              )}
             </Stack>
             {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>

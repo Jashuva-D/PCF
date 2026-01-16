@@ -217,9 +217,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem> */}
                             <StackItem style={{paddingLeft: 5}}  >
                                 <Stack tokens={{childrenGap: 10}}>
-                                    <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#8661C5" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#107C10", fontWeight: 600, color: "white"}}>
+                                    {/* <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#8661C5" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#107C10", fontWeight: 600, color: "white"}}>
                                         {ActivityStateCode[statecode]} 
-                                    </div>
+                                    </div> */}
                                     <Persona
                                         style={{paddingTop: 10}}
                                         imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
