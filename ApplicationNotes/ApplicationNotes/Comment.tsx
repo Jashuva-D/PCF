@@ -70,13 +70,15 @@ export default class Comment extends Component<CommentProps, CommentState> {
       overflow: "hidden",
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
-      paddingTop: 10
+      paddingTop: 10,
+      paddingLeft: 10
     };
 
     const fullStyle: React.CSSProperties = {
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
-      paddingTop: 10
+      paddingTop: 10,
+      paddingLeft: 10
     };
     
     const safeHtml = text ?? "";
@@ -88,9 +90,8 @@ export default class Comment extends Component<CommentProps, CommentState> {
           style={expanded ? fullStyle : clampStyle}
           dangerouslySetInnerHTML={{ __html: safeHtml }}
         />
-
         {canExpand && (
-          <Link onClick={this.toggleExpanded} style={{ marginLeft: 8, cursor: "pointer", fontWeight: 500 }}>
+          <Link onClick={this.toggleExpanded} style={{ marginLeft: 5, cursor: "pointer", fontWeight: 500 }}>
             {expanded ? " Read Less" : " Read More"}
           </Link>
         )}

@@ -21,6 +21,7 @@ interface NoteProps {
     topic? : string,
     statecode : number,
     interactiontype? : number,
+    otherinteractiontype? : string,
     submittoconfluence? : boolean
     confluencepageid? : string,
     confluencespace? : string,
@@ -36,6 +37,7 @@ interface NoteState {
     topicowner? : string,
     displayDetails? : boolean,
     interactiontype? : number,
+    otherinteractiontype? : string,
     confluencepageid? : string,
     confluencespace? : string,
     confluencepagetitle? : string,
@@ -87,7 +89,8 @@ class Note extends React.Component<NoteProps,NoteState> {
     // }
     onEditClick(){
         this.setState({
-            editmode : true
+            editmode : true,
+            enablesubmittoconfluence : false
         })
     }
     onDeleteClick(){
@@ -202,26 +205,19 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails)
             overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Push to Confluence", iconProps:{iconName: "Upload"}, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
+        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Push to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
         overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
-                            {/* <StackItem>
-                                <Stack horizontal tokens={{childrenGap: 10, padding: 2}}>
-                                    <Label style = { {color : "#0078D4", fontSize: "15px"}}>{createdby}</Label>
-                                    <span style={{ fontWeight: "bold", fontSize: 12, paddingTop: 7, color : statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5"}}>{ActivityStateCode[statecode]}</span>
-                                    <Icon style={{ paddingTop: 10, color: "#0078D4", cursor: "pointer"}} title={this.state.displayDetails ? "Close Details" : "View Details"} iconName= {this.state.displayDetails ? "ChevronFold10": "ChevronUnfold10"} onClick={() => {this.setState({displayDetails: !this.state.displayDetails})}}></Icon> 
-                                </Stack>
-                            </StackItem> */}
                             <StackItem style={{paddingLeft: 5}}  >
                                 <Stack tokens={{childrenGap: 10}}>
                                     {/* <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#8661C5" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#107C10", fontWeight: 600, color: "white"}}>
                                         {ActivityStateCode[statecode]} 
                                     </div> */}
                                     <Persona
-                                        style={{paddingTop: 10}}
+                                        styles={{root: {paddingTop: 10}}}
                                         imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
                                         size={PersonaSize.size40}
                                         hidePersonaDetails={false}
@@ -234,11 +230,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         // }
                                     />
                                 </Stack>
-                                
-                                
-                                {/* { <span  style={{ alignContent: "start", padding: "2px", height: "48px", borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
-                                    {ActivityStateCode[statecode]} 
-                                </span> */ }
                             </StackItem>
                             <StackItem>
                                 <Stack horizontal>
@@ -253,47 +244,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             }
                                         }}
                                     />
-                                    {/* <StackItem>
-                                        <Icon iconName="upload" style={{color: "#0078D4"}} title="Push to Confluence" 
-                                            styles={{
-                                                root: {
-                                                    cursor: "pointer",
-                                                    ":hover": {
-                                                        transform: "scale(1.3)", 
-                                                        color: "#005A9E",
-                                                        backgroundColor: "#f3f2f1",
-                                                    },
-                                                }
-                                            }}
-                                            onClick={() => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}}
-                                            >
-                                        </Icon>
-                                    </StackItem>
-                                    <StackItem>
-                                        <Icon iconName="edit" style={{color: "#0078D4"}} title="Edit Note" onClick={this.onEditClick.bind(this)} 
-                                            styles={{root: {
-                                                cursor: "pointer",
-                                                ":hover": {
-                                                        transform: "scale(1.3)",
-                                                        color: "#005A9E",
-                                                        backgroundColor: "#f3f2f1",
-                                                },
-                                            }}}>
-                                        </Icon>
-                                    </StackItem>
-                                    <StackItem>
-                                        <Icon iconName="delete" style={{color: "#0078D4"}} title="Delete Note" onClick={this.onDeleteClick.bind(this)} 
-                                            styles={{root: {
-                                                cursor: "pointer",
-                                                ":hover": {
-                                                    transform: "scale(1.3)",
-                                                    color: "#005A9E",
-                                                    backgroundColor: "#f3f2f1",
-                                                },
-                                            }}}>
-                                        </Icon>
-                                    </StackItem> */}
-                                    
                                 </Stack>
                             </StackItem>
                         </Stack>
@@ -461,6 +411,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
                             interactiontype={this.props.interactiontype}
+                            otherinteractiontype={this.props.otherinteractiontype}
                             submittoconfluence={this.props.submittoconfluence}
                             confluencepageid={this.props.confluencepageid}
                             confluencepagetitle={this.props.confluencepagetitle}

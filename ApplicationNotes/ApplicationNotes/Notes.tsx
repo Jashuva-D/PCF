@@ -77,7 +77,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
-        //this.GetFakeData();
+        this.GetFakeData();
         this.Refresh();
         // var obj = this;
         // var currentrecordid = (this.props.context as any).page.entityId;
@@ -147,7 +147,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     submittoconfluence: x.cr549_sharewithconfluence,
                     confluencepageid : x.cr549_confluenceurl,
                     confluencespace : x.cr549_confluencespace,
-                    confluencepagetitle : x.cr549_confluencepagetitle
+                    confluencepagetitle : x.cr549_confluencepagetitle,
+                    otherinteractiontype : x.cr549_otherinteractiontype
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -334,6 +335,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             topic={x.topic}
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
+                            otherinteractiontype={x.otherinteractiontype}
                             submittoconfluence={x.submittoconfluence}
                             confluencepageid={x.confluencepageid}
                             confluencespace={x.confluencespace}

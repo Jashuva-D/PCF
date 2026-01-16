@@ -268,15 +268,16 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   }}
                 />
               </StackItem>
-              {this.state.interactiontype && this.state.interactiontype === 6 && (
-                <StackItem>
-                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({otherinteractiontype: newvalue})}}></TextField>
-                </StackItem>
-              )}
             </Stack>
+            {this.state.interactiontype && this.state.interactiontype === 6 && (
+                <Stack>
+                  <TextField label="Other Interaction Type" minLength={10} value={this.state.otherinteractiontype} styles={{fieldGroup : { borderRadius: 5, width: 575
+                  }}} onChange={(evt, newvalue) => {this.setState({otherinteractiontype: newvalue})}}></TextField>
+                </Stack>
+              )}
             {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>
-                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+                <TextField label="Confluence Page ID" required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && this.state.confluencepageid == "" ?"This field is mandatory" : ""} styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
               </StackItem>
               <StackItem>
                 <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
@@ -358,7 +359,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
                             style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
-                            disabled={this.state.displayprogress}
+                            disabled={(this.state.submittoconfluence && (this.state.confluencepageid?.trim().length == 0) ) || this.state.displayprogress}
                         />
                     </StackItem>
                     <StackItem>
