@@ -88,13 +88,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           if (root.classList.contains("quill-fullscreen")) {
             //root.classList.remove("quill-fullscreen");
           } else {
-            root.classList.add("quill-fullscreen");
+            //root.classList.add("quill-fullscreen");
+            root.classList.add("fullscreen-container");
           }
         },
         collapse: () => {
           const root = document.querySelector(".ql-container")!.parentElement!;
           if (root.classList.contains("quill-fullscreen")) {
-            root.classList.remove("quill-fullscreen");
+            //root.classList.remove("quill-fullscreen");
+            root.classList.remove("fullscreen-container");
           } else {
             //root.classList.add("quill-fullscreen");
           }
