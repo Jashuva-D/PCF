@@ -7,23 +7,41 @@
   margin-left: auto
 }
 .quill-fullscreen {
-  position: fixed !important;
+  position: absolute !important; /* Changed from fixed to absolute */
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
   z-index: 9999;
   background: white;
   display: flex;
   flex-direction: column;
+  box-shadow: none;
+  border-radius: 0;
+  /*padding: 20px;*/
+  padding-right: 50px;
 }
 
 .quill-fullscreen .ql-editor {
-  height: 100% !important;
-  min-height: 100% !important;
+  height: auto !important;
+  min-height: 200px !important; /* Adjust as needed */
 }
 
 .quill-fullscreen .ql-container {
-  height: 100% !important;
-  flex: 1;
+  height: auto !important;
+  flex: none;
+}
+
+.fullscreen-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  background-color: white; /* Optional: Adjust background color */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
