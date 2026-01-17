@@ -205,8 +205,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails)
             overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Push to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
-        overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
+        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
+        //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -248,9 +248,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.displayDetails && (<StackItem style={{marginTop: 20, marginLeft: 20}}>
+                    {this.state.displayDetails && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                         <Stack horizontal tokens={{childrenGap: 100}}>
-                            <Stack tokens={{childrenGap: 20}}>
+                            <Stack tokens={{childrenGap: 10}}>
                                 <StackItem>
                                     <Label style={{color: "#808080"}}>Posted By</Label>
                                     <Text>{createdby ?? "\u00A0"}</Text>
@@ -268,7 +268,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Text>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
                                 </StackItem>
                             </Stack>
-                            <Stack tokens={{childrenGap: 20}}>
+                            <Stack tokens={{childrenGap: 10}}>
                                 <StackItem>
                                     <Label style={{color: "#808080"}}>Topic</Label>
                                     <Text>{this.props.topic ?? "\u00A0"}</Text>
@@ -286,7 +286,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
                                 </StackItem>
                             </Stack>
-                            <Stack tokens={{childrenGap: 20}}>
+                            <Stack tokens={{childrenGap: 10}}>
                                 <StackItem>
                                     <Label style={{color: "#808080"}}>Confluence Page ID</Label>
                                     <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>

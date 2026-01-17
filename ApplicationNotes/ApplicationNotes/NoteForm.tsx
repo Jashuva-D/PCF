@@ -221,9 +221,46 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_otherinteractiontype : this.state.otherinteractiontype
         }
         this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
-            obj.setState({displayprogress : false});
+          if(obj.state.submittoconfluence){
+            var request = {
+              entity: { entityType: "cr549_applicationnotes", id: resp.id },
+              getMetadata: function () {
+                return {
+                  boundParameter: "entity",
+                  parameterTypes: {
+                    entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
+                  },
+                  operationType: 0, operationName: "crm2_PushToConfluencePage"
+                };
+              }
+            };
+
+            (obj.props.context.webAPI as any).execute(request).then(
+              function success(response : any) {
+                if (response.ok) { 
+                  console.log("Success"); 
+                  obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+                  obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+                  obj.setState({displayprogress : false})
+                }
+              }
+            ).catch(function (error : any) {
+                obj.setState({displayprogress: false})
+                obj.props.context.navigation.openErrorDialog({
+                  message: error.message
+                })
+            });
+          }
+          else {
             obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
             obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+            obj.setState({
+              displayprogress: false,
+            })
+          }
+          //obj.setState({displayprogress : false});
+          //obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+          //obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
         },function(error){
             obj.setState({displayprogress: false});
             obj.props.context.navigation.openErrorDialog({
@@ -277,7 +314,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               )}
             {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
               <StackItem>
-                <TextField label="Confluence Page ID" required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && this.state.confluencepageid == "" ?"This field is mandatory" : ""} styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+                <TextField label="Confluence Page ID" required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
               </StackItem>
               <StackItem>
                 <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
@@ -358,8 +395,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                         <DefaultButton
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
-                            style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
-                            disabled={(this.state.submittoconfluence && (this.state.confluencepageid?.trim().length == 0) ) || this.state.displayprogress}
+                            style={{ borderRadius: 4, borderColor: "#0D2499", color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "red" : "#0D2499" }}
+                            disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ) || this.state.displayprogress}
                         />
                     </StackItem>
                     <StackItem>
