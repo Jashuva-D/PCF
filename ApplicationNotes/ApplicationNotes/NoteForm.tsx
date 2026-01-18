@@ -408,13 +408,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           </StackItem>
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <Label>Comments</Label>
-                <PrimaryButton
-                    text={this.state.expand ? "Collapse Editor" : "Expand Editor"}
-                    onClick={() => {
-                      this.setState({expand: !this.state.expand});
-                    }}
-                  />
-                  {!this.state.expand && quillEditor}
+                {!this.state.expand && quillEditor}
             </StackItem>
             { <StackItem>
               
