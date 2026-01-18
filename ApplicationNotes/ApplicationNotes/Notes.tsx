@@ -13,6 +13,9 @@ import CMSDialog from "./CMSDialog";
 import CMSAlert from "./CMSAlert";
 import { CMSAlertType } from "./Constants";
 import CMSSpinner from "./CMSSpinner";
+import { PopupPortal } from "./PopupPortal";
+const ReactQuill: any = require("react-quill");
+import "react-quill/dist/quill.snow.css";
 
 
 interface NotesProps {
@@ -371,7 +374,31 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     this.state.dialogCancelCallback && this.state.dialogCancelCallback();
                 }}
             />
+            {/* <PopupPortal open={true} onClose={() => {}}>
+                <div style={{ padding: 20 }}>
+                    <h2>Popup Content</h2>
+                    <p>This is a popup portal example.</p>
+                </div>
+                <ReactQuill
+                    theme="snow"
+                    value={"this.state.comment"}
+                    onChange={() => {}}
+                    //modules={this.modules}
+                    //formats={this.formats}
+                    placeholder="Start typing..."
+                    style={{
+                        borderRadius: 6,
+                        border: "1px #d1d1d1",
+                        overflow: "hidden", 
+                        overflowY: "auto",
+                        minHeight: "200px",
+                    }}
+                    rows={8}
+                    
+                />
+            </PopupPortal> */}
         </div>
+        
     }
 }
 

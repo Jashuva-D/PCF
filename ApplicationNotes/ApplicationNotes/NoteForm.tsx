@@ -8,6 +8,8 @@ import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
 import CMSSpinner from "./CMSSpinner";
 import { title } from "process";
+import { PopupPortal } from "./PopupPortal";
+import * as ReactDOM from "react-dom";
 
 
 interface NoteFormProps{
@@ -37,7 +39,8 @@ interface NoteFormState {
   confluencespace? : string,
   confluencepagetitle? : string,
   progressmessage : string,
-  displayprogress : boolean
+  displayprogress : boolean,
+  expand : boolean
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
@@ -59,7 +62,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       confluencepagetitle : props.confluencepagetitle,
       confluencespace : props.confluencespace,
       progressmessage : "",
-      displayprogress : false
+      displayprogress : false,
+      expand : false
     };
     
     this.icons["expand"] = this.expand;
@@ -84,22 +88,24 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       ],
       handlers: {
         expand: () => {
-          const root = document.querySelector(".ql-container")!.parentElement!;
-          if (root.classList.contains("quill-fullscreen")) {
-            //root.classList.remove("quill-fullscreen");
-          } else {
-            //root.classList.add("quill-fullscreen");
-            root.classList.add("fullscreen-container");
-          }
+          // const root = document.querySelector(".ql-container")!.parentElement!;
+          // if (root.classList.contains("quill-fullscreen")) {
+          //   //root.classList.remove("quill-fullscreen");
+          // } else {
+          //   //root.classList.add("quill-fullscreen");
+          //   root.classList.add("fullscreen-container");
+          // }
+          this.setState({expand: true});
         },
         collapse: () => {
-          const root = document.querySelector(".ql-container")!.parentElement!;
-          if (root.classList.contains("fullscreen-container")) {
-            //root.classList.remove("quill-fullscreen");
-            root.classList.remove("fullscreen-container");
-          } else {
-            //root.classList.add("quill-fullscreen");
-          }
+          // const root = document.querySelector(".ql-container")!.parentElement!;
+          // if (root.classList.contains("fullscreen-container")) {
+          //   //root.classList.remove("quill-fullscreen");
+          //   root.classList.remove("fullscreen-container");
+          // } else {
+          //   //root.classList.add("quill-fullscreen");
+          // }
+          this.setState({expand: false})
         }
       }
 
@@ -280,9 +286,40 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   }
 
   render() {
-    //"1px solid #d1d1d1" : "none"
-    return (<>
-        <Stack tokens = {{ childrenGap: 15 }} styles={{root: {border: "none", borderRadius: 6, padding: 10, marginBottom: 10, backgroundColor: "#ffffff"}}}>
+    const quillEditor = (
+      <ReactQuill
+        theme="snow"
+        value={this.state.comment}
+        onChange={this.handleChange.bind(this)}
+        modules={this.modules}
+        formats={this.formats}
+        placeholder="Start typing..."
+        style={{
+          borderRadius: 6,
+          border: "1px #d1d1d1",
+          overflow: "hidden",
+          overflowY: "auto",
+          minHeight: "200px",
+        }}
+        rows={8}
+        //className="ql-editor ql-container" /* Explicitly applying the class */
+      />
+    );
+
+    return (
+      <>
+        <Stack
+          tokens={{ childrenGap: 15 }}
+          styles={{
+            root: {
+              border: "none",
+              borderRadius: 6,
+              padding: 10,
+              marginBottom: 10,
+              backgroundColor: "#ffffff",
+            },
+          }}
+        >
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
@@ -371,24 +408,17 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           </StackItem>
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <Label>Comments</Label>
-                <ReactQuill
-                    theme="snow"
-                    value={this.state.comment}
-                    onChange={this.handleChange.bind(this)}
-                    modules={this.modules}
-                    formats={this.formats}
-                    placeholder="Start typing..."
-                    style={{
-                        borderRadius: 6,
-                        border: "1px #d1d1d1",
-                        overflow: "hidden", 
-                        overflowY: "auto",
-                        minHeight: "200px",
+                <PrimaryButton
+                    text={this.state.expand ? "Collapse Editor" : "Expand Editor"}
+                    onClick={() => {
+                      this.setState({expand: !this.state.expand});
                     }}
-                    rows={8}
-                    
-                />
+                  />
+                  {!this.state.expand && quillEditor}
             </StackItem>
+            { <StackItem>
+              
+            </StackItem>}
              <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
                     {this.state.displayprogress && <StackItem>
@@ -417,6 +447,33 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 </Stack>
             </StackItem> 
         </Stack>
+        { this.state.expand &&
+          ReactDOM.createPortal(
+            <div className="fullscreen-container1">
+              <div className="popup-content">
+                  {quillEditor}
+              </div>
+            </div>,
+            document.body)
+        }
+        {/* <PopupPortal open={this.state.expand} onClose={() => {}} children={<ReactQuill
+                    theme="snow"
+                    value={this.state.comment}
+                    onChange={this.handleChange.bind(this)}
+                    modules={this.modules}
+                    formats={this.formats}
+                    placeholder="Start typing..."
+                    style={{
+                        borderRadius: 6,
+                        border: "1px #d1d1d1",
+                        overflow: "hidden", 
+                        overflowY: "auto",
+                        minHeight: "200px",
+                    }}
+                    rows={8}
+                    
+                />}
+          /> */}
         {/* {this.state.displayprogress && <ProgressBarAlert message={this.state.progressmessage}></ProgressBarAlert>} */}
     </>);
   }
