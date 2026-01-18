@@ -94,7 +94,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         },
         collapse: () => {
           const root = document.querySelector(".ql-container")!.parentElement!;
-          if (root.classList.contains("quill-fullscreen")) {
+          if (root.classList.contains("fullscreen-container")) {
             //root.classList.remove("quill-fullscreen");
             root.classList.remove("fullscreen-container");
           } else {
@@ -382,9 +382,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                         borderRadius: 6,
                         border: "1px #d1d1d1",
                         overflow: "hidden", 
-                        "min-height" : "200px"
+                        overflowY: "auto",
+                        minHeight: "200px",
                     }}
                     rows={8}
+                    
                 />
             </StackItem>
              <StackItem align="end">

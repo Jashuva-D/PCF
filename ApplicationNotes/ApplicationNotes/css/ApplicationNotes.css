@@ -1,10 +1,14 @@
 .ql-editor {
   min-height: 180px;
-  overflow-y: hidden;
-  transition: height 0.2s ease-out; 
+  overflow-y: scroll;
+  transition: height 0.2s ease-out;
+  max-height: 90%; /* Set max-height to be 50px less than the parent */
 }
 .expand-button {
   margin-left: auto
+}
+.quill {
+  width: 100%;
 }
 .quill-fullscreen {
   position: absolute !important; /* Changed from fixed to absolute */
@@ -16,32 +20,54 @@
   z-index: 9999;
   background: white;
   display: flex;
-  flex-direction: column;
-  box-shadow: none;
-  border-radius: 0;
-  /*padding: 20px;*/
-  padding-right: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for pop-up effect */
+  border: 1px solid #ccc; /* Added border for pop-up effect */
+  border-radius: 8px; /* Rounded corners for pop-up effect */
+  max-width: 90%; /* Limit width for pop-up */
+  max-height: 90%; /* Limit height for pop-up */
+  margin: auto; /* Center the pop-up */
 }
 
 .quill-fullscreen .ql-editor {
   height: auto !important;
   min-height: 200px !important; /* Adjust as needed */
+  width: auto;
 }
 
 .quill-fullscreen .ql-container {
   height: auto !important;
   flex: none;
+  width: auto;
 }
 
+
 .fullscreen-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  padding: 20px;
+  position: absolute; /* Changed from fixed to absolute */
+  top: 20%; /* Center vertically */
+  left: 20%; /* Center horizontally */
+  transform: translate(-20%, -20%); /* Adjust for centering */
+  width: auto; /* Adjust width as needed */
+  max-width: 90%; /* Limit width for pop-up */
+  height: auto; /* Adjust height as needed */
+  max-height: 90%; /* Limit height for pop-up */
   z-index: 10000;
   background-color: white; /* Optional: Adjust background color */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible; /* Allow resizing from all borders */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  overflow-x: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for pop-up effect */
+  border: 1px solid #ccc; /* Added border for pop-up effect */
+  border-radius: 8px; /* Rounded corners for pop-up effect */
+  user-select: none; /* Prevent text selection while dragging */
+  resize: both; /* Enable resizing from all borders */
+  -webkit-resize: both; /* Enable resizing in Safari/Chrome */
+  cursor: move; /* Change cursor to indicate draggable */
+  .draggable {
+    cursor: move;
+    user-select: none;
+  };
+  
 }
