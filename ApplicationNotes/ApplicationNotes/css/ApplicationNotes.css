@@ -1,118 +1,63 @@
-.ql-editor {
-  min-height: 180px;
-  overflow-y: auto !important; /* Enable vertical scrolling */
-  max-height: 100%; /* Ensure it doesn't exceed the container height */
-  transition: height 0.2s ease-out; 
-}
-.expand-button {
-  margin-left: auto
-}
-.quill {
-  width: 100%;
-  height: 90%;
-}
-.ql-container {
-  overflow-y: hidden !important; /* Enable vertical scrolling */
-}
-.quill-fullscreen {
-  /*position: absolute !important; /* Changed from fixed to absolute */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: none;
-  z-index: 9999;
-  background: white;
-  display: flex;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for pop-up effect */
-  border: 1px solid #ccc; /* Added border for pop-up effect */
-  border-radius: 8px; /* Rounded corners for pop-up effect */
-  max-width: 90%; /* Limit width for pop-up */
-  max-height: 90%; /* Limit height for pop-up */
-  margin: auto; /* Center the pop-up */
-}
-
-.quill-fullscreen .ql-editor {
-  height: auto !important;
-  min-height: 200px !important; /* Adjust as needed */
-  width: auto;
-}
-
-.quill-fullscreen .ql-container {
-  height: auto !important;
-  flex: none;
-  width: auto;
-}
-
-
-.fullscreen-container {
-  padding: 20px;
-  position: fixed; /* Changed from fixed to absolute */
-  top: 0; /* Center vertically */
-  left: 0; /* Center horizontally */
-  /*transform: translate(-20%, -20%); /* Adjust for centering */
-  width: 100vw; /* Adjust width as needed */
-  max-width: 90%; /* Limit width for pop-up */
-  height: 100vh; /* Adjust height as needed */
-  max-height: 90%; /* Limit height for pop-up */
-  z-index: 999999;
-  background-color: white; /* Optional: Adjust background color */
-  display: flex;
-  flex-direction: column;
-  overflow: visible; /* Allow resizing from all borders */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
-  overflow-x: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Added shadow for pop-up effect */
-  border: 1px solid #ccc; /* Added border for pop-up effect */
-  border-radius: 8px; /* Rounded corners for pop-up effect */
-  user-select: none; /* Prevent text selection while dragging */
-  resize: both; /* Enable resizing from all borders */
-  -webkit-resize: both; /* Enable resizing in Safari/Chrome */
-  cursor: move; /* Change cursor to indicate draggable */
-  .draggable {
-    cursor: move;
-    user-select: none;
-  };
-  
-}
-
 .fullscreen-container1 {
-  position: fixed !important;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-
-  z-index: 2147483647;
+  position: fixed;
+  inset: 0;
   background: rgba(0, 0, 0, 0.4);
+  z-index: 2147483647;
 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.popup-content {
+.resize-shell {
+  width: 90vw;
+  height: 90vh;
+
+  min-width: 500px;
+  min-height: 400px;
+  max-width: 95vw;
+  max-height: 95vh;
+
   background: white;
-  width: 90%;
-  height: 90%;
   border-radius: 8px;
-  padding: 20px;
-  overflow: auto;
-  resize: both;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
 
-.fullscreen-popup {
-  position: fixed;
-  top: 5vh;
-  left: 5vw;
-  width: 100vw;
-  height: 100vh;
-  background: white;
-  z-index: 2147483647;
-
-  overflow: auto;
   resize: both;
-  border-radius: 8px;
+  overflow: hidden;         
+
+  display: flex;
 }
 
+.popup-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  padding: 16px;
+  overflow: hidden;
+  background-color: white;          
+}
+
+.popup-header {
+  flex: 0 0 auto;
+}
+
+.quill {
+  flex: 1 1 auto;            
+  min-height: 0;             
+
+  display: flex;
+  flex-direction: column;
+}
+
+.ql-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ql-editor {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto !important;
+}

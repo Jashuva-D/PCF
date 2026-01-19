@@ -444,8 +444,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         { this.state.expand &&
           ReactDOM.createPortal(
             <div className="fullscreen-container1">
-              <div className="popup-content">
+               <div className="resize-shell">
+                <div className="popup-content">
+                  <Stack horizontal tokens={{ childrenGap: 20 }} style={{ marginBottom: 10 }}>
+                    <><Text><b>Topic: </b>{this.state.topic}</Text></>
+                    <><Text><b>Topic Owner: </b>{this.state.topicowner}</Text></>
+                    <><Text><b>Interaction Type: </b>{Interactiontypes.find(i => i.key === this.state.interactiontype)?.text}</Text></>
+                  </Stack>
                   {quillEditor}
+                </div>
               </div>
             </div>,
             document.body)
