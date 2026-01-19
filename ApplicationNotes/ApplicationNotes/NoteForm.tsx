@@ -282,7 +282,13 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   componentDidMount(): void {
     setTimeout(() => {
       this.addQuillTooltips();
-  }, 0);
+    }, 0);
+  }
+
+  componentDidUpdate(): void {
+    setTimeout(() => {
+      this.addQuillTooltips();
+    }, 0);
   }
 
   render() {
