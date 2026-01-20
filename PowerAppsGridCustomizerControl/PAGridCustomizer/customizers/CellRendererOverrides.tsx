@@ -14,7 +14,9 @@ export const cellRendererOverrides: CellRendererOverrides = {
 	["TwoOptions"]: (props: CellRendererProps, col) => {
 		if (col.colDefs[col.columnIndex].name === "cr549_marketplace") {
 			return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%"}}>
-				<Toggle inlineLabel label="Yes"
+				<Toggle 
+					checked={props.value == 1}
+					inlineLabel label= {props.value == 1 ? "Yes" : "No"}
 					styles={{
 						label: {order: 1}, 
 						root: {
