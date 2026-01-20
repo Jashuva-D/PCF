@@ -326,6 +326,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             },
           }}
         >
+          <StackItem>
+            <Text style={{backgroundColor: "#EEEAF4", padding: "8px", borderRadius: 4}}>{"Test Value"}</Text>
+          </StackItem>
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 10}}>
