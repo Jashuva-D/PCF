@@ -43,10 +43,10 @@ export const cellRendererOverrides: CellRendererOverrides = {
 						}, 
 						container: {display: 'flex', flexDirection: 'row-reverse'},
 						pill: {
-							backgroundColor: props.value ? "#CFEAD9" : "#EBCBCB", 
+							backgroundColor: props.value ? "#9FD3AE" : "#EBCBCB", 
 							height: 24, padding: 0, width: 44, borderRadius: 12, 
 							selectors: {
-								':hover': { backgroundColor: props.value ? "#CFEAD9" : "#EBCBCB" }
+								':hover': { backgroundColor: props.value ? "#9FD3AE" : "#EBCBCB" }
 							}
 						}
 							
