@@ -1,6 +1,8 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {DetailsList, IColumn} from "@fluentui/react/lib/DetailsList";
+import { Icon } from "@fluentui/react/lib/Icon";
+import { initializeIcons, PrimaryButton } from "@fluentui/react";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -8,10 +10,12 @@ interface AppUserRolesProps {
 interface AppUserRolesState{
     columns: IColumn[];
     items: any[];
+    editablerecordid?: string | null;
 }
 
 class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState> {
     constructor(props: AppUserRolesProps) {
+        initializeIcons();
         super(props);   
         let cols: IColumn[] = [];
         this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
@@ -21,11 +25,31 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b","")
                 } as IColumn);
         });
+        let customcolumn = {
+            key: "customcolumn",
+            onRender: (item: any) => {
+                if(this.state.editablerecordid && this.state.editablerecordid == item.id){
+                    return <div><PrimaryButton text="Save" onClick={this.onSaveClick.bind(this)}/> <PrimaryButton text="Cancel" onClick={this.onCancelClick.bind(this)}/></div>
+                }
+                else {
+                    return <div><Icon iconName="Edit" onClick={() => this.onEditClick(item)}/></div>
+                }
+            }
+        } as IColumn;
         
         this.state = {
-            columns: cols,
+            columns: [customcolumn, ...cols],
             items: []
         }
+    }
+    onEditClick(item: any){
+        this.setState({editablerecordid: item.id});
+    }
+    onSaveClick(){
+
+    }
+    onCancelClick(){
+        this.setState({editablerecordid: null});
     }
     componentDidMount(): void {
         // var fetchxml = `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
@@ -50,8 +74,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.props.context.parameters.sampleDataSet.sortedRecordIds.forEach((id) => {
             const record = this.props.context.parameters.sampleDataSet.records[id];
             let item: any = {};
+            item.id = id;
             this.state.columns.forEach((c : IColumn) => {
-                item[c.fieldName ?? ""] = record.getFormattedValue(c.key);//record.getValue(c.key);
+                if(c.key != "customcolumn") {
+                    item[c.fieldName ?? ""] = record.getFormattedValue(c.key);//record.getValue(c.key);
+                }
             });
             items.push(item);
         });
