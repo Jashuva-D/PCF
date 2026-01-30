@@ -41,10 +41,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     render(): React.ReactNode {
         return <div>
                 <div>App User Roles Component</div>
-                <DetailsList
+                {/* <DetailsList
                     items={[...this.state.items]}
                     columns={[...this.state.columns]}
-                ></DetailsList>
+                ></DetailsList> */}
             </div>
     }
 }
