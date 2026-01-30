@@ -21,6 +21,17 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     fieldName: c.name,
                 } as IColumn);
         });
+        cols.push({
+            key: "cr549_person",
+            name: "Person",
+            fieldName: "cr549_person",
+        } as IColumn);
+        cols.push({
+            key: "cr549_role",
+            name: "Role",
+            fieldName: "cr549_role",
+        } as IColumn);
+        cols.push
         this.state = {
             columns: cols,
             items: []
@@ -31,7 +42,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.props.context.parameters.sampleDataSet.sortedRecordIds.forEach((id) => {
             const record = this.props.context.parameters.sampleDataSet.records[id];
             let item: any = {};
-            this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
+            this.state.columns.forEach((c) => {
                 item[c.name] = record.getValue(c.name);
             });
             items.push(item);
@@ -41,10 +52,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     render(): React.ReactNode {
         return <div>
                 <div>App User Roles Component</div>
-                {/* <DetailsList
+                 <DetailsList
                     items={[...this.state.items]}
                     columns={[...this.state.columns]}
-                ></DetailsList> */}
+                ></DetailsList> 
             </div>
     }
 }
