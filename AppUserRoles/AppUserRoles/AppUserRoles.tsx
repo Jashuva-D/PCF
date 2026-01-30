@@ -36,8 +36,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             });
             items.push(item);
         });
+        this.setState({items: items});
     }
-    public render(): React.ReactNode {
+    render(): React.ReactNode {
         return (
             <>
                 <DetailsList
@@ -48,5 +49,5 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         );
     }
 }
-                           
+
 export default AppUserRoles;

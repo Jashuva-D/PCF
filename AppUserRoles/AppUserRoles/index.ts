@@ -25,7 +25,7 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement
     ): void {
-        // Add control initialization code
+        this._container = container;
     }
 
 
