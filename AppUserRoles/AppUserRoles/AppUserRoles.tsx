@@ -22,7 +22,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 cols.push({
                     key: c.name,
                     name: c.displayName,
-                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b",""),
+                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.",""),
                     minWidth: 200,
                     isResizable: true,
                     onRender: (item: any) => { 
@@ -36,6 +36,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         let customcolumn = {
             key: "customcolumn",
             minWidth: 100,
+            maxWidth: 200,
+            isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecordid && this.state.editablerecordid == item.id){
                     return <div><PrimaryButton text="Save" onClick={this.onSaveClick.bind(this)} style={{borderRadius: 6}}/> <DefaultButton text="Cancel" onClick={this.onCancelClick.bind(this)} style={{borderRadius: 6}}/></div>
