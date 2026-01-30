@@ -51,7 +51,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             const record = this.props.context.parameters.sampleDataSet.records[id];
             let item: any = {};
             this.state.columns.forEach((c : IColumn) => {
-                item[c.fieldName ?? ""] = record.getValue(c.key);
+                item[c.fieldName ?? ""] = record.getFormattedValue(c.key);//record.getValue(c.key);
             });
             items.push(item);
         });
