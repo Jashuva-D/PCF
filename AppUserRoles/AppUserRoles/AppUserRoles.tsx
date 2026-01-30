@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {DetailsList, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton } from "@fluentui/react";
+import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton } from "@fluentui/react";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -22,14 +22,23 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 cols.push({
                     key: c.name,
                     name: c.displayName,
-                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b","")
+                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b",""),
+                    minWidth: 200,
+                    isResizable: true,
+                    onRender: (item: any) => { 
+                        if(this.state.editablerecordid && this.state.editablerecordid == item.id){
+                            return <TextField defaultValue={item[c.name]} />;
+                        }   
+                        return <Text>{item[c.name]}</Text>;
+                    }
                 } as IColumn);
         });
         let customcolumn = {
             key: "customcolumn",
+            minWidth: 100,
             onRender: (item: any) => {
                 if(this.state.editablerecordid && this.state.editablerecordid == item.id){
-                    return <div><PrimaryButton text="Save" onClick={this.onSaveClick.bind(this)}/> <PrimaryButton text="Cancel" onClick={this.onCancelClick.bind(this)}/></div>
+                    return <div><PrimaryButton text="Save" onClick={this.onSaveClick.bind(this)} style={{borderRadius: 6}}/> <DefaultButton text="Cancel" onClick={this.onCancelClick.bind(this)} style={{borderRadius: 6}}/></div>
                 }
                 else {
                     return <div><Icon iconName="Edit" onClick={() => this.onEditClick(item)}/></div>
