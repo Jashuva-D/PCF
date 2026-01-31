@@ -65,7 +65,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onSaveClick(){
         var obj = this;
-        var personid = this.state.editablerecord["cr549_person_value"];
+        var personid = this.state.editablerecord["cr549_person_value"].id;
 
         var record = {
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
