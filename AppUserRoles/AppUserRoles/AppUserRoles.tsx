@@ -65,7 +65,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onSaveClick(){
         var obj = this;
-        var recordid = this.state.editablerecord.id;
+        var personid = this.state.editablerecord["cr549_person_value"];
 
         var record = {
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
@@ -74,7 +74,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             //"cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent"]
         }
 
-        this.props.context.webAPI.updateRecord("cr549_person", recordid, record).then(function(resp){
+        this.props.context.webAPI.updateRecord("cr549_person", personid, record).then(function(resp){
             alert("Record updated successfully.");  
             obj.setState({editablerecord: null});
         },function(error){
@@ -116,8 +116,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             let item: any = {};
             item.id = id;
             this.state.columns.forEach((c : IColumn) => {
+                
                 if(c.key != "customcolumn") {
-                    item[c.fieldName ?? ""] = record.getFormattedValue(c.key);//record.getValue(c.key);
+                    item[c.fieldName ?? ""] = record.getFormattedValue(c.key);
+                    item[`${c.fieldName}_value`] = record.getValue(c.key);
                 }
             });
             items.push(item);
