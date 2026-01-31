@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {DetailsList, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton } from "@fluentui/react";
+import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack } from "@fluentui/react";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -24,7 +24,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     key: c.name,
                     name: c.displayName,
                     fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.",""),
-                    minWidth: 200,
+                    minWidth: 150,
                     isResizable: true,
                     onRender: (item: any) => { 
                         if(this.state.editablerecordid && this.state.editablerecordid == item.id){
@@ -36,15 +36,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         });
         let customcolumn = {
             key: "customcolumn",
-            minWidth: 100,
-            maxWidth: 200,
+            minWidth: 50,
+            maxWidth: 100,
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecordid && this.state.editablerecordid == item.id){
-                    return <div><PrimaryButton text="Save" onClick={this.onSaveClick.bind(this)} style={{borderRadius: 6}}/> <DefaultButton text="Cancel" onClick={this.onCancelClick.bind(this)} style={{borderRadius: 6}}/></div>
+                    return <Stack horizontal tokens={{childrenGap: 10}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
-                    return <div><Icon iconName="Edit" onClick={() => this.onEditClick(item)}/></div>
+                    return <div><Icon iconName="Edit" title="Edit" onClick={() => this.onEditClick(item)} style={{fontSize: 15, color: "#0D2499", cursor: "pointer"}}/></div>
                 }
             }
         } as IColumn;
@@ -105,7 +105,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     render(): React.ReactNode {
         return <div>
-                <div>App User Roles Component1</div>
                  <DetailsList
                     items={[...this.state.items]}
                     columns={[...this.state.columns]}
