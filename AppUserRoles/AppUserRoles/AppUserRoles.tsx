@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker } from "@fluentui/react";
+import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown } from "@fluentui/react";
 import { error } from "console";
 
 interface AppUserRolesProps {
@@ -30,9 +30,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     onRender: (item: any) => { 
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                            // if(columnname =="cr549_project"){
-                            //     return <NormalPeoplePicker  />;
-                            // }
+                            if(columnname == "project_cr549_service_desk_agent"){
+                                return <Dropdown
+                                    options={[{key: 0, text: "Primary"}, {key: 1, text: "Secondary"}]}
+                                    defaultSelectedKey={item[`${columnname}_value`]}
+                                    onChange={(event, value) => this.onFieldChange(columnname, value)}
+                                />;
+                            }
                             return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                         }   
                         return <Text>{item[columnname] ?? ""}</Text>;
@@ -71,7 +75,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
-            //"cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent"]
+            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"]
         }
 
         this.props.context.webAPI.updateRecord("cr549_person", personid, record).then(function(resp){
@@ -84,9 +88,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onCancelClick(){
         this.setState({editablerecord: null});
     }
-    onFieldChange(fieldname: string, value: string | undefined){
+    onFieldChange(fieldname: string, value: any){
         let editablerecord = this.state.editablerecord;
         if(editablerecord){
+            if(fieldname == "project_cr549_service_desk_agent"){
+                editablerecord[`${fieldname}_value`] = value?.key ?? null;
+                editablerecord[fieldname] = value?.text ?? null;
+            }
             editablerecord[fieldname] = value ?? "";
             this.setState({editablerecord: editablerecord});
         }  
