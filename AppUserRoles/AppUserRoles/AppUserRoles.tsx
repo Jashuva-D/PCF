@@ -1,8 +1,9 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import {DetailsList, IColumn} from "@fluentui/react/lib/DetailsList";
+import {DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack } from "@fluentui/react";
+import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker } from "@fluentui/react";
+import { error } from "console";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -10,27 +11,31 @@ interface AppUserRolesProps {
 interface AppUserRolesState{
     columns: IColumn[];
     items: any[];
-    editablerecordid?: string | null;
+    editablerecord : any | null;
 }
 
 class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState> {
     constructor(props: AppUserRolesProps) {
-        initializeIcons();
-        super(props);   
+        super(props); initializeIcons();
+        
         let cols: IColumn[] = [];
         this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
                 if(c.name == "cr549_id") return;
                 cols.push({
                     key: c.name,
                     name: c.displayName,
-                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.",""),
+                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_"),
                     minWidth: 150,
                     isResizable: true,
                     onRender: (item: any) => { 
-                        if(this.state.editablerecordid && this.state.editablerecordid == item.id){
-                            return <TextField defaultValue={item[c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","")] ?? ""} />;
+                        let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
+                        if(this.state.editablerecord && this.state.editablerecord.id == item.id){
+                            // if(columnname =="cr549_project"){
+                            //     return <NormalPeoplePicker  />;
+                            // }
+                            return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                         }   
-                        return <Text>{item[c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","")] ?? ""}</Text>;
+                        return <Text>{item[columnname] ?? ""}</Text>;
                     }
                 } as IColumn);
         });
@@ -40,35 +45,51 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             maxWidth: 100,
             isResizable: true,
             onRender: (item: any) => {
-                if(this.state.editablerecordid && this.state.editablerecordid == item.id){
-                    return <Stack horizontal tokens={{childrenGap: 10}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
+                if(this.state.editablerecord && this.state.editablerecord.id == item.id){
+                    return <Stack horizontal tokens={{childrenGap: 20}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
-                    return <div><Icon iconName="Edit" title="Edit" onClick={() => this.onEditClick(item)} style={{fontSize: 15, color: "#0D2499", cursor: "pointer"}}/></div>
+                    return <div><Icon iconName="Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={this.state.editablerecord != null ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: this.state.editablerecord == null ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
                 }
             }
         } as IColumn;
-        // cols.push({
-        //     key: "appuserrole_cr549_person",
-        //     name: "Person",
-        //     fieldName: "cr549_person",
-        //     minWidth: 150,
-        // });
-        //cols.push({})
         
         this.state = {
             columns: [customcolumn, ...cols],
-            items: []
+            items: [],
+            editablerecord: null
         }
     }
     onEditClick(item: any){
-        this.setState({editablerecordid: item.id});
+        this.setState({editablerecord: item});
     }
     onSaveClick(){
+        var obj = this;
+        var recordid = this.state.editablerecord.id;
 
+        var record = {
+            "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
+            "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
+            "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
+            //"cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent"]
+        }
+
+        this.props.context.webAPI.updateRecord("cr549_person", recordid, record).then(function(resp){
+            alert("Record updated successfully.");  
+            obj.setState({editablerecord: null});
+        },function(error){
+            alert("Error in updating record: " + error.message);
+        });
     }
     onCancelClick(){
-        this.setState({editablerecordid: null});
+        this.setState({editablerecord: null});
+    }
+    onFieldChange(fieldname: string, value: string | undefined){
+        let editablerecord = this.state.editablerecord;
+        if(editablerecord){
+            editablerecord[fieldname] = value ?? "";
+            this.setState({editablerecord: editablerecord});
+        }  
     }
     componentDidMount(): void {
         // var fetchxml = `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
@@ -104,12 +125,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.setState({items: items});
     }
     render(): React.ReactNode {
+        //const cols = [{key: "col1",fieldName: "col1", name: "Column 1"} as IColumn]
+        //const items = [1,2,3,4,5,6,7,8,9,10].map(function(i) { return {col1: "abcd"}});  
         return <div>
-                 <DetailsList
-                    items={[...this.state.items]}
-                    columns={[...this.state.columns]}
-                ></DetailsList> 
-            </div>
+            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
+        </div>
     }
 }
 
