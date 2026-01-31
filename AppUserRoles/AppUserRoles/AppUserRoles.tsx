@@ -19,6 +19,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         super(props);   
         let cols: IColumn[] = [];
         this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
+                if(c.name == "cr549_id") return;
                 cols.push({
                     key: c.name,
                     name: c.displayName,
@@ -27,9 +28,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     isResizable: true,
                     onRender: (item: any) => { 
                         if(this.state.editablerecordid && this.state.editablerecordid == item.id){
-                            return <TextField defaultValue={item[c.name]} />;
+                            return <TextField defaultValue={item[c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","")] ?? ""} />;
                         }   
-                        return <Text>{item[c.name]}</Text>;
+                        return <Text>{item[c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","")] ?? ""}</Text>;
                     }
                 } as IColumn);
         });
@@ -47,6 +48,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 }
             }
         } as IColumn;
+        // cols.push({
+        //     key: "appuserrole_cr549_person",
+        //     name: "Person",
+        //     fieldName: "cr549_person",
+        //     minWidth: 150,
+        // });
+        //cols.push({})
         
         this.state = {
             columns: [customcolumn, ...cols],
