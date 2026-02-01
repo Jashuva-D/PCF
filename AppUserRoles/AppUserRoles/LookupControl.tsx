@@ -43,21 +43,26 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         this.setState({ allitems: recs });
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
-        return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+        if(filterText == null || filterText.trim() == "")
+            return this.state.allitems;
+        else
+            return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
     }
     render() {
         return (    
             <NormalPeoplePicker
+                onEmptyResolveSuggestions={() => this.state.allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
-                //onItemSelected={(item) => this.props.onRecordSelect(item?.id ?? "", item?.text ?? "")}
+                defaultSelectedItems={this.state.allitems.filter(x => x.id == this.props.recordId)}
+                itemLimit={1}
+                onChange={(items) => {
+                    if(items && items.length > 0) {
+                        var item = items[0];
+                        this.props.onRecordSelect(item.id as string, item.text as string);
+                    }
+                }}
+                inputProps={{ style: { backgroundColor: 'white', width: 150 } }}
             />
-
-            // <select onChange={this.handleLookupChange} value={this.state.selectedRecord ? this.state.selectedRecord.id : ""}>
-            //     <option value="">-- Select a record --</option>
-            //     {/* In a real scenario, options would be populated dynamically from the context or a data source */}    
-            //     <option value="record1">Record 1</option>
-            //     <option value="record2">Record 2</option>
-            // </select>
         );
     }   
 
