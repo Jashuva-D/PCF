@@ -38,6 +38,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     onChange={(event, value) => this.onFieldChange(columnname, value)}
                                 />;
                             }
+                            else if(columnname == "cr549_role"){
+                                return <LookupControl context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} onRecordSelect={(id, name) => {
+                                    this.onFieldChange(columnname, {key: id, text: name});
+                                }}></LookupControl>;    
+                            }
                             return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                         }   
                         return <Text>{item[columnname] ?? ""}</Text>;
