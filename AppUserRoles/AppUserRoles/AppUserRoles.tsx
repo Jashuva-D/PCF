@@ -4,6 +4,7 @@ import {DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/D
 import { Icon } from "@fluentui/react/lib/Icon";
 import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown } from "@fluentui/react";
 import { error } from "console";
+import LookupControl from "./LookupControl";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -27,12 +28,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_"),
                     minWidth: 150,
                     isResizable: true,
-                    onRender: (item: any) => { 
+                    onRender: (item: any) => {
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
                             if(columnname == "project_cr549_service_desk_agent"){
                                 return <Dropdown
-                                    options={[{key: 0, text: "Primary"}, {key: 1, text: "Secondary"}]}
+                                    options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
                                     defaultSelectedKey={item[`${columnname}_value`]}
                                     onChange={(event, value) => this.onFieldChange(columnname, value)}
                                 />;
@@ -75,7 +76,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
-            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"]
+            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"] as number | null
         }
 
         this.props.context.webAPI.updateRecord("cr549_person", personid, record).then(function(resp){
@@ -139,6 +140,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         //const items = [1,2,3,4,5,6,7,8,9,10].map(function(i) { return {col1: "abcd"}});  
         return <div>
             <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
+            {/* <LookupControl context={this.props.context} entityType="cr549_person" recordId={this.state.editablerecord?.Id ?? null} onRecordSelect={(id, name) => {}}></LookupControl>
+            <Dropdown
+                options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
+                defaultSelectedKey={null}
+                //onChange={(event, value) => this.onFieldChange(columnname, value)}
+            />; */}
         </div>
     }
 }
