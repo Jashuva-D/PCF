@@ -122,7 +122,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 editablerecord[fieldname] = value?.name,
                 editablerecord[`${fieldname}_value`] = value == null ? null : value
             }
-            editablerecord[fieldname] = value ?? "";
+            else {
+                editablerecord[fieldname] = value ?? "";
+            }
             this.setState({editablerecord: editablerecord});
         }  
     }
