@@ -29,21 +29,18 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         this.props.onRecordSelect(selectedId, selectedName);
     };
     componentDidMount() {
-        var recs = [];
-        this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_name,cr549_id").then(
+        var recs : IPersonaProps[] = [];
+        this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_role_name,cr549_id,cr549_roleid").then(
             (response) => {
                 response.entities.forEach((ent) => {
-                    recs.push({ id: ent["cr549_id"], text: ent["cr549_name"] } as IPersonaProps);
+                    recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
                 });
             },
             (error) => {
                 console.error("Error fetching records: ", error);
             }
         );  
-
-        this.setState({
-            selectedRecord: this.props.recordId ? { id: this.props.recordId, name: "" } : null
-        });
+        this.setState({ allitems: recs });
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
         return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
@@ -52,6 +49,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         return (    
             <NormalPeoplePicker
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
+                //onItemSelected={(item) => this.props.onRecordSelect(item?.id ?? "", item?.text ?? "")}
             />
 
             // <select onChange={this.handleLookupChange} value={this.state.selectedRecord ? this.state.selectedRecord.id : ""}>
