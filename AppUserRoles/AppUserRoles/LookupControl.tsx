@@ -10,7 +10,7 @@ interface LookupControlProps {
     onRecordSelect: (id: string, name: string) => void;
 }
 interface LookupControlState {
-    selectedRecord: { id: string; name: string } | null,
+    selectedRecords: IPersonaProps[]
     allitems: IPersonaProps[]
 }   
 
@@ -18,16 +18,10 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     constructor(props: LookupControlProps) {
         super(props);
         this.state = {
-            selectedRecord: null,
+            selectedRecords: [],
             allitems: []
         };
     }
-    handleLookupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedId = event.target.value;
-        const selectedName = event.target.options[event.target.selectedIndex].text;
-        this.setState({ selectedRecord: { id: selectedId, name: selectedName } });
-        this.props.onRecordSelect(selectedId, selectedName);
-    };
     componentDidMount() {
         var recs : IPersonaProps[] = [];
         this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_role_name,cr549_id,cr549_roleid").then(
@@ -39,8 +33,9 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             (error) => {
                 console.error("Error fetching records: ", error);
             }
-        );  
-        this.setState({ allitems: recs });
+        );
+        var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
+        this.setState({ allitems: recs, selectedRecords: selectedrecords });
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
         if(filterText == null || filterText.trim() == "")
@@ -54,7 +49,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             <NormalPeoplePicker
                 onEmptyResolveSuggestions={() => allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
-                defaultSelectedItems={this.state.allitems.filter(x => x.id == this.props.recordId)}
+                defaultSelectedItems={this.state.selectedRecords}
                 itemLimit={1}
                 onChange={(items) => {
                     if(items && items.length > 0) {

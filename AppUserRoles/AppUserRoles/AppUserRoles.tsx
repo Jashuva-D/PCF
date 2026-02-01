@@ -91,7 +91,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
-            "cr549_service_desk_agent":this.state.editablerecord["project_cr549_service_desk_agent_value"] != null ? parseInt(this.state.editablerecord["project_cr549_service_desk_agent_value"],10) : null
+            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"] == null ? null :
+              this.state.editablerecord["project_cr549_service_desk_agent_value"] == "0" ? false : true 
         }
 
         await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
