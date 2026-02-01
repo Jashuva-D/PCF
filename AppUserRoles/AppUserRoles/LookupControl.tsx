@@ -47,14 +47,14 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     }
     render() {
         const allitems = [...this.state.allitems];
-        const selecteditems = [{id : "21b89b15-93fc-f011-8407-001dd8069576", text: "Test Role"} as IPersonaProps]
         return (    
             <NormalPeoplePicker
                 onEmptyResolveSuggestions={() => allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
-                defaultSelectedItems={selecteditems}
+                selectedItems={[...this.state.selectedRecords]}
                 itemLimit={1}
                 onChange={(items) => {
+                    this.setState({selectedRecords: items ?? []})
                     if(items && items.length > 0) {
                         var item = items[0];
                         this.props.onRecordSelect(item.id as string, item.text as string);
