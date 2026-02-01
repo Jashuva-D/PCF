@@ -47,6 +47,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />;
                             }
+                            else if(columnname == "cr549_person" || columnname == "project_cr549_id"){
+                                return <Text>{item[columnname] ?? ""}</Text>;
+                            }
                             return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                         }   
                         return <Text>{item[columnname] ?? ""}</Text>;
