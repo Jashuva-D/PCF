@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import {DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown } from "@fluentui/react";
+import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
 
@@ -145,10 +145,26 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         });
         this.setState({items: items});
     }
+    onNewAppUserRole(){
+        var obj = this;
+        this.props.context.navigation.openForm({
+            entityName: "cr549_appuserrole",
+            useQuickCreateForm: true,
+            createFromEntity: {
+                id: (obj.props.context as any).page.entityId,
+                entityType: "cr549_application"
+            }
+        });
+    }
     render(): React.ReactNode {
         //const cols = [{key: "col1",fieldName: "col1", name: "Column 1"} as IColumn]
         //const items = [1,2,3,4,5,6,7,8,9,10].map(function(i) { return {col1: "abcd"}});  
         return <div>
+            <Stack horizontal horizontalAlign="end">
+                <CommandBar
+                    items={[{key: `newrecord`, text: "New App User Role", iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10}]}
+                />
+            </Stack>
             <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
         </div>
     }
