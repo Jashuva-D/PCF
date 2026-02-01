@@ -75,7 +75,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         }
     }
     onEditClick(item: any){
-        this.setState({editablerecord: item});
+        this.setState({editablerecord: {...item}});
     }
     async onSaveClick(){
         var obj = this;
@@ -118,7 +118,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 editablerecord[`${fieldname}_value`] = value?.key ?? null;
                 editablerecord[fieldname] = value?.text ?? null;
             }
-            if(fieldname == "cr549_role"){
+            else if(fieldname == "cr549_role"){
                 editablerecord[fieldname] = value?.name,
                 editablerecord[`${fieldname}_value`] = value == null ? null : value
             }
