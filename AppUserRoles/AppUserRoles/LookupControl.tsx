@@ -49,9 +49,10 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
     }
     render() {
+        const allitems = [...this.state.allitems];
         return (    
             <NormalPeoplePicker
-                onEmptyResolveSuggestions={() => this.state.allitems}
+                onEmptyResolveSuggestions={() => allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                 defaultSelectedItems={this.state.allitems.filter(x => x.id == this.props.recordId)}
                 itemLimit={1}

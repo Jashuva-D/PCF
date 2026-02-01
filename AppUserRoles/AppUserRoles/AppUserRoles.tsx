@@ -27,6 +27,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     name: c.displayName,
                     fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_"),
                     minWidth: 150,
+                    maxWidth: 200,
                     isResizable: true,
                     onRender: (item: any) => {
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
@@ -39,9 +40,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />;
                             }
                             else if(columnname == "cr549_role"){
-                                return <LookupControl context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} onRecordSelect={(id, name) => {
-                                    this.onFieldChange(columnname, {key: id, text: name});
-                                }}></LookupControl>;    
+                                return <LookupControl 
+                                    context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} 
+                                    onRecordSelect={(id, name) => {
+                                            this.onFieldChange(columnname, {id: {guid: id}, name: name, entityType: "cr549_role"});
+                                    }}
+                                />;
                             }
                             return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                         }   
@@ -51,8 +55,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         });
         let customcolumn = {
             key: "customcolumn",
-            minWidth: 50,
-            maxWidth: 100,
+            minWidth: 35,
+            maxWidth: 50,
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecord && this.state.editablerecord.id == item.id){
@@ -73,18 +77,30 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onEditClick(item: any){
         this.setState({editablerecord: item});
     }
-    onSaveClick(){
+    async onSaveClick(){
         var obj = this;
-        var personid = this.state.editablerecord["cr549_person_value"].id.guid;
+        var appuserroleid = this.state.editablerecord.id;
+        var roleid = this.state.editablerecord["cr549_role_value"]?.id?.guid;
+        var personid = this.state.editablerecord["cr549_person_value"]?.id.guid;
 
-        var record = {
+        var appuserrole = {
+            "cr549_role@odata.bind" : roleid == undefined ? null : `/cr549_roles(${roleid})`,
+            "cr549_person@odata.bind" : personid == undefined ? null : `/cr549_persons(${personid})`
+        }
+        var person = {
             "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
-            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"] as number | null
+            "cr549_service_desk_agent":this.state.editablerecord["project_cr549_service_desk_agent_value"] != null ? parseInt(this.state.editablerecord["project_cr549_service_desk_agent_value"],10) : null
         }
 
-        this.props.context.webAPI.updateRecord("cr549_person", personid, record).then(function(resp){
+        await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
+            console.log('updated app user role successfully')
+        },function(err){
+            console.log("failed to update app user role");
+        })
+
+        obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
             alert("Record updated successfully.");  
             obj.setState({editablerecord: null});
         },function(error){
@@ -101,29 +117,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 editablerecord[`${fieldname}_value`] = value?.key ?? null;
                 editablerecord[fieldname] = value?.text ?? null;
             }
+            if(fieldname == "cr549_role"){
+                editablerecord[fieldname] = value?.name,
+                editablerecord[`${fieldname}_value`] = value == null ? null : value
+            }
             editablerecord[fieldname] = value ?? "";
             this.setState({editablerecord: editablerecord});
         }  
     }
     componentDidMount(): void {
-        // var fetchxml = `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="false">
-        //         <entity name="cr549_appuserrole">
-        //         <attribute name="cr549_person"/>
-        //         <attribute name="cr549_appuserroleid"/>
-        //         <attribute name="cr549_role"/>
-        //         <order attribute="cr549_person" descending="false"/>
-        //         <filter type="and">
-        //         <condition attribute="cr549_app" operator="eq" uiname="1115 PMDA" uitype="cr549_application" value="{9A5926CF-7DDF-F011-8544-001DD806C085}"/>
-        //         </filter>
-        //         <link-entity name="cr549_person" from="cr549_personid" to="cr549_person" visible="false" link-type="outer" alias="a_0bbe2879d1e8f0118544001dd8096c2b">
-        //         <attribute name="cr549_email_address_2"/>
-        //         <attribute name="cr549_direct_phone"/>
-        //         <attribute name="cr549_email_address"/>
-        //         <attribute name="cr549_service_desk_agent"/>
-        //         <attribute name="cr549_id"/>
-        //         </link-entity>
-        //         </entity>
-        //         </fetch>"`;
         let items: any[] = [];
         this.props.context.parameters.sampleDataSet.sortedRecordIds.forEach((id) => {
             const record = this.props.context.parameters.sampleDataSet.records[id];
@@ -145,12 +147,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         //const items = [1,2,3,4,5,6,7,8,9,10].map(function(i) { return {col1: "abcd"}});  
         return <div>
             <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
-            {/* <LookupControl context={this.props.context} entityType="cr549_person" recordId={this.state.editablerecord?.Id ?? null} onRecordSelect={(id, name) => {}}></LookupControl>
-            <Dropdown
-                options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
-                defaultSelectedKey={null}
-                //onChange={(event, value) => this.onFieldChange(columnname, value)}
-            />; */}
         </div>
     }
 }
