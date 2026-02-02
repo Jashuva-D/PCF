@@ -82,7 +82,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
                             else if(columnname == "person_cr549_email_address" || columnname == "person_cr549_email_address_2"){
-                                return <Link href={`mailto:${item[columnname+'_value']}`} />
+                                return <Link href={`mailto:${item[columnname+'_value']}`}>{item[columnname]}</Link>
                             }
                             else {
                                 return <Text>{item[columnname] ?? ""}</Text>;
@@ -108,11 +108,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         
         this._selection = new Selection({
             onSelectionChanged : () => {
+                console.log("on selection changed")
                 //var items = this._selection.getSelection();
                 //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
                 // this.setState({
                 //     selectedrecordids: items.map(x => x.key as string)
                 // });
+            },
+            onItemsChanged : () => {
+                console.log("on item changed");
             },
             getKey: (item) => {
                 return item.key as string;
