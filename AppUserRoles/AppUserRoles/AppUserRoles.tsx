@@ -81,7 +81,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     })
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
-                            else if(columnname == "project_cr549_email_address" || columnname == "project_cr549_email_address_2"){
+                            else if(columnname == "person_cr549_email_address" || columnname == "person_cr549_email_address_2"){
                                 return <Link href={`mailto:${item[columnname+'_value']}`} />
                             }
                             else {
@@ -110,9 +110,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             onSelectionChanged : () => {
                 var items = this._selection.getSelection();
                 this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
-                this.setState({
-                    selectedrecordids: items.map(x => x.key as string)
-                });
+                // this.setState({
+                //     selectedrecordids: items.map(x => x.key as string)
+                // });
             },
             getKey: (item) => {
                 return item.key as string;
@@ -248,7 +248,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     ]}
                 />
             </Stack>
-            <DetailsList items={this.state.items} columns={[...this.state.columns]} selection={this._selection}></DetailsList>
+            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]} selection={this._selection}></DetailsList>
         </div>
     }
 }
