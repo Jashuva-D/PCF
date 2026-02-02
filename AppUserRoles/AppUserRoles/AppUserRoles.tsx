@@ -105,16 +105,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 }
             }
         } as IColumn;
-        
+        var obj = this;
         this._selection = new Selection({
-            onSelectionChanged : () => {
-                console.log("on selection changed")
-                //var items = this._selection.getSelection();
-                //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
-                // this.setState({
-                //     selectedrecordids: items.map(x => x.key as string)
-                // });
-            },
+            onSelectionChanged : obj.onSelectionChanged.bind(obj),
             onItemsChanged : () => {
                 console.log("on item changed");
             },
@@ -132,6 +125,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onEditClick(item: any){
         this.setState({editablerecord: {...item}});
+    }
+    onSelectionChanged(){
+        var items = this._selection.getSelection();
+        this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
+        // this.setState({
+        //     selectedrecordids: items.map(x => x.key as string)
+        // });
     }
     async onSaveClick(){
         var obj = this;
