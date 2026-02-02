@@ -1,10 +1,12 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import {DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
+import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
+import { CMSAlertType } from "./Constants";
+import CMSAlert from "./CMSAlert";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -13,9 +15,16 @@ interface AppUserRolesState{
     columns: IColumn[];
     items: any[];
     editablerecord : any | null;
+    showalert : boolean;
+    alert? : {
+        messagetype : CMSAlertType,
+        message : string
+    }
+    selectedrecordids : string[]
 }
 
 class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState> {
+    private _selection : Selection
     constructor(props: AppUserRolesProps) {
         super(props); initializeIcons();
         
@@ -31,6 +40,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     isResizable: true,
                     onRender: (item: any) => {
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
+
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
                             if(columnname == "project_cr549_service_desk_agent"){
                                 return <Dropdown
@@ -48,11 +58,36 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />;
                             }
                             else if(columnname == "cr549_person" || columnname == "project_cr549_id"){
+                                <Text>{item[columnname] ?? ""}</Text>;
+                            }
+                            else {
+                                return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
+                            }
+                        }
+                        else {
+                            if(columnname == "cr549_person"){
+                                return <Link onClick={() => {
+                                    this.props.context.navigation.openForm({
+                                        entityName: "cr549_person",
+                                        entityId: item["cr549_person_value"]?.id?.guid
+                                    })
+                                }}>{item[columnname] ?? ""}</Link>;
+                            }
+                            else if(columnname == "cr549_role"){
+                                return <Link onClick={() => {
+                                    this.props.context.navigation.openForm({
+                                        entityName: "cr549_role",
+                                        entityId: item["cr549_role_value"]?.id?.guid
+                                    })
+                                }}>{item[columnname] ?? ""}</Link>;
+                            }
+                            else if(columnname == "project_cr549_email_address" || columnname == "project_cr549_email_address_2"){
+                                return <Link href={`mailto:${item[columnname+'_value']}`} />
+                            }
+                            else {
                                 return <Text>{item[columnname] ?? ""}</Text>;
                             }
-                            return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
-                        }   
-                        return <Text>{item[columnname] ?? ""}</Text>;
+                        }
                     }
                 } as IColumn);
         });
@@ -71,10 +106,24 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             }
         } as IColumn;
         
+        this._selection = new Selection({
+            onSelectionChanged : () => {
+                var items = this._selection.getSelection();
+                this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
+                this.setState({
+                    selectedrecordids: items.map(x => x.key as string)
+                });
+            },
+            getKey: (item) => {
+                return item.key as string;
+            }
+        });
         this.state = {
             columns: [customcolumn, ...cols],
             items: [],
-            editablerecord: null
+            editablerecord: null,
+            showalert: false,
+            selectedrecordids: []
         }
     }
     onEditClick(item: any){
@@ -136,6 +185,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.props.context.parameters.sampleDataSet.sortedRecordIds.forEach((id) => {
             const record = this.props.context.parameters.sampleDataSet.records[id];
             let item: any = {};
+            item.key = id;
             item.id = id;
             this.state.columns.forEach((c : IColumn) => {
                 
@@ -159,16 +209,46 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             }
         });
     }
+    onRefresh(){
+        this.props.context.parameters.sampleDataSet.refresh();
+    }
+    onDelete() {
+        var obj = this;
+        var selectedrecords = this.props.context.parameters.sampleDataSet.getSelectedRecordIds();
+        selectedrecords.forEach(x => {
+            obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
+                obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully")
+            },function(err){
+                obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
+            })
+        });
+    }
+    showAlertMessage(messagetype: CMSAlertType, message: string){
+        var obj = this;
+        this.setState({ 
+            showalert: true, 
+            alert : {
+                messagetype : messagetype,
+                message : message
+            }
+        });
+        setTimeout(() => {
+            obj.setState({showalert : false})
+        }, 10000);
+    }
     render(): React.ReactNode {
-        //const cols = [{key: "col1",fieldName: "col1", name: "Column 1"} as IColumn]
-        //const items = [1,2,3,4,5,6,7,8,9,10].map(function(i) { return {col1: "abcd"}});  
         return <div>
+            { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
             <Stack horizontal horizontalAlign="end">
                 <CommandBar
-                    items={[{key: `newrecord`, text: "New App User Role", iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10}]}
+                    items={[
+                        { key: "newrecord", text: "New App User Role", iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10},
+                        { key: "refresh", text: "Refresh", iconProps: {iconName: "Refresh"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onRefresh.bind(this), fontsize: 10 },
+                        { key: "delete", text: "Delete", iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this), disabled: (this._selection.getSelection().length == 0)}
+                    ]}
                 />
             </Stack>
-            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
+            <DetailsList items={this.state.items} columns={[...this.state.columns]} selection={this._selection}></DetailsList>
         </div>
     }
 }
