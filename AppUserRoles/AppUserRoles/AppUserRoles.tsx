@@ -251,7 +251,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     ]}
                 />
             </Stack>
-            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]} selection={this._selection}></DetailsList>
+            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
         </div>
     }
 }
