@@ -34,15 +34,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 cols.push({
                     key: c.name,
                     name: c.displayName,
-                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_"),
+                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_"),
                     minWidth: 150,
                     maxWidth: 200,
                     isResizable: true,
                     onRender: (item: any) => {
-                        let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","project_");
+                        let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_");
 
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                            if(columnname == "project_cr549_service_desk_agent"){
+                            if(columnname == "person_cr549_service_desk_agent"){
                                 return <Dropdown
                                     options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
                                     defaultSelectedKey={item[`${columnname}_value`]}
@@ -57,7 +57,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />;
                             }
-                            else if(columnname == "cr549_person" || columnname == "project_cr549_id"){
+                            else if(columnname == "cr549_person" || columnname == "person_cr549_id"){
                                 <Text>{item[columnname] ?? ""}</Text>;
                             }
                             else {
@@ -108,8 +108,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         
         this._selection = new Selection({
             onSelectionChanged : () => {
-                var items = this._selection.getSelection();
-                this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
+                //var items = this._selection.getSelection();
+                //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
                 // this.setState({
                 //     selectedrecordids: items.map(x => x.key as string)
                 // });
@@ -140,11 +140,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_person@odata.bind" : personid == undefined ? null : `/cr549_persons(${personid})`
         }
         var person = {
-            "cr549_email_address_2": this.state.editablerecord["project_cr549_email_address_2"],
-            "cr549_direct_phone": this.state.editablerecord["project_cr549_direct_phone"],
-            "cr549_email_address": this.state.editablerecord["project_cr549_email_address"],
-            "cr549_service_desk_agent": this.state.editablerecord["project_cr549_service_desk_agent_value"] == null ? null :
-              this.state.editablerecord["project_cr549_service_desk_agent_value"] == "0" ? false : true 
+            "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
+            "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
+            "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
+            "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null :
+              this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
         }
 
         await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
@@ -166,7 +166,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onFieldChange(fieldname: string, value: any){
         let editablerecord = this.state.editablerecord;
         if(editablerecord){
-            if(fieldname == "project_cr549_service_desk_agent"){
+            if(fieldname == "person_cr549_service_desk_agent"){
                 editablerecord[`${fieldname}_value`] = value?.key ?? null;
                 editablerecord[fieldname] = value?.text ?? null;
             }
@@ -188,7 +188,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             item.key = id;
             item.id = id;
             this.state.columns.forEach((c : IColumn) => {
-                
                 if(c.key != "customcolumn") {
                     item[c.fieldName ?? ""] = record.getFormattedValue(c.key);
                     item[`${c.fieldName}_value`] = record.getValue(c.key);
