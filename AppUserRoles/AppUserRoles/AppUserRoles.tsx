@@ -249,7 +249,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 />
             </Stack>
             <MarqueeSelection selection={this._selection}>
-                <DetailsList items={this.state.items} columns={this.state.columns} selection={this._selection} selectionMode={SelectionMode.multiple} />
+                <DetailsList items={this.state.items} columns={[...this.state.columns]} selection={this._selection} selectionMode={SelectionMode.multiple} />
             </MarqueeSelection>
         </div>
     }
