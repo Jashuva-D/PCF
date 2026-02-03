@@ -2,11 +2,13 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
 import CMSAlert from "./CMSAlert";
+import { SearchIcon } from "./Icons";
+import CMSDialog from "./CMSDialog";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -15,12 +17,22 @@ interface AppUserRolesState{
     columns: IColumn[];
     items: any[];
     editablerecord : any | null;
+    searchtext: string | null;
+    filterApplied: boolean;
     showalert : boolean;
     alert? : {
         messagetype : CMSAlertType,
         message : string
     }
-    selectedrecordids : string[]
+    selectedrecordids : string[],
+    showDialog?: boolean;
+    dialogTitle?: string;
+    dialogSubtext?: string;
+    dialogConfirmButtonLabel?: string;
+    dialogCancelButtonLabel?: string;
+    dialogConfirmCallback?: () => void;
+    dialogCancelCallback?: () => void;
+    dialogDismissCallback?: () => void;
 }
 
 class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState> {
@@ -120,7 +132,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             items: [],
             editablerecord: null,
             showalert: false,
-            selectedrecordids: []
+            selectedrecordids: [],
+            searchtext: "",
+            filterApplied: false
         }
     }
     onEditClick(item: any){
@@ -214,14 +228,31 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onDelete() {
         var obj = this;
-        var selectedrecords = this._selection.getSelection().map(x => x.key as string);
-        selectedrecords.forEach(x => {
-            obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
-                obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
-            },function(err){
-                obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
-            })
-        });
+        this.setState({
+            showDialog: true,
+            dialogTitle: "Confirm Deletion",
+            dialogSubtext: `Are you sure you want to delete the selected ${this._selection.getSelectedCount()} record(s)? This action cannot be undone.`,
+            dialogConfirmButtonLabel: "Delete",
+            dialogCancelButtonLabel: "Cancel",
+            dialogConfirmCallback: () => {
+                obj.setState({ showDialog: false });
+                var selectedrecords = this._selection.getSelection().map(x => x.key as string);
+                selectedrecords.forEach(x => {
+                    obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
+                        obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
+                    },function(err){
+                        obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
+                    })
+                });
+            },
+            dialogCancelCallback: () => {
+                obj.setState({ showDialog: false });
+            },
+            dialogDismissCallback: () => {
+                obj.setState({ showDialog: false });
+            }
+        })
+        
     }
     showAlertMessage(messagetype: CMSAlertType, message: string){
         var obj = this;
@@ -236,21 +267,133 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             obj.setState({showalert : false})
         }, 10000);
     }
+    onSearchClick(){
+        var obj = this;
+        let items: any[] = [];
+        this.state.items.forEach((item) => {
+            // if(item["cr549_notes"] && item["cr549_notes"].toLowerCase().includes(this.state.searchtext?.toLowerCase() || "")) {
+            //     items.push(item);
+            // }
+        });
+        this.setState({items: items, filterApplied: true});
+    }
+    onSearchClear(){
+    }    
     render(): React.ReactNode {
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
-            <Stack horizontal horizontalAlign="end">
-                <CommandBar
+            <Stack horizontal horizontalAlign="end" style={{marginTop: 10, marginRight: 10}}>
+                {/* <CommandBar
+
                     items={[
-                        { key: "newrecord", text: "New App User Role", iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10},
-                        { key: "refresh", text: "Refresh", iconProps: {iconName: "Refresh"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onRefresh.bind(this), fontsize: 10 },
-                        { key: "delete", text: "Delete", iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this)}
+                        { key: "newrecord", onRenderContent: <b>New App User Role</b>, iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15, color: "#f0f0f0" }, root: { backgroundColor: "#0D2499", color: "#f0f0f0", borderRadius: 6, height: 30, marginTop: 10, fontStyle: "Solid" }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10},
+                        { key: "refresh", label: <b>Refresh</b>, iconProps: {iconName: "Refresh"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onRefresh.bind(this), fontsize: 10 },
+                        { key: "delete", label: <b>Delete</b>, iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this)}
                     ]}
-                />
+                /> */}
+                <StackItem grow style={{marginRight: 10, marginLeft: 10}}>
+                    <TextField
+                        style={{ borderRadius: "10" }}
+                        value={this.state.searchtext || ""}
+                        placeholder="Search Notes..."
+                        onChange={(e, newValue) => {
+                            if (newValue == null || newValue == "") {
+                                this.setState({ searchtext: "", filterApplied: false })
+                            }
+                            else {
+                                this.setState({ searchtext: newValue || "" });
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                this.onSearchClick.bind(this)();
+                            }
+                        }}
+                        styles={{
+                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", height: 36 },
+                            field: { borderRadius: 6, height: 36, fontSize: 15, padding: 8 },
+                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                            suffix: { background: "transparent" },
+                        }}
+                        onRenderPrefix={() => (
+                            <span style={{ borderRadius: 20 }}><SearchIcon size={24} color="white" /> </span>
+                        )}
+                        onRenderSuffix={() =>
+                            this.state.searchtext != "" ? (
+                                <Icon
+                                    iconName="Clear"
+                                    style={{ marginRight: 8, cursor: "pointer" }}
+                                    onClick={this.onSearchClear.bind(this)}
+                                />
+                            ) : null
+                        }
+                    />
+                </StackItem>
+                <Stack horizontal tokens={{childrenGap: 10}} >
+                    <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={this.onNewAppUserRole.bind(this)} 
+                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%", whiteSpace: "nowrap" }}
+                        styles={ { 
+                            root: {
+                                height: 36,
+                                padding: "0 20px",
+                            },
+                            label: {
+                                fontSize: 15,
+                                lineHeight: 36,
+                            },
+                        }}
+                    />
+                    <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
+                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                        styles={ { 
+                            root: {
+                                height: 36,
+                                padding: "0 20px",
+                            },
+                            label: {
+                                fontSize: 15,
+                                lineHeight: 36,
+                            },
+                        }}
+                    />
+                    <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
+                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                        styles={ { 
+                            root: {
+                                height: 36,
+                                padding: "0 20px",
+                            },
+                            label: {
+                                fontSize: 15,
+                                lineHeight: 36,
+                            },
+                        }}
+                    />
+                </Stack>
             </Stack>
             <MarqueeSelection selection={this._selection}>
                 <DetailsList items={this.state.items} columns={[...this.state.columns]} selection={this._selection} selectionMode={SelectionMode.multiple} />
             </MarqueeSelection>
+            <CMSDialog
+                isOpen={this.state.showDialog!}
+                title={this.state.dialogTitle}
+                subText={this.state.dialogSubtext}
+                confirmButtonText={this.state.dialogConfirmButtonLabel}
+                cancelButtonText={this.state.dialogCancelButtonLabel}
+                onDismiss={() => {
+                    this.setState({ showDialog: false });
+                    this.state.dialogDismissCallback && this.state.dialogDismissCallback();
+                }}
+                onConfirm={() => {
+                    this.setState({ showDialog: false });
+                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                }}
+                onCancel={() => {
+                    this.setState({ showDialog: false });
+                    this.state.dialogCancelCallback && this.state.dialogCancelCallback();
+                }}
+            />
+
         </div>
     }
 }
