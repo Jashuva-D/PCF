@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
@@ -129,9 +129,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onSelectionChanged(){
         var items = this._selection.getSelection();
         this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
-        // this.setState({
-        //     selectedrecordids: items.map(x => x.key as string)
-        // });
     }
     async onSaveClick(){
         var obj = this;
@@ -158,10 +155,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         })
 
         obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
-            alert("Record updated successfully.");  
+            obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully")  
             obj.setState({editablerecord: null});
         },function(error){
-            alert("Error in updating record: " + error.message);
+            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
         });
     }
     onCancelClick(){
@@ -220,7 +217,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         var selectedrecords = this.props.context.parameters.sampleDataSet.getSelectedRecordIds();
         selectedrecords.forEach(x => {
             obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
-                obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully")
+                obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
             },function(err){
                 obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
             })
@@ -247,11 +244,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     items={[
                         { key: "newrecord", text: "New App User Role", iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10},
                         { key: "refresh", text: "Refresh", iconProps: {iconName: "Refresh"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onRefresh.bind(this), fontsize: 10 },
-                        { key: "delete", text: "Delete", iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this), disabled: (this._selection.getSelection().length == 0)}
+                        { key: "delete", text: "Delete", iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this), disabled: (this.props.context.parameters.sampleDataSet.getSelectedRecordIds().length == 0)}
                     ]}
                 />
             </Stack>
-            <DetailsList items={[...this.state.items]} columns={[...this.state.columns]}></DetailsList>
+            <MarqueeSelection selection={this._selection}><DetailsList items={[...this.state.items]} columns={[...this.state.columns]} selection={this._selection} /></MarqueeSelection>
         </div>
     }
 }
