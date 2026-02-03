@@ -58,7 +58,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />;
                             }
                             else if(columnname == "cr549_person" || columnname == "person_cr549_id"){
-                                <Text>{item[columnname] ?? ""}</Text>;
+                                return <Text>{item[columnname] ?? ""}</Text>;
                             }
                             else {
                                 return <TextField key={columnname} defaultValue={item[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
@@ -214,7 +214,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onDelete() {
         var obj = this;
-        var selectedrecords = this.props.context.parameters.sampleDataSet.getSelectedRecordIds();
+        var selectedrecords = this._selection.getSelection().map(x => x.key as string);
         selectedrecords.forEach(x => {
             obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
                 obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
