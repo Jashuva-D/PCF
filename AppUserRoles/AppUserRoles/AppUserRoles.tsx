@@ -153,10 +153,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         const columns = this.getColumns(column.fieldName ?? "");
         this.setState({columns: columns});
     }
-    getSortedRecords() {
+    getSortedRecords(items: any[]) {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
         if(sortedcolumn) {
-            var items = [...this.state.items];
+            var items = [...items];
             items.sort((a, b) => {
                 if (sortedcolumn!.isSortedDescending) {
                     return a[sortedcolumn!.fieldName ?? ""] < b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
@@ -307,7 +307,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         var obj = this;
         let items: any[] = [];
         
-        var fieldnames = ["cr549_person","cr549_role","person_cr549_email_address_2","person_cr549_direct_phone","person_cr549_email_address"]
+        var fieldnames = ["cr549_person","cr549_role","person_cr549_id","person_cr549_email_address_2","person_cr549_direct_phone","person_cr549_email_address"]
         
         this.state.items.forEach((item) => {
             for(var i=0;i<fieldnames.length;i++){
@@ -323,7 +323,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.setState({searchtext: "", filterApplied: false});
     }    
     render(): React.ReactNode {
-        var items = this.state.filterApplied ? this.state.fitlteredrecords : this.state.items;
+        var items = this.getSortedRecords(this.state.filterApplied ? this.state.fitlteredrecords : this.state.items);
+
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
             <Stack horizontal horizontalAlign="end" style={{marginTop: 10, marginRight: 10}}>
@@ -418,7 +419,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             </Stack>
             <MarqueeSelection selection={this._selection}>
                 <DetailsList 
-                    items={items} columns={[...this.state.columns]} 
+                    items={items ?? []} columns={[...this.state.columns]} 
                     selection={this._selection} selectionMode={SelectionMode.multiple}
                     checkboxVisibility={1}
                 />

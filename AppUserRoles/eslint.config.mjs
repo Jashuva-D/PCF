@@ -45,6 +45,9 @@ export default [
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-empty-function": "off",
       "promise/catch-or-return": "off",
+       "@typescript-eslint/prefer-for-of": "off",
+       "@typescript-eslint/explicit-function-return-type": "off",
+       "@typescript-eslint/explicit-module-boundary-types": "off",
     },
   },
 ];
