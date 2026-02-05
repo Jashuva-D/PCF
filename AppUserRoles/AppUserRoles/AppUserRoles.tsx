@@ -142,6 +142,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onSelectionChanged(){
         var items = this._selection.getSelection();
+        this.setState({selectedrecordids: items.map(x => x.key as string)});
         //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
     }
     async onSaveClick(){
@@ -227,6 +228,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.props.context.parameters.sampleDataSet.refresh();
     }
     onDelete() {
+        if(this._selection.getSelectedCount() == 0){
+            return;
+        }
         var obj = this;
         this.setState({
             showDialog: true,
@@ -237,12 +241,14 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             dialogConfirmCallback: () => {
                 obj.setState({ showDialog: false });
                 var selectedrecords = this._selection.getSelection().map(x => x.key as string);
-                selectedrecords.forEach(x => {
-                    obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
-                        obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
+                Promise.all(selectedrecords.map(x => {
+                    return obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
+                        return true
                     },function(err){
-                        obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
+                        return obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
                     })
+                })).then(() => {
+                    obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
                 });
             },
             dialogCancelCallback: () => {
@@ -368,6 +374,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 lineHeight: 36,
                             },
                         }}
+                        disabled={this._selection.getSelectedCount() === 0}
                     />
                 </Stack>
             </Stack>
