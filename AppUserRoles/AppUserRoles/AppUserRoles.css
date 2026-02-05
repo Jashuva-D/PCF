@@ -1,0 +1,15 @@
+/* Circle border when not selected */
+.myCheckboxCell .ms-Check-circle {
+  stroke: red;
+}
+
+/* Circle fill when selected */
+.myCheckboxCell .is-checked .ms-Check-circle {
+  fill: green;
+  stroke: green;
+}
+
+/* Checkmark color */
+.myCheckboxCell .is-checked .ms-Check-check {
+  fill: white;
+}

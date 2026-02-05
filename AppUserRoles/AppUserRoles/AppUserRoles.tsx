@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
@@ -19,6 +19,7 @@ interface AppUserRolesState{
     editablerecord : any | null;
     searchtext: string | null;
     filterApplied: boolean;
+    fitlteredrecords: any[];
     showalert : boolean;
     alert? : {
         messagetype : CMSAlertType,
@@ -41,15 +42,44 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         super(props); initializeIcons();
         
         let cols: IColumn[] = [];
+        
+        var obj = this;
+        this._selection = new Selection({
+            onSelectionChanged : obj.onSelectionChanged.bind(obj),
+            onItemsChanged : () => {
+                console.log("on item changed");
+            },
+            getKey: (item) => {
+                return item.key as string;
+            }
+        });
+        this.state = {
+            columns: this.getColumns("cr549_person"),
+            items: [],
+            editablerecord: null,
+            showalert: false,
+            selectedrecordids: [],
+            searchtext: "",
+            filterApplied: false,
+            fitlteredrecords: []
+        }
+    }
+    getColumns(sortedcolumn : string): IColumn[] {
+        var currentsortedcolumn = this.state?.columns ? this.state.columns?.find(x => x.isSorted) : null;
+        var cols : IColumn[] = [];
         this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
                 if(c.name == "cr549_id") return;
+                var colname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_")
                 cols.push({
                     key: c.name,
                     name: c.displayName,
-                    fieldName: c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_"),
+                    fieldName: colname,
                     minWidth: 150,
                     maxWidth: 200,
                     isResizable: true,
+                    isSorted: colname === sortedcolumn ? true : false,
+                    isSortedDescending: currentsortedcolumn && currentsortedcolumn.fieldName === colname ? !currentsortedcolumn.isSortedDescending : true,
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_");
 
@@ -117,24 +147,24 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 }
             }
         } as IColumn;
-        var obj = this;
-        this._selection = new Selection({
-            onSelectionChanged : obj.onSelectionChanged.bind(obj),
-            onItemsChanged : () => {
-                console.log("on item changed");
-            },
-            getKey: (item) => {
-                return item.key as string;
-            }
-        });
-        this.state = {
-            columns: [customcolumn, ...cols],
-            items: [],
-            editablerecord: null,
-            showalert: false,
-            selectedrecordids: [],
-            searchtext: "",
-            filterApplied: false
+        return [customcolumn, ...cols];
+    }
+    onColumnClick(evt: React.MouseEvent<HTMLElement>, column: IColumn) {
+        const columns = this.getColumns(column.fieldName ?? "");
+        this.setState({columns: columns});
+    }
+    getSortedRecords() {
+        var sortedcolumn = this.state.columns.find(x => x.isSorted);
+        if(sortedcolumn) {
+            var items = [...this.state.items];
+            items.sort((a, b) => {
+                if (sortedcolumn!.isSortedDescending) {
+                    return a[sortedcolumn!.fieldName ?? ""] < b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
+                } else {
+                    return a[sortedcolumn!.fieldName ?? ""] > b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
+                }
+            });
+            return items;
         }
     }
     onEditClick(item: any){
@@ -276,16 +306,24 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onSearchClick(){
         var obj = this;
         let items: any[] = [];
+        
+        var fieldnames = ["cr549_person","cr549_role","person_cr549_email_address_2","person_cr549_direct_phone","person_cr549_email_address"]
+        
         this.state.items.forEach((item) => {
-            // if(item["cr549_notes"] && item["cr549_notes"].toLowerCase().includes(this.state.searchtext?.toLowerCase() || "")) {
-            //     items.push(item);
-            // }
+            for(var i=0;i<fieldnames.length;i++){
+                if(item[fieldnames[i]] && item[fieldnames[i]].toLowerCase().includes(this.state.searchtext?.toLowerCase() || "")) {
+                    items.push(item);
+                    break;
+                }
+            }
         });
-        this.setState({items: items, filterApplied: true});
+        this.setState({fitlteredrecords: items, filterApplied: true});
     }
     onSearchClear(){
+        this.setState({searchtext: "", filterApplied: false});
     }    
     render(): React.ReactNode {
+        var items = this.state.filterApplied ? this.state.fitlteredrecords : this.state.items;
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
             <Stack horizontal horizontalAlign="end" style={{marginTop: 10, marginRight: 10}}>
@@ -363,7 +401,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         }}
                     />
                     <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
-                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                        style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#6B78D6" : "#0D2499", width: "100%" }}
                         styles={ { 
                             root: {
                                 height: 36,
@@ -374,12 +412,16 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 lineHeight: 36,
                             },
                         }}
-                        disabled={this._selection.getSelectedCount() === 0}
+                        disabled={this.state.selectedrecordids.length === 0}
                     />
                 </Stack>
             </Stack>
             <MarqueeSelection selection={this._selection}>
-                <DetailsList items={this.state.items} columns={[...this.state.columns]} selection={this._selection} selectionMode={SelectionMode.multiple} />
+                <DetailsList 
+                    items={items} columns={[...this.state.columns]} 
+                    selection={this._selection} selectionMode={SelectionMode.multiple}
+                    checkboxVisibility={1}
+                />
             </MarqueeSelection>
             <CMSDialog
                 isOpen={this.state.showDialog!}
