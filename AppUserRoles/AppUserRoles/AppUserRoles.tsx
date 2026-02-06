@@ -164,9 +164,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     return a[sortedcolumn!.fieldName ?? ""] > b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
                 }
             });
+            this._selection.setItems(items, true);
             return items;
         }
-        this._selection.setItems(this.state.items, true);
+        
     }
     onEditClick(item: any){
         this.setState({editablerecord: {...item}});
