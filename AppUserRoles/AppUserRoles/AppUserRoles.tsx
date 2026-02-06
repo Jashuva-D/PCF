@@ -156,7 +156,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     getSortedRecords(items: any[]) {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
         if(sortedcolumn) {
-            var items = this.state.items;
+            var items = this.state.filterApplied ? [...this.state.fitlteredrecords] : [...this.state.items];
             items.sort((a, b) => {
                 if (sortedcolumn!.isSortedDescending) {
                     return a[sortedcolumn!.fieldName ?? ""] < b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
@@ -189,8 +189,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
-            "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null :
-              this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
+            "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
         }
 
         await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
