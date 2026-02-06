@@ -153,7 +153,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         const columns = this.getColumns(column.fieldName ?? "");
         this.setState({columns: columns});
     }
-    getSortedRecords(items: any[]) {
+    getSortedRecords() {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
         if(sortedcolumn) {
             var items = this.state.filterApplied ? [...this.state.fitlteredrecords] : [...this.state.items];
@@ -322,7 +322,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.setState({searchtext: "", filterApplied: false});
     }    
     render(): React.ReactNode {
-        var items = this.getSortedRecords(this.state.filterApplied ? this.state.fitlteredrecords : this.state.items);
+        var items = this.getSortedRecords();
 
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
@@ -421,6 +421,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     items={items ?? []} columns={[...this.state.columns]} 
                     selection={this._selection} selectionMode={SelectionMode.multiple}
                     checkboxVisibility={1}
+                    getKey={(item) => item.key}
                 />
             </MarqueeSelection>
             <CMSDialog
