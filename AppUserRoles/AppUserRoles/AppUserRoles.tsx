@@ -457,7 +457,20 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     getKey={(item) => item.key}
                     enterModalSelectionOnTouch={true}
                     selectionPreservedOnEmptyClick={true}
-                    //onRenderCheckbox={this.onRenderCheckbox}
+                    styles={{
+                        root : {
+                            selectors : {
+                                ".ms-DetailsHeader .is-checked .ms-Check-circle": {
+                                    "background-color": "#0D2499",
+                                    "border-radius": "50%",
+                                },
+                                ".ms-DetailsRow .is-checked .ms-Check-circle": {
+                                    "background-color": "#0D2499",
+                                    "border-radius": "50%",
+                                }
+                            }
+                        }
+                    }}
                 />
             </MarqueeSelection>
             <CMSDialog

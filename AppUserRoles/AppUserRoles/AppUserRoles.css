@@ -1,15 +1,10 @@
-/* Circle border when not selected */
-.myCheckboxCell .ms-Check-circle {
-  stroke: red;
+ /* .ms-DetailsRow .is-checked .ms-Check-circle {
+  background-color: #0D2499;
+  border-radius: 50%;
 }
 
-/* Circle fill when selected */
-.myCheckboxCell .is-checked .ms-Check-circle {
-  fill: green;
-  stroke: green;
-}
-
-/* Checkmark color */
-.myCheckboxCell .is-checked .ms-Check-check {
-  fill: white;
-}
+.ms-DetailsHeader .is-checked .ms-Check-circle {
+  background-color: #0D2499;
+  border-radius: 50%; 
+  border-color: #0D2499;
+}  */
