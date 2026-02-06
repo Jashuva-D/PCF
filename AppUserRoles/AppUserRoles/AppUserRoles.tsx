@@ -155,8 +155,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     getSortedRecords() {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
-        if(sortedcolumn) {
+        if (sortedcolumn) {
             var items = this.state.filterApplied ? [...this.state.fitlteredrecords] : [...this.state.items];
+
+            // Preserve the selection state
+            const selectedKeys = new Set(this.state.selectedrecordids);
+
             items.sort((a, b) => {
                 if (sortedcolumn!.isSortedDescending) {
                     return a[sortedcolumn!.fieldName ?? ""] < b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
@@ -164,7 +168,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     return a[sortedcolumn!.fieldName ?? ""] > b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
                 }
             });
-            this._selection.setItems(items, true);
+
+            // Update the selection with the sorted items
+            this._selection.setItems(items, false);
+            const selectedItems = items.filter(item => selectedKeys.has(item.key));
+            selectedItems.forEach(item => this._selection.setKeySelected(item.key, true, false));
+
             return items;
         }
         
