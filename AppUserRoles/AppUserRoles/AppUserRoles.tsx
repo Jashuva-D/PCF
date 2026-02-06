@@ -45,7 +45,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         
         var obj = this;
         this._selection = new Selection({
-            onSelectionChanged : obj.onSelectionChanged.bind(obj),
+            onSelectionChanged : obj.onSelectionChanged.bind(this),
             onItemsChanged : () => {
                 console.log("on item changed");
             },
@@ -140,7 +140,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                    return <Stack horizontal tokens={{childrenGap: 20}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
+                    return <Stack horizontal tokens={{childrenGap: 15}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
                     return <div><Icon iconName="Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={this.state.editablerecord != null ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: this.state.editablerecord == null ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
@@ -151,7 +151,14 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onColumnClick(evt: React.MouseEvent<HTMLElement>, column: IColumn) {
         const columns = this.getColumns(column.fieldName ?? "");
-        this.setState({columns: columns});
+        const items = this.getSortedRecords();
+        if(this.state.filterApplied){   
+            this.setState({columns: columns, fitlteredrecords: items ?? []});
+        }
+        else {
+            this.setState({columns: columns, items: items ?? []});
+        }
+        
     }
     getSortedRecords() {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
@@ -184,6 +191,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onSelectionChanged(){
         var items = this._selection.getSelection();
         this.setState({selectedrecordids: items.map(x => x.key as string)});
+        //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
         //this.props.context.parameters.sampleDataSet.setSelectedRecordIds(items.map(x => x.key as string));
     }
     async onSaveClick(){
@@ -331,9 +339,23 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onSearchClear(){
         this.setState({searchtext: "", filterApplied: false});
-    }    
+    }
+    onCheckboxChange(props: any, checked?: boolean){
+        alert("props.item.key");
+        if(checked) {
+            this._selection.setKeySelected(props.item.key, true, false);
+        }
+        else {
+            //this._selection.setKeySelected(props.item.key, false, false);
+            //this.setState({selectedrecordids: this.state.selectedrecordids.filter(x => x != props.item.key)});
+        }
+    }
+    onRenderCheckbox(props: any){
+        alert(JSON.stringify(props));
+        return <Checkbox checked={props?.checked} onChange={(ev, checked) => this.onCheckboxChange(props, checked)} />
+    }
     render(): React.ReactNode {
-        var items = this.getSortedRecords();
+        var items = this.state.filterApplied ? this.state.fitlteredrecords : this.state.items;
 
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
@@ -433,6 +455,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     selection={this._selection} selectionMode={SelectionMode.multiple}
                     checkboxVisibility={1}
                     getKey={(item) => item.key}
+                    enterModalSelectionOnTouch={true}
+                    selectionPreservedOnEmptyClick={true}
+                    //onRenderCheckbox={this.onRenderCheckbox}
                 />
             </MarqueeSelection>
             <CMSDialog
