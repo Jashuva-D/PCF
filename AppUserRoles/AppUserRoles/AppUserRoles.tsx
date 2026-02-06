@@ -166,6 +166,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             });
             return items;
         }
+        this._selection.setItems(this.state.items, true);
     }
     onEditClick(item: any){
         this.setState({editablerecord: {...item}});
