@@ -156,7 +156,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     getSortedRecords(items: any[]) {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
         if(sortedcolumn) {
-            var items = [...items];
+            var items = this.state.items;
             items.sort((a, b) => {
                 if (sortedcolumn!.isSortedDescending) {
                     return a[sortedcolumn!.fieldName ?? ""] < b[sortedcolumn!.fieldName ?? ""] ? 1 : -1;
