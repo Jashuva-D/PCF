@@ -371,7 +371,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         >
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
-            <Stack horizontal tokens={{childrenGap: 24}}>
+            <Stack horizontal tokens={{childrenGap: 24}} grow>
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
@@ -379,37 +379,55 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
               </StackItem>
               <StackItem grow>
-                <Dropdown 
+                <Dropdown
                   label="Interaction Type"
                   options={Interactiontypes}
-                  dropdownWidth={250}
-                  onChange={(evt,option) => {this.setState({interactiontype : option?.key as number})}}
                   selectedKey={this.state.interactiontype}
+                  onChange={(evt, option) =>
+                    this.setState({ interactiontype: option?.key as number })
+                  }
                   styles={{
-                    root: {width: 250, height: 38},
-                    dropdown: {width: 250, borderRadius: 10, height: 38, alignItems: "center"},
-                    callout: {borderRadius: 5},
-                    title: {borderRadius: 5, height: 38, alignItems: "center", display: "flex"},
+                    root: {
+                      width: "100%",      // 👈 fill StackItem
+                      minWidth: 250,      // 👈 but never smaller than 250
+                    },
+                    dropdown: {
+                      width: "100%",
+                      minWidth: 250,
+                      height: 38,
+                      borderRadius: 10,
+                    },
+                    title: {
+                      height: 38,
+                      display: "flex",
+                      alignItems: "center",
+                      borderRadius: 5,
+                    },
+                    callout: {
+                      borderRadius: 5,
+                      minWidth: 250,      // 👈 important for popup width
+                    },
                   }}
-                  style={{height: 38}}
                 />
+
               </StackItem>
-              {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 24}} >
+              {this.state.submittoconfluence &&
               <StackItem grow>
                 <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5, height: 38}}} required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
-              </StackItem>
+              </StackItem>}
+              {this.state.submittoconfluence  &&
               <StackItem grow>
                 <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5, height: 38}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
-              </StackItem>
+              </StackItem>}
+              {this.state.submittoconfluence  &&
               <StackItem grow>
                 <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5, height: 38}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
-              </StackItem>
-            </Stack>}
+              </StackItem>}
             </Stack>
             {this.state.interactiontype && this.state.interactiontype === 6 && (
             <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
                 <StackItem grow>
-                  <TextField label="Other Interaction Type" minLength={650} value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: 835 } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
+                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
                 </StackItem>
               {this.state.submittoconfluence && <StackItem style={{verticalAlign: "bottom", marginTop: 40}}>
                 {this.getSubmitToConfluenceToggle()}
