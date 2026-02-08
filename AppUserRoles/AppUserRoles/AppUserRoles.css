@@ -17,7 +17,7 @@
   background-color: #6e7cc2;
   color: black;
 }
-.appuserroles .ms-DetailsHeader .ms-Icon {
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
   color: black; 
 } 
 .appuserroles .ms-DetailsRow {
