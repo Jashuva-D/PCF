@@ -8,3 +8,15 @@
   border-radius: 50%; 
   border-color: #0D2499;
 }  */
+
+.appuserroles .ms-DetailsHeader-cell {
+    background-color: #0D2499;
+    color: white
+}
+.appuserroles .ms-DetailsHeader-cell:hover {
+  background-color: #6B78D6;
+  color: white;
+}
+.appuserroles .ms-DetailsHeader .ms-Icon {
+  color: white; 
+}

@@ -471,6 +471,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                             }
                         }
                     }}
+                    className="appuserroles"
                 />
             </MarqueeSelection>
             <CMSDialog
