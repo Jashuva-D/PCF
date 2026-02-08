@@ -326,93 +326,89 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             },
           }}
         >
-          <StackItem>
-            <Text style={{backgroundColor: "#EEEAF4", padding: "8px", borderRadius: 4}}>{"Test Value"}</Text>
-          </StackItem>
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
-            <Stack horizontal tokens={{childrenGap: 10}}>
+            <Stack horizontal tokens={{childrenGap: 24}}>
               <StackItem>
-                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
+                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem>
-                <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
+                <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
               </StackItem>
               <StackItem>
                 <Dropdown 
                   label="Interaction Type"
                   options={Interactiontypes}
-                  dropdownWidth={200}
+                  dropdownWidth={250}
                   onChange={(evt,option) => {this.setState({interactiontype : option?.key as number})}}
                   selectedKey={this.state.interactiontype}
                   styles={{
-                    root: {width: 200},
-                    dropdown: {width: 200, borderRadius: 10},
+                    root: {width: 250, height: 38},
+                    dropdown: {width: 250, borderRadius: 10, height: 38, alignItems: "center"},
                     callout: {borderRadius: 5},
-                    title: {borderRadius: 5}
+                    title: {borderRadius: 5, height: 38, alignItems: "center", display: "flex"},
+                  }}
+                  style={{height: 38}}
+                />
+              </StackItem>
+              {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 24}} >
+              <StackItem>
+                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5, height: 38}}} required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+              </StackItem>
+              <StackItem>
+                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5, height: 38}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
+              </StackItem>
+              <StackItem>
+                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5, height: 38}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
+              </StackItem>
+            </Stack>}
+            </Stack>
+            <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
+              {this.state.interactiontype && this.state.interactiontype === 6 && (
+                <StackItem>
+                  <TextField label="Other Interaction Type" minLength={650} value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: "650" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
+                </StackItem>)}
+              <StackItem>
+                <Toggle inlineLabel label="Submit to Confluence" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({ submittoconfluence: !this.state.submittoconfluence })}
+                  styles={{
+                    label: { order: 1 },
+                    root: {
+                      selectors: {
+                        "&:hover .ms-Toggle-thumb": {
+                          backgroundColor: "#ffffff !important"
+                        }
+                      }
+                    },
+                    thumb: {
+                      backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
+                      color: "red",
+                      height: 20, width: 20, padding: 1,
+                      selectors: {
+                        ":hover": {
+                          backgroundColor: "#ffffff"   // 🔒 keep same color
+                        },
+
+                        '[aria-checked="true"] &': {
+                          backgroundColor: "#ffffff"
+                        },
+
+                        '[aria-checked="true"]:hover &': {
+                          backgroundColor: "#ffffff"   // 🔒 even when ON + hover
+                        }
+                      }
+                    },
+                    container: { display: 'flex', flexDirection: 'row-reverse' },
+                    pill: {
+                      backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)",
+                      height: 24, padding: 0, width: 44, borderRadius: 12,
+                      selectors: {
+                        ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
+                      }
+                    }
+
                   }}
                 />
               </StackItem>
-            </Stack>
-            {this.state.interactiontype && this.state.interactiontype === 6 && (
-                <Stack>
-                  <TextField label="Other Interaction Type" minLength={10} value={this.state.otherinteractiontype} styles={{fieldGroup : { borderRadius: 5, width: 575
-                  }}} onChange={(evt, newvalue) => {this.setState({otherinteractiontype: newvalue})}}></TextField>
-                </Stack>
-              )}
-            {this.state.submittoconfluence && <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop : 10}} >
-              <StackItem>
-                <TextField label="Confluence Page ID" required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
-              </StackItem>
-              <StackItem>
-                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
-              </StackItem>
-              <StackItem>
-                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
-              </StackItem>
-            </Stack>}
-            <Stack horizontal tokens={{childrenGap : 10}} style={{marginTop : 10}}>
-                <StackItem>
-                    <Toggle inlineLabel label="Submit to Confluence"  defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({submittoconfluence: !this.state.submittoconfluence})} 
-                        styles={{
-                          label: {order: 1}, 
-                          root: {
-                              selectors: {
-                              "&:hover .ms-Toggle-thumb": {
-                                backgroundColor: "#ffffff !important"
-                              }
-                            }
-                          },
-                          thumb: {
-                            backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
-                            color: "red",
-                            height: 20, width: 20, padding: 1,
-                            selectors: {
-                              ":hover": {
-                                backgroundColor: "#ffffff"   // 🔒 keep same color
-                              },
-
-                              '[aria-checked="true"] &': {
-                                backgroundColor: "#ffffff"
-                              },
-
-                              '[aria-checked="true"]:hover &': {
-                                backgroundColor: "#ffffff"   // 🔒 even when ON + hover
-                              }
-                            }
-                          }, 
-                          container: {display: 'flex', flexDirection: 'row-reverse'},
-                          pill: {
-                            backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)", 
-                            height: 24, padding: 0, width: 44, borderRadius: 12, 
-                            selectors: {
-                              ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
-                            }
-                          }
-                          
-                        }}
-                    />
-                </StackItem>
             </Stack>
           </StackItem>
             <StackItem styles={{ root: { flexGrow: 0}}}>
