@@ -10,6 +10,7 @@ import CMSSpinner from "./CMSSpinner";
 import { title } from "process";
 import { PopupPortal } from "./PopupPortal";
 import * as ReactDOM from "react-dom";
+import { JSX } from "react";
 
 
 interface NoteFormProps{
@@ -290,6 +291,47 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       this.addQuillTooltips();
     }, 0);
   }
+  getSubmitToConfluenceToggle() : JSX.Element {
+    return <Toggle inlineLabel={this.state.interactiontype != null && this.state.interactiontype !== 6} label="Submit to Confluence" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({ submittoconfluence: !this.state.submittoconfluence })}
+                  styles={{
+                    label: { order: 0 },
+                    root: {
+                      selectors: {
+                        "&:hover .ms-Toggle-thumb": {
+                          backgroundColor: "#ffffff !important"
+                        }
+                      }
+                    },
+                    thumb: {
+                      backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
+                      color: "red",
+                      height: 20, width: 20, padding: 1,
+                      selectors: {
+                        ":hover": {
+                          backgroundColor: "#ffffff"   // 🔒 keep same color
+                        },
+
+                        '[aria-checked="true"] &': {
+                          backgroundColor: "#ffffff"
+                        },
+
+                        '[aria-checked="true"]:hover &': {
+                          backgroundColor: "#ffffff"   // 🔒 even when ON + hover
+                        }
+                      }
+                    },
+                    container: { display: 'flex', flexDirection: 'row-reverse' },
+                    pill: {
+                      backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)",
+                      height: 24, padding: 0, width: 44, borderRadius: 12,
+                      selectors: {
+                        ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
+                      }
+                    }
+
+                  }}
+                />
+  }
 
   render() {
     const quillEditor = (
@@ -363,61 +405,23 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               </StackItem>
             </Stack>}
             </Stack>
+            {this.state.interactiontype && this.state.interactiontype === 6 && (
             <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
-              {this.state.interactiontype && this.state.interactiontype === 6 && (
-                <StackItem>
-                  <TextField label="Other Interaction Type" minLength={650} value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: "650" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
-                </StackItem>)}
+                <StackItem grow>
+                  <TextField label="Other Interaction Type" minLength={650} value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
+                </StackItem>
               <StackItem>
-                <Toggle inlineLabel label="Submit to Confluence" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({ submittoconfluence: !this.state.submittoconfluence })}
-                  styles={{
-                    label: { order: 1 },
-                    root: {
-                      selectors: {
-                        "&:hover .ms-Toggle-thumb": {
-                          backgroundColor: "#ffffff !important"
-                        }
-                      }
-                    },
-                    thumb: {
-                      backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
-                      color: "red",
-                      height: 20, width: 20, padding: 1,
-                      selectors: {
-                        ":hover": {
-                          backgroundColor: "#ffffff"   // 🔒 keep same color
-                        },
-
-                        '[aria-checked="true"] &': {
-                          backgroundColor: "#ffffff"
-                        },
-
-                        '[aria-checked="true"]:hover &': {
-                          backgroundColor: "#ffffff"   // 🔒 even when ON + hover
-                        }
-                      }
-                    },
-                    container: { display: 'flex', flexDirection: 'row-reverse' },
-                    pill: {
-                      backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)",
-                      height: 24, padding: 0, width: 44, borderRadius: 12,
-                      selectors: {
-                        ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
-                      }
-                    }
-
-                  }}
-                />
+                {this.getSubmitToConfluenceToggle()}
               </StackItem>
-            </Stack>
+            </Stack>)}
+            <StackItem styles={{root: {marginTop: 10}}}>
+              {this.state.interactiontype && this.state.interactiontype !== 6 && this.getSubmitToConfluenceToggle()}
+            </StackItem>
           </StackItem>
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <Label>Comments</Label>
                 {!this.state.expand && quillEditor}
             </StackItem>
-            { <StackItem>
-              
-            </StackItem>}
              <StackItem align="end">
                 <Stack horizontal tokens={{ childrenGap: 10 }}>
                     {this.state.displayprogress && <StackItem>
