@@ -19,4 +19,12 @@
 }
 .appuserroles .ms-DetailsHeader .ms-Icon {
   color: black; 
-}        
+} 
+.appuserroles .ms-DetailsRow {
+  background-color: #F3F3F3;
+  border-color: #EBEBEB;
+}
+.appuserroles .ms-DetailsRow:hover {
+  background-color: #DEDEDE;
+  border-color: #D8D8D8;
+}
