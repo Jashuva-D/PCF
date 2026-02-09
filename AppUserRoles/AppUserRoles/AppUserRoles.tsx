@@ -12,6 +12,7 @@ import CMSDialog from "./CMSDialog";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
+    showalert: (message: string, type: CMSAlertType) => void;
 }
 interface AppUserRolesState{
     columns: IColumn[];
@@ -158,7 +159,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         else {
             this.setState({columns: columns, items: items ?? []});
         }
-        
     }
     getSortedRecords() {
         var sortedcolumn = this.state.columns.find(x => x.isSorted);
@@ -308,18 +308,20 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         
     }
     showAlertMessage(messagetype: CMSAlertType, message: string){
-        var obj = this;
-        this.setState({ 
-            showalert: true, 
-            alert : {
-                messagetype : messagetype,
-                message : message
-            }
-        });
-        setTimeout(() => {
-            obj.setState({showalert : false})
-        }, 10000);
+        // var obj = this;
+        // this.setState({ 
+        //     showalert: true, 
+        //     alert : {
+        //         messagetype : messagetype,
+        //         message : message
+        //     }
+        // });
+        // setTimeout(() => {
+        //     obj.setState({showalert : false})
+        // }, 10000);
+        this.props.showalert(message, messagetype);
     }
+    
     onSearchClick(){
         var obj = this;
         let items: any[] = [];

@@ -4,9 +4,12 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import AppUserRolesComponent from "./AppUserRoles";
+import CMSAlert from "./CMSAlert";
+import { CMSAlertType } from "./Constants";
 
 export class AppUserRoles implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
+    private root1: ReactDOM.Root;;
     constructor() {
         // Empty
     }
@@ -25,7 +28,13 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement
     ): void {
-        this._container = container;
+        //this._container = container;
+        var child1 = container.appendChild(document.createElement("div"));
+        var child2 = container.appendChild(document.createElement("div"));
+        this._container = child2 as HTMLDivElement;
+
+        this.root1 = ReactDOM.createRoot(child1);
+        this.AlertMessage("Test message", CMSAlertType.Info);
     }
 
 
@@ -35,7 +44,7 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(AppUserRolesComponent, { context: context }));
+        root.render(React.createElement(AppUserRolesComponent, { context: context, showalert: this.AlertMessage.bind(this) }));
     }
 
     /**
@@ -52,5 +61,11 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
      */
     public destroy(): void {
         // Add code to cleanup control if necessary
+    }
+    public AlertMessage(message: string, type: CMSAlertType) {
+        this.root1.render(React.createElement(CMSAlert, { message: message, type: type }));
+        setTimeout(() => {
+            this.root1.render(React.createElement("div"));
+        }, 10000);
     }
 }
