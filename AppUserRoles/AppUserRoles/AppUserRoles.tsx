@@ -461,8 +461,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     selectionPreservedOnEmptyClick={true}
                     styles={{
                         root: {
-                            //overflowY: "auto", // Enable vertical scrolling
-                            //maxHeight: "calc(100vh - 200px)", // Adjust height dynamically based on available space
+                            overflowY: "auto", // Enable vertical scrolling
+                            maxHeight: "calc(100vh - 600px)", // Adjust height dynamically based on available space
                             selectors: {
                                 ".ms-DetailsHeader .is-checked .ms-Check-circle": {
                                     "background-color": "#0D2499",
