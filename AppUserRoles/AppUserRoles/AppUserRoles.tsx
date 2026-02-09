@@ -450,7 +450,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     />
                 </Stack>
             </Stack>
-            <div style={{ margin: 10 }}>
+            <div style={{padding: 10, overflowX: "hidden"}}>
             <MarqueeSelection selection={this._selection}>
                 <DetailsList 
                     items={items ?? []} columns={[...this.state.columns]} 
@@ -462,7 +462,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     styles={{
                         root: {
                             overflowY: "auto", // Enable vertical scrolling
-                            maxHeight: "calc(100vh - 300px)", // Adjust height dynamically based on available space
+                            maxHeight: "calc(100vh - 400px)", // Adjust height dynamically based on available space
                             selectors: {
                                 ".ms-DetailsHeader .is-checked .ms-Check-circle": {
                                     "background-color": "#0D2499",

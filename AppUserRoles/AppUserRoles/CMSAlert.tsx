@@ -24,7 +24,7 @@ class CMSAlert extends React.Component<CMSAlertProps, CMSAlertState> {
             horizontal
             verticalAlign="center"
             tokens={{ childrenGap: 12 }}
-            style={{backgroundColor: bgcolor}}
+            style={{backgroundColor: bgcolor, padding: 10}}
         >
             <span style={{
                 backgroundColor: pipecolor,
