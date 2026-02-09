@@ -327,7 +327,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                       selectors: {
                         ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
                       },
-                      alignItems: "start"
+                      alignItems: "center"
                     }
 
                   }}
@@ -373,10 +373,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 24}} grow>
               <StackItem grow>
-                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
+                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem grow>
-                <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5, height: 38}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
+                <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
               </StackItem>
               <StackItem grow>
                 <Dropdown
@@ -394,11 +394,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     dropdown: {
                       width: "100%",
                       minWidth: 250,
-                      height: 38,
                       borderRadius: 10,
                     },
                     title: {
-                      height: 38,
                       display: "flex",
                       alignItems: "center",
                       borderRadius: 5,
@@ -413,23 +411,23 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               </StackItem>
               {this.state.submittoconfluence &&
               <StackItem grow>
-                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5, height: 38}}} required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5}}} required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
               </StackItem>}
               {this.state.submittoconfluence  &&
               <StackItem grow>
-                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5, height: 38}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
+                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
               </StackItem>}
               {this.state.submittoconfluence  &&
               <StackItem grow>
-                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5, height: 38}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
+                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
               </StackItem>}
             </Stack>
             {this.state.interactiontype && this.state.interactiontype === 6 && (
             <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
                 <StackItem grow>
-                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, height: 38, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
+                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
                 </StackItem>
-              {this.state.submittoconfluence && <StackItem style={{verticalAlign: "bottom", marginTop: 40}}>
+              {this.state.submittoconfluence && <StackItem style={{verticalAlign: "bottom", marginTop: 35}}>
                 {this.getSubmitToConfluenceToggle()}
               </StackItem>}
             </Stack>)}

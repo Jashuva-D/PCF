@@ -212,17 +212,18 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         }
 
         await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
-            console.log('updated app user role successfully')
+            obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
+                obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully");
+                obj.setState({editablerecord: null});
+                obj.props.context.parameters.sampleDataSet.refresh();
+            },function(error){
+                obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
+            });
         },function(err){
-            console.log("failed to update app user role");
+            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
         })
 
-        obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
-            obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully")  
-            obj.setState({editablerecord: null});
-        },function(error){
-            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
-        });
+        
     }
     onCancelClick(){
         this.setState({editablerecord: null});
@@ -276,9 +277,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.props.context.parameters.sampleDataSet.refresh();
     }
     onDelete() {
-        if(this._selection.getSelectedCount() == 0){
-            return;
-        }
         var obj = this;
         this.setState({
             showDialog: true,
@@ -296,6 +294,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         return obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
                     })
                 })).then(() => {
+                    obj.props.context.parameters.sampleDataSet.refresh();
                     obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
                 });
             },
@@ -449,6 +448,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     />
                 </Stack>
             </Stack>
+            <div style={{padding: 10}}>
             <MarqueeSelection selection={this._selection}>
                 <DetailsList 
                     items={items ?? []} columns={[...this.state.columns]} 
@@ -458,8 +458,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     enterModalSelectionOnTouch={true}
                     selectionPreservedOnEmptyClick={true}
                     styles={{
-                        root : {
-                            selectors : {
+                        root: {
+                            //overflowY: "auto", // Enable vertical scrolling
+                            //maxHeight: "calc(100vh - 200px)", // Adjust height dynamically based on available space
+                            selectors: {
                                 ".ms-DetailsHeader .is-checked .ms-Check-circle": {
                                     "background-color": "#0D2499",
                                     "border-radius": "50%",
@@ -474,6 +476,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     className="appuserroles"
                 />
             </MarqueeSelection>
+            </div>
             <CMSDialog
                 isOpen={this.state.showDialog!}
                 title={this.state.dialogTitle}

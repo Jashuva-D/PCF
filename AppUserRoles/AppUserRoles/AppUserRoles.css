@@ -28,3 +28,6 @@
   background-color: #DEDEDE;
   border-color: #D8D8D8;
 }
+.appuserroles .ms-DetailsList-contentWrapper{
+  overflow-y: auto;
+}
