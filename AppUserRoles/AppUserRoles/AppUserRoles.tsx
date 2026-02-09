@@ -450,7 +450,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     />
                 </Stack>
             </Stack>
-            <div style={{padding: 10, overflowX: "hidden"}}>
             <MarqueeSelection selection={this._selection}>
                 <DetailsList 
                     items={items ?? []} columns={[...this.state.columns]} 
@@ -478,7 +477,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     className="appuserroles"
                 />
             </MarqueeSelection>
-            </div>
             <CMSDialog
                 isOpen={this.state.showDialog!}
                 title={this.state.dialogTitle}
