@@ -360,123 +360,122 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
 
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
-            <Stack horizontal horizontalAlign="end" style={{marginTop: 10, marginRight: 10}}>
-                {/* <CommandBar
-
-                    items={[
-                        { key: "newrecord", onRenderContent: <b>New App User Role</b>, iconProps:{iconName: "Add"}, buttonStyles: {icon: { fontSize: 15, color: "#f0f0f0" }, root: { backgroundColor: "#0D2499", color: "#f0f0f0", borderRadius: 6, height: 30, marginTop: 10, fontStyle: "Solid" }}, onClick: this.onNewAppUserRole.bind(this), fontsize: 10},
-                        { key: "refresh", label: <b>Refresh</b>, iconProps: {iconName: "Refresh"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onRefresh.bind(this), fontsize: 10 },
-                        { key: "delete", label: <b>Delete</b>, iconProps: {iconName: "Delete"}, buttonStyles: {icon: {fontSize: 15}}, onClick: this.onDelete.bind(this)}
-                    ]}
-                /> */}
-                <StackItem grow style={{marginRight: 10, marginLeft: 10}}>
-                    <TextField
-                        style={{ borderRadius: "10" }}
-                        value={this.state.searchtext || ""}
-                        placeholder="Search Notes..."
-                        onChange={(e, newValue) => {
-                            if (newValue == null || newValue == "") {
-                                this.setState({ searchtext: "", filterApplied: false })
-                            }
-                            else {
-                                this.setState({ searchtext: newValue || "" });
-                            }
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                this.onSearchClick.bind(this)();
-                            }
-                        }}
-                        styles={{
-                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", height: 36 },
-                            field: { borderRadius: 6, height: 36, fontSize: 15, padding: 8 },
-                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
-                            suffix: { background: "transparent" },
-                        }}
-                        onRenderPrefix={() => (
-                            <span style={{ borderRadius: 20 }}><SearchIcon size={24} color="white" /> </span>
-                        )}
-                        onRenderSuffix={() =>
-                            this.state.searchtext != "" ? (
-                                <Icon
-                                    iconName="Clear"
-                                    style={{ marginRight: 8, cursor: "pointer" }}
-                                    onClick={this.onSearchClear.bind(this)}
-                                />
-                            ) : null
-                        }
-                    />
-                </StackItem>
-                <Stack horizontal tokens={{childrenGap: 10}} >
-                    <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={this.onNewAppUserRole.bind(this)} 
-                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%", whiteSpace: "nowrap" }}
-                        styles={ { 
-                            root: {
-                                height: 36,
-                                padding: "0 20px",
-                            },
-                            label: {
-                                fontSize: 15,
-                                lineHeight: 36,
-                            },
-                        }}
-                    />
-                    <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
-                        style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
-                        styles={ { 
-                            root: {
-                                height: 36,
-                                padding: "0 20px",
-                            },
-                            label: {
-                                fontSize: 15,
-                                lineHeight: 36,
-                            },
-                        }}
-                    />
-                    <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
-                        style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#6B78D6" : "#0D2499", width: "100%" }}
-                        styles={ { 
-                            root: {
-                                height: 36,
-                                padding: "0 20px",
-                            },
-                            label: {
-                                fontSize: 15,
-                                lineHeight: 36,
-                            },
-                        }}
-                        disabled={this.state.selectedrecordids.length === 0}
-                    />
-                </Stack>
-            </Stack>
-            <MarqueeSelection selection={this._selection}>
-                <DetailsList 
-                    items={items ?? []} columns={[...this.state.columns]} 
-                    selection={this._selection} selectionMode={SelectionMode.multiple}
-                    checkboxVisibility={1}
-                    getKey={(item) => item.key}
-                    enterModalSelectionOnTouch={true}
-                    selectionPreservedOnEmptyClick={true}
-                    styles={{
-                        root: {
-                            overflowY: "auto", // Enable vertical scrolling
-                            maxHeight: "calc(100vh - 400px)", // Adjust height dynamically based on available space
-                            selectors: {
-                                ".ms-DetailsHeader .is-checked .ms-Check-circle": {
-                                    "background-color": "#0D2499",
-                                    "border-radius": "50%",
-                                },
-                                ".ms-DetailsRow .is-checked .ms-Check-circle": {
-                                    "background-color": "#0D2499",
-                                    "border-radius": "50%",
+            <Stack>
+                <StackItem>
+                    <Stack horizontal horizontalAlign="end" style={{marginTop: 10, marginRight: 10}}>
+                        <StackItem grow style={{marginRight: 10, marginLeft: 10}}>
+                            <TextField
+                                style={{ borderRadius: "10" }}
+                                value={this.state.searchtext || ""}
+                                placeholder="Search Notes..."
+                                onChange={(e, newValue) => {
+                                    if (newValue == null || newValue == "") {
+                                        this.setState({ searchtext: "", filterApplied: false })
+                                    }
+                                    else {
+                                        this.setState({ searchtext: newValue || "" });
+                                    }
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        this.onSearchClick.bind(this)();
+                                    }
+                                }}
+                                styles={{
+                                    fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", height: 36 },
+                                    field: { borderRadius: 6, height: 36, fontSize: 15, padding: 8 },
+                                    prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                                    suffix: { background: "transparent" },
+                                }}
+                                onRenderPrefix={() => (
+                                    <span style={{ borderRadius: 20 }}><SearchIcon size={24} color="white" /> </span>
+                                )}
+                                onRenderSuffix={() =>
+                                    this.state.searchtext != "" ? (
+                                        <Icon
+                                            iconName="Clear"
+                                            style={{ marginRight: 8, cursor: "pointer" }}
+                                            onClick={this.onSearchClear.bind(this)}
+                                        />
+                                    ) : null
                                 }
-                            }
-                        }
-                    }}
-                    className="appuserroles"
-                />
-            </MarqueeSelection>
+                            />
+                        </StackItem>
+                        <Stack horizontal tokens={{childrenGap: 10}} >
+                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={this.onNewAppUserRole.bind(this)} 
+                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%", whiteSpace: "nowrap" }}
+                                styles={ { 
+                                    root: {
+                                        height: 36,
+                                        padding: "0 20px",
+                                    },
+                                    label: {
+                                        fontSize: 15,
+                                        lineHeight: 36,
+                                    },
+                                }}
+                            />
+                            <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
+                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                                styles={ { 
+                                    root: {
+                                        height: 36,
+                                        padding: "0 20px",
+                                    },
+                                    label: {
+                                        fontSize: 15,
+                                        lineHeight: 36,
+                                    },
+                                }}
+                            />
+                            <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
+                                style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#6B78D6" : "#0D2499", width: "100%" }}
+                                styles={ { 
+                                    root: {
+                                        height: 36,
+                                        padding: "0 20px",
+                                    },
+                                    label: {
+                                        fontSize: 15,
+                                        lineHeight: 36,
+                                    },
+                                }}
+                                disabled={this.state.selectedrecordids.length === 0}
+                            />
+                        </Stack>
+                    </Stack>
+                </StackItem>
+                <StackItem style={{marginTop: 10}}>
+                    <MarqueeSelection selection={this._selection}>
+                        <DetailsList 
+                            items={items ?? []} columns={[...this.state.columns]} 
+                            selection={this._selection} selectionMode={SelectionMode.multiple}
+                            checkboxVisibility={1}
+                            getKey={(item) => item.key}
+                            enterModalSelectionOnTouch={true}
+                            selectionPreservedOnEmptyClick={true}
+                            styles={{
+                                root: {
+                                    overflowY: "auto", // Enable vertical scrolling
+                                    overflowX: "hidden", // Hide horizontal scrollbar
+                                    maxHeight: "calc(100vh - 400px)", // Adjust height dynamically based on available space
+                                    selectors: {
+                                        ".ms-DetailsHeader .is-checked .ms-Check-circle": {
+                                            "background-color": "#0D2499",
+                                            "border-radius": "50%",
+                                        },
+                                        ".ms-DetailsRow .is-checked .ms-Check-circle": {
+                                            "background-color": "#0D2499",
+                                            "border-radius": "50%",
+                                        }
+                                    }
+                                }
+                            }}
+                            className="appuserroles"
+                        />
+                    </MarqueeSelection>
+                </StackItem>
+            </Stack>
             <CMSDialog
                 isOpen={this.state.showDialog!}
                 title={this.state.dialogTitle}
@@ -496,7 +495,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     this.state.dialogCancelCallback && this.state.dialogCancelCallback();
                 }}
             />
-
         </div>
     }
 }
