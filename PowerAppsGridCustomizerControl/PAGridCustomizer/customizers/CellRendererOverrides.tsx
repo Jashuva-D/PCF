@@ -14,47 +14,49 @@ export const cellRendererOverrides: CellRendererOverrides = {
 	["TwoOptions"]: (props: CellRendererProps, col) => {
 		if (col.colDefs[col.columnIndex].name === "cr549_marketplace") {
 			return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "5px"}}>
-				<Toggle 
-					style={{marginLeft: "5px"}}
-					checked={props.value == 1}
-					inlineLabel label= {props.value == 1 ? "Yes" : "No"}
-					styles={{
-						label: {order: 1}, 
-						root: {
-							selectors: {
-								"&:hover .ms-Toggle-thumb": {
-								backgroundColor: "#ffffff !important"
-								}
-							},
-						},
-						thumb: {
-							backgroundColor: "#ffffff",
-							height: 20, width: 20, padding: 1,
-							selectors: {
-								":hover": {
-								backgroundColor: "#ffffff"   // 🔒 keep same color
-								},
-								'[aria-checked="true"] &': {
-									backgroundColor: "#ffffff"
-								},
-								'[aria-checked="true"]:hover &': {
-									backgroundColor: "#ffffff"   // 🔒 even when ON + hover
-								}      
-							}	
-						}, 
-						container: {display: 'flex', flexDirection: 'row-reverse'},
-						pill: {
-							backgroundColor: props.value ? "#9FD3AE" : "#EBCBCB", 
-							height: 24, padding: 0, width: 44, borderRadius: 12, 
-							selectors: {
-								':hover': { backgroundColor: props.value ? "#9FD3AE" : "#EBCBCB" }
-							},
-							border: "0.5px solid",
-							borderColor: "#515555"
-						}
-							
-					}}
-            	/>
+				<Toggle
+                  style={{marginLeft: "5px"}}
+				  checked={props.value == 1}
+				  inlineLabel label= {props.value == 1 ? "Yes" : "No"}
+				  styles={{
+                    label: { order: 1 },
+                    root: {
+                      selectors: {
+                        "&:hover .ms-Toggle-thumb": {
+                          backgroundColor: "#ffffff !important"
+                        }
+                      }
+                    },
+                    thumb: {
+                      backgroundColor: "#ffffff",
+                      color: "red",
+                      height: 20, width: 20, padding: 1,
+                      selectors: {
+                        ":hover": {
+                          backgroundColor: "#ffffff"   
+                        },
+
+                        '[aria-checked="true"] &': {
+                          backgroundColor: "#ffffff"
+                        },
+
+                        '[aria-checked="true"]:hover &': {
+                          backgroundColor: "#ffffff"   
+                        }
+                      }
+                    },
+                    container: { display: 'flex', flexDirection: 'row-reverse' },
+                    pill: {
+                      backgroundColor: props.value == 1 ? "#0D2499" : "rgb(211,211,211)",
+                      height: 24, padding: 0, width: 44, borderRadius: 12,
+                      selectors: {
+                        ':hover': { backgroundColor: props.value == 1 ? "#0D2499" : "#e6e6e6" }
+                      },
+                      alignItems: "center"
+                    }
+
+                  }}
+                />
 			</Stack>;
 		}
 	}
