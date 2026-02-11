@@ -23,34 +23,34 @@ export const cellRendererOverrides: CellRendererOverrides = {
                     root: {
                       selectors: {
                         "&:hover .ms-Toggle-thumb": {
-                          backgroundColor: "#ffffff !important"
+                          backgroundColor: props.value == 1 ? "#C6F6DB" : "#ffffff !important"
                         }
                       }
                     },
                     thumb: {
-                      backgroundColor: "#ffffff",
+                      backgroundColor: props.value == 1 ? "#C6F6DB" : "#ffffff",
                       color: "red",
                       height: 20, width: 20, padding: 1,
                       selectors: {
                         ":hover": {
-                          backgroundColor: "#ffffff"   
+                          backgroundColor: props.value == 1 ? "#C6F6DB" : "#ffffff"   
                         },
 
                         '[aria-checked="true"] &': {
-                          backgroundColor: "#ffffff"
+                          backgroundColor: props.value == 1 ? "#C6F6DB" : "#ffffff"
                         },
 
                         '[aria-checked="true"]:hover &': {
-                          backgroundColor: "#ffffff"   
+                          backgroundColor: props.value == 1 ? "#C6F6DB" : "#ffffff"   
                         }
                       }
                     },
                     container: { display: 'flex', flexDirection: 'row-reverse' },
                     pill: {
-                      backgroundColor: props.value == 1 ? "#0D2499" : "rgb(211,211,211)",
+                      backgroundColor: props.value == 1 ? "#7BEBAC" : "rgb(211,211,211)",
                       height: 24, padding: 0, width: 44, borderRadius: 12,
                       selectors: {
-                        ':hover': { backgroundColor: props.value == 1 ? "#0D2499" : "#e6e6e6" }
+                        ':hover': { backgroundColor: props.value == 1 ? "#7BEBAC" : "#e6e6e6" }
                       },
                       alignItems: "center"
                     }
