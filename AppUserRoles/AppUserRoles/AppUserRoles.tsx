@@ -367,7 +367,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                             <TextField
                                 style={{ borderRadius: "10" }}
                                 value={this.state.searchtext || ""}
-                                placeholder="Search Notes..."
+                                placeholder="Search Records..."
                                 onChange={(e, newValue) => {
                                     if (newValue == null || newValue == "") {
                                         this.setState({ searchtext: "", filterApplied: false })
@@ -429,7 +429,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                             />
                             <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#6B78D6" : "#0D2499", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
