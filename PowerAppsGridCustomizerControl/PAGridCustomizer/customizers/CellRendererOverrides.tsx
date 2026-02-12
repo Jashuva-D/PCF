@@ -15,7 +15,7 @@ export const cellRendererOverrides: CellRendererOverrides = {
 		if (col.colDefs[col.columnIndex].name === "cr549_marketplace") {
 			return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "5px"}}>
 				<Toggle
-                  style={{marginLeft: "5px", border: props.value == 1 ? "1px solid #7FD0A6" : "none"}}
+                  style={{marginLeft: "5px", border: "none"}}
 				          checked={props.value == 1}
 				          inlineLabel label= {props.value == 1 ? "Yes" : "No"}
 				          styles={{
