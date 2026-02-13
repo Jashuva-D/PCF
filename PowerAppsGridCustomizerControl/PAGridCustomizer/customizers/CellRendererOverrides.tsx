@@ -63,7 +63,7 @@ export const cellRendererOverrides: CellRendererOverrides = {
 	// }
   ["TwoOptions"]: (props: CellRendererProps, col) => {
     if (col.colDefs[col.columnIndex].name === "cr549_marketplace") {
-      return <Stack verticalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text>{props.value == 1 ? "Yes" : "No"}</Text></Stack>
+      return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text>{props.value == 1 ? "Yes" : "No"}</Text></Stack>
     }
   }
 };
