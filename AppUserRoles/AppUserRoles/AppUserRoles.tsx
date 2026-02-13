@@ -271,6 +271,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 id: (obj.props.context as any).page.entityId,
                 entityType: "cr549_application"
             }
+        }).then(function(resp){
+            if(resp.savedEntityReference && resp.savedEntityReference.length > 0){
+                obj.showAlertMessage(CMSAlertType.Success,"Record created successfully");
+            }
         });
     }
     onRefresh(){
