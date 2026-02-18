@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection, ThemeProvider, createTheme } from "@fluentui/react";
 import { error } from "console";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
@@ -155,11 +155,19 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item : any) => {
                 return <Checkbox 
+                    
                     checked = {this.state.selectedrecordids.includes(item.key)} 
                     onChange={(evt, checked) => { 
                         if(checked) { this.setState({selectedrecordids: [...this.state.selectedrecordids, item.key]})} 
                         else { this.setState({selectedrecordids: this.state.selectedrecordids.filter(x => x != item.key)})} 
-                    }} 
+                    }}
+                    theme={ createTheme({
+                        palette: {
+                            themePrimary: "#0D2499",
+                            themeDark: "#091a70",
+                            themeDarker: "#06124d"
+                        },
+                    })}
                 />
             }
         } as IColumn
@@ -481,11 +489,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     maxHeight: "calc(100vh - 400px)", // Adjust height dynamically based on available space
                                     selectors: {
                                         ".ms-DetailsHeader .is-checked .ms-Check-circle": {
-                                            "background-color": "#0D2499",
+                                            "background-color": "yellow",
                                             "border-radius": "50%",
                                         },
                                         ".ms-DetailsRow .is-checked .ms-Check-circle": {
-                                            "background-color": "#0D2499",
+                                            "background-color": "yellow",
                                             "border-radius": "50%",
                                         }
                                     }
