@@ -375,9 +375,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
-              <StackItem grow>
+              {/* <StackItem grow>
                 <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
-              </StackItem>
+              </StackItem> */}
               <StackItem grow>
                 <Dropdown
                   label="Interaction Type"
@@ -411,7 +411,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               </StackItem>
               {this.state.submittoconfluence &&
               <StackItem grow>
-                <TextField label="Confluence Page ID" styles={{fieldGroup : { borderRadius: 5}}} required = {this.state.submittoconfluence} errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/>
+                <TextField 
+                  label="Confluence Page ID"
+                  style={{whiteSpace: "nowrap"}}
+                  styles={{fieldGroup : { borderRadius: 5}, root: {minWidth: 150}} }
+                  required = {this.state.submittoconfluence} 
+                  errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} 
+                  value={this.state.confluencepageid} 
+                  onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}
+                />
               </StackItem>}
               {this.state.submittoconfluence  &&
               <StackItem grow>
@@ -449,7 +457,13 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                         <DefaultButton
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
-                            style={{ borderRadius: 4, borderColor: "#0D2499", color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "red" : "#0D2499" }}
+                            //style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
+                            style={{ 
+                              borderRadius: 4, 
+                              //borderColor: "#0D2499", 
+                              color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "#0D2499",
+                              backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#F2F2F2",
+                            }}
                             disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ) || this.state.displayprogress}
                         />
                     </StackItem>
