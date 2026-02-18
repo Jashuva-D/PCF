@@ -9,6 +9,7 @@ import { CMSAlertType } from "./Constants";
 
 export class AppUserRoles implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
+    private selectedrecordids: string[];
     private root1: ReactDOM.Root;;
     constructor() {
         // Empty
@@ -34,14 +35,16 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
         this._container = child2 as HTMLDivElement;
 
         this.root1 = ReactDOM.createRoot(child1);
+        this.selectedrecordids = [];
     }
     /**
      * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+        this.selectedrecordids = [];
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(AppUserRolesComponent, { context: context, showalert: this.AlertMessage.bind(this) }));
+        root.render(React.createElement(AppUserRolesComponent, { context: context, showalert: this.AlertMessage.bind(this)}));
     }
 
     /**
@@ -64,5 +67,14 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
         setTimeout(() => {
             this.root1.render(React.createElement("div"));
         }, 10000);
+    }
+    AddSelectedRecordId(id: string){
+        this.selectedrecordids.filter(x => x == id).length == 0 && this.selectedrecordids.push(id);
+    }
+    RemoveSelectedRecordId(id: string){
+        this.selectedrecordids = this.selectedrecordids.filter(x => x != id);
+    }
+    getSelectedRecordIds() : string[] {
+        return this.selectedrecordids;
     }
 }

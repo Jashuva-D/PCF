@@ -148,7 +148,22 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 }
             }
         } as IColumn;
-        return [customcolumn, ...cols];
+        let selectioncolumn = {
+            key: "selectioncolumn",
+            minWidth: 35,
+            maxWidth: 50,
+            isResizable: true,
+            onRender: (item : any) => {
+                return <Checkbox 
+                    checked = {this.state.selectedrecordids.includes(item.key)} 
+                    onChange={(evt, checked) => { 
+                        if(checked) { this.setState({selectedrecordids: [...this.state.selectedrecordids, item.key]})} 
+                        else { this.setState({selectedrecordids: this.state.selectedrecordids.filter(x => x != item.key)})} 
+                    }} 
+                />
+            }
+        } as IColumn
+        return [selectioncolumn, customcolumn, ...cols];
     }
     onColumnClick(evt: React.MouseEvent<HTMLElement>, column: IColumn) {
         const columns = this.getColumns(column.fieldName ?? "");
@@ -290,7 +305,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             dialogCancelButtonLabel: "Cancel",
             dialogConfirmCallback: () => {
                 obj.setState({ showDialog: false });
-                var selectedrecords = this._selection.getSelection().map(x => x.key as string);
+                //var selectedrecords = this._selection.getSelection().map(x => x.key as string);
+                var selectedrecords = obj.state.selectedrecordids;
                 Promise.all(selectedrecords.map(x => {
                     return obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
                         return true
@@ -453,7 +469,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     <MarqueeSelection selection={this._selection}>
                         <DetailsList 
                             items={items ?? []} columns={[...this.state.columns]} 
-                            selection={this._selection} selectionMode={SelectionMode.multiple}
+                            selection={this._selection} selectionMode={SelectionMode.none}
                             checkboxVisibility={1}
                             getKey={(item) => item.key}
                             enterModalSelectionOnTouch={true}

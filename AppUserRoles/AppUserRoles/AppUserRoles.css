@@ -28,3 +28,9 @@
   background-color: #DEDEDE;
   border-color: #D8D8D8;
 }
+
+.customcheckbox1122 {
+  display: flex;
+  align-items: center;
+  border-radius: 0px;
+}
