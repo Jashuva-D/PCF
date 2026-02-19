@@ -10,27 +10,21 @@
 }  */
 
 .appuserroles .ms-DetailsHeader-cell {
-    background-color: #b6bddf;
+    background-color: #E7E9F5;
     color: black
 }
 .appuserroles .ms-DetailsHeader-cell:hover {
-  background-color: #6e7cc2;
+  background-color: #B7BEE1;
   color: black;
 }
 .ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
   color: black; 
 } 
-.appuserroles .ms-DetailsRow {
-  background-color: #F3F3F3;
-  border-color: #EBEBEB;
+ .appuserroles .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
 }
 .appuserroles .ms-DetailsRow:hover {
-  background-color: #DEDEDE;
+  background-color: #F2F2F2;
   border-color: #D8D8D8;
-}
-
-.customcheckbox1122 {
-  display: flex;
-  align-items: center;
-  border-radius: 0px;
 }
