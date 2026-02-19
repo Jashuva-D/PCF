@@ -461,8 +461,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                             style={{ 
                               borderRadius: 4, 
                               //borderColor: "#0D2499", 
-                              color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "#0D2499",
-                              backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#F2F2F2",
+                              border: 0,
+                              color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
+                              backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#0D2499",
                             }}
                             disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ) || this.state.displayprogress}
                         />
