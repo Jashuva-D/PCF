@@ -41,10 +41,17 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         }
         if(this.props.entityType == "cr549_person"){
             var query = "?$select=cr549_name,cr549_id,cr549_personid";
-            this.loadRecords("cr549_person", query).then(function(resp){
-                var selectedrecords = resp.filter(x => x.id == obj.props.recordId); 
-                obj.setState({ allitems: resp, selectedRecords: selectedrecords });
+            this.props.context.webAPI.retrieveRecord("cr549_person",this.props.recordId!,query).then(function(resp){
+                recs.push({ id: resp["cr549_personid"], text: resp["cr549_name"], secondaryText: resp["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
+                obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+            },function(err){
+                console.log("Error occured while fetching the query");
             })
+            // this.loadRecords("cr549_person", query).then(function(resp){
+            //     var selectedrecords = resp.filter(x => x.id == obj.props.recordId); 
+            //     obj.setState({ allitems: resp, selectedRecords: selectedrecords });
+            // })
             // while(query && query != ""){
             //     this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, query).then(
             //         (response) => {
@@ -76,8 +83,8 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         
         return recs;
     }
-    onResolveSuggestions = async (filterText: string, currentPersonas?: IPersonaProps[]) => {
-        var filteredrecs = [];
+    onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
+        
         if(this.props.entityType == "cr549_role"){
             if(filterText == null || filterText.trim() == "")
                 return this.state.allitems;
@@ -85,19 +92,28 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
         }
         else {
-            if(filterText?.length <= 3)
+            if(filterText?.length < 3)
                 return [];
             else {
-                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase())).slice(0,100);
+                return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')`).then(function(resp){
+                    return resp.entities.map((ent) => {
+                        return { id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps;
+                    });
+                })
             }
         }
     }
     render() {
         const allitems = [...this.state.allitems];
+        const header = this.props.entityType == "cr549_person" ? "Persons" : "Roles";
         return (    
             <NormalPeoplePicker
                 onEmptyResolveSuggestions={() => allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
+                pickerSuggestionsProps={{
+                    loadingText: "Loading...",
+                    suggestionsHeaderText: header
+                }}
                 selectedItems={[...this.state.selectedRecords]}
                 itemLimit={1}
                 onChange={(items) => {
