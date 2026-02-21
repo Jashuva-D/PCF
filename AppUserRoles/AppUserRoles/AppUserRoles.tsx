@@ -100,7 +100,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />;
                             }
-                            else if(columnname == "cr549_person" || columnname == "person_cr549_id"){
+                            else if(columnname == "cr549_person"){
+                                return <LookupControl 
+                                    context={this.props.context} entityType="cr549_person" recordId={item[`${columnname}_value`]?.id?.guid ?? null}
+                                    onRecordSelect={(id, name) => {
+                                        this.onFieldChange(columnname,{id: {guid: id}, name: name, entityType: "cr549_person"})
+                                    }}
+                                />
+                            }
+                            else if(columnname == "person_cr549_id"){
                                 return <Text>{item[columnname] ?? ""}</Text>;
                             }
                             else {
@@ -251,7 +259,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     onCancelClick(){
         this.setState({editablerecord: null});
     }
-    onFieldChange(fieldname: string, value: any){
+    async onFieldChange(fieldname: string, value: any){
         let editablerecord = this.state.editablerecord;
         if(editablerecord){
             if(fieldname == "person_cr549_service_desk_agent"){
@@ -261,6 +269,17 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             else if(fieldname == "cr549_role"){
                 editablerecord[fieldname] = value?.name,
                 editablerecord[`${fieldname}_value`] = value == null ? null : value
+            }
+            else if(fieldname == "cr549_person"){
+                editablerecord[fieldname] == value?.name,
+                editablerecord[`${fieldname}_value`] = value == null ? null : value
+
+                if(value != null){
+                    await this.props.context.webAPI.retrieveRecord("cr549_person",value.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2").then(function(resp){
+                        editablerecord["person_cr549_id"] = resp["cr549_id"];
+                        editablerecord["person_cr549_direct_phone"] = resp["cr549_direct_phone"];
+                    })
+                }
             }
             else {
                 editablerecord[fieldname] = value ?? "";
