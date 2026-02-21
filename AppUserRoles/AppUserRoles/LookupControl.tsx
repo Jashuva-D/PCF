@@ -40,18 +40,22 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             );
         }
         if(this.props.entityType == "cr549_person"){
-            this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_name,cr549_id,cr549_personid").then(
-                (response) => {
-                    response.entities.forEach((ent) => {
-                        recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
-                    });
-                    var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
-                    obj.setState({ allitems: recs, selectedRecords: selectedrecords });
-                },
-                (error) => {
-                    console.error("Error fetching records: ", error);
-                }
-            );
+            var query = "?$select=cr549_name,cr549_id,cr549_personid";
+            while(query && query != ""){
+                this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, query).then(
+                    (response) => {
+                        response.entities.forEach((ent) => {
+                            recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                        });
+                        query = response.nextLink;
+                    },
+                    (error) => {
+                        console.error("Error fetching records: ", error);
+                    }
+                );
+            }
+            var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
+            obj.setState({ allitems: recs, selectedRecords: selectedrecords });
         }
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {

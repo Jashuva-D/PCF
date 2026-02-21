@@ -275,7 +275,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 editablerecord[`${fieldname}_value`] = value == null ? null : value
 
                 if(value != null){
-                    await this.props.context.webAPI.retrieveRecord("cr549_person",value.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2").then(function(resp){
+                    await this.props.context.webAPI.retrieveRecord("cr549_person",value.id.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2").then(function(resp){
                         editablerecord["person_cr549_id"] = resp["cr549_id"];
                         editablerecord["person_cr549_direct_phone"] = resp["cr549_direct_phone"];
                     })
