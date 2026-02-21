@@ -112,7 +112,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
                             }
                             else {
-                                return <TextField key={columnname} defaultValue={this.state.editablerecord[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
+                                return <TextField key={columnname} defaultValue={this.state.editablerecord[columnname] ?? ""} value={this.state.editablerecord[columnname] ?? ""} onChange={(e, val) => this.onFieldChange(columnname, val)}/>;
                             }
                         }
                         else {
