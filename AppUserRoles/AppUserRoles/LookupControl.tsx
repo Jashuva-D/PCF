@@ -76,11 +76,21 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         
         return recs;
     }
-    onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
-        if(filterText == null || filterText.trim() == "")
-            return this.state.allitems;
-        else
-            return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+    onResolveSuggestions = async (filterText: string, currentPersonas?: IPersonaProps[]) => {
+        var filteredrecs = [];
+        if(this.props.entityType == "cr549_role"){
+            if(filterText == null || filterText.trim() == "")
+                return this.state.allitems;
+            else
+                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+        }
+        else {
+            if(filterText?.length <= 3)
+                return [];
+            else {
+                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase())).slice(0,100);
+            }
+        }
     }
     render() {
         const allitems = [...this.state.allitems];
