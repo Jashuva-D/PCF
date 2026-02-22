@@ -102,12 +102,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />;
                             }
                             else if(columnname == "cr549_person"){
-                                return <LookupControl 
-                                    context={this.props.context} entityType="cr549_person" recordId={item[`${columnname}_value`]?.id?.guid ?? null}
-                                    onRecordSelect={(id, name) => {
-                                        this.onFieldChange(columnname,{id: {guid: id}, name: name, entityType: "cr549_person"})
-                                    }}
-                                />
+                                return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
+                                // return <LookupControl 
+                                //     context={this.props.context} entityType="cr549_person" recordId={item[`${columnname}_value`]?.id?.guid ?? null}
+                                //     onRecordSelect={(id, name) => {
+                                //         this.onFieldChange(columnname,{id: {guid: id}, name: name, entityType: "cr549_person"})
+                                //     }}
+                                // />
                             }
                             else if(columnname == "person_cr549_id"){
                                 return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
