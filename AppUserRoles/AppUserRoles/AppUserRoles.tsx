@@ -236,9 +236,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_person@odata.bind" : personid == undefined ? null : `/cr549_persons(${personid})`
         }
         var person = {
-            "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
             "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
             "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
+            "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
             "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
         }
 
@@ -275,9 +275,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 editablerecord[`${fieldname}_value`] = value == null ? null : value
 
                 if(value != null){
-                    await this.props.context.webAPI.retrieveRecord("cr549_person",value.id.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2").then(function(resp){
+                    await this.props.context.webAPI.retrieveRecord("cr549_person",value.id.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){
                         editablerecord["person_cr549_id"] = resp["cr549_id"];
                         editablerecord["person_cr549_direct_phone"] = resp["cr549_direct_phone"];
+                        editablerecord["person_cr549_email_address"] = resp["cr549_email_address"];
+                        editablerecord["person_cr549_email_address_2"] = resp["cr549_email_address"];
+                        //editablerecord["person_cr549_service_desk_agent"] = resp["cr549_service_desk_agen"];
+                        //editablerecord[""]
                     })
                 }
             }
