@@ -280,9 +280,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         editablerecord["person_cr549_direct_phone"] = resp["cr549_direct_phone"];
                         editablerecord["person_cr549_email_address"] = resp["cr549_email_address"];
                         editablerecord["person_cr549_email_address_2"] = resp["cr549_email_address"];
-                        //editablerecord["person_cr549_service_desk_agent"] = resp["cr549_service_desk_agen"];
-                        //editablerecord[""]
-                    })
+                        editablerecord["person_cr549_service_desk_agent"] = resp["cr549_service_desk_agent"] == null ? null : resp["cr549_service_desk_agent"] == true ? "Primary" : "Secondary";
+                        editablerecord["person_cr549_service_desk_agent_value"] = resp["cr549_service_desk_agent"] == null ? null : resp["cr549_service_desk_agent"] == true ? "0" : "1"
+                    });
                 }
             }
             else {
