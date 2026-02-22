@@ -88,7 +88,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                             if(columnname == "person_cr549_service_desk_agent"){
                                 return <Dropdown
                                     options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
-                                    defaultSelectedKey={item[`${columnname}_value`]}
+                                    defaultSelectedKey={this.state.editablerecord[`person_cr549_service_desk_agent_value`]}
                                     onChange={(event, value) => this.onFieldChange(columnname, value)}
                                 />;
                             }
