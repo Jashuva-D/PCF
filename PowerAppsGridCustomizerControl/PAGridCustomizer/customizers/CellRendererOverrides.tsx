@@ -69,7 +69,7 @@ export const cellRendererOverrides: CellRendererOverrides = {
       return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: props.value == 1 ? "#12890E" : "#E31C3D"}}>{props.value == 1 ? "Yes" : "No"}</Text></Stack>
     }
     if (col.colDefs[col.columnIndex].name == "cr549_decom_flag" && props.formattedValue != null && props.formattedValue != ""){
-      return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: props.value == 1 ? "#12890E" : "#E31C3D"}}>{props.formattedValue}</Text></Stack>
+      return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: props.value == 0 ? "#12890E" : "#E31C3D"}}>{props.formattedValue}</Text></Stack>
     }
   }
 };
