@@ -16,7 +16,7 @@ export const CellCustomRender: CellRendererOverrides = {
 	},
     ["Integer"]: (props: CellRendererProps, col) => {
         if(col.colDefs[col.columnIndex].name == "cr549_hostingprojectid" && props.formattedValue != null && props.formattedValue != "") {
-            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#E6C8DB", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{props.formattedValue}</Text></Stack>;
+            return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#E6C8DB", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{props.formattedValue}</Text></Stack>;
         }
     }
 };
