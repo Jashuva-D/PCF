@@ -265,9 +265,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               displayprogress: false,
             })
           }
-          //obj.setState({displayprogress : false});
-          //obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-          //obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
         },function(error){
             obj.setState({displayprogress: false});
             obj.props.context.navigation.openErrorDialog({
@@ -349,7 +346,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           minHeight: "200px",
         }}
         rows={8}
-        //className="ql-editor ql-container" /* Explicitly applying the class */
       />
     );
 
@@ -455,10 +451,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                         <DefaultButton
                             text="Submit"
                             onClick={this.onSubmit.bind(this)}
-                            //style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
                             style={{ 
                               borderRadius: 4, 
-                              //borderColor: "#0D2499", 
                               border: 0,
                               color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
                               backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#0D2499",

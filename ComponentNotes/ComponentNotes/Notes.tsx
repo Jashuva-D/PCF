@@ -172,7 +172,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     render(): React.ReactNode {
         const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
         return <div>
-            <Stack style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24 }}>
+            <Stack style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24, paddingTop: 24 }}>
                 <StackItem>
                     <Stack tokens={{ childrenGap: 20 }}>
                         <StackItem>
@@ -230,21 +230,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                         lineHeight: 36,
                                                     },
                                                 }} />
-                                        </StackItem>
-                                        <StackItem>
-                                            <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
-                                                styles={ { 
-                                                    root: {
-                                                        height: 36,
-                                                        padding: "0 20px",
-                                                    },
-                                                    label: {
-                                                        fontSize: 15,
-                                                        lineHeight: 36,
-                                                    },
-                                                }}
-                                            />
                                         </StackItem>
                                     </Stack>
                                 </StackItem>
