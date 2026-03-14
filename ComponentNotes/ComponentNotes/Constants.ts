@@ -6,13 +6,12 @@ export enum ActivityStateCode {
 }
 
 export const Interactiontypes = [
-    {key: 4, text: "Cost Optimization"},
-    {key: 7, text: "Intake Meetings"},
-    {key: 2, text: "Quarterly Strategic Review Meeting"},
-    {key: 1, text: "Routine Check-In Meeting"},
-    {key: 3, text: "Security Deep Dive"},
-    {key: 5, text: "Technical Deep Dive"},
-    {key: 6, text: "Other"}
+    {key: 512150000, text: "Routine Check-In Meeting"},
+    {key: 512150001, text: "Quarterly Strategic Review Meeting"},
+    {key: 512150002, text: "Security Deep Dive"},
+    {key: 512150003, text: "Cost Optimization"},
+    {key: 512150004, text: "Technical Deep Dive"},
+    {key: 512150005, text: "Other"},
 ]
 
 export enum CMSAlertType {

@@ -78,29 +78,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
     componentDidMount(): void {
         this.GetFakeData();
         this.Refresh();
-        // var obj = this;
-        // var currentrecordid = (this.props.context as any).page.entityId;
-        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
-        //     let notes = [] as any[]
-        //     resp.entities.forEach(x => {
-        //         notes.push({
-        //             recordid: x.activityid,
-        //             comments: x.camp_comment,
-        //             createdon: new Date(x.createdon),
-        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
-        //             modifiedon: new Date(x.modifiedon),
-        //             modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-        //             topicowner: x.camp_topicowner,
-        //             topic: x.subject,
-        //             statecode: x.statecode,
-        //             interactiontype: x.camp_interactiontype
-        //         })
-        //     })
-        //     obj.setState({ notes: notes });
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
-
     }
     onAddNoteClick() {
         this.setState({ newnote: true, enablesearch: false, generateSummary: false });
@@ -128,26 +105,22 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_applicationnotes").then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes").then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
-                    recordid: x.activityid,
-                    comments: x.cr549_comment,
+                    recordid: x.cr549_componentnotesid,
+                    comments: x.cr549_comments,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     createdbyid: x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-                    topic: x.subject,
+                    topic: x.cr549_topic,
                     topicowner: x.cr549_topicowner,
                     statecode: x.statecode,
                     interactiontype: x.cr549_interactiontype,
-                    submittoconfluence: x.cr549_sharewithconfluence,
-                    confluencepageid : x.cr549_confluenceurl,
-                    confluencespace : x.cr549_confluencespace,
-                    confluencepagetitle : x.cr549_confluencepagetitle,
-                    otherinteractiontype : x.cr549_otherinteractiontype
+                    interactiondescription: x.cr549_interactiondescription,
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -275,11 +248,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             topic={x.topic}
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
-                            otherinteractiontype={x.otherinteractiontype}
-                            submittoconfluence={x.submittoconfluence}
-                            confluencepageid={x.confluencepageid}
-                            confluencespace={x.confluencespace}
-                            confluencepagetitle={x.confluencepagetitle}
+                            interactiondescription={x.otherinteractiontype}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                             refresh = {this.Refresh.bind(this)}
                             showalert = {this.showAlertMessage.bind(this)}

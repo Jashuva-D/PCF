@@ -20,7 +20,7 @@ interface NoteFormProps{
   topic?: string,
   topicowner?: string,
   interactiontype? : number,
-  otherinteractiontype? : string,
+  interactiondescription? : string,
   submittoconfluence? : boolean,
   confluencepageid? : string,
   confluencespace? : string,
@@ -32,7 +32,7 @@ interface NoteFormState {
   topic?: string;
   topicowner?: string,
   interactiontype? : number,
-  otherinteractiontype? : string,
+  interactiondescription? : string,
   submittoconfluence? : boolean,
   confluencepageid? : string,
   confluencespace? : string,
@@ -55,7 +55,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
-      otherinteractiontype: props.otherinteractiontype,
+      interactiondescription: props.interactiondescription,
       submittoconfluence : props.submittoconfluence,
       confluencepageid : props.confluencepageid,
       confluencepagetitle : props.confluencepagetitle,
@@ -167,7 +167,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         cr549_confluenceurl : this.state.confluencepageid,
         cr549_confluencespace : this.state.confluencespace,
         cr549_confluencepagetitle : this.state.confluencepagetitle,
-        cr549_otherinteractiontype : this.state.otherinteractiontype
+        cr549_interactiondescription : this.state.interactiondescription
       }
       this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function(resp){
         if(obj.state.submittoconfluence){
@@ -225,7 +225,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_confluenceurl : this.state.confluencepageid,
           cr549_confluencespace : this.state.confluencespace,
           cr549_confluencepagetitle : this.state.confluencepagetitle,
-          cr549_otherinteractiontype : this.state.otherinteractiontype
+          cr549_interactiondescription : this.state.interactiondescription
         }
         this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
           if(obj.state.submittoconfluence){
@@ -427,7 +427,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             {this.state.interactiontype && this.state.interactiontype === 6 && (
             <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
                 <StackItem grow>
-                  <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
+                  <TextField label="Interaction Description" value={this.state.interactiondescription} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ interactiondescription: newvalue }) }}></TextField>
                 </StackItem>
               {this.state.submittoconfluence && <StackItem style={{verticalAlign: "bottom", marginTop: 35}}>
                 {this.getSubmitToConfluenceToggle()}
@@ -483,7 +483,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     <><Text><b>Topic: </b>{this.state.topic}</Text></>
                     <><Text><b>Topic Owner: </b>{this.state.topicowner}</Text></>
                     <><Text><b>Interaction Type: </b>{Interactiontypes.find(i => i.key === this.state.interactiontype)?.text}</Text></>
-                    {this.state.interactiontype != null && this.state.interactiontype === 6 && <><Text><b>Other Interaction Type: </b>{this.state.otherinteractiontype}</Text></>}
+                    {this.state.interactiontype != null && this.state.interactiontype === 6 && <><Text><b>Interaction Description: </b>{this.state.interactiondescription}</Text></>}
                   </Stack>
                   {quillEditor}
                 </div>

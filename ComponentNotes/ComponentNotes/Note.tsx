@@ -20,11 +20,7 @@ interface NoteProps {
     topic? : string,
     statecode : number,
     interactiontype? : number,
-    otherinteractiontype? : string,
-    submittoconfluence? : boolean
-    confluencepageid? : string,
-    confluencespace? : string,
-    confluencepagetitle? : string
+    interactiondescription? : string,
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
     showalert : (type: CMSAlertType, message: string) => void,
@@ -36,7 +32,7 @@ interface NoteState {
     topicowner? : string,
     displayDetails? : boolean,
     interactiontype? : number,
-    otherinteractiontype? : string,
+    interactiondescription? : string,
     confluencepageid? : string,
     confluencespace? : string,
     confluencepagetitle? : string,
@@ -59,33 +55,10 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : false,
             content : props.comment,
             displayDetails : false,
-            confluencepageid : props.confluencepageid,
-            confluencespace : props.confluencespace,
-            confluencepagetitle : props.confluencepagetitle,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
         }
     }
-    // componentDidUpdate(prevProps: Readonly<NoteProps>, prevState: Readonly<NoteState>, snapshot?: any): void {
-    //     if(prevProps.comment != this.props.comment ||
-    //         prevProps.recordid != this.props.recordid ||
-    //         prevProps.comment != this.props.comment ||
-    //         prevProps.modifiedon != this.props.modifiedon || 
-    //         prevProps.modifiedby != this.props.modifiedby ||
-    //         prevProps.topicowner != this.props.topicowner ||
-    //         prevProps.topic != this.props.topic || 
-    //         prevProps.statecode != this.props.statecode ||
-    //         prevProps.interactiontype != this.props.interactiontype ||
-    //         prevProps.submittoconfluence != this.props.submittoconfluence ||
-    //         prevProps.confluencepageid != this.props.submittoconfluence ||
-    //         prevProps.confluencespace != this.props.confluencespace ||
-    //         prevProps.confluencepagetitle != this.props.confluencepagetitle
-    //     ) {
-    //         this.setState({
-
-    //         })
-    //     }
-    // }
     onEditClick(){
         this.setState({
             editmode : true,
@@ -107,19 +80,11 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : false
         })
     }
-    editSubmit(record: any){ //recordid:string, content?:string, topic?: string, topicOwner? : string){
-        // this.setState({
-        //     editmode : false,
-        //     content : record.comments ?? "",
-        //     topic : record.topic ?? "",
-        //     topicowner : record.topicOwner ?? "",
-        //     interactiontype : record.interactiontype
-        // })
+    editSubmit(record: any){ 
         this.setState({
             editmode : false
         })
         this.props.refresh();
-        
     }
     onSubmitToConfluence(){
         var obj = this;
@@ -137,8 +102,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                     cr549_confluencepagetitle : obj.state.confluencepagetitle
                 }
                 obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
-                    // obj.setState({enablesubmittoconfluence : false});
-                    // obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
                     var request = {
                         entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
                         getMetadata: function () {
@@ -205,16 +168,12 @@ class Note extends React.Component<NoteProps,NoteState> {
             overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
-        //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem style={{paddingLeft: 5}}  >
                                 <Stack tokens={{childrenGap: 10}}>
-                                    {/* <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#8661C5" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#107C10", fontWeight: 600, color: "white"}}>
-                                        {ActivityStateCode[statecode]} 
-                                    </div> */}
                                     <Persona
                                         styles={{root: {paddingTop: 10}}}
                                         imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
@@ -222,11 +181,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         hidePersonaDetails={false}
                                         text={createdby}
                                         onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
-                                        // onRenderPrimaryText={() => 
-                                        //     <div  style={{ alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
-                                        //         {ActivityStateCode[statecode]} 
-                                        //     </div>
-                                        // }
                                     />
                                 </Stack>
                             </StackItem>
@@ -280,24 +234,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Label style={{color: "#808080"}}>Interaction Type</Label>
                                     <Text>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : "\u00A0"}</Text>
                                 </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Submitted to Confluence</Label>
-                                    <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
-                                </StackItem>
-                            </Stack>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Page ID</Label>
-                                    <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Space</Label>
-                                    <Text>{this.props.confluencespace ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Page Title</Label>
-                                    <Text>{this.props.confluencepagetitle ?? "\u00A0"}</Text>
-                                </StackItem>
                             </Stack>
                         </Stack>
                     </StackItem>)}
@@ -333,11 +269,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
                             interactiontype={this.props.interactiontype}
-                            otherinteractiontype={this.props.otherinteractiontype}
-                            submittoconfluence={this.props.submittoconfluence}
-                            confluencepageid={this.props.confluencepageid}
-                            confluencepagetitle={this.props.confluencepagetitle}
-                            confluencespace={this.props.confluencespace}
+                            interactiondescription={this.props.interactiondescription}
                             showalert={this.props.showalert}
                         />}
                         { !this.state.editmode && <>
