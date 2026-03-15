@@ -1,10 +1,8 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar, Persona, PersonaSize } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import {ActivityStateCode, CMSAlertType, Interactiontypes} from "./Constants";
-import { create } from "domain";
+import { CMSAlertType, Interactiontypes} from "./Constants";
 import CMSDialog from "./CMSDialog";
 
 interface NoteProps {
@@ -18,6 +16,7 @@ interface NoteProps {
     modifiedby?: string,
     topicowner? : string,
     topic? : string,
+    name? : string,
     statecode : number,
     interactiontype? : number,
     interactiondescription? : string,
@@ -195,6 +194,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             cancelCallBack={this.editCancel.bind(this)}
                             submitCallBack={this.editSubmit.bind(this)}
                             content={ this.props.comment ?? ""}
+                            name = {this.props.name}
                             topic={this.props.topic}
                             topicowner={this.props.topicowner}
                             interactiontype={this.props.interactiontype}

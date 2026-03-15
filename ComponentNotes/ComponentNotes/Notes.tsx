@@ -121,6 +121,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     statecode: x.statecode,
                     interactiontype: x.cr549_interactiontype,
                     interactiondescription: x.cr549_interactiondescription,
+                    name: x.cr549_name
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -245,6 +246,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             createdbyid={x.createdbyid}
                             comment={x.comments}
                             topicowner={x.topicowner}
+                            name={x.name}
                             topic={x.topic}
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}

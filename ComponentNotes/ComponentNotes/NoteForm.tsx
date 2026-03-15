@@ -14,6 +14,7 @@ interface NoteFormProps{
   submitCallBack: (record: any) => void,
   content? : string,
   recordid?: string,
+  name?: string,
   topic?: string,
   topicowner?: string,
   interactiontype? : number,
@@ -26,6 +27,7 @@ interface NoteFormProps{
 }
 interface NoteFormState {
   comment: string;
+  name?: string;
   topic?: string;
   topicowner?: string,
   interactiontype? : number,
@@ -49,6 +51,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     super(props);
     this.state = {
       comment: props.content ?? "",
+      name: props.name ?? "",
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
@@ -157,6 +160,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     if(this.props.recordid && this.props.recordid !== "") {
       const record = {
         cr549_comments: this.state.comment,
+        cr549_name: this.state.name,
         cr549_topic: this.state.topic,
         cr549_interactiontype : this.state.interactiontype,
         cr549_interactiondescription : this.state.interactiondescription
@@ -177,6 +181,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     else {
         const record = {
           cr549_comments: this.state.comment,
+          cr549_name: this.state.name,
           cr549_topic: this.state.topic,
           cr549_interactiontype : this.state.interactiontype,
           cr549_interactiondescription : this.state.interactiondescription
@@ -245,6 +250,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 24}} grow>
+              <StackItem grow>
+                <TextField label="Name" value={this.state.name} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({name: newvalue})}}/>
+              </StackItem>
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
