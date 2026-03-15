@@ -105,7 +105,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes").then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes","?$orderby=createdon desc").then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({

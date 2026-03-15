@@ -86,55 +86,6 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
         this.props.refresh();
     }
-    onSubmitToConfluence(){
-        var obj = this;
-        this.props.context.navigation.openConfirmDialog({
-            title: "Confirm Submit",
-            text : "Are you sure you want to submit to confluence ?",
-            confirmButtonLabel: "Submit",
-            cancelButtonLabel: "Cancel"
-        }).then(function(resp){
-            if(resp.confirmed){
-                var record = {
-                    cr549_sharewithconfluence : true,
-                    cr549_confluenceurl : obj.state.confluencepageid,
-                    cr549_confluencespace : obj.state.confluencespace,
-                    cr549_confluencepagetitle : obj.state.confluencepagetitle
-                }
-                obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
-                    var request = {
-                        entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
-                        getMetadata: function () {
-                        return {
-                            boundParameter: "entity",
-                            parameterTypes: {
-                            entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-                            },
-                            operationType: 0, operationName: "crm2_PushToConfluencePage"
-                        };
-                        }
-                    };
-
-                    (obj.props.context.webAPI as any).execute(request).then(
-                        function success(response : any) {
-                        if (response.ok) { 
-                            console.log("Success"); 
-                            obj.setState({enablesubmittoconfluence : false});
-                            obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
-                        }
-                        }
-                    ).catch(function (error : any) {
-                        obj.props.context.navigation.openErrorDialog({
-                            message: error.message
-                        });
-                    });
-                },function(err){
-                    obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
-                });
-            }
-        })
-        
-    }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const content = this.state.editmode ? this.state.content : this.props.comment;
@@ -167,7 +118,6 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails)
             overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -237,28 +187,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack>
                         </Stack>
                     </StackItem>)}
-                    {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
-                            <Stack tokens={{childrenGap : 10}}>
-                                <Stack horizontal tokens={{childrenGap : 10}}>
-                                    <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
-                                    <StackItem><TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt,newvalue) => {this.setState({confluencespace : newvalue})}} /></StackItem>
-                                    <StackItem><TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/></StackItem>
-                                </Stack>
-                                <Stack horizontal style={{alignItems : "end"}} tokens={{childrenGap: 10}}>
-                                    <DefaultButton 
-                                        text= "Submit"
-                                        style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
-                                        onClick={this.onSubmitToConfluence.bind(this)}
-                                    />
-                                    <DefaultButton 
-                                        text="Cancel"
-                                        style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
-                                        onClick={() => {this.setState({enablesubmittoconfluence : false})}}
-                                    />
-                                </Stack>
-                            </Stack>
-                        </StackItem>
-                    }
                     <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
                             context={this.props.context}
