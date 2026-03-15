@@ -173,12 +173,12 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack>
                             <Stack tokens={{childrenGap: 10}}>
                                 <StackItem>
-                                    <Label style={{color: "#808080"}}>Topic</Label>
-                                    <Text>{this.props.topic ?? "\u00A0"}</Text>
+                                    <Label style={{color: "#808080"}}>Name</Label>
+                                    <Text>{this.props.name ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
-                                    <Label style={{color: "#808080"}}>Topic Owner</Label>
-                                    <Text>{this.props.topicowner ?? "\u00A0"}</Text>
+                                    <Label style={{color: "#808080"}}>Topic</Label>
+                                    <Text>{this.props.topic ?? "\u00A0"}</Text>
                                 </StackItem>
                                 <StackItem>
                                     <Label style={{color: "#808080"}}>Interaction Type</Label>
