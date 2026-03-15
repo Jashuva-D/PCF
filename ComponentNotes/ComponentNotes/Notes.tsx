@@ -230,7 +230,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         showalert={this.showAlertMessage.bind(this)}
                     />
                 </StackItem>}
-                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 800, backgroundColor: "rgb(243, 243, 243)"}}}>
+                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: "calc(100vh - 200px)", backgroundColor: "rgb(243, 243, 243)"}}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     <Stack tokens={{childrenGap: 24}}>
                     {notes.map((x, idx) => (
