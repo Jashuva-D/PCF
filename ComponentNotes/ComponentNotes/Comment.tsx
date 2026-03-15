@@ -71,7 +71,8 @@ export default class Comment extends Component<CommentProps, CommentState> {
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
       paddingTop: 10,
-      paddingLeft: 10
+      paddingLeft: 10,
+      maxHeight: 40
     };
 
     const fullStyle: React.CSSProperties = {
