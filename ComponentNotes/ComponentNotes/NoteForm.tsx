@@ -158,7 +158,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       const record = {
         cr549_comments: this.state.comment,
         cr549_topic: this.state.topic,
-        cr549_topicowner: this.state.topicowner,
         cr549_interactiontype : this.state.interactiontype,
         cr549_interactiondescription : this.state.interactiondescription
       }
