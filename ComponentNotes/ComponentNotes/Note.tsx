@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes} from "./Constants";
@@ -30,6 +30,7 @@ interface NoteState {
     topic? : string,
     topicowner? : string,
     displayDetails? : boolean,
+    displayApps? : boolean,
     interactiontype? : number,
     interactiondescription? : string,
     confluencepageid? : string,
@@ -56,6 +57,7 @@ class Note extends React.Component<NoteProps,NoteState> {
             displayDetails : false,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
+            displayApps : false
         }
     }
     onEditClick(){
@@ -115,9 +117,12 @@ class Note extends React.Component<NoteProps,NoteState> {
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
-        if(!this.state.displayDetails)
-            overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+
+        if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        
+        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Expand Apps", iconProps:{iconName: "Apps"}, onClick: () => {this.setState({displayApps: !this.state.displayApps, displayDetails: false})}});
+        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Collapse Apps", iconProps:{iconName: "Apps"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -186,6 +191,17 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 </StackItem>
                             </Stack>
                         </Stack>
+                    </StackItem>)}
+                    {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                        <DetailsList
+                            items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
+                            columns={[
+                                {key: "appname", name: "App Name", fieldName: "appname", minWidth: 100, maxWidth: 200, isResizable: true},
+                                {key: "appdescription", name: "Description", fieldName: "appdescription", minWidth: 100, maxWidth: 300, isResizable: true},
+                                {key: "appurl", name: "URL", fieldName: "appurl", minWidth: 100, maxWidth: 300, isResizable: true, onRender: (item) => <a href={item.appurl} target="_blank" rel="noopener noreferrer">{item.appurl}</a>}
+                            ]}
+                            styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
+                        />
                     </StackItem>)}
                     <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
