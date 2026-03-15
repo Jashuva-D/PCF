@@ -68,7 +68,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     onDeleteClick(){
         var obj = this;
         if(obj.props.recordid && obj.props.recordid !== "") {
-            obj.props.context?.webAPI.deleteRecord("cr549_applicationnotes", obj.props.recordid!).then(function(resp){
+            obj.props.context?.webAPI.deleteRecord("cr549_componentnotes", obj.props.recordid!).then(function(resp){
                 obj.props.deleteCallBack(obj.props.recordid);
             },function(err){
                 obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message });
