@@ -90,10 +90,28 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
         this.props.refresh();
     }
-    getApplications() {
+    showApplications() {
         var obj = this;
-        if(this.props.recordid) {
-            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?$select=cr549_id,cr549_long_app_name,cr549_app_live_status,cr549_date_golive,cr549_platform_name&$top=10`).then((response) => {
+        var fetchxml = `<fetch version="1.0" mapping="logical">
+    <entity name="cr549_application">
+        <attribute name="cr549_id"/>
+        <attribute name="cr549_applicationid"/>
+        <attribute name="cr549_long_app_name"/>
+        <attribute name="cr549_app_live_status"/>
+        <attribute name="cr549_date_golive"/>
+        <attribute name="cr549_platform_name"/>
+        <order attribute="cr549_id" descending="false"/>
+        <link-entity name="crm2_cr549_componentnotes_cr549_application" intersect="true" visible="false" to="cr549_applicationid" from="cr549_applicationid">
+            <link-entity name="cr549_componentnotes" from="cr549_componentnotesid" to="cr549_componentnotesid" alias="bb">
+                <filter type="and">
+                    <condition attribute="cr549_componentnotesid" operator="eq" uitype="cr549_componentnotes" value="${this.props.recordid}"/>
+                </filter>
+            </link-entity>
+        </link-entity>
+    </entity>
+</fetch>`;
+        if(!this.state.displayApps){
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?$fetchXml=${encodeURIComponent(fetchxml)}`).then((response) => {
                 let apps = [] as any[];
                 response.entities.forEach((app: any) => {
                      apps.push({
@@ -105,7 +123,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                      });
                 });
                 
-                obj.setState({ applications: apps });
+                obj.setState({ applications: apps, displayApps: true, displayDetails: false });
             }, (error) => {
                 console.error("Error fetching applications: ", error);
             }); 
@@ -144,8 +162,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         
-        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Show Apps", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps, displayDetails: false})}});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps}); this.getApplications.bind(this)()}});
+        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Show Apps", iconProps:{iconName: "ChevronUnfold10"}, onClick: this.showApplications.bind(this)});
+        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
