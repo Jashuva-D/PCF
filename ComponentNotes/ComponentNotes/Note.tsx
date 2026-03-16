@@ -93,7 +93,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     getApplications() {
         var obj = this;
         if(this.props.recordid) {
-            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?&$select=cr549_id,cr549_long_app_name,cr549_app_live_status,cr549_date_golive,cr549_platform_name&top=10`).then((response) => {
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?&$select=cr549_id,cr549_long_app_name,cr549_app_live_status,cr549_date_golive,cr549_platform_name&$top=10`).then((response) => {
                 let apps = [] as any[];
                 response.entities.forEach((app: any) => {
                      apps.push({
