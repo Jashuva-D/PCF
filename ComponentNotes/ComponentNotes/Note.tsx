@@ -43,6 +43,7 @@ interface NoteState {
     dialogSubtext?: string,
     dialogConfirmButtonLabel? : string,
     dialogCancelButtonLabel? : string,
+    applications : any[],
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
@@ -57,7 +58,8 @@ class Note extends React.Component<NoteProps,NoteState> {
             displayDetails : false,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
-            displayApps : false
+            displayApps : false,
+            applications: []
         }
     }
     onEditClick(){
@@ -88,6 +90,27 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
         this.props.refresh();
     }
+    getApplications() {
+        var obj = this;
+        if(this.props.recordid) {
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?&$select=cr549_id,cr549_long_app_name,cr549_app_live_status,cr549_date_golive,cr549_platform_name&top=10`).then((response) => {
+                let apps = [] as any[];
+                response.entities.forEach((app: any) => {
+                     apps.push({
+                        cr549_id: app.cr549_id,
+                        cr549_long_app_name: app.cr549_long_app_name,
+                        cr549_app_live_status: app.cr549_app_live_status,
+                        cr549_date_golive: app.cr549_date_golive ? new Date(app.cr549_date_golive) : null,
+                        cr549_platform_name: app.cr549_platform_name
+                     });
+                });
+                
+                obj.setState({ applications: apps });
+            }, (error) => {
+                console.error("Error fetching applications: ", error);
+            }); 
+        }
+    }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const content = this.state.editmode ? this.state.content : this.props.comment;
@@ -113,7 +136,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         }
                     })
                 }
-            } 
+            }
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
@@ -121,8 +144,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         
-        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Expand Apps", iconProps:{iconName: "Apps"}, onClick: () => {this.setState({displayApps: !this.state.displayApps, displayDetails: false})}});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Collapse Apps", iconProps:{iconName: "Apps"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
+        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Show Apps", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps, displayDetails: false})}});
+        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps}); this.getApplications.bind(this)()}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -194,11 +217,14 @@ class Note extends React.Component<NoteProps,NoteState> {
                     </StackItem>)}
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                         <DetailsList
-                            items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
+                            //items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
+                            items={this.state.applications}
                             columns={[
-                                {key: "appname", name: "App Name", fieldName: "appname", minWidth: 100, maxWidth: 200, isResizable: true},
-                                {key: "appdescription", name: "Description", fieldName: "appdescription", minWidth: 100, maxWidth: 300, isResizable: true},
-                                {key: "appurl", name: "URL", fieldName: "appurl", minWidth: 100, maxWidth: 300, isResizable: true, onRender: (item) => <a href={item.appurl} target="_blank" rel="noopener noreferrer">{item.appurl}</a>}
+                                {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
+                                {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
+                                {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
+                                {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
+                                {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
                             ]}
                             styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
                         />
