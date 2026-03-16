@@ -111,7 +111,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     </entity>
 </fetch>`;
         if(!this.state.displayApps){
-            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?$fetchXml=${encodeURIComponent(fetchxml)}`).then((response) => {
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?fetchXml=${encodeURI(fetchxml)}`).then((response) => {
                 let apps = [] as any[];
                 response.entities.forEach((app: any) => {
                      apps.push({
