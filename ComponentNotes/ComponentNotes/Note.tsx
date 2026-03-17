@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton, MarqueeSelection, Selection, SelectionMode } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes} from "./Constants";
@@ -44,12 +44,14 @@ interface NoteState {
     dialogConfirmButtonLabel? : string,
     dialogCancelButtonLabel? : string,
     applications : any[],
+    selectedapps : string[],
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
+    _selection : Selection;
     constructor(props: NoteProps){
         super(props);
         this.state = {
@@ -59,8 +61,23 @@ class Note extends React.Component<NoteProps,NoteState> {
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
             displayApps : false,
-            applications: []
+            applications: [],
+            selectedapps: []
         }
+        var obj = this;
+        this._selection = new Selection({
+            onSelectionChanged : obj.onSelectionChanged.bind(this),
+            onItemsChanged : () => {
+                console.log("on item changed");
+            },
+            getKey: (item) => {
+                return item.key as string;
+            }
+        });
+    }
+    onSelectionChanged(){
+        var items = this._selection.getSelection();
+        this.setState({selectedapps: items.map(x => x.key as string)});
     }
     onEditClick(){
         this.setState({
@@ -115,6 +132,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                 let apps = [] as any[];
                 response.entities.forEach((app: any) => {
                      apps.push({
+                        key: app.cr549_applicationid,
                         cr549_id: app.cr549_id,
                         cr549_long_app_name: app.cr549_long_app_name,
                         cr549_app_live_status: app.cr549_app_live_status,
@@ -234,7 +252,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>)}
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <Stack tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
+                        <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                             <PrimaryButton 
                                 text="Add App"
                                 iconProps={{iconName: "add"}}
@@ -259,6 +277,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         (obj.props.context.webAPI as any).execute(associateRequest).then(
                                             function success(response: any) {
                                                 console.log(response);
+                                                obj.showApplications.bind(obj)();
                                             }
                                         ).catch(function (error: any) {
                                             console.log(error)
@@ -274,23 +293,41 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 iconProps={{iconName: "delete"}}
                                 style={{borderRadius: 6, backgroundColor: "#0D2499"}}
                                 onClick={() => {
-                                    alert('remove app clicked');
+                                    var obj = this;
+                                    Promise.all(obj.state.selectedapps.map((appId) => {
+                                        var disAssociateRequest = {
+                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+                                            relatedEntityId: appId,
+                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
+                                        };
+                                        return (obj.props.context.webAPI as any).execute(disAssociateRequest);
+                                    })).then((resp) => {
+                                        obj.showApplications.bind(obj)();
+                                    },function(err){
+                                        console.log(err?.message);
+                                    });
+                                    
                                 }}
                             />
                         </Stack>
                         
-                        <DetailsList
-                            //items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
-                            items={this.state.applications}
-                            columns={[
-                                {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
-                                {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                                {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
-                                {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
-                                {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                            ]}
-                            styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
-                        />
+                        <MarqueeSelection selection={this._selection}>
+                            <DetailsList
+                                items={this.state.applications}
+                                columns={[
+                                    {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
+                                    {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
+                                    {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
+                                    {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
+                                    {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
+                                ]}
+                                styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
+                                selection={this._selection}
+                                selectionMode={SelectionMode.multiple}
+                            />
+                        </MarqueeSelection>
+                        
                     </StackItem>)}
                     <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
