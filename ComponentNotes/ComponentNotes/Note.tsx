@@ -141,7 +141,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                      });
                 });
                 
-                obj.setState({ applications: apps, displayApps: true, displayDetails: false });
+                obj.setState({ applications: [...apps], displayApps: true, displayDetails: false });
             }, (error) => {
                 console.error("Error fetching applications: ", error);
             }); 
@@ -299,7 +299,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
                                             relatedEntityId: appId,
                                             relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
+                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
                                         };
                                         return (obj.props.context.webAPI as any).execute(disAssociateRequest);
                                     })).then((resp) => {
@@ -307,7 +307,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     },function(err){
                                         console.log(err?.message);
                                     });
-                                    
                                 }}
                             />
                         </Stack>
