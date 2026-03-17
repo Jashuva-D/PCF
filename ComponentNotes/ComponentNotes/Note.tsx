@@ -234,7 +234,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>)}
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <Stack tokens={{childrenGap: 10}} verticalAlign="end">
+                        <Stack tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                             <PrimaryButton 
                                 text="Add App"
                                 iconProps={{iconName: "add"}}
