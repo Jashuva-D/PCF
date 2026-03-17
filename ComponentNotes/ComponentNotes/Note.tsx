@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes} from "./Constants";
@@ -234,6 +234,21 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>)}
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                        <PrimaryButton text="Add App" onClick={() => {
+                            this.props.context.utils.lookupObjects({
+                                allowMultiSelect: true,
+                                entityTypes: ["cr549_application"],
+                                defaultEntityType: "cr549_application",
+                            }).then((selectedapps) => {
+                                alert(selectedapps.map(x => x.id).join(";"));
+                            },(err) => {
+                                    console.error(err?.message);
+                            })
+                                
+                        }}/>
+                        <PrimaryButton text="Remove App" onClick={() => {
+                            alert('remove app clicked');
+                        }}/>
                         <DetailsList
                             //items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
                             items={this.state.applications}
