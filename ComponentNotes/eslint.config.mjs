@@ -45,6 +45,7 @@ export default [
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-empty-function": "off",
       "promise/catch-or-return": "off",
+      "promise/no-nesting": "off",
     },
   },
 ];

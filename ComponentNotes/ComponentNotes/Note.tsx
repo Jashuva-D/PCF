@@ -234,21 +234,51 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </Stack>
                     </StackItem>)}
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <PrimaryButton text="Add App" onClick={() => {
-                            this.props.context.utils.lookupObjects({
-                                allowMultiSelect: true,
-                                entityTypes: ["cr549_application"],
-                                defaultEntityType: "cr549_application",
-                            }).then((selectedapps) => {
-                                alert(selectedapps.map(x => x.id).join(";"));
-                            },(err) => {
-                                    console.error(err?.message);
-                            })
-                                
-                        }}/>
-                        <PrimaryButton text="Remove App" onClick={() => {
-                            alert('remove app clicked');
-                        }}/>
+                        <Stack tokens={{childrenGap: 10}} verticalAlign="end">
+                            <PrimaryButton 
+                                text="Add App"
+                                iconProps={{iconName: "add"}}
+                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                onClick={() => {
+                                    var obj = this;
+                                    this.props.context.utils.lookupObjects({
+                                        allowMultiSelect: true,
+                                        entityTypes: ["cr549_application"],
+                                        defaultEntityType: "cr549_application",
+                                    }).then((selectedapps) => {
+                                        var associateRequest = {
+                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+                                            relatedEntities: selectedapps.map((app: any) => ({
+                                                entityType: "cr549_application",
+                                                id: app.id
+                                            })),
+                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
+                                        };
+
+                                        (obj.props.context.webAPI as any).execute(associateRequest).then(
+                                            function success(response: any) {
+                                                console.log(response);
+                                            }
+                                        ).catch(function (error: any) {
+                                            console.log(error)
+                                        });
+
+                                    },(err) => {
+                                            console.error(err?.message);
+                                    });
+                                }}
+                            />
+                            <PrimaryButton 
+                                text="Remove App"
+                                iconProps={{iconName: "delete"}}
+                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                onClick={() => {
+                                    alert('remove app clicked');
+                                }}
+                            />
+                        </Stack>
+                        
                         <DetailsList
                             //items={[{appname: "App 1", appdescription: "Description 1", appurl: "https://app1.com"}, {appname: "App 2", appdescription: "Description 2", appurl: "https://app2.com"}  ]}
                             items={this.state.applications}
