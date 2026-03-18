@@ -306,19 +306,31 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
                                 onClick={() => {
                                     var obj = this;
-                                    Promise.all(obj.state.selectedapps.map((appId) => {
-                                        var disAssociateRequest = {
-                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
-                                            relatedEntityId: appId,
-                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
-                                        };
-                                        return (obj.props.context.webAPI as any).execute(disAssociateRequest);
-                                    })).then((resp) => {
-                                        obj.showApplications.bind(obj)();
-                                    },function(err){
-                                        console.log(err?.message);
-                                    });
+                                    obj.setState({
+                                        showDialog: true,
+                                        dialogCancelButtonLabel: "Cancel",
+                                        dialogConfirmButtonLabel: "Remove",
+                                        dialogTitle: "Confirm Remove",
+                                        dialogSubtext: `Do you want to remove the association of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the association.`,
+                                        dialogConfirmCallback: () => {
+                                            Promise.all(obj.state.selectedapps.map((appId) => {
+                                                var disAssociateRequest = {
+                                                    target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+                                                    relatedEntityId: appId,
+                                                    relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                                                    getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
+                                                };
+                                                return (obj.props.context.webAPI as any).execute(disAssociateRequest);
+                                            })).then((resp) => {
+                                                obj.showApplications.bind(obj)();
+                                            },function(err){
+                                                console.log(err?.message);
+                                            });
+                                        },
+                                        dialogCancelCallback: () => {
+                                        },
+                                        dialogDismissCallback: () => {}
+                                    })
                                 }}
                                 disabled={this.state.selectedapps.length == 0}
                             />
@@ -359,7 +371,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 ]}
                                 styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
                                 //selection={this._selection}
-                                //selectionMode={SelectionMode.multiple}
+                                selectionMode={SelectionMode.none}
                             />
                         {/* </MarqueeSelection> */}
                         
