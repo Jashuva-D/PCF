@@ -135,9 +135,9 @@ class Note extends React.Component<NoteProps,NoteState> {
                     key: app.cr549_applicationid,
                     cr549_id: app.cr549_id,
                     cr549_long_app_name: app.cr549_long_app_name,
-                    cr549_app_live_status: app.cr549_app_live_status,
+                    cr549_app_live_status: "cr549_app_live_status@OData.Community.Display.V1.FormattedValue",//app.cr549_app_live_status,
                     cr549_date_golive: app.cr549_date_golive ? new Date(app.cr549_date_golive) : null,
-                    cr549_platform_name: app.cr549_platform_name
+                    cr549_platform_name: "cr549_platform_name@OData.Community.Display.V1.FormattedValue"//app.cr549_platform_name
                 });
             });
                 
@@ -154,7 +154,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
 
         var buttons = [
-            {key: `${this.props.recordid}_edit`, text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10}, 
+            {key: `${this.props.recordid}_edit`, text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10, disabled: this.state.displayApps}, 
             { 
                 key: `${this.props.recordid}_delete`, 
                 text: "Delete", iconOnly:true, 
@@ -171,7 +171,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                             this.onDeleteClick();
                         }
                     })
-                }
+                },
+                disabled: this.state.displayApps
             }
         ] as ICommandBarItemProps[];
 
