@@ -61,3 +61,23 @@
   min-height: 0;
   overflow-y: auto !important;
 }
+
+.associatedapps .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.associatedapps .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+}
+ .associatedapps .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.associatedapps .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}

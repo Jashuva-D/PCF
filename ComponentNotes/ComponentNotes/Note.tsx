@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton, MarqueeSelection, Selection, SelectionMode } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton, MarqueeSelection, Selection, SelectionMode, IColumn, Checkbox, createTheme } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes} from "./Constants";
@@ -182,7 +182,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         
         if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Show Apps", iconProps:{iconName: "ChevronUnfold10"}, onClick: this.showApplications.bind(this)});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
+        //else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -255,6 +255,15 @@ class Note extends React.Component<NoteProps,NoteState> {
                     {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                         <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                             <PrimaryButton 
+                                text="Hide Apps"
+                                iconProps={{iconName: "cancel"}}
+                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                onClick={() => {
+                                    this.setState({displayApps: false});
+                                }}
+                                disabled={this.state.selectedapps.length == 0}
+                            />
+                            <PrimaryButton 
                                 text="Add App"
                                 iconProps={{iconName: "add"}}
                                 style={{borderRadius: 6, backgroundColor: "#0D2499"}}
@@ -288,6 +297,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             console.error(err?.message);
                                     });
                                 }}
+                                disabled={this.state.selectedapps.length != 0}
                             />
                             <PrimaryButton 
                                 text="Remove App"
@@ -309,13 +319,37 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         console.log(err?.message);
                                     });
                                 }}
+                                disabled={this.state.selectedapps.length == 0}
                             />
                         </Stack>
                         
                         <MarqueeSelection selection={this._selection}>
                             <DetailsList
+                                className="associatedapps"
                                 items={this.state.applications}
                                 columns={[
+                                    {
+                                        key: "selectioncolumn",
+                                        minWidth: 35,
+                                        maxWidth: 50,
+                                        isResizable: true,
+                                        onRender: (item : any) => {
+                                            return <Checkbox 
+                                                checked = {this.state.selectedapps.includes(item.key)} 
+                                                onChange={(evt, checked) => { 
+                                                    if(checked) { this.setState({selectedapps: [...this.state.selectedapps, item.key]})} 
+                                                    else { this.setState({selectedapps: this.state.selectedapps.filter(x => x != item.key)})} 
+                                                }}
+                                                theme={ createTheme({
+                                                    palette: {
+                                                        themePrimary: "#0D2499",
+                                                        themeDark: "#091a70",
+                                                        themeDarker: "#06124d"
+                                                    },
+                                                })}
+                                            />
+                                        }
+                                    } as IColumn,
                                     {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
                                     {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
                                     {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
