@@ -311,7 +311,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         dialogCancelButtonLabel: "Cancel",
                                         dialogConfirmButtonLabel: "Remove",
                                         dialogTitle: "Confirm Remove",
-                                        dialogSubtext: `Do you want to remove the association of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the association.`,
+                                        dialogSubtext: `Do you want to remove the link of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the link.`,
                                         dialogConfirmCallback: () => {
                                             Promise.all(obj.state.selectedapps.map((appId) => {
                                                 var disAssociateRequest = {
