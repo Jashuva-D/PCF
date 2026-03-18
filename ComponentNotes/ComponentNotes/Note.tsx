@@ -141,7 +141,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                 });
             });
                 
-            obj.setState({ applications: [...apps], displayApps: true, displayDetails: false });
+            obj.setState({ applications: [...apps], displayApps: true, selectedapps: [], displayDetails: false });
         }, (error) => {
             console.error("Error fetching applications: ", error);
         }); 
