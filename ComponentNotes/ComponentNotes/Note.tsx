@@ -261,11 +261,13 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 onClick={() => {
                                     this.setState({displayApps: false});
                                 }}
+                                
+                                
                             />
                             <PrimaryButton 
                                 text="Add App"
                                 iconProps={{iconName: "add"}}
-                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length != 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length != 0 ? "#5A5A5A" : "white"}}
                                 onClick={() => {
                                     var obj = this;
                                     this.props.context.utils.lookupObjects({
@@ -301,7 +303,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             <PrimaryButton 
                                 text="Remove App"
                                 iconProps={{iconName: "delete"}}
-                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
                                 onClick={() => {
                                     var obj = this;
                                     Promise.all(obj.state.selectedapps.map((appId) => {
