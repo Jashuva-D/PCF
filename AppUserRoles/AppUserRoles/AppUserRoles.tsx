@@ -165,6 +165,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item : any) => {
                 return <Checkbox 
+                    
                     checked = {this.state.selectedrecordids.includes(item.key)} 
                     onChange={(evt, checked) => { 
                         if(checked) { this.setState({selectedrecordids: [...this.state.selectedrecordids, item.key]})} 
