@@ -127,25 +127,25 @@ class Note extends React.Component<NoteProps,NoteState> {
         </link-entity>
     </entity>
 </fetch>`;
-        if(!this.state.displayApps){
-            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?fetchXml=${encodeURI(fetchxml)}`).then((response) => {
-                let apps = [] as any[];
-                response.entities.forEach((app: any) => {
-                     apps.push({
-                        key: app.cr549_applicationid,
-                        cr549_id: app.cr549_id,
-                        cr549_long_app_name: app.cr549_long_app_name,
-                        cr549_app_live_status: app.cr549_app_live_status,
-                        cr549_date_golive: app.cr549_date_golive ? new Date(app.cr549_date_golive) : null,
-                        cr549_platform_name: app.cr549_platform_name
-                     });
+        
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?fetchXml=${encodeURI(fetchxml)}`).then((response) => {
+            let apps = [] as any[];
+            response.entities.forEach((app: any) => {
+                apps.push({
+                    key: app.cr549_applicationid,
+                    cr549_id: app.cr549_id,
+                    cr549_long_app_name: app.cr549_long_app_name,
+                    cr549_app_live_status: app.cr549_app_live_status,
+                    cr549_date_golive: app.cr549_date_golive ? new Date(app.cr549_date_golive) : null,
+                    cr549_platform_name: app.cr549_platform_name
                 });
+            });
                 
-                obj.setState({ applications: [...apps], displayApps: true, displayDetails: false });
-            }, (error) => {
-                console.error("Error fetching applications: ", error);
-            }); 
-        }
+            obj.setState({ applications: [...apps], displayApps: true, displayDetails: false });
+        }, (error) => {
+            console.error("Error fetching applications: ", error);
+        }); 
+        
     }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
