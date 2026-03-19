@@ -250,9 +250,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 24}} grow>
-              <StackItem grow>
+              {/* <StackItem grow>
                 <TextField label="Name" value={this.state.name} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({name: newvalue})}}/>
-              </StackItem>
+              </StackItem> */}
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
@@ -285,16 +285,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     },
                   }}
                 />
-
               </StackItem>
+              
             </Stack>
-            {this.state.interactiontype && this.state.interactiontype === 6 && (
+            {this.state.interactiontype && this.state.interactiontype === 512150005 && (
             <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
                 <StackItem grow>
-                  <TextField label="Interaction Description" value={this.state.interactiondescription} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ interactiondescription: newvalue }) }}></TextField>
+                  <TextField label="Other Interaction Type" value={this.state.interactiondescription} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ interactiondescription: newvalue }) }}></TextField>
                 </StackItem>
             </Stack>)}
-            
           </StackItem>
             <StackItem styles={{ root: { flexGrow: 0}}}>
                 <Label>Comments</Label>
