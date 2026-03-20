@@ -80,7 +80,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
-        this.GetFakeData();
+        //this.GetFakeData();
         this.Refresh();
         // var obj = this;
         // var currentrecordid = (this.props.context as any).page.entityId;

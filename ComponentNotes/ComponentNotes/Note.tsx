@@ -335,8 +335,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 disabled={this.state.selectedapps.length == 0}
                             />
                         </Stack>
-                        
-                        {/* <MarqueeSelection selection={this._selection}> */}
                             <DetailsList
                                 className="associatedapps"
                                 items={this.state.applications}
@@ -370,11 +368,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
                                 ]}
                                 styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
-                                //selection={this._selection}
                                 selectionMode={SelectionMode.none}
                             />
-                        {/* </MarqueeSelection> */}
-                        
                     </StackItem>)}
                     <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
