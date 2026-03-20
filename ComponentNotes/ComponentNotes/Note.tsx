@@ -415,7 +415,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             />
                         }
                         {this.state.currenttab === NoteTabs.Applications && 
-                            (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                            (<StackItem style={{marginTop: 0, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                                 <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                                     <PrimaryButton 
                                         text="Add"

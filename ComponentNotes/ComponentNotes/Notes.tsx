@@ -246,6 +246,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             createdby={x.createdby}
                             createdbyid={x.createdbyid}
                             comment={x.comments}
+                            actionitems={x.actionitems}
                             topicowner={x.topicowner}
                             name={x.name}
                             topic={x.topic}
