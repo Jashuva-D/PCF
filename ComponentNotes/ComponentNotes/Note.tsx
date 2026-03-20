@@ -371,6 +371,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 selectionMode={SelectionMode.none}
                             />
                     </StackItem>)}
+                    {this.props.topic && <StackItem style={{padding : 10}}><Text>{this.props.topic ?? ""}</Text></StackItem>}
                     <StackItem style={{padding: 10}}>
                         {this.state.editmode && <NoteForm
                             context={this.props.context}
