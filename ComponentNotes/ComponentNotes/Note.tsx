@@ -146,7 +146,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                 });
             });
                 
-            obj.setState({ applications: [...apps], displayApps: true, selectedapps: [], displayDetails: false });
+            //obj.setState({ applications: [...apps], displayApps: true, selectedapps: [], displayDetails: false });
+            obj.setState({ applications: [...apps], selectedapps: []});
         }, (error) => {
             console.error("Error fetching applications: ", error);
         }); 
@@ -257,7 +258,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack>
                         </Stack>
                     </StackItem>)}
-                    {this.state.displayApps && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                    {/* {this.state.displayApps && (<StackItem style={{marginTop:20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                         <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                             <PrimaryButton 
                                 text="Hide Apps"
@@ -375,10 +376,24 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
                                 selectionMode={SelectionMode.none}
                             />
-                    </StackItem>)}
+                    </StackItem>)} */}
                     {this.props.topic && <StackItem style={{paddingTop : 10, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>}
                     {!this.state.editmode && <StackItem style={{paddingTop : 10}}>
-                        <DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.Comments})}>Comments</DefaultButton ><DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>Action Items</DefaultButton><DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.Applications})}>Applications</DefaultButton>
+                        <DefaultButton 
+                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} 
+                            onClick={() => this.setState({currenttab: NoteTabs.Comments})}>
+                                Comments
+                        </DefaultButton>
+                        <DefaultButton 
+                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} 
+                            onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
+                                Action Items
+                        </DefaultButton>
+                        <DefaultButton 
+                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
+                            onClick={() => {this.showApplications.bind(this)(); this.setState({currenttab: NoteTabs.Applications})}}>
+                                Applications
+                        </DefaultButton>
                     </StackItem>}
                     
                     { !this.state.editmode && 
@@ -403,17 +418,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                                 <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
                                     <PrimaryButton 
-                                        text="Hide Apps"
-                                        iconProps={{iconName: "cancel"}}
-                                        style={{borderRadius: 6, backgroundColor: "#0D2499"}}
-                                        onClick={() => {
-                                            this.setState({displayApps: false});
-                                        }}
-                                        
-                                        
-                                    />
-                                    <PrimaryButton 
-                                        text="Add App"
+                                        text="Add"
                                         iconProps={{iconName: "add"}}
                                         style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length != 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length != 0 ? "#5A5A5A" : "white"}}
                                         onClick={() => {
@@ -449,7 +454,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         disabled={this.state.selectedapps.length != 0}
                                     />
                                     <PrimaryButton 
-                                        text="Remove App"
+                                        text="Remove"
                                         iconProps={{iconName: "delete"}}
                                         style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
                                         onClick={() => {
