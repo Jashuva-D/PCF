@@ -3,9 +3,10 @@ const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
 import { Stack, StackItem,DefaultButton, Label, TextField, Dropdown, Text } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
-import { CMSAlertType, Interactiontypes } from "./Constants";
+import { CMSAlertType, Interactiontypes, NoteTabs } from "./Constants";
 import CMSSpinner from "./CMSSpinner";
 import * as ReactDOM from "react-dom";
+import Note from "./Note";
 
 
 interface NoteFormProps{
@@ -13,6 +14,7 @@ interface NoteFormProps{
   cancelCallBack: () => void,
   submitCallBack: (record: any) => void,
   content? : string,
+  actionitems? : string,
   recordid?: string,
   name?: string,
   topic?: string,
@@ -26,9 +28,10 @@ interface NoteFormProps{
   showalert : (type: CMSAlertType, message: string) => void,
 }
 interface NoteFormState {
-  comment: string;
-  name?: string;
-  topic?: string;
+  comment: string
+  actionitems: string
+  name?: string
+  topic?: string
   topicowner?: string,
   interactiontype? : number,
   interactiondescription? : string,
@@ -38,7 +41,8 @@ interface NoteFormState {
   confluencepagetitle? : string,
   progressmessage : string,
   displayprogress : boolean,
-  expand : boolean
+  expand : boolean,
+  currenttab: NoteTabs
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
@@ -51,6 +55,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     super(props);
     this.state = {
       comment: props.content ?? "",
+      actionitems: props.actionitems ?? "",
       name: props.name ?? "",
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
@@ -62,7 +67,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       confluencespace : props.confluencespace,
       progressmessage : "",
       displayprogress : false,
-      expand : false
+      expand : false,
+      currenttab: NoteTabs.Comments
     };
     
     this.icons["expand"] = this.expand;
@@ -152,7 +158,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
 
 
   handleChange = (content: string) => {
-    this.setState({ comment: content });
+    if(this.state.currenttab === NoteTabs.Comments) {
+      this.setState({ comment: content });
+    }else {
+      this.setState({ actionitems: content });
+    }
   };
   onSubmit() {
     var obj = this;
@@ -217,7 +227,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     const quillEditor = (
       <ReactQuill
         theme="snow"
-        value={this.state.comment}
+        value={this.state.currenttab === NoteTabs.Comments ? this.state.comment : this.state.actionitems}
         onChange={this.handleChange.bind(this)}
         modules={this.modules}
         formats={this.formats}
@@ -247,7 +257,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             },
           }}
         >
-          {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
+        {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
             <Stack horizontal tokens={{childrenGap: 24}} grow>
               {/* <StackItem grow>
@@ -295,12 +305,25 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 </StackItem>
             </Stack>)}
           </StackItem>
-            <StackItem styles={{ root: { flexGrow: 0}}}>
-                <Label>Comments</Label>
-                {!this.state.expand && quillEditor}
-            </StackItem>
-             <StackItem align="end">
-                <Stack horizontal tokens={{ childrenGap: 10 }}>
+          <StackItem style={{padding: 10}}>
+                <DefaultButton 
+                  style={{border: 0, 
+                  borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} 
+                  onClick={() => this.setState({currenttab: NoteTabs.Comments})}>
+                    Comments
+                </DefaultButton>
+                <DefaultButton 
+                  style={{border: 0, 
+                  borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} 
+                  onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
+                    Action Items
+                </DefaultButton>
+          </StackItem>
+          <StackItem styles={{ root: { flexGrow: 0}}}>
+            {!this.state.expand && quillEditor}
+          </StackItem>
+          <StackItem align="end">
+              <Stack horizontal tokens={{ childrenGap: 10 }}>
                     {this.state.displayprogress && <StackItem>
                       <CMSSpinner />
                     </StackItem> 
@@ -317,20 +340,20 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                             }}
                             disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ) || this.state.displayprogress}
                         />
-                    </StackItem>
-                    <StackItem>
-                        <DefaultButton
-                            text="Cancel"
-                            onClick={() => {
-                                this.handleChange("");
-                                this.props.cancelCallBack && this.props.cancelCallBack();
-                            }}
-                            disabled={this.state.displayprogress}
-                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)", borderColor: "#262626" }}
-                        />
-                    </StackItem>
+                  </StackItem>
+                  <StackItem>
+                      <DefaultButton
+                          text="Cancel"
+                          onClick={() => {
+                              this.handleChange("");
+                              this.props.cancelCallBack && this.props.cancelCallBack();
+                          }}
+                          disabled={this.state.displayprogress}
+                          style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)", borderColor: "#262626" }}
+                      />
+                  </StackItem>
                 </Stack>
-            </StackItem> 
+          </StackItem> 
         </Stack>
         { this.state.expand &&
           ReactDOM.createPortal(

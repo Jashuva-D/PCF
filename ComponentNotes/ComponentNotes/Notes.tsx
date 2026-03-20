@@ -111,6 +111,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 notes.push({
                     recordid: x.cr549_componentnotesid,
                     comments: x.cr549_comments,
+                    actionitems: x.cr549_actionitems,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     createdbyid: x["_createdby_value"],

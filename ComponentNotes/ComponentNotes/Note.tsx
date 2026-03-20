@@ -1,14 +1,15 @@
 import * as React from "react";
-import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton, MarqueeSelection, Selection, SelectionMode, IColumn, Checkbox, createTheme } from "@fluentui/react";
+import { Stack, StackItem, Label, Text, ICommandBarItemProps, CommandBar, Persona, PersonaSize, DetailsList, PrimaryButton, MarqueeSelection, Selection, SelectionMode, IColumn, Checkbox, createTheme, DefaultButton } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import { CMSAlertType, Interactiontypes} from "./Constants";
+import { CMSAlertType, Interactiontypes, NoteTabs} from "./Constants";
 import CMSDialog from "./CMSDialog";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
     recordid?: string,
     comment?: string,
+    actionitems?: string,
     createdon: Date,
     createdby: string,
     createdbyid?: string,
@@ -27,6 +28,7 @@ interface NoteProps {
 interface NoteState {
     editmode : boolean,
     content? : string,
+    actionitems? : string,
     topic? : string,
     topicowner? : string,
     displayDetails? : boolean,
@@ -48,6 +50,7 @@ interface NoteState {
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
+    currenttab: NoteTabs
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -57,12 +60,14 @@ class Note extends React.Component<NoteProps,NoteState> {
         this.state = {
             editmode : false,
             content : props.comment,
+            actionitems : props.actionitems,
             displayDetails : false,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
             displayApps : false,
             applications: [],
-            selectedapps: []
+            selectedapps: [],
+            currenttab: NoteTabs.Comments
         }
         var obj = this;
         this._selection = new Selection({
@@ -371,30 +376,169 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 selectionMode={SelectionMode.none}
                             />
                     </StackItem>)}
-                    {this.props.topic && <StackItem style={{padding : 10}}><Stack horizontal><Label>Topic:</Label><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>}
-                    <StackItem style={{padding: 10}}>
-                        {this.state.editmode && <NoteForm
-                            context={this.props.context}
-                            recordid={this.props.recordid}
-                            cancelCallBack={this.editCancel.bind(this)}
-                            submitCallBack={this.editSubmit.bind(this)}
-                            content={ this.props.comment ?? ""}
-                            name = {this.props.name}
-                            topic={this.props.topic}
-                            topicowner={this.props.topicowner}
-                            interactiontype={this.props.interactiontype}
-                            interactiondescription={this.props.interactiondescription}
-                            showalert={this.props.showalert}
-                        />}
-                        { !this.state.editmode && <>
+                    {this.props.topic && <StackItem style={{paddingTop : 10, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>}
+                    {!this.state.editmode && <StackItem style={{paddingTop : 10}}>
+                        <DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.Comments})}>Comments</DefaultButton ><DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>Action Items</DefaultButton><DefaultButton style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} onClick={() => this.setState({currenttab: NoteTabs.Applications})}>Applications</DefaultButton>
+                    </StackItem>}
+                    
+                    { !this.state.editmode && 
+                    <StackItem>
+                        {this.state.currenttab === NoteTabs.Comments && 
                             <Comment 
                                 context={this.props.context} 
                                 text={ this.props.comment ?? ""} 
                                 recordid={this.props.recordid} 
                                 editmode={editmode}
                             />
-                        </>}
-                    </StackItem>
+                        }
+                        {this.state.currenttab === NoteTabs.ActionItems && 
+                            <Comment 
+                                context={this.props.context} 
+                                text={ this.props.actionitems ?? ""} 
+                                recordid={this.props.recordid} 
+                                editmode={editmode}
+                            />
+                        }
+                        {this.state.currenttab === NoteTabs.Applications && 
+                            (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                                <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
+                                    <PrimaryButton 
+                                        text="Hide Apps"
+                                        iconProps={{iconName: "cancel"}}
+                                        style={{borderRadius: 6, backgroundColor: "#0D2499"}}
+                                        onClick={() => {
+                                            this.setState({displayApps: false});
+                                        }}
+                                        
+                                        
+                                    />
+                                    <PrimaryButton 
+                                        text="Add App"
+                                        iconProps={{iconName: "add"}}
+                                        style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length != 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length != 0 ? "#5A5A5A" : "white"}}
+                                        onClick={() => {
+                                            var obj = this;
+                                            this.props.context.utils.lookupObjects({
+                                                allowMultiSelect: true,
+                                                entityTypes: ["cr549_application"],
+                                                defaultEntityType: "cr549_application",
+                                            }).then((selectedapps) => {
+                                                var associateRequest = {
+                                                    target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+                                                    relatedEntities: selectedapps.map((app: any) => ({
+                                                        entityType: "cr549_application",
+                                                        id: app.id
+                                                    })),
+                                                    relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                                                    getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
+                                                };
+
+                                                (obj.props.context.webAPI as any).execute(associateRequest).then(
+                                                    function success(response: any) {
+                                                        console.log(response);
+                                                        obj.showApplications.bind(obj)();
+                                                    }
+                                                ).catch(function (error: any) {
+                                                    console.log(error)
+                                                });
+
+                                            },(err) => {
+                                                    console.error(err?.message);
+                                            });
+                                        }}
+                                        disabled={this.state.selectedapps.length != 0}
+                                    />
+                                    <PrimaryButton 
+                                        text="Remove App"
+                                        iconProps={{iconName: "delete"}}
+                                        style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
+                                        onClick={() => {
+                                            var obj = this;
+                                            obj.setState({
+                                                showDialog: true,
+                                                dialogCancelButtonLabel: "Cancel",
+                                                dialogConfirmButtonLabel: "Remove",
+                                                dialogTitle: "Confirm Remove",
+                                                dialogSubtext: `Do you want to remove the link of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the link.`,
+                                                dialogConfirmCallback: () => {
+                                                    Promise.all(obj.state.selectedapps.map((appId) => {
+                                                        var disAssociateRequest = {
+                                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+                                                            relatedEntityId: appId,
+                                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
+                                                        };
+                                                        return (obj.props.context.webAPI as any).execute(disAssociateRequest);
+                                                    })).then((resp) => {
+                                                        obj.showApplications.bind(obj)();
+                                                    },function(err){
+                                                        console.log(err?.message);
+                                                    });
+                                                },
+                                                dialogCancelCallback: () => {
+                                                },
+                                                dialogDismissCallback: () => {}
+                                            })
+                                        }}
+                                        disabled={this.state.selectedapps.length == 0}
+                                    />
+                                </Stack>
+                                <DetailsList
+                                    className="associatedapps"
+                                    items={this.state.applications}
+                                    columns={[
+                                        {
+                                            key: "selectioncolumn",
+                                            minWidth: 35,
+                                            maxWidth: 50,
+                                            isResizable: true,
+                                            onRender: (item : any) => {
+                                                return <Checkbox 
+                                                    checked = {this.state.selectedapps.includes(item.key)} 
+                                                    onChange={(evt, checked) => { 
+                                                        if(checked) { this.setState({selectedapps: [...this.state.selectedapps, item.key]})} 
+                                                        else { this.setState({selectedapps: this.state.selectedapps.filter(x => x != item.key)})} 
+                                                    }}
+                                                    theme={ createTheme({
+                                                        palette: {
+                                                            themePrimary: "#0D2499",
+                                                            themeDark: "#091a70",
+                                                            themeDarker: "#06124d"
+                                                        },
+                                                    })}
+                                                />
+                                            }
+                                        } as IColumn,
+                                        {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
+                                        {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
+                                        {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
+                                        {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
+                                        {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
+                                    ]}
+                                    styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
+                                    selectionMode={SelectionMode.none}
+                                />
+                            </StackItem>)
+                        }
+                    </StackItem> }
+                    { this.state.editmode && 
+                        <StackItem style={{padding: 10}}>
+                            <NoteForm
+                                context={this.props.context}
+                                recordid={this.props.recordid}
+                                cancelCallBack={this.editCancel.bind(this)}
+                                submitCallBack={this.editSubmit.bind(this)}
+                                content={ this.props.comment ?? ""}
+                                actionitems={ this.props.actionitems ?? ""}
+                                name = {this.props.name}
+                                topic={this.props.topic}
+                                topicowner={this.props.topicowner}
+                                interactiontype={this.props.interactiontype}
+                                interactiondescription={this.props.interactiondescription}
+                                showalert={this.props.showalert}
+                            />
+                        </StackItem>
+                    }
                     <CMSDialog 
                         isOpen={this.state.showDialog!} 
                         title={this.state.dialogTitle}
