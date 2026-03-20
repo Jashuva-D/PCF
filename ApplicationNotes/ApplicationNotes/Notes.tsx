@@ -298,9 +298,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         showalert={this.showAlertMessage.bind(this)}
                     />
                 </StackItem>}
-                {this.state.loading == true && <StackItem align="center"> <CMSSpinner />loading.. </StackItem> }
+                {this.state.loading == true && <StackItem align="center"> <CMSSpinner /> Loading.. </StackItem> }
                 <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 800, backgroundColor: "rgb(243, 243, 243)"}}}>
-                    {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
+                    {notes.length == 0 && this.state.loading == false && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     <Stack tokens={{childrenGap: 24}}>
                     {notes.map((x, idx) => (
                         <StackItem><Note
