@@ -41,7 +41,8 @@ interface NotesState {
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
-    spinner: boolean
+    spinner: boolean,
+    loading: boolean,
 }
 class Notes extends React.Component<NotesProps, NotesState> {
     constructor(props: NotesProps) {
@@ -58,7 +59,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
             enablesearch: true,
             showalert : false,
             showDialog: false,
-            spinner: false
+            spinner: false,
+            loading: true
         }
     }
     GetFakeData() {
@@ -80,31 +82,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
-        //this.GetFakeData();
         this.Refresh();
-        // var obj = this;
-        // var currentrecordid = (this.props.context as any).page.entityId;
-        // this.props.context.webAPI.retrieveMultipleRecords("camp_applicationnotes", `?$filter=_regardingobjectid_value eq ${currentrecordid}&$orderby=createdon desc`).then((resp) => {
-        //     let notes = [] as any[]
-        //     resp.entities.forEach(x => {
-        //         notes.push({
-        //             recordid: x.activityid,
-        //             comments: x.camp_comment,
-        //             createdon: new Date(x.createdon),
-        //             createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
-        //             modifiedon: new Date(x.modifiedon),
-        //             modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-        //             topicowner: x.camp_topicowner,
-        //             topic: x.subject,
-        //             statecode: x.statecode,
-        //             interactiontype: x.camp_interactiontype
-        //         })
-        //     })
-        //     obj.setState({ notes: notes });
-        // }).catch(function (err) {
-        //     console.log(err);
-        // });
-
     }
     onAddNoteClick() {
         this.setState({ newnote: true, enablesearch: false, generateSummary: false });
@@ -154,7 +132,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     otherinteractiontype : x.cr549_otherinteractiontype
                 })
             })
-            obj.setState({ notes: notes, newnote: false });
+            obj.setState({ notes: notes, newnote: false, loading: false });
         }).catch(function (err) {
             console.log(err);
         });
@@ -320,6 +298,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         showalert={this.showAlertMessage.bind(this)}
                     />
                 </StackItem>}
+                {this.state.loading == true && <StackItem align="center"> <CMSSpinner />loading.. </StackItem> }
                 <StackItem grow styles={{root: {overflowY: "auto", maxHeight: 800, backgroundColor: "rgb(243, 243, 243)"}}}>
                     {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
                     <Stack tokens={{childrenGap: 24}}>
