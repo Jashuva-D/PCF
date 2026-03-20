@@ -2,7 +2,7 @@ import * as React from "react";
 import { SpinnerIcon } from "./icons";
 
 interface CMSSpinnerProps {
-
+    message? : string
 }
 interface CMSSpinnerState {
 
