@@ -23,10 +23,10 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const notifications = [
-            { type: "Info", message: "This is an info message", user: "Allen Deu", time: "24 Nov 2018 at 9:30 AM", color: "green" },
-            { type: "Warning", message: "This is a warning message", user: "Darren", time: "24 Nov 2018 at 9:30 AM", color: "orange" },
-            { type: "Error", message: "This is an error message", user: "Arin Ganshiram", time: "24 Nov 2018 at 9:30 AM", color: "purple" },
-            { type: "Info", message: "This is another info message", user: "Jullet Den", time: "24 Nov 2018 at 9:30 AM", color: "blue" }
+            { type: "Info", message: "This is an info message", user: "Anuradha", time: "24 Nov 2018 at 9:30 AM", color: "green" },
+            { type: "Warning", message: "This is a warning message", user: "Anuradha", time: "24 Nov 2018 at 9:30 AM", color: "orange" },
+            { type: "Error", message: "This is an error message", user: "Anuradha", time: "24 Nov 2018 at 9:30 AM", color: "purple" },
+            { type: "Info", message: "This is another info message", user: "Anuradha", time: "24 Nov 2018 at 9:30 AM", color: "blue" }
         ];
 
         var root = ReactDOM.createRoot(this._container);
