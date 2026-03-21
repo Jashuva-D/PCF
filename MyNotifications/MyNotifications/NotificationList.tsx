@@ -24,7 +24,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                     tokens={{ childrenGap: 10 }}
                     styles={{ root: { border: `1px solid ${notification.color}`, padding: 10, borderRadius: 5 } }}
                 >
-                    <Icon iconName="Info" styles={{ root: { color: notification.color, fontSize: 20 } }} />
+                    <Icon iconName={notification.type} styles={{ root: { color: notification.color, fontSize: 20 } }} />
                     <Stack>
                         <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
                             {notification.type}: {notification.message}
