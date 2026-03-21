@@ -70,16 +70,16 @@ export default class Comment extends Component<CommentProps, CommentState> {
       overflow: "hidden",
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
-      paddingTop: 10,
-      paddingLeft: 10,
+      paddingTop: 25,
+      paddingLeft: 25,
       maxHeight: 40
     };
 
     const fullStyle: React.CSSProperties = {
       whiteSpace: "pre-wrap",
       wordBreak: "break-word",
-      paddingTop: 10,
-      paddingLeft: 10
+      paddingTop: 25,
+      paddingLeft: 25
     };
     
     const safeHtml = text ?? "";

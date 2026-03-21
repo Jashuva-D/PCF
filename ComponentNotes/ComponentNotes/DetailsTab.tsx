@@ -39,10 +39,10 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                 </StackItem>
             </Stack>
             <Stack tokens={{ childrenGap: 10 }}>
-                <StackItem>
+                {/* <StackItem>
                     <Label style={{ color: "#808080" }}>Name</Label>
                     <Text>{this.props.name ?? "\u00A0"}</Text>
-                </StackItem>
+                </StackItem> */}
                 <StackItem>
                     <Label style={{ color: "#808080" }}>Topic</Label>
                     <Text>{this.props.topic ?? "\u00A0"}</Text>
@@ -51,6 +51,12 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                     <Label style={{ color: "#808080" }}>Interaction Type</Label>
                     <Text>{this.props.interactiontype != null ? Interactiontypes.filter(x => x.key == this.props.interactiontype)[0].text : "\u00A0"}</Text>
                 </StackItem>
+                {this.props.interactiontype === 512150005 && 
+                    <StackItem>
+                        <Label style={{ color: "#808080" }}>Other Interaction Type</Label>
+                        <Text>{this.props.interactiondescription ?? "\u00A0"}</Text>
+                    </StackItem>
+                }
             </Stack>
         </Stack>
     }
