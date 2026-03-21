@@ -22,6 +22,7 @@ export enum CMSAlertType {
 }
 
 export enum NoteTabs {
+    Details = "Details",
     Comments = "Comments",
     ActionItems = "Action Items",
     Applications = "Applications"

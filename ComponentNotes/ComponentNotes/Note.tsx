@@ -4,7 +4,8 @@ import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes, NoteTabs} from "./Constants";
 import CMSDialog from "./CMSDialog";
-import Applications from "./Applications";
+import Applications from "./ApplicationsTab";
+import DetailsTab from "./DetailsTab";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -141,10 +142,10 @@ class Note extends React.Component<NoteProps,NoteState> {
             }
         ] as ICommandBarItemProps[];
 
-        var overflowbuttons = [] as ICommandBarItemProps[];
+        //var overflowbuttons = [] as ICommandBarItemProps[];
 
-        if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        // if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
+        // else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -167,7 +168,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     <Text style={{paddingTop: 12}}>{`${(createdon as Date).toLocaleDateString("en-US")} ${(createdon as Date).toLocaleTimeString("en-US",{hour : "2-digit", minute: "2-digit", hour12: true}).toUpperCase()}`}</Text>
                                     <CommandBar
                                         items={buttons}
-                                        overflowItems={overflowbuttons}
+                                        //overflowItems={overflowbuttons}
                                         overflowButtonProps={{
                                             menuIconProps: {
                                                 iconName: "MoreVertical",
@@ -179,44 +180,12 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.displayDetails && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <Stack horizontal tokens={{childrenGap: 100}}>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Posted By</Label>
-                                    <Text>{createdby ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Posted On</Label>
-                                    <Text>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Updated By</Label>
-                                    <Text>{modifiedby ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Updated On</Label>
-                                    <Text>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
-                                </StackItem>
-                            </Stack>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Name</Label>
-                                    <Text>{this.props.name ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Topic</Label>
-                                    <Text>{this.props.topic ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Interaction Type</Label>
-                                    <Text>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : "\u00A0"}</Text>
-                                </StackItem>
-                            </Stack>
-                        </Stack>
-                    </StackItem>)}
-                    {/* {this.props.topic && <StackItem style={{paddingTop : 10, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>} */}
                     {!this.state.editmode && <StackItem style={{paddingTop : 10}}>
+                        <DefaultButton 
+                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Details ? "2px solid #0D2499" : "none"}} 
+                            onClick={() => this.setState({currenttab: NoteTabs.Details})}>
+                                Details
+                        </DefaultButton>
                         <DefaultButton 
                             style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} 
                             onClick={() => this.setState({currenttab: NoteTabs.Comments})}>
@@ -234,29 +203,45 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </DefaultButton>
                     </StackItem>}
                     { !this.state.editmode && 
-                    <StackItem>
-                        {this.state.currenttab === NoteTabs.Comments && 
-                            <Comment 
-                                context={this.props.context} 
-                                text={ this.props.comment ?? ""} 
-                                recordid={this.props.recordid} 
-                                editmode={editmode}
-                            />
-                        }
-                        {this.state.currenttab === NoteTabs.ActionItems && 
-                            <Comment 
-                                context={this.props.context} 
-                                text={ this.props.actionitems ?? ""} 
-                                recordid={this.props.recordid} 
-                                editmode={editmode}
-                            />
-                        }
-                        {this.state.currenttab === NoteTabs.Applications && 
-                            (<StackItem style={{marginTop: 0, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                                <Applications context={this.props.context} recordid={this.props.recordid} />
-                            </StackItem>)
-                        }
-                    </StackItem> }
+                        <StackItem>
+                            {this.state.currenttab === NoteTabs.Details && 
+                                <StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                                    <DetailsTab 
+                                        name = {this.props.name}
+                                        topic={this.props.topic}
+                                        topicowner={this.props.topicowner}
+                                        interactiontype={this.props.interactiontype}
+                                        interactiondescription={this.props.interactiondescription}
+                                        createdby={this.props.createdby}
+                                        createdon={this.props.createdon}
+                                        modifiedby={this.props.modifiedby}
+                                        modifiedon={this.props.modifiedon}
+                                    />
+                                </StackItem>
+                            }
+                            {this.state.currenttab === NoteTabs.Comments && 
+                                <Comment 
+                                    context={this.props.context} 
+                                    text={ this.props.comment ?? ""} 
+                                    recordid={this.props.recordid} 
+                                    editmode={editmode}
+                                />
+                            }
+                            {this.state.currenttab === NoteTabs.ActionItems && 
+                                <Comment 
+                                    context={this.props.context} 
+                                    text={ this.props.actionitems ?? ""} 
+                                    recordid={this.props.recordid} 
+                                    editmode={editmode}
+                                />
+                            }
+                            {this.state.currenttab === NoteTabs.Applications && 
+                                (<StackItem style={{marginTop: 0, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
+                                    <Applications context={this.props.context} recordid={this.props.recordid} />
+                                </StackItem>)
+                            }
+                        </StackItem> 
+                    }
                     { this.state.editmode && 
                         <StackItem style={{padding: 10}}>
                             <NoteForm
