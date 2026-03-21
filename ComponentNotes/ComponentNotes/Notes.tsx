@@ -2,7 +2,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { IInputs } from "./generated/ManifestTypes";
-import { DefaultButton, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType,Dialog, DialogFooter } from "@fluentui/react";
+import { DetailsList, IColumn, SelectionMode, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType,Dialog, DialogFooter } from "@fluentui/react";
 import Note from "./Note";
 import NoteForm from "./NoteForm";
 import { ClockIcon, SearchIcon } from "./icons";

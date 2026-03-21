@@ -62,6 +62,10 @@
   overflow-y: auto !important;
 }
 
+.associatedapps .ms-DetailsHeader {
+    padding-top: 0px;
+    margin-top: 0px;
+}
 .associatedapps .ms-DetailsHeader-cell {
     background-color: #E7E9F5;
     color: black
@@ -81,3 +85,4 @@
   background-color: #F2F2F2;
   border-color: #D8D8D8;
 }
+

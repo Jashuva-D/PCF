@@ -4,6 +4,7 @@ import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes, NoteTabs} from "./Constants";
 import CMSDialog from "./CMSDialog";
+import Applications from "./Applications";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
@@ -112,50 +113,8 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
         this.props.refresh();
     }
-    showApplications() {
-        var obj = this;
-        var fetchxml = `<fetch version="1.0" mapping="logical">
-    <entity name="cr549_application">
-        <attribute name="cr549_id"/>
-        <attribute name="cr549_applicationid"/>
-        <attribute name="cr549_long_app_name"/>
-        <attribute name="cr549_app_live_status"/>
-        <attribute name="cr549_date_golive"/>
-        <attribute name="cr549_platform_name"/>
-        <order attribute="cr549_id" descending="false"/>
-        <link-entity name="crm2_cr549_componentnotes_cr549_application" intersect="true" visible="false" to="cr549_applicationid" from="cr549_applicationid">
-            <link-entity name="cr549_componentnotes" from="cr549_componentnotesid" to="cr549_componentnotesid" alias="bb">
-                <filter type="and">
-                    <condition attribute="cr549_componentnotesid" operator="eq" uitype="cr549_componentnotes" value="${this.props.recordid}"/>
-                </filter>
-            </link-entity>
-        </link-entity>
-    </entity>
-</fetch>`;
-        
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_application", `?fetchXml=${encodeURI(fetchxml)}`).then((response) => {
-            let apps = [] as any[];
-            response.entities.forEach((app: any) => {
-                apps.push({
-                    key: app.cr549_applicationid,
-                    cr549_id: app.cr549_id,
-                    cr549_long_app_name: app.cr549_long_app_name,
-                    cr549_app_live_status: app["cr549_app_live_status@OData.Community.Display.V1.FormattedValue"],//app.cr549_app_live_status,
-                    cr549_date_golive: app.cr549_date_golive ? app["cr549_date_golive@OData.Community.Display.V1.FormattedValue"] : null,
-                    cr549_platform_name: app["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]//app.cr549_platform_name
-                });
-            });
-                
-            //obj.setState({ applications: [...apps], displayApps: true, selectedapps: [], displayDetails: false });
-            obj.setState({ applications: [...apps], selectedapps: []});
-        }, (error) => {
-            console.error("Error fetching applications: ", error);
-        }); 
-        
-    }
     render(): React.ReactNode {
-        const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
-        const content = this.state.editmode ? this.state.content : this.props.comment;
+        const {createdon,createdby,modifiedon, modifiedby, interactiontype} = this.props;
         const {editmode} = this.state;
         const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
 
@@ -187,14 +146,11 @@ class Note extends React.Component<NoteProps,NoteState> {
         if(!this.state.displayDetails) overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails, displayApps: false})}});
         else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         
-        if(!this.state.displayApps) overflowbuttons.push({key: `${this.props.recordid}_expandapps`, text: "Show Apps", iconProps:{iconName: "ChevronUnfold10"}, onClick: this.showApplications.bind(this)});
-        //else overflowbuttons.push({key: `${this.props.recordid}_collapseapps`, text: "Hide Apps", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayApps: !this.state.displayApps})}});
-        
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem style={{paddingLeft: 5}}  >
-                                <Stack tokens={{childrenGap: 10}}>
+                                <Stack tokens={{childrenGap: 10}} horizontal>
                                     <Persona
                                         styles={{root: {paddingTop: 10}}}
                                         imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
@@ -203,6 +159,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         text={createdby}
                                         onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
                                     />
+                                    <StackItem style={{paddingTop : 15, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>
                                 </Stack>
                             </StackItem>
                             <StackItem>
@@ -258,126 +215,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </Stack>
                         </Stack>
                     </StackItem>)}
-                    {/* {this.state.displayApps && (<StackItem style={{marginTop:20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
-                            <PrimaryButton 
-                                text="Hide Apps"
-                                iconProps={{iconName: "cancel"}}
-                                style={{borderRadius: 6, backgroundColor: "#0D2499"}}
-                                onClick={() => {
-                                    this.setState({displayApps: false});
-                                }}
-                                
-                                
-                            />
-                            <PrimaryButton 
-                                text="Add App"
-                                iconProps={{iconName: "add"}}
-                                style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length != 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length != 0 ? "#5A5A5A" : "white"}}
-                                onClick={() => {
-                                    var obj = this;
-                                    this.props.context.utils.lookupObjects({
-                                        allowMultiSelect: true,
-                                        entityTypes: ["cr549_application"],
-                                        defaultEntityType: "cr549_application",
-                                    }).then((selectedapps) => {
-                                        var associateRequest = {
-                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
-                                            relatedEntities: selectedapps.map((app: any) => ({
-                                                entityType: "cr549_application",
-                                                id: app.id
-                                            })),
-                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
-                                        };
-
-                                        (obj.props.context.webAPI as any).execute(associateRequest).then(
-                                            function success(response: any) {
-                                                console.log(response);
-                                                obj.showApplications.bind(obj)();
-                                            }
-                                        ).catch(function (error: any) {
-                                            console.log(error)
-                                        });
-
-                                    },(err) => {
-                                            console.error(err?.message);
-                                    });
-                                }}
-                                disabled={this.state.selectedapps.length != 0}
-                            />
-                            <PrimaryButton 
-                                text="Remove App"
-                                iconProps={{iconName: "delete"}}
-                                style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
-                                onClick={() => {
-                                    var obj = this;
-                                    obj.setState({
-                                        showDialog: true,
-                                        dialogCancelButtonLabel: "Cancel",
-                                        dialogConfirmButtonLabel: "Remove",
-                                        dialogTitle: "Confirm Remove",
-                                        dialogSubtext: `Do you want to remove the link of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the link.`,
-                                        dialogConfirmCallback: () => {
-                                            Promise.all(obj.state.selectedapps.map((appId) => {
-                                                var disAssociateRequest = {
-                                                    target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
-                                                    relatedEntityId: appId,
-                                                    relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                                    getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
-                                                };
-                                                return (obj.props.context.webAPI as any).execute(disAssociateRequest);
-                                            })).then((resp) => {
-                                                obj.showApplications.bind(obj)();
-                                            },function(err){
-                                                console.log(err?.message);
-                                            });
-                                        },
-                                        dialogCancelCallback: () => {
-                                        },
-                                        dialogDismissCallback: () => {}
-                                    })
-                                }}
-                                disabled={this.state.selectedapps.length == 0}
-                            />
-                        </Stack>
-                            <DetailsList
-                                className="associatedapps"
-                                items={this.state.applications}
-                                columns={[
-                                    {
-                                        key: "selectioncolumn",
-                                        minWidth: 35,
-                                        maxWidth: 50,
-                                        isResizable: true,
-                                        onRender: (item : any) => {
-                                            return <Checkbox 
-                                                checked = {this.state.selectedapps.includes(item.key)} 
-                                                onChange={(evt, checked) => { 
-                                                    if(checked) { this.setState({selectedapps: [...this.state.selectedapps, item.key]})} 
-                                                    else { this.setState({selectedapps: this.state.selectedapps.filter(x => x != item.key)})} 
-                                                }}
-                                                theme={ createTheme({
-                                                    palette: {
-                                                        themePrimary: "#0D2499",
-                                                        themeDark: "#091a70",
-                                                        themeDarker: "#06124d"
-                                                    },
-                                                })}
-                                            />
-                                        }
-                                    } as IColumn,
-                                    {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
-                                    {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                                    {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
-                                    {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
-                                    {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                                ]}
-                                styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
-                                selectionMode={SelectionMode.none}
-                            />
-                    </StackItem>)} */}
-                    {this.props.topic && <StackItem style={{paddingTop : 10, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>}
+                    {/* {this.props.topic && <StackItem style={{paddingTop : 10, paddingLeft: 10}}><Stack horizontal tokens={{childrenGap: 5}}><Text style={{fontWeight: "bold"}}>Topic:</Text><Text>{this.props.topic ?? ""}</Text></Stack></StackItem>} */}
                     {!this.state.editmode && <StackItem style={{paddingTop : 10}}>
                         <DefaultButton 
                             style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} 
@@ -391,11 +229,10 @@ class Note extends React.Component<NoteProps,NoteState> {
                         </DefaultButton>
                         <DefaultButton 
                             style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
-                            onClick={() => {this.showApplications.bind(this)(); this.setState({currenttab: NoteTabs.Applications})}}>
+                            onClick={() => {this.setState({currenttab: NoteTabs.Applications})}}>
                                 Applications
                         </DefaultButton>
                     </StackItem>}
-                    
                     { !this.state.editmode && 
                     <StackItem>
                         {this.state.currenttab === NoteTabs.Comments && 
@@ -416,113 +253,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         }
                         {this.state.currenttab === NoteTabs.Applications && 
                             (<StackItem style={{marginTop: 0, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                                <Stack style={{paddingBottom: 10}} tokens={{childrenGap: 10}} horizontal horizontalAlign="end">
-                                    <PrimaryButton 
-                                        text="Add"
-                                        iconProps={{iconName: "add"}}
-                                        style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length != 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length != 0 ? "#5A5A5A" : "white"}}
-                                        onClick={() => {
-                                            var obj = this;
-                                            this.props.context.utils.lookupObjects({
-                                                allowMultiSelect: true,
-                                                entityTypes: ["cr549_application"],
-                                                defaultEntityType: "cr549_application",
-                                            }).then((selectedapps) => {
-                                                var associateRequest = {
-                                                    target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
-                                                    relatedEntities: selectedapps.map((app: any) => ({
-                                                        entityType: "cr549_application",
-                                                        id: app.id
-                                                    })),
-                                                    relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                                    getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
-                                                };
-
-                                                (obj.props.context.webAPI as any).execute(associateRequest).then(
-                                                    function success(response: any) {
-                                                        console.log(response);
-                                                        obj.showApplications.bind(obj)();
-                                                    }
-                                                ).catch(function (error: any) {
-                                                    console.log(error)
-                                                });
-
-                                            },(err) => {
-                                                    console.error(err?.message);
-                                            });
-                                        }}
-                                        disabled={this.state.selectedapps.length != 0}
-                                    />
-                                    <PrimaryButton 
-                                        text="Remove"
-                                        iconProps={{iconName: "delete"}}
-                                        style={{borderRadius: 6, backgroundColor: this.state.selectedapps.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedapps.length == 0 ? "#5A5A5A" : "white"}}
-                                        onClick={() => {
-                                            var obj = this;
-                                            obj.setState({
-                                                showDialog: true,
-                                                dialogCancelButtonLabel: "Cancel",
-                                                dialogConfirmButtonLabel: "Remove",
-                                                dialogTitle: "Confirm Remove",
-                                                dialogSubtext: `Do you want to remove the link of ${obj.state.selectedapps.length} application(s)? \n This action will not delete the application(s) but will only remove the link.`,
-                                                dialogConfirmCallback: () => {
-                                                    Promise.all(obj.state.selectedapps.map((appId) => {
-                                                        var disAssociateRequest = {
-                                                            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
-                                                            relatedEntityId: appId,
-                                                            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
-                                                            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
-                                                        };
-                                                        return (obj.props.context.webAPI as any).execute(disAssociateRequest);
-                                                    })).then((resp) => {
-                                                        obj.showApplications.bind(obj)();
-                                                    },function(err){
-                                                        console.log(err?.message);
-                                                    });
-                                                },
-                                                dialogCancelCallback: () => {
-                                                },
-                                                dialogDismissCallback: () => {}
-                                            })
-                                        }}
-                                        disabled={this.state.selectedapps.length == 0}
-                                    />
-                                </Stack>
-                                <DetailsList
-                                    className="associatedapps"
-                                    items={this.state.applications}
-                                    columns={[
-                                        {
-                                            key: "selectioncolumn",
-                                            minWidth: 35,
-                                            maxWidth: 50,
-                                            isResizable: true,
-                                            onRender: (item : any) => {
-                                                return <Checkbox 
-                                                    checked = {this.state.selectedapps.includes(item.key)} 
-                                                    onChange={(evt, checked) => { 
-                                                        if(checked) { this.setState({selectedapps: [...this.state.selectedapps, item.key]})} 
-                                                        else { this.setState({selectedapps: this.state.selectedapps.filter(x => x != item.key)})} 
-                                                    }}
-                                                    theme={ createTheme({
-                                                        palette: {
-                                                            themePrimary: "#0D2499",
-                                                            themeDark: "#091a70",
-                                                            themeDarker: "#06124d"
-                                                        },
-                                                    })}
-                                                />
-                                            }
-                                        } as IColumn,
-                                        {key: "cr549_id", name: "Application Name (short)", fieldName: "cr549_id", minWidth: 100, maxWidth: 200, isResizable: true},
-                                        {key: "cr549_long_app_name", name: "Application Name (long)", fieldName: "cr549_long_app_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                                        {key: "cr549_app_live_status", name: "Application Live Status", fieldName: "cr549_app_live_status", minWidth: 100, maxWidth: 300, isResizable: true},
-                                        {key: "cr549_date_golive", name: "Application Go Live Date", fieldName: "cr549_date_golive", minWidth: 100, maxWidth: 300, isResizable: true},
-                                        {key: "cr549_platform_name", name: "Application Platform", fieldName: "cr549_platform_name", minWidth: 100, maxWidth: 300, isResizable: true},
-                                    ]}
-                                    styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6}}}
-                                    selectionMode={SelectionMode.none}
-                                />
+                                <Applications context={this.props.context} recordid={this.props.recordid} />
                             </StackItem>)
                         }
                     </StackItem> }
