@@ -3,10 +3,9 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import  NotificationList  from "./NotificationList";
-import { NotificationType } from "./constants";
-import { title } from "process";
-import { Notification } from "./Models";
+import { NotificationModel } from "./Models";
+
+import NotificationList from "./NotificationList";
 
 export class MyNotifications implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
@@ -26,11 +25,11 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const notifications = [
-            { icontype: 100000000, title: "Info Message", body: "This is an info message", createdon: new Date(), priority: 200000000 } as Notification,
-            { icontype: 100000003, title: "Warning Message", body: "This is a warning message", createdon: new Date(), priority: 200000001 } as Notification,
-            { icontype: 100000002, title: "Error Message", body: "This is an error message", createdon: new Date(), priority: 200000002 } as Notification,
-            { icontype: 100000000, title: "Another Info Message", body: "This is another info message", createdon: new Date(), priority: 200000000 } as Notification    
-        ] as Notification[];
+            { icontype: 100000000, title: "Info Message", body: "This is an info message", createdon: new Date(), priority: 200000000 } as NotificationModel,
+            { icontype: 100000003, title: "Warning Message", body: "This is a warning message", createdon: new Date(), priority: 200000001 } as NotificationModel,
+            { icontype: 100000002, title: "Error Message", body: "This is an error message", createdon: new Date(), priority: 200000002 } as NotificationModel,
+            { icontype: 100000000, title: "Another Info Message", body: "This is another info message", createdon: new Date(), priority: 200000000 } as NotificationModel    
+        ] as NotificationModel[];
 
         var root = ReactDOM.createRoot(this._container);
         root.render(React.createElement(NotificationList, { notifications }));

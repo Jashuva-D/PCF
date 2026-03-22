@@ -1,4 +1,4 @@
-export interface Notification {
+export interface NotificationModel {
     body: string | null;
     priority : number | null;
     createdon: Date | null;

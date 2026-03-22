@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Stack, Text, Icon, Label, initializeIcons, StackItem } from "@fluentui/react";
 import { NotificationType } from "./constants";
-import { Notification } from "./Models";
+import { NotificationModel } from "./Models";
 
 
 interface NotificationListProps {
-    notifications: Notification[];
+    notifications: NotificationModel[];
 }
 
 function GetNotificationIcon(notificationType: number): string {
@@ -46,47 +46,52 @@ function GetNotificationColor(notificationType: number): string {
 
 export const NotificationList: React.FC<NotificationListProps> = ({ notifications }) => {
     initializeIcons();
-    return (<div><Stack tokens={{ childrenGap: 10 }} styles={{ root: { padding: 20 } }} grow >
+    return (<Stack tokens={{ childrenGap: 10 }} styles={{ root: { padding: 20, overflowY: "auto", height: "100%" } }} >
             {notifications.map((notification, index) => (
-                <Stack
+                <><Stack
                     key={index}
                     horizontal
-                    tokens={{ childrenGap: 10 }}
-                    styles={{ root: { border: `1px solid ${GetNotificationColor(notification.icontype!)}`, padding: 10, borderRadius: 5 } }}
+                    tokens={{ childrenGap: 25 }}
+                    styles={{
+                        root: {
+                            //border: `1px solid ${GetNotificationColor(notification.icontype!)}`,
+                            padding: 10,
+                            borderRadius: 5,
+                        }
+                    }}
                 >
-                    <StackItem align = "center"><Icon iconName={GetNotificationIcon(notification.icontype!)} styles={{ root: { color: GetNotificationColor(notification.icontype!), fontSize: 20 } }} /> </StackItem>
-                    <Stack>
-                        <Stack horizontal horizontalAlign="space-between" >
-                            <StackItem>
-                                <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
-                                {notification.title}
-                                </Text>
-                            </StackItem>
-                            <StackItem>
-                                <Stack horizontal tokens={{ childrenGap: 10 }}>
-                                    <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                                    <Text>{notification.createdon?.toLocaleString()}</Text>
-                                </Stack>
-                            </StackItem>
+                    <StackItem align="center">
+                        <Icon
+                            iconName={GetNotificationIcon(notification.icontype!)}
+                            styles={{ root: { color: GetNotificationColor(notification.icontype!), fontSize: 20 } }}
+                        />
+                    </StackItem>
+                    <Stack grow>   
+                        <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                            <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetNotificationColor(notification.icontype!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    {notification.icontype === NotificationType.Info && "Information"} 
+                                    {notification.icontype === NotificationType.Warning && "Warning"} 
+                                    {notification.icontype === NotificationType.Failure && "Failure"} 
+                                    {notification.icontype === NotificationType.Mention && "Mention"} 
+                                    {notification.icontype === NotificationType.Custom && "Custom"} 
+                                    {notification.icontype === NotificationType.Success && "Success"} 
+                            </div>
+                            <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
+                                <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
+                                <Text>{notification.createdon?.toLocaleString()}</Text>
+                            </Stack>
                         </Stack>
+                        <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
+                            {notification.title}
+                        </Text>
                         <Text>{notification.body}</Text>
                     </Stack>
                 </Stack>
+                <div style={{border: "1px solid #ccc"}}></div>
+                </>
             ))}
         </Stack>
-        <Stack horizontal horizontalAlign="space-between">
-            <StackItem>
-                <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
-                    {"Test"}
-                </Text>
-            </StackItem>
-            <StackItem>
-                <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                <Text variant="small" styles={{ root: { color: "gray" } }}>
-                    {new Date().toLocaleString()}
-                </Text>
-            </StackItem></Stack> </div>);
-    
+    );
 };
 
 export default NotificationList;
