@@ -50,7 +50,7 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
             } as NotificationModel,
 
             {
-                icontype: 100000000,
+                icontype: 100000001,
                 title: "Nemo enim ipsam voluptatem quia voluptas sit",
                 body: `Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.`,
                 createdon: new Date(),
