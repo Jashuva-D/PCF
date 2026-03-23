@@ -100,7 +100,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
                 <Stack horizontal horizontalAlign="space-between">
-                    <Label>My Applications</Label>
+                    <Label style={{fontWeight: "bold", fontSize: 16}}>My Applications</Label>
                     <StackItem style={{paddingTop: 10}}>
                         <DefaultButton text="Refresh" onClick={this.LoadApplications.bind(this)} style={{ marginRight: 10 }} />
                         <DefaultButton text="See All Applications" onClick={() => {
