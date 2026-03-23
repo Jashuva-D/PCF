@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { DetailsList, IColumn, Label, SelectionMode, Stack } from '@fluentui/react';
+import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem} from '@fluentui/react';
 import { IInputs } from './generated/ManifestTypes';
 import { getUserEmail } from './Helper';
 
@@ -20,18 +20,21 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
             columns: [
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: 'cr549_technicaladvisor', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: 'cr549_hostingcoordinator', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: 'cr549_financialanalyst', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: '_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: '_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_cms_office', name: 'Business Owner Office/Center', fieldName: 'cr549_cms_office@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
             ]
         }
     }
     componentDidMount() {
+        this.LoadApplications();
+    }
+    LoadApplications(){
         var obj = this;
         getUserEmail(this.props.context.webAPI, this.props.context.userSettings.userId).then((email) => {
             var fetchXml = `<fetch version="1.0" output-format="xml-platform" mapping="logical" distinct="true">
@@ -66,7 +69,16 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
 
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
-                <Label>My Applications</Label>
+                <Stack horizontal horizontalAlign="space-between">
+                    <Label>My Applications</Label>
+                    <StackItem>
+                        <DefaultButton text="Refresh" onClick={() => this.componentDidMount()} style={{ marginRight: 10 }} />
+                        <DefaultButton text="New Application" onClick={() => {
+                            //this.props.context.navigation.navigateTo({ pageType: "entityrecord", entityName: "cr549_application", formId: "00000000-0000-0000-0000-000000000000", createFromEntity: null, openInNewWindow: true
+                        }} />
+
+                    </StackItem>
+                </Stack>
                 <DetailsList
                     items={this.state.records}
                     columns={this.state.columns}
