@@ -98,9 +98,10 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                                 <Text>{notification.createdon?.toLocaleString()}</Text>
                             </Stack>
                         </Stack>
-                        <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
+                        <Label>{notification.title}</Label>
+                        {/* <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
                             {notification.title}
-                        </Text>
+                        </Text> */}
                         <Text>{notification.body}</Text>
                     </Stack>
                 </Stack>
