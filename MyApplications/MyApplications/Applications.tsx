@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem, Link, initializeIcons} from '@fluentui/react';
+import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem, Link, initializeIcons, Text} from '@fluentui/react';
 import { IInputs } from './generated/ManifestTypes';
 import { getUserEmail } from './Helper';
 
@@ -24,11 +24,46 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return <Link onClick={() => this.openRecord("cr549_application",item.key)}>{item.cr549_id}</Link>
                     }
                 },
-                { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item.cr549_cms_group){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item.cr549_cms_group}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                },
+                { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item.cr549_hosting_delivery_platform_name){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                 },
+                { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item.cr549_platform_name){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                 },
+                { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true,
+                    onRender: (item: any) => {
+                        if(item.cr549_proj_phase_name){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                 },
+                { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item.cr549_marketplace){
+                            return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: item.cr549_marketplace == 1 ? "#12890E" : "#E31C3D"}}>{item.cr549_marketplace == 1 ? "Yes" : "No"}</Text></Stack>
+                        }
+                        return null;
+                    }
+                 },
                 { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true,
                     onRender: (item: any) => {
                         if(item._cr549_technicaladvisor_value){
@@ -55,7 +90,14 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
 
                  },
-                { key: 'cr549_cms_office', name: 'Business Owner Office/Center', fieldName: 'cr549_cms_office@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_cms_office', name: 'Business Owner Office/Center', fieldName: 'cr549_cms_office@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item.cr549_cms_office){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#E6C8DB", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item['cr549_cms_office@OData.Community.Display.V1.FormattedValue']}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                 },
             ]
         }
     }
