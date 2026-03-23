@@ -35,7 +35,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
                         if(item.cr549_hosting_delivery_platform_name){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
@@ -43,7 +43,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
                         if(item.cr549_platform_name){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d9ecd8", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
@@ -51,7 +51,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true,
                     onRender: (item: any) => {
                         if(item.cr549_proj_phase_name){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#f2f2f2", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
