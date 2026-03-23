@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem, Link} from '@fluentui/react';
+import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem, Link, initializeIcons} from '@fluentui/react';
 import { IInputs } from './generated/ManifestTypes';
 import { getUserEmail } from './Helper';
 
@@ -14,6 +14,7 @@ interface MyApplicationsState {
 
 class Applications extends React.Component<MyApplicationsProps, MyApplicationsState> {
     constructor(props: MyApplicationsProps) {
+        initializeIcons();
         super(props);
         this.state = {
             records: [],
@@ -102,19 +103,29 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 <Stack horizontal horizontalAlign="space-between">
                     <Label style={{fontWeight: "bold", fontSize: 16}}>My Applications</Label>
                     <StackItem style={{paddingTop: 10}}>
-                        <DefaultButton text="Refresh" onClick={this.LoadApplications.bind(this)} style={{ marginRight: 10 }} />
-                        <DefaultButton text="See All Applications" onClick={() => {
-                            (this.props.context.navigation as any).navigateTo({
-                                pageType: "entitylist",
-                                entityName: "cr549_application"
-                            });
-                        }} />
+                        <DefaultButton 
+                            text="Refresh"
+                            iconProps={{iconName: "refresh"}}
+                            onClick={this.LoadApplications.bind(this)} 
+                            style={{ marginRight: 10, backgroundColor: "#0D2499", color: "white", borderRadius: 6 }} />
+                        <DefaultButton 
+                            text="See All Applications" 
+                            iconProps={{iconName: "view"}}
+                            onClick={() => {
+                                (this.props.context.navigation as any).navigateTo({
+                                    pageType: "entitylist",
+                                    entityName: "cr549_application"
+                                });
+                            }}
+                            style = {{marginRight: 10, backgroundColor: "#0D2499", color: "white", borderRadius: 6 }}
+                        />
                     </StackItem>
                 </Stack>
                 <DetailsList
                     items={this.state.records}
                     columns={this.state.columns}
                     selectionMode={SelectionMode.none}
+                    className='myapplications'
                 />
             </Stack>
             
