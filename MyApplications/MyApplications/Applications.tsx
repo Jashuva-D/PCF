@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem} from '@fluentui/react';
+import { DefaultButton, DetailsList, IColumn, Label, SelectionMode, Stack, StackItem, Link} from '@fluentui/react';
 import { IInputs } from './generated/ManifestTypes';
 import { getUserEmail } from './Helper';
 
@@ -18,21 +18,48 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
         this.state = {
             records: [],
             columns: [
-                { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        return <Link onClick={() => this.openRecord("cr549_application",item.key)}>{item.cr549_id}</Link>
+                    }
+                },
                 { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
                 { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: '_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: '_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true,
+                    onRender: (item: any) => {
+                        if(item._cr549_technicaladvisor_value){
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                        }
+                        return null;
+                    }
+
+                },
+                { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: '_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true, 
+                    onRender: (item: any) => {
+                        if(item._cr549_hostingcoordinator_value){
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                        }
+                        return null;
+                    }
+                 },
+                { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: '_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true,
+                    onRender: (item: any) => {
+                        if(item._cr549_financialanalyst_value){
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                        }
+                        return null;
+                    }
+
+                 },
                 { key: 'cr549_cms_office', name: 'Business Owner Office/Center', fieldName: 'cr549_cms_office@OData.Community.Display.V1.FormattedValue', minWidth: 100, maxWidth: 200, isResizable: true },
             ]
         }
     }
     componentDidMount() {
-        this.LoadApplications();
+        this.LoadApplications.bind(this)();
     }
     LoadApplications(){
         var obj = this;
@@ -62,21 +89,23 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         </entity>
                         </fetch>`;
             obj.props.context.webAPI.retrieveMultipleRecords("cr549_application", "?fetchXml=" + encodeURIComponent(fetchXml)).then((result) => {
-                obj.setState({ records: result.entities });
+                obj.setState({ records: result.entities.map((entity: any) => ({ ...entity, key: entity.cr549_applicationid })) });
             });
         });
+    }
+    openRecord(entityname: string, id: string){
+        this.props.context.navigation.openForm({ entityName: entityname, entityId: id });   
     }
 
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
                 <Stack horizontal horizontalAlign="space-between">
                     <Label>My Applications</Label>
-                    <StackItem>
-                        <DefaultButton text="Refresh" onClick={() => this.componentDidMount()} style={{ marginRight: 10 }} />
-                        <DefaultButton text="New Application" onClick={() => {
-                            //this.props.context.navigation.navigateTo({ pageType: "entityrecord", entityName: "cr549_application", formId: "00000000-0000-0000-0000-000000000000", createFromEntity: null, openInNewWindow: true
+                    <StackItem style={{paddingTop: 10}}>
+                        <DefaultButton text="Refresh" onClick={this.LoadApplications.bind(this)} style={{ marginRight: 10 }} />
+                        <DefaultButton text="See All Applications" onClick={() => {
+                            (this.props.context.navigation as any).navigateTo();
                         }} />
-
                     </StackItem>
                 </Stack>
                 <DetailsList
