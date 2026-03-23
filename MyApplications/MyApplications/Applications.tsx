@@ -104,7 +104,10 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     <StackItem style={{paddingTop: 10}}>
                         <DefaultButton text="Refresh" onClick={this.LoadApplications.bind(this)} style={{ marginRight: 10 }} />
                         <DefaultButton text="See All Applications" onClick={() => {
-                            (this.props.context.navigation as any).navigateTo();
+                            (this.props.context.navigation as any).navigateTo({
+                                pageType: "entitylist",
+                                entityName: "cr549_application"
+                            });
                         }} />
                     </StackItem>
                 </Stack>
