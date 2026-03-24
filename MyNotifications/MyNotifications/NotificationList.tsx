@@ -71,26 +71,27 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                 >
                     <StackItem align="center">
                         <Icon
-                            iconName={GetNotificationIcon(notification.icontype!)}
-                            styles={{ root: { color: GetNotificationColor(notification.icontype!), fontSize: 30, fontWeight: "bold" } }}
+                            iconName={GetNotificationIcon(NotificationType.Info)}
+                            styles={{ root: { color: GetNotificationColor(NotificationType.Info), fontSize: 30, fontWeight: "bold" } }}
                         />
                     </StackItem>
                     <Stack grow>   
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetNotificationColor(notification.icontype!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    {notification.icontype === NotificationType.Info && "Information"} 
-                                    {notification.icontype === NotificationType.Warning && "Warning"} 
+                                <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    {"Information"}
+                                    {/* {notification.icontype === NotificationType.Info && "Information"} 
+                                     {notification.icontype === NotificationType.Warning && "Warning"} 
                                     {notification.icontype === NotificationType.Failure && "Failure"} 
-                                    {notification.icontype === NotificationType.Mention && "Mention"} 
+                                    {notification.icontype === NotificationType.Mention && "Mention"}
                                     {notification.icontype === NotificationType.Custom && "Custom"} 
-                                    {notification.icontype === NotificationType.Success && "Success"} 
+                                    {notification.icontype === NotificationType.Success && "Success"}  */}
                                 </div>
-                                <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetPriorityColor(notification.priority!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                {/* <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetPriorityColor(notification.priority!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         {notification.priority === NotificationPriority.High && "High"} 
                                         {notification.priority === NotificationPriority.Medium && "Medium"} 
                                         {notification.priority === NotificationPriority.Normal && "Normal"} 
-                                </div>
+                                </div> */}
                             </Stack>
                             
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
