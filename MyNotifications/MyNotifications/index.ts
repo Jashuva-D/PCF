@@ -27,35 +27,27 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
         const notifications = [
             {
                 icontype: 100000000,
-                title: "Lorem ipsum dolor sit amet consectetur adipiscing",
-                body: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+                title: "CRMDB going live on July 11 2025",
+                body: `New CRMDB replacing the current AWS CAMP DB is now available. Please start using it aspa and reach out in slack channel if any issues.`,
                 createdon: new Date(),
                 priority: 200000000
             } as NotificationModel,
 
             {
                 icontype: 100000003,
-                title: "Ut enim ad minim veniam quis nostrud exercitation",
-                body: `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+                title: "Announcing Availability of Claude 3.7 with Cross Region Inference comm to be sent by HCs",
+                body: `By EOD Wednesday 4/2, HCs are being asked to send to a targeted audience the Claude 3.7 comm.`,
                 createdon: new Date(),
                 priority: 200000001
             } as NotificationModel,
 
             {
                 icontype: 100000002,
-                title: "Sed ut perspiciatis unde omnis iste natus error",
-                body: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.`,
+                title: "Communications Updates: Week of December 1, 2025",
+                body: `This week, the Communications team is updating the Fireside Chat CCG Menu page in CCG and sending the Q4 Security Campaign via GovDelivery. Two Resource Mailbox items are complete: the Q4 Closing the Loop email and the 2026 Initiatives Fireside Chat article, which will appear in the January Pulse. In addition, the new CRM102 module is live at https://cbt.cloud.cms.gov/CRM102/.`,
                 createdon: new Date(),
                 priority: 200000002
             } as NotificationModel,
-
-            {
-                icontype: 100000001,
-                title: "Nemo enim ipsam voluptatem quia voluptas sit",
-                body: `Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.`,
-                createdon: new Date(),
-                priority: 200000000
-            } as NotificationModel
         ] as NotificationModel[];
 
         var root = ReactDOM.createRoot(this._container);
