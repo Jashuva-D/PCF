@@ -32,7 +32,13 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
                 createdon: new Date(),
                 priority: 200000000
             } as NotificationModel,
-
+            {
+                icontype: 100000002,
+                title: "Communications Updates: Week of December 1, 2025",
+                body: `This week, the Communications team is updating the Fireside Chat CCG Menu page in CCG and sending the Q4 Security Campaign via GovDelivery. Two Resource Mailbox items are complete: the Q4 Closing the Loop email and the 2026 Initiatives Fireside Chat article, which will appear in the January Pulse. In addition, the new CRM102 module is live at https://cbt.cloud.cms.gov/CRM102/.`,
+                createdon: new Date(),
+                priority: 200000002
+            } as NotificationModel,
             {
                 icontype: 100000003,
                 title: "Announcing Availability of Claude 3.7 with Cross Region Inference comm to be sent by HCs",
@@ -41,13 +47,7 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
                 priority: 200000001
             } as NotificationModel,
 
-            {
-                icontype: 100000002,
-                title: "Communications Updates: Week of December 1, 2025",
-                body: `This week, the Communications team is updating the Fireside Chat CCG Menu page in CCG and sending the Q4 Security Campaign via GovDelivery. Two Resource Mailbox items are complete: the Q4 Closing the Loop email and the 2026 Initiatives Fireside Chat article, which will appear in the January Pulse. In addition, the new CRM102 module is live at https://cbt.cloud.cms.gov/CRM102/.`,
-                createdon: new Date(),
-                priority: 200000002
-            } as NotificationModel,
+            
         ] as NotificationModel[];
 
         var root = ReactDOM.createRoot(this._container);
