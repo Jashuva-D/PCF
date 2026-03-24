@@ -128,6 +128,16 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         <condition attribute="cr549_email_address" operator="eq" value="${email}"/>
                         </filter>
                         </link-entity>
+                        <link-entity name="cr549_role" from="cr549_roleid" to="cr549_role" link-type="inner" alias="aq">
+                        <filter type="and">
+                        <filter type="or">
+                        <condition attribute="cr549_id" operator="eq" value="13"/>
+                        <condition attribute="cr549_id" operator="eq" value="15"/>
+                        <condition attribute="cr549_id" operator="eq" value="21"/>
+                        </filter>
+                        </filter>
+                        </link-entity>
+
                         </link-entity>
                         </entity>
                         </fetch>`;
