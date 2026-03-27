@@ -79,7 +79,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    {"Information"}
+                                    {notification.title ?? ""}
                                     {/* {notification.icontype === NotificationType.Info && "Information"} 
                                      {notification.icontype === NotificationType.Warning && "Warning"} 
                                     {notification.icontype === NotificationType.Failure && "Failure"} 
@@ -99,7 +99,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                                 <Text>{notification.createdon?.toLocaleString()}</Text>
                             </Stack>
                         </Stack>
-                        <Label>{notification.title}</Label>
+                        {/* <Label style={{color: "black"}}>{notification.title}</Label> */}
                         {/* <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
                             {notification.title}
                         </Text> */}
