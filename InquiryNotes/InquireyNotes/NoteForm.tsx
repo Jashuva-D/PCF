@@ -175,7 +175,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         cr549_interactiontype : this.state.interactiontype,
         cr549_interactiondescription : this.state.interactiondescription
       }
-      this.props.context?.webAPI.updateRecord("cr549_componentnotes", this.props.recordid!, record).then(function(resp){
+      this.props.context?.webAPI.updateRecord("cr549_inquirynotes", this.props.recordid!, record).then(function(resp){
           obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
           obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
           obj.setState({
@@ -197,7 +197,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_interactiondescription : this.state.interactiondescription,
           "cr549_ccifppifticket@odata.bind": `/cr549_interestformses(${(this.props.context as any).page.entityId})`
         }
-        this.props.context?.webAPI.createRecord("cr549_componentnotes",record).then(function(resp){
+        this.props.context?.webAPI.createRecord("cr549_inquirynotes",record).then(function(resp){
             obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
             obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
             obj.setState({
