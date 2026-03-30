@@ -171,8 +171,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       const record = {
         cr549_comments: this.state.comment,
         cr549_actionitems: this.state.actionitems,
-        cr549_name: this.state.name,
-        cr549_topic: this.state.topic,
+        cr549_summary: this.state.topic,
         cr549_interactiontype : this.state.interactiontype,
         cr549_interactiondescription : this.state.interactiondescription
       }
@@ -193,10 +192,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         const record = {
           cr549_comments: this.state.comment,
           cr549_actionitems: this.state.actionitems,
-          cr549_name: this.state.name,
-          cr549_topic: this.state.topic,
+          cr549_summary: this.state.topic,
           cr549_interactiontype : this.state.interactiontype,
-          cr549_interactiondescription : this.state.interactiondescription
+          cr549_interactiondescription : this.state.interactiondescription,
+          "cr549_ccifppifticket@odata.bind": `/cr549_interestformses(${(this.props.context as any).page.entityId})`
         }
         this.props.context?.webAPI.createRecord("cr549_componentnotes",record).then(function(resp){
             obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
