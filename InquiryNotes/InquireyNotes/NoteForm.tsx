@@ -279,6 +279,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
               <StackItem grow>
+                <Label>Application</Label>
                 <LookupControl 
                     context={this.props.context} entityType="cr549_application" recordId={this.state.application_id!}
                     onRecordSelect={(id, name) => {

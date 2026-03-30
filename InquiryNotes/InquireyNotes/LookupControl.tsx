@@ -27,7 +27,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         
         if(this.props.recordId && this.props.entityType == "cr549_application"){
             var query = "?$select=cr549_id,cr549_applicationid";
-            this.props.context.webAPI.retrieveRecord("cr549_applications",this.props.recordId!,query).then(function(resp){
+            this.props.context.webAPI.retrieveRecord("cr549_application",this.props.recordId!,query).then(function(resp){
                 recs.push({ id: resp["cr549_applicationid"], text: resp["cr549_id"], showSecondaryText: false } as IPersonaProps);
                 var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
                 obj.setState({ allitems: recs, selectedRecords: selectedrecords });
@@ -41,7 +41,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         if(filterText?.length < 3)
             return [];
         else {
-            return this.props.context.webAPI.retrieveMultipleRecords("cr549_applications",`?$select=cr549_id&$filter=contains(cr549_id,'${filterText}')&$orderby=cr549_id asc`).then(function(resp){
+            return this.props.context.webAPI.retrieveMultipleRecords("cr549_application",`?$select=cr549_id&$filter=contains(cr549_id,'${filterText}')&$orderby=cr549_id asc`).then(function(resp){
                 return resp.entities.map((ent) => {
                     return { id: ent["cr549_applicationid"], text: ent["cr549_id"], showSecondaryText: false } as IPersonaProps;
                 });
