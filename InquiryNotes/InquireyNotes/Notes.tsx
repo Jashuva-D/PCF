@@ -109,7 +109,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
-                    recordid: x.cr549_inquireynotesid,
+                    recordid: x.cr549_inquirynotesid,
                     comments: x.cr549_comments,
                     actionitems: x.cr549_actionitems,
                     createdon: new Date(x.createdon),
