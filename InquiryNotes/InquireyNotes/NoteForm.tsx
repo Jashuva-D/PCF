@@ -169,27 +169,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     obj.setState({displayprogress: true, progressmessage: "Submitting..."})
     if(this.props.recordid && this.props.recordid !== "") {
       
-// NOTE: createRecord is available in online mode, if you need this functionality change the call to Xrm.WebApi.online.createRecord
-// https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/xrm-webapi/online
-// NOTE: createRecord is available in offline mode, if you need this functionality change the call to Xrm.WebApi.offline.createRecord
-// https://learn.microsoft.com/en-us/power-apps/developer/model-driven-apps/clientapi/reference/xrm-webapi/offline
-// var record = {};
-// record.cr549_actionitems = null; // Multiline Text
-// record["cr549_InterestForm@odata.bind"] = "/cr549_interestforms(7d916db2-7a23-f111-8341-001dd804c9a4)"; // Lookup
-// record["cr549_CCIFPPIFTicket@odata.bind"] = "/cr549_interestforms(7d916db2-7a23-f111-8341-001dd804c9a4)"; // Lookup
-// record.cr549_summary = "Test From Web API"; // Text
-
-// Xrm.WebApi.createRecord("cr549_inquirynotes", record).then(
-// 	function success(result) {
-// 		var newId = result.id;
-// 		console.log(newId);
-// 	},
-// 	function(error) {
-// 		console.log(error.message);
-// 	}
-// );
-
-
       const record = {
         cr549_comments: this.state.comment,
         cr549_actionitems: this.state.actionitems,

@@ -94,7 +94,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     onDeleteClick(){
         var obj = this;
         if(obj.props.recordid && obj.props.recordid !== "") {
-            obj.props.context?.webAPI.deleteRecord("cr549_componentnotes", obj.props.recordid!).then(function(resp){
+            obj.props.context?.webAPI.deleteRecord("cr549_inquirynotes", obj.props.recordid!).then(function(resp){
                 obj.props.showalert(CMSAlertType.Success, "Note deleted successfully.");
                 obj.props.deleteCallBack(obj.props.recordid);
             },function(err){
@@ -194,11 +194,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                             style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} 
                             onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
                                 Action Items
-                        </DefaultButton>
-                        <DefaultButton 
-                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
-                            onClick={() => {this.setState({currenttab: NoteTabs.Applications})}}>
-                                Applications
                         </DefaultButton>
                     </StackItem>}
                     { !this.state.editmode && 
