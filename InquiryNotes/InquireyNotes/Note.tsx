@@ -250,6 +250,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 topicowner={this.props.topicowner}
                                 interactiontype={this.props.interactiontype}
                                 interactiondescription={this.props.interactiondescription}
+                                application_id={this.props.application_id!}
+                                application_name={this.props.application_name!}
                                 showalert={this.props.showalert}
                             />
                         </StackItem>
