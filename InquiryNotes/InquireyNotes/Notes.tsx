@@ -1,0 +1,286 @@
+// ...existing code...
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { IInputs } from "./generated/ManifestTypes";
+import { DetailsList, IColumn, SelectionMode, Icon, initializeIcons, Label, PrimaryButton, Stack, StackItem, Text, TextField, IconButton, ProgressIndicator,MessageBar, MessageBarType,Dialog, DialogFooter } from "@fluentui/react";
+import Note from "./Note";
+import NoteForm from "./NoteForm";
+import { ClockIcon, SearchIcon } from "./icons";
+import CMSDialog from "./CMSDialog";
+import CMSAlert from "./CMSAlert";
+import { CMSAlertType } from "./Constants";
+import CMSSpinner from "./CMSSpinner";
+const ReactQuill: any = require("react-quill");
+import "react-quill/dist/quill.snow.css";
+
+
+interface NotesProps {
+    context: ComponentFramework.Context<IInputs>,
+}
+interface NotesState {
+    notes: any[],
+    newnote: boolean,
+    filteredNotes: any[],
+    filterApplied?: boolean,
+    searchText?: string,
+    generateSummary?: boolean,
+    summary?: string,
+    enablesearch?: boolean,
+    showalert : boolean,
+    alert? : {
+        messagetype : CMSAlertType,
+        message : string
+    }
+    showDialog?: boolean,
+    dialogTitle?: string,
+    dialogSubtext?: string,
+    dialogConfirmCallback?: () => void,
+    dialogCancelCallback?: () => void,
+    dialogDismissCallback?: () => void,
+    spinner: boolean
+}
+class Notes extends React.Component<NotesProps, NotesState> {
+    constructor(props: NotesProps) {
+        initializeIcons();
+        super(props);
+        this.state = {
+            notes: [],
+            newnote: false,
+            filteredNotes: [],
+            filterApplied: false,
+            searchText: "",
+            generateSummary: false,
+            summary: "",
+            enablesearch: true,
+            showalert : false,
+            showDialog: false,
+            spinner: false
+        }
+    }
+    GetFakeData() {
+        var notes = [];
+        for (var i = 0; i < 10; i++) {
+            notes.push({
+                comments: i % 2 == 0 ? "Small lines of text" : "Innovation drives the modern world forward, shaping how we live, work, and communicate in ways that were once unimaginable. Technology has become an inseparable part of our daily existence, influencing everything from education and healthcare to entertainment and transportation. As digital transformation accelerates, the demand for smarter systems, faster communication, and safer online environments continues to grow. Artificial intelligence and machine learning are no longer futuristic ideas but active contributors to decision-making and automation across industries. In this dynamic era, adaptability has become the most valuable skill, enabling people to learn new tools, navigate uncertainty, and turn challenges into opportunities. Every innovation starts with curiosity—a single thought that challenges the status quo and evolves into something remarkable. When creativity meets persistence, boundaries dissolve, and new horizons emerge, proving that progress is not just about invention but about continuous improvement and meaningful impact.",
+                createdon: new Date((new Date()).setDate(new Date().getDate() + i)),
+                createdby: "Anuradha Inampudi",
+                modifiedon: new Date((new Date().setDate(new Date().getDate() + i + 1))),
+                recordid: `noteid-${i}`,
+                topic: "Test",
+                topicowner: "Anuradha Inampudi",
+                modifiedby: "Anuradha Inampudi",
+                statecode: i%3 == 0 ? 3 : (i%2 == 0 ? 0 : 1),
+                submittoconfluence: i%3 == 0 ? false : (i%2 == 0 ? true : false),
+            })
+        }
+        this.setState({ notes: notes });
+    }
+    componentDidMount(): void {
+        this.GetFakeData();
+        this.Refresh();
+    }
+    onAddNoteClick() {
+        this.setState({ newnote: true, enablesearch: false, generateSummary: false });
+    }
+    onSearchClick() {
+        const searchTerm = this.state.searchText?.toLowerCase();
+        const filteredNotes = this.state.notes.filter(note =>
+            note.comments?.toLowerCase().includes(searchTerm)
+        );
+        this.setState({ filterApplied: true, filteredNotes: filteredNotes });
+    }
+    onGenerateSummaryClick() {
+        this.setState({ generateSummary: true, enablesearch: false, newnote: false });
+    }
+    onSearchClear() {
+        this.setState({ filterApplied: false, searchText: "" });
+    }
+    onSubmitCallBack(recordid?: string, content?: string) { 
+        this.Refresh();
+    }
+    deleteCallBack(recordid?:string) {
+        var updatedNotes = this.state.notes.filter(note => note.recordid !== recordid);
+        this.setState({ notes: updatedNotes });
+        this.showAlertMessage(CMSAlertType.Success, "Record deleted successfully");
+    }
+    Refresh() {
+        var obj = this;
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_inquirynotes",`?$filter=_cr549_ccifppifticket_value eq ${(this.props.context as any).page.entityId} $orderby=createdon desc`).then((resp) => {
+            let notes = [] as any[]
+            resp.entities.forEach(x => {
+                notes.push({
+                    recordid: x.cr549_inquireynotesid,
+                    comments: x.cr549_comments,
+                    actionitems: x.cr549_actionitems,
+                    createdon: new Date(x.createdon),
+                    createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
+                    createdbyid: x["_createdby_value"],
+                    modifiedon: new Date(x.modifiedon),
+                    modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
+                    topic: x.cr549_summary,
+                    topicowner: x.cr549_topicowner ?? "\u00A0",
+                    statecode: x.statecode,
+                    interactiontype: x.cr549_interactiontype,
+                    interactiondescription: x.cr549_interactiondescription,
+                    name: x.cr549_name ?? "\u00A0" 
+                })
+            })
+            obj.setState({ notes: notes, newnote: false });
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }
+    showAlertMessage(messagetype: CMSAlertType, message: string){
+        var obj = this;
+        this.setState({ 
+            showalert: true, 
+            alert : {
+                messagetype : messagetype,
+                message : message
+            }
+        });
+        setTimeout(() => {
+            obj.setState({showalert : false})
+        }, 10000);
+    }
+
+    render(): React.ReactNode {
+        const notes = this.state.filterApplied ? this.state.filteredNotes : this.state.notes;
+        return <div>
+            <Stack style={{ paddingLeft: 24, paddingRight: 24, paddingBottom: 24, paddingTop: 24 }}>
+                <StackItem>
+                    <Stack tokens={{ childrenGap: 20 }}>
+                        <StackItem>
+                            <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="space-between">
+                                <StackItem grow>
+                                    <TextField
+                                        style={{ borderRadius: "10" }}
+                                        value={this.state.searchText || ""}
+                                        placeholder="Search Notes..."
+                                        onChange={(e, newValue) => {
+                                            if(newValue == null || newValue == ""){
+                                                this.setState({searchText: "", filterApplied : false})
+                                            }
+                                            else {
+                                                this.setState({ searchText: newValue || "" });
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                this.onSearchClick.bind(this)();
+                                            }
+                                        }}
+                                        styles={{
+                                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 36},
+                                            field: { borderRadius: 6, height : 36, fontSize: 15, padding: 8 },
+                                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                                            suffix: { background: "transparent" },
+                                        }}
+                                        onRenderPrefix={() => (
+                                             <span style={{borderRadius: 20}}><SearchIcon size={24} color="white"/> </span>
+                                        )}
+                                        onRenderSuffix={() =>
+                                            this.state.searchText != "" ? (
+                                                <Icon
+                                                    iconName="Clear"
+                                                    style={{ marginRight: 8, cursor: "pointer" }}
+                                                    onClick={this.onSearchClear.bind(this)}
+                                                />
+                                            ) : null
+                                        }
+                                    />
+                                </StackItem>
+                                <StackItem>
+                                    <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                        <StackItem>
+                                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} 
+                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }} 
+                                                styles={ { 
+                                                    root: {
+                                                        height: 36,
+                                                        padding: "0 20px",
+                                                    },
+                                                    label: {
+                                                        fontSize: 15,
+                                                        lineHeight: 36,
+                                                    },
+                                                }} />
+                                        </StackItem>
+                                    </Stack>
+                                </StackItem>
+                            </Stack>
+                        </StackItem>
+                        { this.state.showalert && <StackItem>
+                            <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />
+                        </StackItem> }
+                        { this.state.spinner && <StackItem>
+                            <CMSSpinner />
+                        </StackItem> }
+                    </Stack>
+                </StackItem>
+                <StackItem>
+                    
+                </StackItem>
+            </Stack>
+            <Stack tokens={{ childrenGap: 10 }} style={{padding: 24, backgroundColor: "rgb(243,243,243)"}}>
+                
+                {this.state.newnote == true && <StackItem>
+                    <NoteForm 
+                        context={this.props.context} 
+                        submitCallBack={this.onSubmitCallBack.bind(this)} 
+                        cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} 
+                        showalert={this.showAlertMessage.bind(this)}
+                    />
+                </StackItem>}
+                <StackItem grow styles={{root: {overflowY: "auto", maxHeight: "calc(100vh - 200px)", backgroundColor: "rgb(243, 243, 243)"}}}>
+                    {notes.length == 0 && <Label style={{ color: "#D13438", fontStyle: "italic", textAlign: "center" }} > No Records Found </Label>}
+                    <Stack tokens={{childrenGap: 24}}>
+                    {notes.map((x, idx) => (
+                        <StackItem><Note
+                            key={x.recordid}
+                            context={this.props.context}
+                            recordid={x.recordid}
+                            createdon={x.createdon}
+                            modifiedon={x.modifiedon}
+                            modifiedby={x.modifiedby}
+                            createdby={x.createdby}
+                            createdbyid={x.createdbyid}
+                            comment={x.comments}
+                            actionitems={x.actionitems}
+                            topicowner={x.topicowner}
+                            name={x.name}
+                            topic={x.topic}
+                            statecode={x.statecode}
+                            interactiontype={x.interactiontype}
+                            interactiondescription={x.interactiondescription}
+                            deleteCallBack={this.deleteCallBack.bind(this)}
+                            refresh = {this.Refresh.bind(this)}
+                            showalert = {this.showAlertMessage.bind(this)}
+                        />
+                        </StackItem>
+                    ))}
+                    </Stack>
+                </StackItem>
+            </Stack>
+            <CMSDialog 
+                isOpen={this.state.showDialog!} 
+                title={this.state.dialogTitle}
+                subText={this.state.dialogSubtext} 
+                onDismiss={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogDismissCallback && this.state.dialogDismissCallback();
+                }}
+                onConfirm={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                }} 
+                onCancel={() => {
+                    this.setState({showDialog: false});
+                    this.state.dialogCancelCallback && this.state.dialogCancelCallback();
+                }}
+            />
+        </div>
+    }
+}
+
+export default Notes;

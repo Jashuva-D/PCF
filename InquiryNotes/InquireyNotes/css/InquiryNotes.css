@@ -1,0 +1,88 @@
+.fullscreen-container1 {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2147483647;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resize-shell {
+  width: 90vw;
+  height: 90vh;
+
+  min-width: 500px;
+  min-height: 400px;
+  max-width: 95vw;
+  max-height: 95vh;
+
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
+  resize: both;
+  overflow: hidden;         
+
+  display: flex;
+}
+
+.popup-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  padding: 16px;
+  overflow: hidden;
+  background-color: white;          
+}
+
+.popup-header {
+  flex: 0 0 auto;
+}
+
+.quill {
+  flex: 1 1 auto;            
+  min-height: 0;             
+
+  display: flex;
+  flex-direction: column;
+}
+
+.ql-container {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ql-editor {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto !important;
+}
+
+.associatedapps .ms-DetailsHeader {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.associatedapps .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.associatedapps .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+}
+ .associatedapps .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.associatedapps .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}
+
