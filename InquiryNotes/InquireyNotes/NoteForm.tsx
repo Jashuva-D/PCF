@@ -7,6 +7,7 @@ import { CMSAlertType, Interactiontypes, NoteTabs } from "./Constants";
 import CMSSpinner from "./CMSSpinner";
 import * as ReactDOM from "react-dom";
 import Note from "./Note";
+import LookupControl from "./LookupControl";
 
 
 interface NoteFormProps{
@@ -21,6 +22,8 @@ interface NoteFormProps{
   topicowner?: string,
   interactiontype? : number,
   interactiondescription? : string,
+  application_id? : string,
+  application_name? : string,
   submittoconfluence? : boolean,
   confluencepageid? : string,
   confluencespace? : string,
@@ -35,6 +38,8 @@ interface NoteFormState {
   topicowner?: string,
   interactiontype? : number,
   interactiondescription? : string,
+  application_id? : string,
+  application_name? : string,
   submittoconfluence? : boolean,
   confluencepageid? : string,
   confluencespace? : string,
@@ -61,6 +66,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
       interactiondescription: props.interactiondescription,
+      application_id: props.application_id,
+      application_name: props.application_name,
       submittoconfluence : props.submittoconfluence,
       confluencepageid : props.confluencepageid,
       confluencepagetitle : props.confluencepagetitle,
@@ -175,7 +182,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         cr549_summary: this.state.topic,
         cr549_interactiontype : this.state.interactiontype,
         cr549_interactiondescription : this.state.interactiondescription,
-        //"cr549_CCIFPPIFTicket@odata.bind": `/cr549_interestforms(${(this.props.context as any).page.entityId})`
+        "cr549_ApplicationName@odata.bind": (this.state.application_id != undefined && this.state.application_id != null) ? `/cr549_applications(${this.state.application_id})` : null
       }
       this.props.context?.webAPI.updateRecord("cr549_inquirynotes", this.props.recordid!, record).then(function(resp){
           obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
@@ -198,7 +205,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_interactiontype : this.state.interactiontype,
           cr549_interactiondescription : this.state.interactiondescription,
           "cr549_CCIFPPIFTicket@odata.bind": `/cr549_interestforms(${(this.props.context as any).page.entityId})`,
-          "cr549_InterestForm@odata.bind" : `/cr549_interestforms(${(this.props.context as any).page.entityId})`
+          "cr549_InterestForm@odata.bind" : `/cr549_interestforms(${(this.props.context as any).page.entityId})`,
+          "cr549_ApplicationName@odata.bind": (this.state.application_id != undefined && this.state.application_id != null) ? `/cr549_applications(${this.state.application_id})` : null
         }
         this.props.context?.webAPI.createRecord("cr549_inquirynotes",record).then(function(resp){
             obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
@@ -269,6 +277,14 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               </StackItem> */}
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
+              </StackItem>
+              <StackItem grow>
+                <LookupControl 
+                    context={this.props.context} entityType="cr549_application" recordId={this.state.application_id!}
+                    onRecordSelect={(id, name) => {
+                          this.setState({application_id: id, application_name: name});
+                    }}
+                />
               </StackItem>
               <StackItem grow>
                 <Dropdown

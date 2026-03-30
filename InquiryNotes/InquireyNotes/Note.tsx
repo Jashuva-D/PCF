@@ -22,6 +22,8 @@ interface NoteProps {
     statecode : number,
     interactiontype? : number,
     interactiondescription? : string,
+    application_id? : string,
+    application_name? : string,
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
     showalert : (type: CMSAlertType, message: string) => void,
@@ -201,11 +203,14 @@ class Note extends React.Component<NoteProps,NoteState> {
                             {this.state.currenttab === NoteTabs.Details && 
                                 <StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
                                     <DetailsTab 
+                                        context={this.props.context}
                                         name = {this.props.name}
                                         topic={this.props.topic}
                                         topicowner={this.props.topicowner}
                                         interactiontype={this.props.interactiontype}
                                         interactiondescription={this.props.interactiondescription}
+                                        application_id={this.props.application_id}
+                                        application_name={this.props.application_name}
                                         createdby={this.props.createdby}
                                         createdon={this.props.createdon}
                                         modifiedby={this.props.modifiedby}

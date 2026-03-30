@@ -1,13 +1,16 @@
 import * as React from 'react';
 import { Interactiontypes, NoteTabs } from './Constants';
-import { Label, Stack, StackItem, Text } from '@fluentui/react';
+import { Label, Link, Stack, StackItem, Text } from '@fluentui/react';
 
 interface DetailsTabProps {
+    context: ComponentFramework.Context<any>;
     name?: string;
     topic?: string;
     topicowner?: string;
     interactiontype? : number;
     interactiondescription? : string;
+    application_id? : string;
+    application_name? : string;
     createdby?: string;
     createdon?: Date;
     modifiedby?: string;
@@ -57,6 +60,15 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                         <Text>{this.props.interactiondescription ?? "\u00A0"}</Text>
                     </StackItem>
                 }
+                <StackItem>
+                    <Label style={{ color: "#808080" }}>Application</Label>
+                    <Link onClick={() => {
+                        this.props.context.navigation.openForm({
+                            entityName: "cr549_application",
+                            entityId: this.props.application_id!,
+                        })
+                    }}>{this.props.application_name ?? "\u00A0"}</Link>
+                </StackItem>
             </Stack>
         </Stack>
     }

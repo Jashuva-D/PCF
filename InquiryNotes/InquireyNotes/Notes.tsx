@@ -122,7 +122,9 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     statecode: x.statecode,
                     interactiontype: x.cr549_interactiontype,
                     interactiondescription: x.cr549_interactiondescription,
-                    name: x.cr549_name ?? "\u00A0" 
+                    name: x.cr549_name ?? "\u00A0",
+                    application_id: x["_cr549_applicationname_value"] ?? null,
+                    application_name: (x["_cr549_applicationname_value"] != undefined && x["_cr549_applicationname_value"] != null) ? x["_cr549_applicationname_value@OData.Community.Display.V1.FormattedValue"] : null
                 })
             })
             obj.setState({ notes: notes, newnote: false });
@@ -253,6 +255,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
                             interactiondescription={x.interactiondescription}
+                            application_id={x.application_id!}
+                            application_name={x.application_name!}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                             refresh = {this.Refresh.bind(this)}
                             showalert = {this.showAlertMessage.bind(this)}
