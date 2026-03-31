@@ -34,7 +34,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             // },function(err){
             //     console.log("Error occured while fetching the query");
             // });
-            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", "?$select=cr549_id,cr549_applicationid").then(
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", "?$select=cr549_id,cr549_applicationid&$orderby=cr549_id asc").then(
                 (response) => {
                     response.entities.forEach((ent) => {
                         recs.push({ id: ent["cr549_applicationid"], text: ent["cr549_id"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
@@ -54,7 +54,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             if(filterText == null || filterText.trim() == "")
                 return this.state.allitems;
             else
-                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase())).sort((a : any,b : any) => a.localeCompare(b));
         }
         else {
             return [];
