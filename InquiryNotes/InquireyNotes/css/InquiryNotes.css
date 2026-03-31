@@ -86,3 +86,18 @@
   border-color: #D8D8D8;
 }
 
+.ms-BasePicker-root {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+}
+
+/* 🔥 THIS IS THE IMPORTANT PART */
+.ms-BasePicker-root::after {
+    border-radius: 10px !important;
+}
+
+/* Focus state */
+.ms-BasePicker-root:focus-within::after {
+    border-radius: 10px !important;
+    box-shadow: none !important;
+}

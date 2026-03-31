@@ -26,27 +26,46 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         var recs : IPersonaProps[] = [];
         
         if(this.props.recordId && this.props.entityType == "cr549_application"){
-            var query = "?$select=cr549_id,cr549_applicationid";
-            this.props.context.webAPI.retrieveRecord("cr549_application",this.props.recordId!,query).then(function(resp){
-                recs.push({ id: resp["cr549_applicationid"], text: resp["cr549_id"], showSecondaryText: false } as IPersonaProps);
-                var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
-                obj.setState({ allitems: recs, selectedRecords: selectedrecords });
-            },function(err){
-                console.log("Error occured while fetching the query");
-            })
+            // var query = "?$select=cr549_id,cr549_applicationid";
+            // this.props.context.webAPI.retrieveRecord("cr549_application",this.props.recordId!,query).then(function(resp){
+            //     recs.push({ id: resp["cr549_applicationid"], text: resp["cr549_id"], showSecondaryText: false } as IPersonaProps);
+            //     var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
+            //     obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+            // },function(err){
+            //     console.log("Error occured while fetching the query");
+            // });
+            this.props.context.webAPI.retrieveMultipleRecords("cr549_application", "?$select=cr549_id,cr549_applicationid").then(
+                (response) => {
+                    response.entities.forEach((ent) => {
+                        recs.push({ id: ent["cr549_applicationid"], text: ent["cr549_id"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
+                    });
+                    var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
+                    obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+                },
+                (error) => {
+                    console.error("Error fetching records: ", error);
+                }
+            );
         }
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
         
-        if(filterText?.length < 3)
-            return [];
-        else {
-            return this.props.context.webAPI.retrieveMultipleRecords("cr549_application",`?$select=cr549_id&$filter=contains(cr549_id,'${filterText}')&$orderby=cr549_id asc`).then(function(resp){
-                return resp.entities.map((ent) => {
-                    return { id: ent["cr549_applicationid"], text: ent["cr549_id"], showSecondaryText: false } as IPersonaProps;
-                });
-            })
+        if(this.props.entityType == "cr549_application"){
+            if(filterText == null || filterText.trim() == "")
+                return this.state.allitems;
+            else
+                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
         }
+        else {
+            return [];
+        }
+        // else {
+        //     return this.props.context.webAPI.retrieveMultipleRecords("cr549_application",`?$select=cr549_id&$filter=contains(cr549_id,'${filterText}')&$orderby=cr549_id asc`).then(function(resp){
+        //         return resp.entities.map((ent) => {
+        //             return { id: ent["cr549_applicationid"], text: ent["cr549_id"], showSecondaryText: false } as IPersonaProps;
+        //         });
+        //     })
+        // }
 
     }
     render() {
@@ -68,7 +87,18 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                         this.props.onRecordSelect(item.id as string, item.text as string);
                     }
                 }}
-                inputProps={{ style: { backgroundColor: 'white', width: 150 } }}
+                inputProps={{ style: { backgroundColor: 'white', width: 150, borderRadius: 6,  }, placeholder: "Search for Apps"}}
+                styles={{
+                    root: {
+                        borderRadius: "6px",
+                    },
+                    text: {
+                        borderRadius: "6px"
+                    },
+                    itemsWrapper: {
+                        borderRadius: "6px"
+                    }
+                }}
             />
         );
     }   
