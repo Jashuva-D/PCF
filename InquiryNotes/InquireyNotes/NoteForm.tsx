@@ -204,8 +204,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_summary: this.state.topic,
           cr549_interactiontype : this.state.interactiontype,
           cr549_interactiondescription : this.state.interactiondescription,
-          "cr549_CCIFPPIFTicket@odata.bind": `/cr549_interestforms(${(this.props.context as any).page.entityId})`,
-          "cr549_InterestForm@odata.bind" : `/cr549_interestforms(${(this.props.context as any).page.entityId})`,
+          "cr549_CCIFPPIFTicket@odata.bind": (this.props.context as any).page.entityTypeName == "cr549_interestform" ? `/cr549_interestforms(${(this.props.context as any).page.entityId})` : null,
+          "cr549_InterestForm@odata.bind" : (this.props.context as any).page.entityTypeName == "cr549_interestform" ? `/cr549_interestforms(${(this.props.context as any).page.entityId})` : null,
+          "cr549_PPInterestForm" : (this.props.context as any).page.entityTypeName == "cr549_ppinterestforms" ? `/cr549_ppinterestformses(${(this.props.context as any).page.entityId})` : null,
           "cr549_ApplicationName@odata.bind": (this.state.application_id != undefined && this.state.application_id != null) ? `/cr549_applications(${this.state.application_id})` : null
         }
         this.props.context?.webAPI.createRecord("cr549_inquirynotes",record).then(function(resp){

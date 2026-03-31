@@ -25,7 +25,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         var obj = this;
         var recs : IPersonaProps[] = [];
         
-        if(this.props.recordId && this.props.entityType == "cr549_application"){
+        if(this.props.entityType == "cr549_application"){
             // var query = "?$select=cr549_id,cr549_applicationid";
             // this.props.context.webAPI.retrieveRecord("cr549_application",this.props.recordId!,query).then(function(resp){
             //     recs.push({ id: resp["cr549_applicationid"], text: resp["cr549_id"], showSecondaryText: false } as IPersonaProps);
@@ -39,7 +39,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     response.entities.forEach((ent) => {
                         recs.push({ id: ent["cr549_applicationid"], text: ent["cr549_id"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
                     });
-                    var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
+                    var selectedrecords = (this.props.recordId != undefined && this.props.recordId != undefined) ? recs.filter(x => x.id == this.props.recordId) : [];
                     obj.setState({ allitems: recs, selectedRecords: selectedrecords });
                 },
                 (error) => {
