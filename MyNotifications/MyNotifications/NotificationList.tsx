@@ -107,6 +107,7 @@ export const NotificationList: React.FC<NotificationListProps> = ({ notification
                     </Stack>
                 </Stack>
                 <div style={{border: "1px solid #ccc"}}></div>
+                
                 </>
             ))}
         </Stack>
