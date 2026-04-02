@@ -36,6 +36,7 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/no-empty-function": "off",
       "no-var": "off",
+      "promise/always-return": "off"
     },
   },
 ];

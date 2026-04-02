@@ -50,6 +50,20 @@ export class MyNotifications implements ComponentFramework.StandardControl<IInpu
             
         ] as NotificationModel[];
 
+        var currentuserid = context.userSettings.userId;
+        var notifications1 = context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
+            var recs = [];
+            resp.entities.forEach(x => {
+                recs.push({
+                    icontype: x.icontype,
+                    title: x.title,
+                    body: x.body,
+                    createdon: x.createdon,
+                    priority: x.priority
+                })
+            })
+        })
+
         var root = ReactDOM.createRoot(this._container);
         root.render(React.createElement(NotificationList, { notifications }));
     }
