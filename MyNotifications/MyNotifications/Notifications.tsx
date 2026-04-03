@@ -130,7 +130,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                                <Text>{notification.createdon?.toLocaleString()}</Text>
+                                <Text>{notification.createdon}</Text>
                                 <Timer expiredTime={new Date(notification.createdon_value.getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} />
                             </Stack>
                         </Stack>
