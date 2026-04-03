@@ -3,6 +3,7 @@ import { IInputs } from "./generated/ManifestTypes"
 import { NotificationModel } from "./Models";
 import { Stack, StackItem, Icon, Text, initializeIcons} from "@fluentui/react";
 import { NotificationType } from "./constants";
+import Timer from "./Timer";
 
 
 interface NotificationsProps {
@@ -32,8 +33,10 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                     icontype: x.icontype,
                     title: x.title,
                     body: x.body,
-                    createdon: x.createdon,
-                    priority: x.priority
+                    createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
+                    createdon_value: x.createdon,
+                    priority: x.priority,
+                    ttlinseconds: x.ttlinseconds
                 })
             })
             obj.setState({
@@ -86,7 +89,11 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
     }
 
     render(): React.ReactNode {
+        var createdon = new Date().setDate(new Date().getDate() + 1);
         return <Stack tokens={{ childrenGap: 10 }} styles={{ root: { paddingLeft: 20, paddingRight: 20, paddingBottom: 20, overflowY: "auto", height: "100%" } }} >
+            <Stack>
+                <Timer expiredTime={new Date(Date.now() + 30 * 1000)} />
+            </Stack>
             {this.state.notifications.map((notification, index) => (
                 <><Stack
                     horizontal
@@ -127,6 +134,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
                                 <Text>{notification.createdon?.toLocaleString()}</Text>
+                                <Timer expiredTime={new Date(notification.createdon_value.getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} />
                             </Stack>
                         </Stack>
                         {/* <Label style={{color: "black"}}>{notification.title}</Label> */}
