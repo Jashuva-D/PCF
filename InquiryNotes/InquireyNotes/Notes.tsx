@@ -108,8 +108,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
         var query = "";
         if((this.props.context as any).page.entityTypeName == "cr549_interestform")
             query = `?$filter=_cr549_ccifppifticket_value eq '${(this.props.context as any).page.entityId}'&$orderby=createdon desc`;
-         if((this.props.context as any).page.entityTypeName == "cr549_ppinterestforms")
+        else if((this.props.context as any).page.entityTypeName == "cr549_ppinterestforms")
             query = `?$filter=_cr549_ppinterestform_value eq '${(this.props.context as any).page.entityId}'&$orderby=createdon desc`;
+        else if((this.props.context as any).page.entityTypeName == "cr549_pponboardinglist")
+            query = `?$filter=_cr549_pponboardinglist_value eq '${(this.props.context as any).page.entityId}'&$orderby=createdon desc`;
         this.props.context.webAPI.retrieveMultipleRecords("cr549_inquirynotes",query).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
