@@ -29,7 +29,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 icontype: 100000000,
                 title: "CRMDB going live on July 11 2025",
                 body: `New CRMDB replacing the current AWS CAMP DB is now available. Please start using it aspa and reach out in slack channel if any issues.`,
-                createdon: new Date().toDateString(),
+                createdon: "2026-04-03T01:45:30",
                 createdon_value: new Date(),
                 priority: 200000000,
                 ttlinseconds: 86400
@@ -41,13 +41,13 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 createdon_value: new Date(),
                 priority: 200000002,
                 ttlinseconds: 172800,
-                createdon: new Date().toDateString()
+                createdon: "2026-04-03T01:45:30"
             } as NotificationModel,
             {
                 icontype: 100000003,
                 title: "Announcing Availability of Claude 3.7 with Cross Region Inference comm to be sent by HCs",
                 body: `By EOD Wednesday 4/2, HCs are being asked to send to a targeted audience the Claude 3.7 comm.`,
-                createdon: new Date().toDateString(),
+                createdon: "2026-04-03T01:45:30",
                 createdon_value: new Date(),
                 priority: 200000001,
                 ttlinseconds: 86400
@@ -57,25 +57,25 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         this.setState({
             notifications: notifications
         })
-        // var obj = this;
-        // var currentuserid = this.props.context.userSettings.userId;
-        // this.props.context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
-        //     var recs : NotificationModel[] = []
-        //     resp.entities.forEach(x => {
-        //         recs.push({
-        //             icontype: x.icontype,
-        //             title: x.title,
-        //             body: x.body,
-        //             createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
-        //             createdon_value: x.createdon,
-        //             priority: x.priority,
-        //             ttlinseconds: x.ttlinseconds
-        //         })
-        //     })
-        //     obj.setState({
-        //         notifications: recs
-        //     })
-        // }) 
+        var obj = this;
+        var currentuserid = this.props.context.userSettings.userId;
+        this.props.context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
+            var recs : NotificationModel[] = []
+            resp.entities.forEach(x => {
+                recs.push({
+                    icontype: x.icontype,
+                    title: x.title,
+                    body: x.body,
+                    createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
+                    createdon_value: x.createdon,
+                    priority: x.priority,
+                    ttlinseconds: x.ttlinseconds
+                })
+            })
+            obj.setState({
+                notifications: recs
+            })
+        }) 
     }
 
     GetNotificationIcon(notificationType: number): string {
@@ -164,7 +164,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
                                 <Text>{notification.createdon}</Text>
-                                <Timer expiredTime={new Date(notification.createdon_value.getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} />
+                                <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} />
                             </Stack>
                         </Stack>
                         {/* <Label style={{color: "black"}}>{notification.title}</Label> */}
