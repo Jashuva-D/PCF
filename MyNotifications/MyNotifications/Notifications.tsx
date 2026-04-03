@@ -24,39 +24,6 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         }
     }
     componentDidMount(): void {
-        const notifications = [
-            {
-                icontype: 100000000,
-                title: "CRMDB going live on July 11 2025",
-                body: `New CRMDB replacing the current AWS CAMP DB is now available. Please start using it aspa and reach out in slack channel if any issues.`,
-                createdon: "2026-04-03T01:45:30",
-                createdon_value: new Date(),
-                priority: 200000000,
-                ttlinseconds: 86400
-            } as NotificationModel,
-            {
-                icontype: 100000002,
-                title: "Communications Updates: Week of December 1, 2025",
-                body: `This week, the Communications team is updating the Fireside Chat CCG Menu page in CCG and sending the Q4 Security Campaign via GovDelivery. Two Resource Mailbox items are complete: the Q4 Closing the Loop email and the 2026 Initiatives Fireside Chat article, which will appear in the January Pulse. In addition, the new CRM102 module is live at https://cbt.cloud.cms.gov/CRM102/.`,
-                createdon_value: new Date(),
-                priority: 200000002,
-                ttlinseconds: 172800,
-                createdon: "2026-04-03T01:45:30"
-            } as NotificationModel,
-            {
-                icontype: 100000003,
-                title: "Announcing Availability of Claude 3.7 with Cross Region Inference comm to be sent by HCs",
-                body: `By EOD Wednesday 4/2, HCs are being asked to send to a targeted audience the Claude 3.7 comm.`,
-                createdon: "2026-04-03T01:45:30",
-                createdon_value: new Date(),
-                priority: 200000001,
-                ttlinseconds: 86400
-            } as NotificationModel
-        ];
-
-        this.setState({
-            notifications: notifications
-        })
         var obj = this;
         var currentuserid = this.props.context.userSettings.userId;
         this.props.context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
