@@ -91,9 +91,6 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
     render(): React.ReactNode {
         var createdon = new Date().setDate(new Date().getDate() + 1);
         return <Stack tokens={{ childrenGap: 10 }} styles={{ root: { paddingLeft: 20, paddingRight: 20, paddingBottom: 20, overflowY: "auto", height: "100%" } }} >
-            <Stack>
-                <Timer expiredTime={new Date(Date.now() + 30 * 1000)} />
-            </Stack>
             {this.state.notifications.map((notification, index) => (
                 <><Stack
                     horizontal
