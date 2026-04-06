@@ -3,7 +3,6 @@ import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
 import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection, ThemeProvider, createTheme } from "@fluentui/react";
-import { error } from "console";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
 import CMSAlert from "./CMSAlert";
@@ -237,26 +236,41 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_role@odata.bind" : roleid == undefined ? null : `/cr549_roles(${roleid})`,
             "cr549_person@odata.bind" : personid == undefined ? null : `/cr549_persons(${personid})`
         }
-        var person = {
-            "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
-            "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
-            "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
-            "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
-        }
-
         await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
-            obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
+            
+        },function(err){
+            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
+        });
+
+        var personrecord = await this.props.context.webAPI.retrieveRecord("cr549_person", personid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){
+            return resp;
+        }, function(err){return null;});
+        if(personrecord != null){
+            if(personrecord["cr549_direct_phone"] != this.state.editablerecord["person_cr549_direct_phone"] || 
+                personrecord["cr549_email_address"] != this.state.editablerecord["person_cr549_email_address"] || 
+                personrecord["cr549_email_address_2"] != this.state.editablerecord["person_cr549_email_address_2"] || 
+                personrecord["cr549_service_desk_agent"] != (this.state.editablerecord["person_cr549_service_desk_agent_value"] == "1" ? true : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : null))
+            {  
+                var person = {
+                    "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
+                    "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
+                    "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
+                    "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
+                }
+                await obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
+                    obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully");
+                    obj.setState({editablerecord: null});
+                    obj.props.context.parameters.sampleDataSet.refresh();
+                },function(error){
+                    obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
+                });
+            }
+            else {
                 obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully");
                 obj.setState({editablerecord: null});
                 obj.props.context.parameters.sampleDataSet.refresh();
-            },function(error){
-                obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
-            });
-        },function(err){
-            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
-        })
-
-        
+            }
+        }
     }
     onCancelClick(){
         this.setState({editablerecord: null});
