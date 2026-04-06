@@ -259,7 +259,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         });
 
         if(appuserroleupdate && personupdate){
-            var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){},function(err){});
+            var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){return resp;},function(err){});
             if(currentuserrecord == null) throw new Error("Unable to fetch current user record");
             var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("cr549_person", `?$filter=cr549_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=cr549_id`).then(function(resp){
                 return resp.entities.length > 0 ? resp.entities[0] : null;
