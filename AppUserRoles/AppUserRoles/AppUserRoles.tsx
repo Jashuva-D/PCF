@@ -236,41 +236,71 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             "cr549_role@odata.bind" : roleid == undefined ? null : `/cr549_roles(${roleid})`,
             "cr549_person@odata.bind" : personid == undefined ? null : `/cr549_persons(${personid})`
         }
-        await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
-            
+        var appuserroleupdate = await this.props.context.webAPI.updateRecord("cr549_appuserrole", appuserroleid, appuserrole).then(function(resp){
+            return true;
         },function(err){
             obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
+            return false;
+        });
+        if(!appuserroleupdate) return;
+
+        var person = {
+            "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
+            "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
+            "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
+            "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true
+        }
+        var personupdate =await obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function (resp) {
+            
+            return true;
+        }, function (error) {
+            obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
+            return false;
         });
 
-        var personrecord = await this.props.context.webAPI.retrieveRecord("cr549_person", personid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){
-            return resp;
-        }, function(err){return null;});
-        if(personrecord != null){
-            if(personrecord["cr549_direct_phone"] != this.state.editablerecord["person_cr549_direct_phone"] || 
-                personrecord["cr549_email_address"] != this.state.editablerecord["person_cr549_email_address"] || 
-                personrecord["cr549_email_address_2"] != this.state.editablerecord["person_cr549_email_address_2"] || 
-                personrecord["cr549_service_desk_agent"] != (this.state.editablerecord["person_cr549_service_desk_agent_value"] == "1" ? true : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : null))
-            {  
-                var person = {
-                    "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
-                    "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
-                    "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
-                    "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true 
-                }
-                await obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function(resp){
-                    obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully");
-                    obj.setState({editablerecord: null});
-                    obj.props.context.parameters.sampleDataSet.refresh();
-                },function(error){
-                    obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
-                });
-            }
-            else {
-                obj.showAlertMessage(CMSAlertType.Success,"Record updated successfully");
-                obj.setState({editablerecord: null});
+        if(appuserroleupdate && personupdate){
+            var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){},function(err){});
+            if(currentuserrecord == null) throw new Error("Unable to fetch current user record");
+            var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("cr549_person", `?$filter=cr549_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=cr549_id`).then(function(resp){
+                return resp.entities.length > 0 ? resp.entities[0] : null;
+            },function(err){
+                return null;
+            });
+            if(currentpersonrecord == null) throw new Error("Unable to fetch current person record");
+
+            obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
+                "cr549_pers_change_type": "updated",
+                "cr549_pers_update_method": "manual",
+                "cr549_pers_updated_by": currentpersonrecord["cr549_id"],
+                "cr549_pers_updated_date": new Date(),
+            }).then(function(resp){
+                obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+                obj.setState({ editablerecord: null });
                 obj.props.context.parameters.sampleDataSet.refresh();
-            }
+            },function(err){
+                obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
+            });
         }
+
+        // var personrecord = await this.props.context.webAPI.retrieveRecord("cr549_person", personid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){
+        //     return resp;
+        // }, function(err){return null;});
+        // if (personrecord == null) return;
+
+        // if (personrecord["cr549_direct_phone"] != this.state.editablerecord["person_cr549_direct_phone"] ||
+        //     personrecord["cr549_email_address"] != this.state.editablerecord["person_cr549_email_address"] ||
+        //     personrecord["cr549_email_address_2"] != this.state.editablerecord["person_cr549_email_address_2"] ||
+        //     personrecord["cr549_service_desk_agent"] != (this.state.editablerecord["person_cr549_service_desk_agent_value"] == "1" ? true : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : null)) 
+        // {
+            
+        // }
+        // else {
+        //     obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+        //     obj.setState({ editablerecord: null });
+        //     obj.props.context.parameters.sampleDataSet.refresh();
+        // }
+
+
     }
     onCancelClick(){
         this.setState({editablerecord: null});
