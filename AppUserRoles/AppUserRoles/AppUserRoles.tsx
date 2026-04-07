@@ -261,18 +261,25 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         if(appuserroleupdate && personupdate){
             var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){return resp;},function(err){});
             if(currentuserrecord == null) throw new Error("Unable to fetch current user record");
+            
             var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("cr549_person", `?$filter=cr549_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=cr549_id`).then(function(resp){
                 return resp.entities.length > 0 ? resp.entities[0] : null;
             },function(err){
                 return null;
             });
+
             if(currentpersonrecord == null) throw new Error("Unable to fetch current person record");
+            var rolerecord = await this.props.context.webAPI.retrieveRecord("cr549_role", roleid,"?$select=cr549_id").then(function(resp){return resp;}, function(err){return null;});
+            if(rolerecord == null) throw new Error("Unable to fetch role record");
 
             obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
                 "cr549_pers_change_type": "updated",
                 "cr549_pers_update_method": "manual",
                 "cr549_pers_updated_by": currentpersonrecord["cr549_id"],
                 "cr549_pers_updated_date": new Date(),
+                "cr549_pers_id_crmdb@odata.bind": `/cr549_persons(${personid})`,
+                "cr549_role_id": rolerecord["cr549_id"],
+                "cr549_short_app_name@odata.bind": `/cr549_applications(${(obj.props.context as any).page.entityId})`
             }).then(function(resp){
                 obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
                 obj.setState({ editablerecord: null });
