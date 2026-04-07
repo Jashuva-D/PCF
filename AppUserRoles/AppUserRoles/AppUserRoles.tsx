@@ -432,7 +432,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         })
                         if(!deleteResult) return;
                         else return obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
-                            "cr549_pers_change_type": "deleted",
+                            "cr549_pers_change_type": "removed",
                             "cr549_pers_update_method": "manual",
                             "cr549_pers_updated_by": currentpersonrecord == null ? null : currentpersonrecord["cr549_id"],
                             "cr549_pers_updated_date": new Date(),
