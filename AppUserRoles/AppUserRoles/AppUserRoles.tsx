@@ -570,7 +570,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                             />
                             <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#0D2499", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -581,7 +581,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                         lineHeight: 36,
                                     },
                                 }}
-                                disabled={this.state.selectedrecordids.length === 0}
+                                disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
                             />
                         </Stack>
                     </Stack>
