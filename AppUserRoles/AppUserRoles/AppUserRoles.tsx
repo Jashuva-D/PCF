@@ -379,12 +379,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
 
             if (newappuserrole != null) {
                 var appuserrolerecord = await this.props.context.webAPI.retrieveRecord("cr549_appuserrole", newappuserrole!, "?$select=cr549_id,_cr549_role_value,_cr549_person_value").then(function (resp) { return resp; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
-                // var personrecord = await this.props.context.webAPI.retrieveRecord("cr549_person", appuserrolerecord["cr549_person"]?.id.guid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){ return resp;}, function(err){ throw new Error(`error occured while fetching the record, details: ${err?.message}`)});
                 var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser", this.props.context.userSettings.userId, "?$select=internalemailaddress").then(function (resp) { return resp; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
                 var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("cr549_person", `?$filter=cr549_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=cr549_id`).then(function (resp) { return resp.entities.length > 0 ? resp.entities[0] : null; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`); });
                 var rolerecord = await this.props.context.webAPI.retrieveRecord("cr549_role", appuserrolerecord["_cr549_role_value"], "?$select=cr549_id").then(function (resp) { return resp; }, function (err) { return null; });
 
-                obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
+                await obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
                     "cr549_pers_change_type": "added",
                     "cr549_pers_update_method": "manual",
                     "cr549_pers_updated_by": currentpersonrecord == null ? null : currentpersonrecord["cr549_id"],
@@ -393,7 +392,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     "cr549_role_id": rolerecord == null ? null : rolerecord["cr549_id"],
                     "cr549_short_app_name@odata.bind": `/cr549_applications(${(obj.props.context as any).page.entityId})`
                 }).then(function (resp) {
-                    obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+                    obj.showAlertMessage(CMSAlertType.Success, "Record created successfully");
                     obj.setState({ editablerecord: null });
                     obj.props.context.parameters.sampleDataSet.refresh();
                 }, function (err) {
@@ -419,15 +418,39 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 obj.setState({ showDialog: false });
                 //var selectedrecords = this._selection.getSelection().map(x => x.key as string);
                 var selectedrecords = obj.state.selectedrecordids;
-                Promise.all(selectedrecords.map(x => {
-                    return obj.props.context.webAPI.deleteRecord("cr549_appuserrole",x).then(function(resp){
-                        return true
-                    },function(err){
-                        return obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
-                    })
+                Promise.all(selectedrecords.map(async x => {
+                    try {
+                        var appuserrolerecord = await this.props.context.webAPI.retrieveRecord("cr549_appuserrole", x, "?$select=cr549_id,_cr549_role_value,_cr549_person_value").then(function (resp) { return resp; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
+                        var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser", this.props.context.userSettings.userId, "?$select=internalemailaddress").then(function (resp) { return resp; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
+                        var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("cr549_person", `?$filter=cr549_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=cr549_id`).then(function (resp) { return resp.entities.length > 0 ? resp.entities[0] : null; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`); });
+                        var rolerecord = await this.props.context.webAPI.retrieveRecord("cr549_role", appuserrolerecord["_cr549_role_value"], "?$select=cr549_id").then(function (resp) { return resp; }, function (err) { return null; });
+
+                        var deleteResult = await obj.props.context.webAPI.deleteRecord("cr549_appuserrole", x).then(function (resp) {
+                            return true
+                        }, function (err) {
+                            return obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record, details: ${err?.message}`);
+                        })
+                        if(!deleteResult) return;
+                        else return obj.props.context.webAPI.createRecord("cr549_personupdatexwalk", {
+                            "cr549_pers_change_type": "deleted",
+                            "cr549_pers_update_method": "manual",
+                            "cr549_pers_updated_by": currentpersonrecord == null ? null : currentpersonrecord["cr549_id"],
+                            "cr549_pers_updated_date": new Date(),
+                            "cr549_pers_id_crmdb@odata.bind": `/cr549_persons(${appuserrolerecord["_cr549_person_value"]})`,
+                            "cr549_role_id": rolerecord == null ? null : rolerecord["cr549_id"],
+                            "cr549_short_app_name@odata.bind": `/cr549_applications(${(obj.props.context as any).page.entityId})`
+                        }).then(function (resp) {
+                            return true;
+                        }, function (err) {
+                            throw new Error(`Error in updating record: ${err.message}`);
+                        });
+                    } catch (err) {
+                        obj.showAlertMessage(CMSAlertType.Error, `error occured while deleting the record with id ${x}, details: ${err instanceof Error ? err.message : String(err)}`);
+                        return false;
+                    }
                 })).then(() => {
                     obj.props.context.parameters.sampleDataSet.refresh();
-                    obj.showAlertMessage(CMSAlertType.Success,"Record deleted successfully");
+                    obj.showAlertMessage(CMSAlertType.Success,"Record(s) deletion completed successfully");
                 });
             },
             dialogCancelCallback: () => {
