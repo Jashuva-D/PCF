@@ -143,6 +143,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     }
                 } as IColumn);
         });
+        var haseditrole = (window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().some((r: any) => r.name == "Manager" || r.name == "Hosting Coordinator" || r.name == "Financial Operations (Funding)" || r.name == "System Administrator");
         let customcolumn = {
             key: "customcolumn",
             minWidth: 35,
@@ -153,7 +154,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     return <Stack horizontal tokens={{childrenGap: 15}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
-                    return <div><Icon iconName="Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={this.state.editablerecord != null ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: this.state.editablerecord == null ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
+                    return <div><Icon iconName="Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
                 }
             }
         } as IColumn;
@@ -288,26 +289,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
             });
         }
-
-        // var personrecord = await this.props.context.webAPI.retrieveRecord("cr549_person", personid,"?$select=cr549_id,cr549_direct_phone,cr549_email_address,cr549_email_address_2,cr549_service_desk_agent").then(function(resp){
-        //     return resp;
-        // }, function(err){return null;});
-        // if (personrecord == null) return;
-
-        // if (personrecord["cr549_direct_phone"] != this.state.editablerecord["person_cr549_direct_phone"] ||
-        //     personrecord["cr549_email_address"] != this.state.editablerecord["person_cr549_email_address"] ||
-        //     personrecord["cr549_email_address_2"] != this.state.editablerecord["person_cr549_email_address_2"] ||
-        //     personrecord["cr549_service_desk_agent"] != (this.state.editablerecord["person_cr549_service_desk_agent_value"] == "1" ? true : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : null)) 
-        // {
-            
-        // }
-        // else {
-        //     obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
-        //     obj.setState({ editablerecord: null });
-        //     obj.props.context.parameters.sampleDataSet.refresh();
-        // }
-
-
     }
     onCancelClick(){
         this.setState({editablerecord: null});
@@ -360,6 +341,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             items.push(item);
         });
         this.setState({items: items});
+
+        var roles =(window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get();
+        
     }
     async onNewAppUserRole(){
         var obj = this;
@@ -512,6 +496,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     render(): React.ReactNode {
         var items = this.state.filterApplied ? this.state.fitlteredrecords : this.state.items;
+        var haseditrole = (window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().some((r: any) => r.name == "Manager" || r.name == "Hosting Coordinator" || r.name == "Financial Operations (Funding)" || r.name == "System Administrator");
 
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
@@ -558,7 +543,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         </StackItem>
                         <Stack horizontal tokens={{childrenGap: 10}} >
                             <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={this.onNewAppUserRole.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%", whiteSpace: "nowrap" }}
+                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#0D2499" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -569,6 +554,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                         lineHeight: 36,
                                     },
                                 }}
+                                disabled={!haseditrole}
                             />
                             <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
