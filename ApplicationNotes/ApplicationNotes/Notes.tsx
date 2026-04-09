@@ -252,7 +252,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                     },
                                                 }} />
                                         </StackItem>
-                                        <StackItem>
+                                        {/* <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
                                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
                                                 styles={ { 
@@ -266,7 +266,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                     },
                                                 }}
                                             />
-                                        </StackItem>
+                                        </StackItem> */}
                                     </Stack>
                                 </StackItem>
                             </Stack>
