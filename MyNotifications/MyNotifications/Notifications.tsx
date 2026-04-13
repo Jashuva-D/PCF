@@ -43,8 +43,27 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         //         notifications: recs
         //     })
         // }) 
+        
+        var today = new Date();
+        today.setHours(0,0,0,0);
 
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification","?$filter=statecode eq 0").then(function(resp){
+        
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))`).then(
+            function success(results) {
+                console.log(results);
+                for (var i = 0; i < results.entities.length; i++) {
+                    var result = results.entities[i];
+                    // Columns
+                    var cr549_notificationid = result["cr549_notificationid"]; // Guid
+                }
+            },
+            function(error) {
+                console.log(error.message);
+            }
+        );
+                    
+                    
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification","?$filter=statecode eq 0 ").then(function(resp){
             var recs : NotificationModel[] = []
             resp.entities.forEach(x => {
                 recs.push({
@@ -150,7 +169,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                                <Text>{`Expiry Date: ${notification.expirationdate} 11:59 PM`}</Text>
+                                <Text>{`Expiry Date: ${notification.expirationdate ?? "N/A"} ${notification.expirationdate != null ? "11:59 PM" : ""}`}</Text>
                                 {/* <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} /> */}
                             </Stack>
                         </Stack>
