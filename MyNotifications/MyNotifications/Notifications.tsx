@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes"
 import { NotificationModel } from "./Models";
-import { Stack, StackItem, Icon, Text, initializeIcons} from "@fluentui/react";
+import { Stack, StackItem, Icon, Text, initializeIcons, Label} from "@fluentui/react";
 import { NotificationType } from "./constants";
 import Timer from "./Timer";
 
@@ -26,23 +26,43 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
     componentDidMount(): void {
         var obj = this;
         var currentuserid = this.props.context.userSettings.userId;
-        this.props.context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
+        // this.props.context.webAPI.retrieveMultipleRecords("appnotification",`?$filter=_ownerid_value eq '${currentuserid}'`).then(function(resp){
+        //     var recs : NotificationModel[] = []
+        //     resp.entities.forEach(x => {
+        //         recs.push({
+        //             icontype: x.icontype,
+        //             title: x.title,
+        //             body: x.body,
+        //             createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
+        //             createdon_value: x.createdon,
+        //             priority: x.priority,
+        //             ttlinseconds: x.ttlinseconds
+        //         })
+        //     })
+        //     obj.setState({
+        //         notifications: recs
+        //     })
+        // }) 
+
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification","?$filter=statecode eq 0").then(function(resp){
             var recs : NotificationModel[] = []
             resp.entities.forEach(x => {
                 recs.push({
-                    icontype: x.icontype,
-                    title: x.title,
-                    body: x.body,
+                    icontype: x.cr549_type,
+                    title: x.cr549_name,
+                    body: x.cr549_description,
                     createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
                     createdon_value: x.createdon,
-                    priority: x.priority,
-                    ttlinseconds: x.ttlinseconds
+                    expirationdate: x["cr549_expirationdate@OData.Community.Display.V1.FormattedValue"],
+                    expirationdate_value: x.cr549_expirationdate,
+                    priority: x.cr549_priority,
+                    ttlinseconds: null
                 })
             })
             obj.setState({
                 notifications: recs
             })
-        }) 
+        })
     }
 
     GetNotificationIcon(notificationType: number): string {
@@ -113,13 +133,13 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <div style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px", height: "25px", borderRadius: 4, background: this.GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    {notification.title ?? ""}
-                                    {/* {notification.icontype === NotificationType.Info && "Information"} 
-                                             {notification.icontype === NotificationType.Warning && "Warning"} 
+                                     {"Information"}
+                                     {/*{notification.icontype === NotificationType.Info && "Information"} 
+                                              {notification.icontype === NotificationType.Warning && "Warning"} 
                                             {notification.icontype === NotificationType.Failure && "Failure"} 
                                             {notification.icontype === NotificationType.Mention && "Mention"}
                                             {notification.icontype === NotificationType.Custom && "Custom"} 
-                                            {notification.icontype === NotificationType.Success && "Success"}  */}
+                                            {notification.icontype === NotificationType.Success && "Success"}   */}
                                 </div>
                                 {/* <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetPriorityColor(notification.priority!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                                 {notification.priority === NotificationPriority.High && "High"} 
@@ -130,11 +150,11 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                                <Text>{notification.createdon}</Text>
-                                <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} />
+                                <Text>{`Expiry Date: ${notification.expirationdate} 11:59 PM`}</Text>
+                                {/* <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} /> */}
                             </Stack>
                         </Stack>
-                        {/* <Label style={{color: "black"}}>{notification.title}</Label> */}
+                        <Label style={{color: "black"}}>{notification.title}</Label> 
                         {/* <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
                                     {notification.title}
                                 </Text> */}

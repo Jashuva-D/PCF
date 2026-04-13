@@ -6,4 +6,6 @@ export interface NotificationModel {
     icontype : number | null;
     createdon_value : Date ;
     ttlinseconds: number | null;
+    expirationdate?: string | null;
+    expirationdate_value?: Date | null;
 }
