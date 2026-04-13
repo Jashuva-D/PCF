@@ -48,7 +48,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         today.setHours(0,0,0,0);
 
         
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon`).then(
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon desc`).then(
             function success(resp) {
                 var recs : NotificationModel[] = []
                 resp.entities.forEach(x => {
@@ -66,7 +66,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 })
                 obj.setState({
                     notifications: recs
-                })
+                });
             },
             function(error) {
                 console.log(error.message);
