@@ -49,13 +49,24 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
         
         this.props.context.webAPI.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))`).then(
-            function success(results) {
-                console.log(results);
-                for (var i = 0; i < results.entities.length; i++) {
-                    var result = results.entities[i];
-                    // Columns
-                    var cr549_notificationid = result["cr549_notificationid"]; // Guid
-                }
+            function success(resp) {
+                var recs : NotificationModel[] = []
+                resp.entities.forEach(x => {
+                    recs.push({
+                        icontype: x.cr549_type,
+                        title: x.cr549_name,
+                        body: x.cr549_description,
+                        createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
+                        createdon_value: x.createdon,
+                        expirationdate: x["cr549_expirationdate@OData.Community.Display.V1.FormattedValue"],
+                        expirationdate_value: x.cr549_expirationdate,
+                        priority: x.cr549_priority,
+                        ttlinseconds: null
+                    })
+                })
+                obj.setState({
+                    notifications: recs
+                })
             },
             function(error) {
                 console.log(error.message);
@@ -63,25 +74,25 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         );
                     
                     
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_notification","?$filter=statecode eq 0 ").then(function(resp){
-            var recs : NotificationModel[] = []
-            resp.entities.forEach(x => {
-                recs.push({
-                    icontype: x.cr549_type,
-                    title: x.cr549_name,
-                    body: x.cr549_description,
-                    createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
-                    createdon_value: x.createdon,
-                    expirationdate: x["cr549_expirationdate@OData.Community.Display.V1.FormattedValue"],
-                    expirationdate_value: x.cr549_expirationdate,
-                    priority: x.cr549_priority,
-                    ttlinseconds: null
-                })
-            })
-            obj.setState({
-                notifications: recs
-            })
-        })
+        // this.props.context.webAPI.retrieveMultipleRecords("cr549_notification","?$filter=statecode eq 0 ").then(function(resp){
+        //     var recs : NotificationModel[] = []
+        //     resp.entities.forEach(x => {
+        //         recs.push({
+        //             icontype: x.cr549_type,
+        //             title: x.cr549_name,
+        //             body: x.cr549_description,
+        //             createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
+        //             createdon_value: x.createdon,
+        //             expirationdate: x["cr549_expirationdate@OData.Community.Display.V1.FormattedValue"],
+        //             expirationdate_value: x.cr549_expirationdate,
+        //             priority: x.cr549_priority,
+        //             ttlinseconds: null
+        //         })
+        //     })
+        //     obj.setState({
+        //         notifications: recs
+        //     })
+        // })
     }
 
     GetNotificationIcon(notificationType: number): string {
