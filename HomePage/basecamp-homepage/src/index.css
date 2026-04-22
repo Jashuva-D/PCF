@@ -1,0 +1,23 @@
+.myapplications .ms-DetailsHeader {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+.myapplications .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.myapplications .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+}
+ .myapplications .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.myapplications .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}
