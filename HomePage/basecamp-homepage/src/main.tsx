@@ -8,6 +8,13 @@ async function renderHomePage() {
   if (!sessionStorage.getItem("landingRedirectDone")) {
     sessionStorage.setItem("landingRedirectDone", "true");
     var roles = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get();
+    if(roles.some((x: any) => x.name == "System Administrator")) {
+       createRoot(document.getElementById('root')!).render(
+        <StrictMode>
+          <HomePage />
+        </StrictMode>,
+      )
+    }
     if (roles.some((x: any) => x.name == "Manager")) {
       var dashboardid = "";
       dashboardid = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_managerdefaultdashboardid'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result : any) {
@@ -28,7 +35,7 @@ async function renderHomePage() {
       console.log("Dashboardid Retrieved: ", dashboardid);
       (parent as any).Xrm.Navigation.navigateTo({ pageType: "dashboard", dashboardid: dashboardid });
     }
-    else if (roles.some((x: any) => x.name == "Financial Operations (Funding)" || x.name == "System Administrator" || x.name == "Hosting Coordinator" || x.name == "Financial Analyst" || x.name == "Technical Advisor")) {
+    else if (roles.some((x: any) => x.name == "Financial Operations (Funding)" || x.name == "Hosting Coordinator" || x.name == "Financial Analyst" || x.name == "Technical Advisor")) {
       createRoot(document.getElementById('root')!).render(
         <StrictMode>
           <HomePage />
