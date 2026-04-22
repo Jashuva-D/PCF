@@ -24,6 +24,8 @@ async function renderHomePage() {
         }
         return null;
       });
+      debugger;
+      console.log("Dashboardid Retrieved: ", dashboardid);
       (parent as any).Xrm.Navigation.navigateTo({ pageType: "dashboard", dashboardid: dashboardid });
     }
     else if (roles.some((x: any) => x.name == "Financial Operations (Funding)" || x.name == "System Administrator" || x.name == "Hosting Coordinator" || x.name == "Financial Analyst" || x.name == "Technical Advisor")) {
