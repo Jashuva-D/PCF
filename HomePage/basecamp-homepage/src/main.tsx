@@ -15,7 +15,7 @@ async function renderHomePage() {
         </StrictMode>,
       )
     }
-    if (roles.some((x: any) => x.name == "Manager")) {
+    else if (roles.some((x: any) => x.name == "Manager")) {
       var dashboardid = "";
       dashboardid = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_managerdefaultdashboardid'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result : any) {
         if (result.entities.length > 0) {
