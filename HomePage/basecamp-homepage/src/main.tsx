@@ -31,7 +31,6 @@ async function renderHomePage() {
         }
         return null;
       });
-      debugger;
       console.log("Dashboardid Retrieved: ", dashboardid);
       (parent as any).Xrm.Navigation.navigateTo({ pageType: "dashboard", dashboardid: dashboardid });
     }
