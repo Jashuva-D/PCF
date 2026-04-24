@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 import HomePage from './HomePage.tsx'
+import ReleaseBanner from './ReleaseBanner.tsx';
 
 async function renderHomePage() {
 
@@ -15,7 +16,7 @@ async function renderHomePage() {
         parent.window.location.replace(url.toString());
     }
     createRoot(document.getElementById('root')!).render(
-          <div>Hello, This app is not yet availabe to use, will be coming very soon.</div>
+          <ReleaseBanner></ReleaseBanner>
     )
   }
   else {

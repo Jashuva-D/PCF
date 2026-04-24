@@ -2,24 +2,17 @@ import { Component } from "react";
 // import type { IStackStyles } from "@fluentui/react";
 import { Stack } from "@fluentui/react";
 
-interface BaseCampLogoProps {}
-class BaseCampLogo extends Component<BaseCampLogoProps> {
+interface ReleaseBannerProps {}
+class ReleaseBanner extends Component<ReleaseBannerProps> {
   render() {
-    // const stackStyles: IStackStyles = {
-    //   root: {
-    //     width: "100%",
-    //     alignItems: "center",
-    //     backgroundColor: "#AFCBE3",
-    //   },
-    // };
 
     return <Stack verticalAlign="center" horizontalAlign="center" horizontal styles={{root: {backgroundColor: "#AFCBE3",}}}>
         <img
-            src="./basecamplogo.png"
+            src="./releasebanner.png"
             alt="logo"
             style={{
-              width: "100px",
-              height: "100px",
+              width: "100%",
+              height: "100%",
               objectFit: "contain",
             }}
           />
@@ -30,4 +23,4 @@ class BaseCampLogo extends Component<BaseCampLogoProps> {
   }
 }
 
-export default BaseCampLogo;
+export default ReleaseBanner;
