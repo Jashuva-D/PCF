@@ -6,7 +6,7 @@ interface ReleaseBannerProps {}
 class ReleaseBanner extends Component<ReleaseBannerProps> {
   render() {
 
-    return <Stack verticalAlign="center" horizontalAlign="center" horizontal styles={{root: {backgroundColor: "#AFCBE3",}}}>
+    return <Stack verticalAlign="center" horizontalAlign="center" horizontal>
         <img
             src="./releasebanner.png"
             alt="logo"
