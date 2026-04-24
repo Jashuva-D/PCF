@@ -16,9 +16,6 @@ class ReleaseBanner extends Component<ReleaseBannerProps> {
               objectFit: "contain",
             }}
           />
-          <div style={{maxWidth: "600px", textAlign: "left", fontSize: 14, fontFamily: "Segoe UI", color: "#0D2499"}}>
-            Your centralized platform for managing applications, processes, reporting, and communication while connecting teams, data, and workflows in one seamless modern experience.
-          </div>
     </Stack>
   }
 }
