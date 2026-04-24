@@ -7,6 +7,7 @@ import HomePage from './HomePage.tsx'
 async function renderHomePage() {
 
   var username = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userName;
+  console.log("Current User: ", username);
   if (username == "Anuradha Inampudi") {
     const url = new URL(parent.window.location.href);
     if (!url.searchParams.has("navbar")) {
