@@ -11,8 +11,8 @@ class ReleaseBanner extends Component<ReleaseBannerProps> {
             src="./releasebanner.png"
             alt="logo"
             style={{
-              width: "100%",
-              height: "100%",
+              width: "80%",
+              height: "80%",
               objectFit: "contain",
             }}
           />
