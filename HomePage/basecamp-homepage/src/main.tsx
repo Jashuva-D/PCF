@@ -7,7 +7,7 @@ import ReleaseBanner from './ReleaseBanner.tsx';
 
 async function renderHomePage() {
 
-  var showreleasebanner = false;
+  var showreleasebanner = "no";
   showreleasebanner = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_showreleasebanner'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
     if (result.entities.length > 0) {
       let record = result.entities[0];
@@ -22,7 +22,7 @@ async function renderHomePage() {
     }
     return null;
   });
-  if (showreleasebanner) {
+  if (showreleasebanner == "yes") {
     const url = new URL(parent.window.location.href);
     if (!url.searchParams.has("navbar")) {
         url.searchParams.set("navbar", "off");
