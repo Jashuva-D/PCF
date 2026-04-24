@@ -7,9 +7,22 @@ import ReleaseBanner from './ReleaseBanner.tsx';
 
 async function renderHomePage() {
 
-  var username = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userName;
-  console.log("Current User: ", username);
-  if (username == "Anuradha Inampudi") {
+  var showreleasebanner = false;
+  showreleasebanner = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_showreleasebanner'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
+    if (result.entities.length > 0) {
+      let record = result.entities[0];
+      if (
+        record.environmentvariabledefinition_environmentvariablevalue &&
+        record.environmentvariabledefinition_environmentvariablevalue.length > 0 &&
+        record.environmentvariabledefinition_environmentvariablevalue[0].value
+      ) {
+        return record.environmentvariabledefinition_environmentvariablevalue[0].value;
+      }
+      return record.defaultvalue;
+    }
+    return null;
+  });
+  if (showreleasebanner) {
     const url = new URL(parent.window.location.href);
     if (!url.searchParams.has("navbar")) {
         url.searchParams.set("navbar", "off");
