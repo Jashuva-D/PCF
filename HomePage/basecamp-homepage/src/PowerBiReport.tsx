@@ -8,7 +8,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
   constructor(props: PowerBIReportProps) {
     super(props);
     this.state = {
-      embedUrl: "https://app.powerbigov.us/reportEmbed?reportId=0c535aed-3343-4710-8416-75dc1aab2bac&autoAuth=true&ctid=fbdcedc1-70a9-414b-bfa5-c3063fc3395e"
+      embedUrl: "",//"https://app.powerbigov.us/reportEmbed?reportId=0c535aed-3343-4710-8416-75dc1aab2bac&autoAuth=true&ctid=fbdcedc1-70a9-414b-bfa5-c3063fc3395e"
     };
   }
 
