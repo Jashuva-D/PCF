@@ -151,10 +151,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                    return <Stack horizontal tokens={{childrenGap: 15}}><Icon iconName="Save" title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <Icon iconName="Cancel" title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
+                    return <Stack horizontal tokens={{childrenGap: 15}}><IconButton iconProps={{ iconName: "Save" }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel" }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
-                    return <div><Icon iconName="Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
+                    return <div><IconButton iconProps={{ iconName: "Edit" }} title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
                 }
             }
         } as IColumn;
