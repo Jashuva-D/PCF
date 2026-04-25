@@ -69,7 +69,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     this.icons["collapse"] = this.collapse;
   }
   
-
   modules = {
     toolbar: {
       container: [
@@ -87,28 +86,30 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       ],
       handlers: {
         expand: () => {
-          // const root = document.querySelector(".ql-container")!.parentElement!;
-          // if (root.classList.contains("quill-fullscreen")) {
-          //   //root.classList.remove("quill-fullscreen");
-          // } else {
-          //   //root.classList.add("quill-fullscreen");
-          //   root.classList.add("fullscreen-container");
-          // }
           this.setState({expand: true});
         },
         collapse: () => {
-          // const root = document.querySelector(".ql-container")!.parentElement!;
-          // if (root.classList.contains("fullscreen-container")) {
-          //   //root.classList.remove("quill-fullscreen");
-          //   root.classList.remove("fullscreen-container");
-          // } else {
-          //   //root.classList.add("quill-fullscreen");
-          // }
           this.setState({expand: false})
         }
       }
-
-    }
+    },
+    keyboard: {
+      bindings: {
+        tab: {
+          key: 9,
+          handler: function () {
+            return true; 
+          }
+        },
+        escape: {
+          key: 27,
+          handler: function () {
+            (document.activeElement as HTMLElement)?.blur(); 
+            return false;
+          }
+        }
+      }
+  }
   };
 
   formats : any = [
