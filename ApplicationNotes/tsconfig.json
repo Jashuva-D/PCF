@@ -1,6 +1,16 @@
 {
     "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
     "compilerOptions": {
-        "typeRoots": ["node_modules/@types"]
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "types": [
+            "powerapps-component-framework","react","react-dom","node"
+        ],
+        "moduleResolution": "node",
+        "ignoreDeprecations": "6.0",
+        "jsx": "react",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true
     }
 }

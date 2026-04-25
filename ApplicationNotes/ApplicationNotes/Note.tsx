@@ -3,8 +3,7 @@ import * as ReactDOM from "react-dom";
 import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar, Persona, PersonaSize } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import {ActivityStateCode, CMSAlertType, Interactiontypes} from "./Constants";
-import { create } from "domain";
+import { CMSAlertType, Interactiontypes} from "./Constants";
 import CMSDialog from "./CMSDialog";
 import StatusChangeDialogue from "./StatusChangeDialogue";
 

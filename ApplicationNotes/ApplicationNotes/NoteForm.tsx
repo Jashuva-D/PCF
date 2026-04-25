@@ -7,8 +7,6 @@ import { CMSAlertType, Interactiontypes } from "./Constants";
 import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
 import CMSSpinner from "./CMSSpinner";
-import { title } from "process";
-import { PopupPortal } from "./PopupPortal";
 import * as ReactDOM from "react-dom";
 import { JSX } from "react";
 
