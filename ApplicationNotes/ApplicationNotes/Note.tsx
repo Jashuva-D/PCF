@@ -179,10 +179,10 @@ class Note extends React.Component<NoteProps,NoteState> {
         const backgroundColor = editmode ?  "#ffffff" : "#ffffff";
 
         var buttons = [
-            {key: `${this.props.recordid}_edit`, text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10}, 
+            {key: `${this.props.recordid}_edit`, text: "Edit", ariaLabel: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10}, 
             { 
                 key: `${this.props.recordid}_delete`, 
-                text: "Delete", iconOnly:true, 
+                text: "Delete", ariaLabel: "Delete", iconOnly:true, 
                 iconProps:{iconName: "Delete"}, 
                 buttonStyles: {icon: { fontSize: 15 }}, 
                 onClick: () => {
@@ -202,10 +202,10 @@ class Note extends React.Component<NoteProps,NoteState> {
 
         var overflowbuttons = [] as ICommandBarItemProps[];
         if(!this.state.displayDetails)
-            overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
-        //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
+            overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", ariaLabel: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", ariaLabel: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", ariaLabel: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
+        //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", ariaLabel: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
@@ -240,7 +240,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                                             menuIconProps: {
                                                 iconName: "MoreVertical",
                                                 style: { fontSize: 15   }
-                                            }
+                                            },
+                                            ariaLabel: "More Options",
                                         }}
                                     />
                                 </Stack>
