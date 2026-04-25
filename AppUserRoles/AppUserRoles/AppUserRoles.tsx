@@ -151,12 +151,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         var haseditrole = (window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().some((r: any) => r.name == "Manager" || r.name == "Hosting Coordinator" || r.name == "Financial Operations (Funding)" || r.name == "System Administrator");
         let customcolumn = {
             key: "customcolumn",
-            minWidth: 40,
+            minWidth: 45,
             maxWidth: 50,
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                    return <Stack horizontal tokens={{childrenGap: 8}}><IconButton iconProps={{ iconName: "Save", style: { fontSize: 20 } }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel", style: { fontSize: 20 } }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
+                    return <Stack horizontal tokens={{childrenGap: 5}}><IconButton iconProps={{ iconName: "Save", style: { fontSize: 20 } }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel", style: { fontSize: 20 } }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
                     return <div><IconButton iconProps={{ iconName: "Edit", style: { fontSize: 15 } }} title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{fontSize: 15, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/></div>
