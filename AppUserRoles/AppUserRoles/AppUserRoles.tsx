@@ -114,8 +114,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                             }
                             else {
                                 return <TextField key={columnname} 
-                                    aria-label={c.displayName}
-                                    //aria-labelledby={c.displayName}
+                                    ariaLabel={c.displayName}
                                     defaultValue={this.state.editablerecord[columnname] ?? ""} 
                                     value={this.state.editablerecord[columnname] ?? ""} 
                                     onChange={(e, val) => this.onFieldChange(columnname, val)}
