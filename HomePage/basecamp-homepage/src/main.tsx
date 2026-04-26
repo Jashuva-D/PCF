@@ -7,6 +7,7 @@ import ReleaseBanner from './ReleaseBanner.tsx';
 
 async function renderHomePage() {
 
+  
   var showreleasebanner = "no";
   showreleasebanner = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_showreleasebanner'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
     if (result.entities.length > 0) {
@@ -22,7 +23,10 @@ async function renderHomePage() {
     }
     return null;
   });
-  if (showreleasebanner == "yes") {
+  
+  var roles = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get();
+
+  if(showreleasebanner == "yes" && !(roles.some((x: any) => x.name == "System Administrator"))) {
     const url = new URL(parent.window.location.href);
     if (!url.searchParams.has("navbar")) {
         url.searchParams.set("navbar", "off");
