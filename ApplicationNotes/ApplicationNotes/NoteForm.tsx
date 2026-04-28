@@ -171,7 +171,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     if (this.props.recordid && this.props.recordid !== "") {
       const record = {
         cr549_comment: this.state.comment,
-        cr549_actionitems: this.state.actionitems,
+        cr549_actionitem: this.state.actionitems,
         subject: this.state.topic,
         cr549_topicowner: this.state.topicowner,
         cr549_interactiontype: this.state.interactiontype,
