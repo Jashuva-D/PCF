@@ -3,14 +3,16 @@ import * as ReactDOM from "react-dom";
 import { Stack, StackItem, Label, Icon, Text,Link, DocumentCardActivity, TextField, PrimaryButton, DefaultButton, MessageBarType, ICommandBarItemProps, CommandBarButton, CommandBar, Persona, PersonaSize } from "@fluentui/react";
 import Comment from "./Comment";
 import NoteForm from "./NoteForm";
-import { CMSAlertType, Interactiontypes} from "./Constants";
+import { CMSAlertType, Interactiontypes, NoteTabs} from "./Constants";
 import CMSDialog from "./CMSDialog";
 import StatusChangeDialogue from "./StatusChangeDialogue";
+import DetailsTab from "./DetailsTab";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
     recordid?: string,
     comment?: string,
+    actionitems?: string,
     createdon: Date,
     createdby: string,
     createdbyid?: string,
@@ -32,6 +34,7 @@ interface NoteProps {
 interface NoteState {
     editmode : boolean,
     content? : string,
+    actionitems? : string,
     topic? : string,
     topicowner? : string,
     displayDetails? : boolean,
@@ -50,6 +53,7 @@ interface NoteState {
     dialogConfirmCallback?: () => void,
     dialogCancelCallback?: () => void,
     dialogDismissCallback?: () => void,
+    currenttab: NoteTabs
 }
 
 class Note extends React.Component<NoteProps,NoteState> {
@@ -58,34 +62,16 @@ class Note extends React.Component<NoteProps,NoteState> {
         this.state = {
             editmode : false,
             content : props.comment,
+            actionitems : props.actionitems,
             displayDetails : false,
             confluencepageid : props.confluencepageid,
             confluencespace : props.confluencespace,
             confluencepagetitle : props.confluencepagetitle,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
+            currenttab: NoteTabs.Details
         }
     }
-    // componentDidUpdate(prevProps: Readonly<NoteProps>, prevState: Readonly<NoteState>, snapshot?: any): void {
-    //     if(prevProps.comment != this.props.comment ||
-    //         prevProps.recordid != this.props.recordid ||
-    //         prevProps.comment != this.props.comment ||
-    //         prevProps.modifiedon != this.props.modifiedon || 
-    //         prevProps.modifiedby != this.props.modifiedby ||
-    //         prevProps.topicowner != this.props.topicowner ||
-    //         prevProps.topic != this.props.topic || 
-    //         prevProps.statecode != this.props.statecode ||
-    //         prevProps.interactiontype != this.props.interactiontype ||
-    //         prevProps.submittoconfluence != this.props.submittoconfluence ||
-    //         prevProps.confluencepageid != this.props.submittoconfluence ||
-    //         prevProps.confluencespace != this.props.confluencespace ||
-    //         prevProps.confluencepagetitle != this.props.confluencepagetitle
-    //     ) {
-    //         this.setState({
-
-    //         })
-    //     }
-    // }
     onEditClick(){
         this.setState({
             editmode : true,
@@ -212,9 +198,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                         <Stack horizontal horizontalAlign="space-between">
                             <StackItem style={{paddingLeft: 5}}  >
                                 <Stack tokens={{childrenGap: 10}}>
-                                    {/* <div  style={{ width: "100px", alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#8661C5" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#107C10", fontWeight: 600, color: "white"}}>
-                                        {ActivityStateCode[statecode]} 
-                                    </div> */}
                                     <Persona
                                         styles={{root: {paddingTop: 10}}}
                                         imageUrl={`/Image/download.aspx?Entity=systemuser&Attribute=entityimage&Id=${this.props.createdbyid}&Timestamp=${new Date().valueOf()}`}
@@ -222,11 +205,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         hidePersonaDetails={false}
                                         text={createdby}
                                         onRenderPrimaryText={() => <Label style={{color: "#808080"}}>{createdby}</Label>}
-                                        // onRenderPrimaryText={() => 
-                                        //     <div  style={{ alignContent: "start", padding: 4, borderRadius: 4, background: statecode == 0 ? "#107C10" : statecode == 1 ? "#6BB700" : statecode == 2 ? "#D13438" : "#8661C5", fontWeight: 600, color: "white"}}>
-                                        //         {ActivityStateCode[statecode]} 
-                                        //     </div>
-                                        // }
                                     />
                                 </Stack>
                             </StackItem>
@@ -248,134 +226,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.displayDetails && (<StackItem style={{marginTop: 20, marginLeft: 20, borderBottom: "2px solid #d1d1d1", paddingBottom: 10}}>
-                        <Stack horizontal tokens={{childrenGap: 100}}>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Posted By</Label>
-                                    <Text>{createdby ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Posted On</Label>
-                                    <Text>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Updated By</Label>
-                                    <Text>{modifiedby ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Updated On</Label>
-                                    <Text>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? "\u00A0"}</Text>
-                                </StackItem>
-                            </Stack>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Topic</Label>
-                                    <Text>{this.props.topic ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Topic Owner</Label>
-                                    <Text>{this.props.topicowner ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Interaction Type</Label>
-                                    <Text>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Submitted to Confluence</Label>
-                                    <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
-                                </StackItem>
-                            </Stack>
-                            <Stack tokens={{childrenGap: 10}}>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Page ID</Label>
-                                    <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Space</Label>
-                                    <Text>{this.props.confluencespace ?? "\u00A0"}</Text>
-                                </StackItem>
-                                <StackItem>
-                                    <Label style={{color: "#808080"}}>Confluence Page Title</Label>
-                                    <Text>{this.props.confluencepagetitle ?? "\u00A0"}</Text>
-                                </StackItem>
-                            </Stack>
-
-                            {/* <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
-                                <Stack horizontal tokens={{childrenGap : 10}}>
-                                    <table>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Posted By </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdby ?? ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Posted On </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{createdon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated By </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedby ?? ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Updated On </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{modifiedon?.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).replace(',', '') ?? ""}</span></td>
-                                        </tr>
-                                    </table>
-                                </Stack>
-                            </Stack>
-                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingRight: 50 } }}>
-                                <Stack horizontal tokens={{childrenGap : 10}}>
-                                    <table>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topic}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Topic Owner </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.topicowner ?? ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Interaction Type </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{interactiontype != null ? Interactiontypes.filter(x => x.key == interactiontype)[0].text : ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Submitted to Confluence </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.submittoconfluence ? "Yes" : "No"}</span></td>
-                                        </tr>
-                                    </table>
-                                </Stack>
-                            </Stack>
-                            <Stack tokens={{ childrenGap: 10, padding: 2 }} styles={{ root: { paddingBottom: 10 } }}>
-                                <Stack horizontal tokens={{childrenGap: 10}}>
-                                    <table>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Page ID </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding : 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepageid}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }}>Confluence Space </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencespace ?? ""}</span></td>
-                                        </tr>
-                                        <tr style={{padding: 5}}>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >Confluence Page Title </span></td>
-                                            <td style={{padding: 5}}><span style={{ color: "#0078D4", fontSize: 12, fontWeight: "bold" }} >:</span></td>
-                                            <td style={{padding: 5}}><span style={{ fontSize: 12 }}>{this.props.confluencepagetitle}</span></td>
-                                        </tr>
-                                    </table>
-                                </Stack>
-                            </Stack> */}
-                        </Stack>
-                    </StackItem>)}
                     {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
                             <Stack tokens={{childrenGap : 10}}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
@@ -394,39 +244,86 @@ class Note extends React.Component<NoteProps,NoteState> {
                                         style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
                                         onClick={() => {this.setState({enablesubmittoconfluence : false})}}
                                     />
-                                    {/* <PrimaryButton text="Submit" style={{borderRadius : 6}} styles={{rootHovered: { color: "black"}}} onClick={this.onSubmitToConfluence.bind(this)}/>
-                                    <DefaultButton text="Cancel" style={{borderRadius : 6, borderColor:"#D20103" , backgroundColor: "#D20103"}} styles={{root: {color : "white"}}} onClick={() => {this.setState({enablesubmittoconfluence : false})}}/> */}
                                 </Stack>
                             </Stack>
                         </StackItem>
                     }
-                     {/* <StackItem><hr style={{ border: 'none',  height: '2px', background: 'linear-gradient(to right, #f3f3f3, #e0e0e0, #f3f3f3)', borderRadius: '1px',  margin: '1px 0'}} /></StackItem> */}
-                    <StackItem style={{padding: 10}}>
-                        {this.state.editmode && <NoteForm
-                            context={this.props.context}
-                            recordid={this.props.recordid}
-                            cancelCallBack={this.editCancel.bind(this)}
-                            submitCallBack={this.editSubmit.bind(this)}
-                            content={ this.props.comment ?? ""}
-                            topic={this.props.topic}
-                            topicowner={this.props.topicowner}
-                            interactiontype={this.props.interactiontype}
-                            otherinteractiontype={this.props.otherinteractiontype}
-                            submittoconfluence={this.props.submittoconfluence}
-                            confluencepageid={this.props.confluencepageid}
-                            confluencepagetitle={this.props.confluencepagetitle}
-                            confluencespace={this.props.confluencespace}
-                            showalert={this.props.showalert}
-                        />}
-                        { !this.state.editmode && <>
-                            <Comment 
-                                context={this.props.context} 
-                                text={ this.props.comment ?? ""} 
-                                recordid={this.props.recordid} 
-                                editmode={editmode}
+                    {!this.state.editmode && 
+                        <><StackItem style={{paddingTop : 10}}>
+                            <DefaultButton 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Details ? "2px solid #0D2499" : "none"}} 
+                                onClick={() => this.setState({currenttab: NoteTabs.Details})}>
+                                    Details
+                            </DefaultButton>
+                            <DefaultButton 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"}} 
+                                onClick={() => this.setState({currenttab: NoteTabs.Comments})}>
+                                    Comments
+                            </DefaultButton>
+                            <DefaultButton 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"}} 
+                                onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
+                                    Action Items
+                            </DefaultButton>
+                        </StackItem>
+                        <StackItem style={{padding: 10}}>
+                            {this.state.currenttab === NoteTabs.Details && 
+                                <DetailsTab 
+                                    createdby={createdby}
+                                    createdon={createdon}
+                                    modifiedby={modifiedby}
+                                    modifiedon={modifiedon}
+                                    topic={this.props.topic}
+                                    topicowner={this.props.topicowner}
+                                    interactiontype={this.props.interactiontype}
+                                    interactiondescription={this.props.otherinteractiontype}
+                                    submittoconfluence={this.props.submittoconfluence}
+                                    confluencepageid={this.props.confluencepageid}
+                                    confluencespace={this.props.confluencespace}
+                                    confluencepagetitle={this.props.confluencepagetitle}
+                                />
+                            }
+                            {this.state.currenttab === NoteTabs.Comments && 
+                                <Comment 
+                                    context={this.props.context} 
+                                    text={ this.props.comment ?? ""} 
+                                    recordid={this.props.recordid} 
+                                    editmode={editmode}
+                                />
+                            }
+                            {this.state.currenttab === NoteTabs.ActionItems && 
+                                <Comment 
+                                    context={this.props.context} 
+                                    text={ this.props.actionitems ?? ""} 
+                                    recordid={this.props.recordid} 
+                                    editmode={editmode}
+                                />
+                            }
+                        </StackItem>
+                        </>
+                    }
+                    {this.state.editmode &&
+                        <StackItem style={{padding: 10}}>
+                            <NoteForm
+                                context={this.props.context}
+                                recordid={this.props.recordid}
+                                cancelCallBack={this.editCancel.bind(this)}
+                                submitCallBack={this.editSubmit.bind(this)}
+                                content={ this.props.comment ?? ""}
+                                actionitems={this.props.actionitems ?? ""}
+                                topic={this.props.topic}
+                                topicowner={this.props.topicowner}
+                                interactiontype={this.props.interactiontype}
+                                otherinteractiontype={this.props.otherinteractiontype}
+                                submittoconfluence={this.props.submittoconfluence}
+                                confluencepageid={this.props.confluencepageid}
+                                confluencepagetitle={this.props.confluencepagetitle}
+                                confluencespace={this.props.confluencespace}
+                                showalert={this.props.showalert}
                             />
-                        </>}
-                    </StackItem>
+
+                        </StackItem>
+                    }
                     <CMSDialog 
                         isOpen={this.state.showDialog!} 
                         title={this.state.dialogTitle}

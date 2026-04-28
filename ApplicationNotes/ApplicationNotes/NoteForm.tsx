@@ -1,9 +1,9 @@
 import * as React from "react";
 const ReactQuill: any = require("react-quill");
 import "react-quill/dist/quill.snow.css";
-import { Stack, StackItem,PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text, IToggleStyleProps } from "@fluentui/react";
+import { Stack, StackItem, PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text, IToggleStyleProps } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
-import { CMSAlertType, Interactiontypes } from "./Constants";
+import { CMSAlertType, Interactiontypes, NoteTabs } from "./Constants";
 import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
 import CMSSpinner from "./CMSSpinner";
@@ -11,35 +11,39 @@ import * as ReactDOM from "react-dom";
 import { JSX } from "react";
 
 
-interface NoteFormProps{
+interface NoteFormProps {
   context: ComponentFramework.Context<IInputs>,
   cancelCallBack: () => void,
   submitCallBack: (record: any) => void,
-  content? : string,
+  content?: string,
   recordid?: string,
   topic?: string,
   topicowner?: string,
-  interactiontype? : number,
-  otherinteractiontype? : string,
-  submittoconfluence? : boolean,
-  confluencepageid? : string,
-  confluencespace? : string,
-  confluencepagetitle? : string,
-  showalert : (type: CMSAlertType, message: string) => void,
+  interactiontype?: number,
+  otherinteractiontype?: string,
+  submittoconfluence?: boolean,
+  confluencepageid?: string,
+  confluencespace?: string,
+  confluencepagetitle?: string,
+  actionitems?: string,
+
+  showalert: (type: CMSAlertType, message: string) => void,
 }
 interface NoteFormState {
   comment: string;
+  actionitems?: string,
   topic?: string;
   topicowner?: string,
-  interactiontype? : number,
-  otherinteractiontype? : string,
-  submittoconfluence? : boolean,
-  confluencepageid? : string,
-  confluencespace? : string,
-  confluencepagetitle? : string,
-  progressmessage : string,
-  displayprogress : boolean,
-  expand : boolean
+  interactiontype?: number,
+  otherinteractiontype?: string,
+  submittoconfluence?: boolean,
+  confluencepageid?: string,
+  confluencespace?: string,
+  confluencepagetitle?: string,
+  progressmessage: string,
+  displayprogress: boolean,
+  expand: boolean,
+  currenttab: NoteTabs
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
@@ -52,23 +56,25 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     super(props);
     this.state = {
       comment: props.content ?? "",
+      actionitems: props.actionitems ?? "",
       topic: props.topic ?? "",
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
       otherinteractiontype: props.otherinteractiontype,
-      submittoconfluence : props.submittoconfluence,
-      confluencepageid : props.confluencepageid,
-      confluencepagetitle : props.confluencepagetitle,
-      confluencespace : props.confluencespace,
-      progressmessage : "",
-      displayprogress : false,
-      expand : false
+      submittoconfluence: props.submittoconfluence,
+      confluencepageid: props.confluencepageid,
+      confluencepagetitle: props.confluencepagetitle,
+      confluencespace: props.confluencespace,
+      progressmessage: "",
+      displayprogress: false,
+      expand: false,
+      currenttab: NoteTabs.Comments
     };
-    
+
     this.icons["expand"] = this.expand;
     this.icons["collapse"] = this.collapse;
   }
-  
+
   modules = {
     toolbar: {
       container: [
@@ -82,14 +88,14 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         ['link', 'image', 'video'],
         ['clean'],
         [{ expand: "expand", class: "expand-button", title: "Expand" }],
-        [{ collapse: "collapse", class: "collapse-button", title: "Collapse"}]
+        [{ collapse: "collapse", class: "collapse-button", title: "Collapse" }]
       ],
       handlers: {
         expand: () => {
-          this.setState({expand: true});
+          this.setState({ expand: true });
         },
         collapse: () => {
-          this.setState({expand: false})
+          this.setState({ expand: false })
         }
       }
     },
@@ -98,21 +104,21 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         tab: {
           key: 9,
           handler: function () {
-            return true; 
+            return true;
           }
         },
         escape: {
           key: 27,
           handler: function () {
-            (document.activeElement as HTMLElement)?.blur(); 
+            (document.activeElement as HTMLElement)?.blur();
             return false;
           }
         }
       }
-  }
+    }
   };
 
-  formats : any = [
+  formats: any = [
     'font', 'size',
     'bold', 'italic', 'underline', 'strike',
     'color', 'background',
@@ -122,34 +128,34 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   ];
 
   private addQuillTooltips() {
-  const tooltipMap: Record<string, string> = {
-    'ql-font': 'Font',
-    'ql-size': 'Font Size',
-    'ql-bold': 'Bold',
-    'ql-italic': 'Italic',
-    'ql-underline': 'Underline',
-    'ql-strike': 'Strikethrough',
-    'ql-color': 'Text Color',
-    'ql-background': 'Background Color',
-    'ql-header': 'Heading',
-    'ql-list.ql-ordered': 'Numbered List',
-    'ql-list.ql-bullet': 'Bullet List',
-    'ql-align': 'Text Alignment',
-    'ql-link': 'Insert Link',
-    'ql-image': 'Insert Image',
-    'ql-video': 'Insert Video',
-    'ql-clean': 'Clear Formatting',
-    'ql-expand': 'Expand Editor',
-    'ql-collapse': 'Collapse Editor'
-  };
+    const tooltipMap: Record<string, string> = {
+      'ql-font': 'Font',
+      'ql-size': 'Font Size',
+      'ql-bold': 'Bold',
+      'ql-italic': 'Italic',
+      'ql-underline': 'Underline',
+      'ql-strike': 'Strikethrough',
+      'ql-color': 'Text Color',
+      'ql-background': 'Background Color',
+      'ql-header': 'Heading',
+      'ql-list.ql-ordered': 'Numbered List',
+      'ql-list.ql-bullet': 'Bullet List',
+      'ql-align': 'Text Alignment',
+      'ql-link': 'Insert Link',
+      'ql-image': 'Insert Image',
+      'ql-video': 'Insert Video',
+      'ql-clean': 'Clear Formatting',
+      'ql-expand': 'Expand Editor',
+      'ql-collapse': 'Collapse Editor'
+    };
 
-  Object.keys(tooltipMap).forEach(selector => {
-    const el = document.querySelector(`.${selector.replace('.', ' ')}`);
-    if (el) {
-      el.setAttribute('title', tooltipMap[selector]);
-    }
-  });
-}
+    Object.keys(tooltipMap).forEach(selector => {
+      const el = document.querySelector(`.${selector.replace('.', ' ')}`);
+      if (el) {
+        el.setAttribute('title', tooltipMap[selector]);
+      }
+    });
+  }
 
 
   handleChange = (content: string) => {
@@ -157,21 +163,22 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
   };
   onSubmit() {
     var obj = this;
-    obj.setState({displayprogress: true, progressmessage: "Submitting..."})
-    if(this.props.recordid && this.props.recordid !== "") {
+    obj.setState({ displayprogress: true, progressmessage: "Submitting..." })
+    if (this.props.recordid && this.props.recordid !== "") {
       const record = {
         cr549_comment: this.state.comment,
+        cr549_actionitems: this.state.actionitems,
         subject: this.state.topic,
         cr549_topicowner: this.state.topicowner,
-        cr549_interactiontype : this.state.interactiontype,
-        cr549_sharewithconfluence : this.state.submittoconfluence,
-        cr549_confluenceurl : this.state.confluencepageid,
-        cr549_confluencespace : this.state.confluencespace,
-        cr549_confluencepagetitle : this.state.confluencepagetitle,
-        cr549_otherinteractiontype : this.state.otherinteractiontype
+        cr549_interactiontype: this.state.interactiontype,
+        cr549_sharewithconfluence: this.state.submittoconfluence,
+        cr549_confluenceurl: this.state.confluencepageid,
+        cr549_confluencespace: this.state.confluencespace,
+        cr549_confluencepagetitle: this.state.confluencepagetitle,
+        cr549_otherinteractiontype: this.state.otherinteractiontype
       }
-      this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function(resp){
-        if(obj.state.submittoconfluence){
+      this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function (resp) {
+        if (obj.state.submittoconfluence) {
           var request = {
             entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
             getMetadata: function () {
@@ -186,97 +193,98 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           };
 
           (obj.props.context.webAPI as any).execute(request).then(
-            function success(response : any) {
-              if (response.ok) { 
-                console.log("Success"); 
+            function success(response: any) {
+              if (response.ok) {
+                console.log("Success");
                 obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
-                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-                obj.setState({displayprogress : false})
+                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+                obj.setState({ displayprogress: false })
               }
             }
-          ).catch(function (error : any) {
-              obj.setState({displayprogress: false})
-              obj.props.context.navigation.openErrorDialog({
-                message: error.message
-              })
+          ).catch(function (error: any) {
+            obj.setState({ displayprogress: false })
+            obj.props.context.navigation.openErrorDialog({
+              message: error.message
+            })
           });
         }
         else {
           obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
-          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
           obj.setState({
             displayprogress: false,
           })
         }
-      }, function(err: any){
-        obj.setState({displayprogress: false})
+      }, function (err: any) {
+        obj.setState({ displayprogress: false })
         obj.props.context.navigation.openErrorDialog({
-            message: err.message
+          message: err.message
         });
       });
     }
     else {
-        const record = {
-          cr549_comment: this.state.comment,
-          "regardingobjectid_cr549_application_cr549_applicationnotes@odata.bind": `/cr549_applications(${(this.props.context as any).page.entityId})`,
-          subject: this.state.topic,
-          cr549_topicowner: this.state.topicowner,
-          cr549_interactiontype : this.state.interactiontype,
-          cr549_sharewithconfluence : this.state.submittoconfluence,
-          cr549_confluenceurl : this.state.confluencepageid,
-          cr549_confluencespace : this.state.confluencespace,
-          cr549_confluencepagetitle : this.state.confluencepagetitle,
-          cr549_otherinteractiontype : this.state.otherinteractiontype
-        }
-        this.props.context?.webAPI.createRecord("cr549_applicationnotes",record).then(function(resp){
-          if(obj.state.submittoconfluence){
-            var request = {
-              entity: { entityType: "cr549_applicationnotes", id: resp.id },
-              getMetadata: function () {
-                return {
-                  boundParameter: "entity",
-                  parameterTypes: {
-                    entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-                  },
-                  operationType: 0, operationName: "crm2_PushToConfluencePage"
-                };
-              }
-            };
+      const record = {
+        cr549_comment: this.state.comment,
+        cr549_actionitem: this.state.actionitems,
+        "regardingobjectid_cr549_application_cr549_applicationnotes@odata.bind": `/cr549_applications(${(this.props.context as any).page.entityId})`,
+        subject: this.state.topic,
+        cr549_topicowner: this.state.topicowner,
+        cr549_interactiontype: this.state.interactiontype,
+        cr549_sharewithconfluence: this.state.submittoconfluence,
+        cr549_confluenceurl: this.state.confluencepageid,
+        cr549_confluencespace: this.state.confluencespace,
+        cr549_confluencepagetitle: this.state.confluencepagetitle,
+        cr549_otherinteractiontype: this.state.otherinteractiontype
+      }
+      this.props.context?.webAPI.createRecord("cr549_applicationnotes", record).then(function (resp) {
+        if (obj.state.submittoconfluence) {
+          var request = {
+            entity: { entityType: "cr549_applicationnotes", id: resp.id },
+            getMetadata: function () {
+              return {
+                boundParameter: "entity",
+                parameterTypes: {
+                  entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
+                },
+                operationType: 0, operationName: "crm2_PushToConfluencePage"
+              };
+            }
+          };
 
-            (obj.props.context.webAPI as any).execute(request).then(
-              function success(response : any) {
-                if (response.ok) { 
-                  console.log("Success"); 
-                  obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-                  obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-                  obj.setState({displayprogress : false})
-                }
+          (obj.props.context.webAPI as any).execute(request).then(
+            function success(response: any) {
+              if (response.ok) {
+                console.log("Success");
+                obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+                obj.setState({ displayprogress: false })
               }
-            ).catch(function (error : any) {
-                obj.setState({displayprogress: false})
-                obj.props.context.navigation.openErrorDialog({
-                  message: error.message
-                })
-            });
-          }
-          else {
-            obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-            obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-            obj.setState({
-              displayprogress: false,
-            })
-          }
-          //obj.setState({displayprogress : false});
-          //obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-          //obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-        },function(error){
-            obj.setState({displayprogress: false});
+            }
+          ).catch(function (error: any) {
+            obj.setState({ displayprogress: false })
             obj.props.context.navigation.openErrorDialog({
               message: error.message
-            }).then(() => {
-              obj.props.showalert(CMSAlertType.Error, "Error creating note: \n" + error?.message);
-            },() => {});
-        });
+            })
+          });
+        }
+        else {
+          obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+          obj.setState({
+            displayprogress: false,
+          })
+        }
+        //obj.setState({displayprogress : false});
+        //obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+        //obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+      }, function (error) {
+        obj.setState({ displayprogress: false });
+        obj.props.context.navigation.openErrorDialog({
+          message: error.message
+        }).then(() => {
+          obj.props.showalert(CMSAlertType.Error, "Error creating note: \n" + error?.message);
+        }, () => { });
+      });
     }
   }
   componentDidMount(): void {
@@ -290,54 +298,54 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       this.addQuillTooltips();
     }, 0);
   }
-  getSubmitToConfluenceToggle() : JSX.Element {
+  getSubmitToConfluenceToggle(): JSX.Element {
     return <Toggle inlineLabel label="Submit to Confluence" defaultChecked={this.state.submittoconfluence} onChange={() => this.setState({ submittoconfluence: !this.state.submittoconfluence })}
-                  styles={{
-                    label: { order: 1 },
-                    root: {
-                      selectors: {
-                        "&:hover .ms-Toggle-thumb": {
-                          backgroundColor: "#ffffff !important"
-                        }
-                      }
-                    },
-                    thumb: {
-                      backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
-                      color: "red",
-                      height: 20, width: 20, padding: 1,
-                      selectors: {
-                        ":hover": {
-                          backgroundColor: "#ffffff"   // 🔒 keep same color
-                        },
+      styles={{
+        label: { order: 1 },
+        root: {
+          selectors: {
+            "&:hover .ms-Toggle-thumb": {
+              backgroundColor: "#ffffff !important"
+            }
+          }
+        },
+        thumb: {
+          backgroundColor: this.state.submittoconfluence ? "#ffffff" : "#ffffff",
+          color: "red",
+          height: 20, width: 20, padding: 1,
+          selectors: {
+            ":hover": {
+              backgroundColor: "#ffffff"   // 🔒 keep same color
+            },
 
-                        '[aria-checked="true"] &': {
-                          backgroundColor: "#ffffff"
-                        },
+            '[aria-checked="true"] &': {
+              backgroundColor: "#ffffff"
+            },
 
-                        '[aria-checked="true"]:hover &': {
-                          backgroundColor: "#ffffff"   // 🔒 even when ON + hover
-                        }
-                      }
-                    },
-                    container: { display: 'flex', flexDirection: 'row-reverse' },
-                    pill: {
-                      backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)",
-                      height: 24, padding: 0, width: 44, borderRadius: 12,
-                      selectors: {
-                        ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
-                      },
-                      alignItems: "center"
-                    }
+            '[aria-checked="true"]:hover &': {
+              backgroundColor: "#ffffff"   // 🔒 even when ON + hover
+            }
+          }
+        },
+        container: { display: 'flex', flexDirection: 'row-reverse' },
+        pill: {
+          backgroundColor: this.state.submittoconfluence ? "#0D2499" : "rgb(211,211,211)",
+          height: 24, padding: 0, width: 44, borderRadius: 12,
+          selectors: {
+            ':hover': { backgroundColor: this.state.submittoconfluence ? "#0D2499" : "#e6e6e6" }
+          },
+          alignItems: "center"
+        }
 
-                  }}
-                />
+      }}
+    />
   }
 
   render() {
     const quillEditor = (
       <ReactQuill
         theme="snow"
-        value={this.state.comment}
+        value={this.state.currenttab === NoteTabs.Comments ? this.state.comment : this.state.actionitems}
         onChange={this.handleChange.bind(this)}
         modules={this.modules}
         formats={this.formats}
@@ -350,7 +358,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           minHeight: "200px",
         }}
         rows={8}
-        //className="ql-editor ql-container" /* Explicitly applying the class */
+      //className="ql-editor ql-container" /* Explicitly applying the class */
       />
     );
 
@@ -370,9 +378,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         >
           {(this.props.recordid == null || this.props.recordid == "") && <StackItem><Text variant="xLarge">Add Note</Text></StackItem>}
           <StackItem>
-            <Stack horizontal tokens={{childrenGap: 24}} grow>
+            <Stack horizontal tokens={{ childrenGap: 24 }} grow>
               <StackItem grow>
-                <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
+                <TextField label="Topic" value={this.state.topic} styles={{ fieldGroup: { borderRadius: 5 } }} onChange={(evt, newvalue) => { this.setState({ topic: newvalue }) }} />
               </StackItem>
               {/* <StackItem grow>
                 <TextField label="Topic Owner" value={this.state.topicowner} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topicowner: newvalue})}}></TextField>
@@ -402,89 +410,106 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     },
                     callout: {
                       borderRadius: 5,
-                      minWidth: 250,      // 👈 important for popup width
+                      minWidth: 250,
                     },
                   }}
                 />
 
               </StackItem>
               {this.state.submittoconfluence &&
-              <StackItem grow>
-                <TextField 
-                  label="Confluence Page ID"
-                  style={{whiteSpace: "nowrap"}}
-                  styles={{fieldGroup : { borderRadius: 5}, root: {minWidth: 150}} }
-                  required = {this.state.submittoconfluence} 
-                  errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "")  ? "This field is mandatory" : ""} 
-                  value={this.state.confluencepageid} 
-                  onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}
-                />
-              </StackItem>}
-              {this.state.submittoconfluence  &&
-              <StackItem grow>
-                <TextField label="Confluence Space" styles={{fieldGroup : { borderRadius: 5}}} value={this.state.confluencespace} onChange={(evt, newvalue) => {this.setState({confluencespace : newvalue})}}></TextField>
-              </StackItem>}
-              {this.state.submittoconfluence  &&
-              <StackItem grow>
-                <TextField label="Confluence Page Title" styles={{fieldGroup : { borderRadius: 5}}} style = {{width : 200}} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/>
-              </StackItem>}
+                <StackItem grow>
+                  <TextField
+                    label="Confluence Page ID"
+                    style={{ whiteSpace: "nowrap" }}
+                    styles={{ fieldGroup: { borderRadius: 5 }, root: { minWidth: 150 } }}
+                    required={this.state.submittoconfluence}
+                    errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "") ? "This field is mandatory" : ""}
+                    value={this.state.confluencepageid}
+                    onChange={(evt, newvalue) => { this.setState({ confluencepageid: newvalue }) }}
+                  />
+                </StackItem>}
+              {this.state.submittoconfluence &&
+                <StackItem grow>
+                  <TextField label="Confluence Space" styles={{ fieldGroup: { borderRadius: 5 } }} value={this.state.confluencespace} onChange={(evt, newvalue) => { this.setState({ confluencespace: newvalue }) }}></TextField>
+                </StackItem>}
+              {this.state.submittoconfluence &&
+                <StackItem grow>
+                  <TextField label="Confluence Page Title" styles={{ fieldGroup: { borderRadius: 5 } }} style={{ width: 200 }} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => { this.setState({ confluencepagetitle: newvalue }) }} />
+                </StackItem>}
             </Stack>
             {this.state.interactiontype && this.state.interactiontype === 6 && (
-            <Stack horizontal tokens={{childrenGap: 10}} styles={{root: {marginTop: 10}}}>
+              <Stack horizontal tokens={{ childrenGap: 10 }} styles={{ root: { marginTop: 10 } }}>
                 <StackItem grow>
                   <TextField label="Other Interaction Type" value={this.state.otherinteractiontype} styles={{ fieldGroup: { borderRadius: 5, width: "100%" } }} onChange={(evt, newvalue) => { this.setState({ otherinteractiontype: newvalue }) }}></TextField>
                 </StackItem>
-              {this.state.submittoconfluence && <StackItem style={{verticalAlign: "bottom", marginTop: 35}}>
-                {this.getSubmitToConfluenceToggle()}
-              </StackItem>}
-            </Stack>)}
-            <StackItem styles={{root: {marginTop: 10}}}>
+                {this.state.submittoconfluence && <StackItem style={{ verticalAlign: "bottom", marginTop: 35 }}>
+                  {this.getSubmitToConfluenceToggle()}
+                </StackItem>}
+              </Stack>)}
+            <StackItem styles={{ root: { marginTop: 10 } }}>
               {(this.state.interactiontype !== 6 || (this.state.interactiontype == 6 && (this.state.submittoconfluence == undefined || this.state.submittoconfluence == false))) && this.getSubmitToConfluenceToggle()}
             </StackItem>
           </StackItem>
-            <StackItem styles={{ root: { flexGrow: 0}}}>
-                <Label>Comments</Label>
-                {!this.state.expand && quillEditor}
-            </StackItem>
-             <StackItem align="end">
-                <Stack horizontal tokens={{ childrenGap: 10 }}>
-                    {this.state.displayprogress && <StackItem>
-                      <CMSSpinner />
-                    </StackItem> 
-                    }
-                    <StackItem>
-                        <DefaultButton
-                            text="Submit"
-                            onClick={this.onSubmit.bind(this)}
-                            //style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
-                            style={{ 
-                              borderRadius: 4, 
-                              //borderColor: "#0D2499", 
-                              border: 0,
-                              color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
-                              backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#0D2499",
-                            }}
-                            disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ) || this.state.displayprogress}
-                        />
-                    </StackItem>
-                    <StackItem>
-                        <DefaultButton
-                            text="Cancel"
-                            onClick={() => {
-                                this.handleChange("");
-                                this.props.cancelCallBack && this.props.cancelCallBack();
-                            }}
-                            disabled={this.state.displayprogress}
-                            style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)", borderColor: "#262626" }}
-                        />
-                    </StackItem>
-                </Stack>
-            </StackItem> 
+          <StackItem style={{ padding: 10 }}>
+            <DefaultButton
+              style={{
+                border: 0,
+                borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"
+              }}
+              onClick={() => this.setState({ currenttab: NoteTabs.Comments })}>
+              Comments
+            </DefaultButton>
+            <DefaultButton
+              style={{
+                border: 0,
+                borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"
+              }}
+              onClick={() => this.setState({ currenttab: NoteTabs.ActionItems })}>
+              Action Items
+            </DefaultButton>
+          </StackItem>
+          <StackItem styles={{ root: { flexGrow: 0 } }}>
+            {!this.state.expand && quillEditor}
+          </StackItem>
+          <StackItem align="end">
+            <Stack horizontal tokens={{ childrenGap: 10 }}>
+              {this.state.displayprogress && <StackItem>
+                <CMSSpinner />
+              </StackItem>
+              }
+              <StackItem>
+                <DefaultButton
+                  text="Submit"
+                  onClick={this.onSubmit.bind(this)}
+                  //style={{ borderRadius: 6, backgroundColor: this.state.selectedrecordids.length == 0 ? "#F2F2F2" : "#0D2499", color: this.state.selectedrecordids.length == 0 ? "#5A5A5A" : "white", width: "100%" }}
+                  style={{
+                    borderRadius: 4,
+                    //borderColor: "#0D2499", 
+                    border: 0,
+                    color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
+                    backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#0D2499",
+                  }}
+                  disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) || this.state.displayprogress}
+                />
+              </StackItem>
+              <StackItem>
+                <DefaultButton
+                  text="Cancel"
+                  onClick={() => {
+                    this.handleChange("");
+                    this.props.cancelCallBack && this.props.cancelCallBack();
+                  }}
+                  disabled={this.state.displayprogress}
+                  style={{ borderRadius: 4, backgroundColor: "rgb(243,243,243)", borderColor: "#262626" }}
+                />
+              </StackItem>
+            </Stack>
+          </StackItem>
         </Stack>
-        { this.state.expand &&
+        {this.state.expand &&
           ReactDOM.createPortal(
             <div className="fullscreen-container1">
-               <div className="resize-shell">
+              <div className="resize-shell">
                 <div className="popup-content">
                   <Stack horizontal tokens={{ childrenGap: 20 }} style={{ marginBottom: 20 }}>
                     <><Text><b>Topic: </b>{this.state.topic}</Text></>
@@ -498,7 +523,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             </div>,
             document.body)
         }
-    </>);
+      </>);
   }
 }
 
