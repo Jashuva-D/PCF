@@ -159,7 +159,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
 
 
   handleChange = (content: string) => {
-    this.setState({ comment: content });
+    if(this.state.currenttab === NoteTabs.Comments) {
+      this.setState({ comment: content });
+    }else {
+      this.setState({ actionitems: content });
+    }
   };
   onSubmit() {
     var obj = this;

@@ -69,7 +69,7 @@ class Note extends React.Component<NoteProps,NoteState> {
             confluencepagetitle : props.confluencepagetitle,
             enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
-            currenttab: NoteTabs.Details
+            currenttab: NoteTabs.Comments
         }
     }
     onEditClick(){
@@ -187,9 +187,9 @@ class Note extends React.Component<NoteProps,NoteState> {
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
-        if(!this.state.displayDetails)
-            overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", ariaLabel: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", ariaLabel: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        // if(!this.state.displayDetails)
+        //     overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", ariaLabel: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
+        // else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", ariaLabel: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
         overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", ariaLabel: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
         //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", ariaLabel: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
         
