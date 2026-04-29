@@ -74,6 +74,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     key: c.name,
                     name: c.displayName,
                     fieldName: colname,
+                    ariaLabel: c.displayName,
                     minWidth: 150,
                     maxWidth: 200,
                     isResizable: true,
@@ -110,11 +111,14 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />
                             }
                             else if(columnname == "person_cr549_id"){
-                                return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
+                                return <Text aria-label={c.displayName} aria-labelledby={c.name}>
+                                    {this.state.editablerecord[columnname] ?? ""}
+                                </Text>;
                             }
                             else {
                                 return <TextField key={columnname} 
                                     ariaLabel={c.displayName}
+                                    aria-labelledby={c.name}
                                     defaultValue={this.state.editablerecord[columnname] ?? ""} 
                                     value={this.state.editablerecord[columnname] ?? ""} 
                                     onChange={(e, val) => this.onFieldChange(columnname, val)}
