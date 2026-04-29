@@ -2,7 +2,7 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection, ThemeProvider, createTheme } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection, ThemeProvider, createTheme, Label } from "@fluentui/react";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
 import CMSAlert from "./CMSAlert";
@@ -116,13 +116,13 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 </Text>;
                             }
                             else {
-                                return <TextField key={columnname} 
+                                return <><TextField key={columnname} 
                                     ariaLabel={c.displayName}
                                     aria-labelledby={c.name}
                                     defaultValue={this.state.editablerecord[columnname] ?? ""} 
                                     value={this.state.editablerecord[columnname] ?? ""} 
                                     onChange={(e, val) => this.onFieldChange(columnname, val)}
-                                />;
+                                /></>;
                             }
                         }
                         else {
@@ -143,10 +143,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
                             else if(columnname == "person_cr549_email_address" || columnname == "person_cr549_email_address_2"){
-                                return <Link href={`mailto:${item[columnname+'_value']}`}>{item[columnname]}</Link>
+                                return <Link href={`mailto:${item[columnname+'_value']}`} aria-label={c.displayName} aria-labelledby={c.name}>{item[columnname]}</Link>
                             }
                             else {
-                                return <Text>{item[columnname] ?? ""}</Text>;
+                                return <Text aria-label={c.displayName} aria-labelledby={c.name}>{item[columnname] ?? ""}</Text>;
                             }
                         }
                     }
