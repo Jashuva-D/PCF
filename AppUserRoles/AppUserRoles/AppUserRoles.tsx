@@ -81,6 +81,11 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     isSorted: colname === sortedcolumn ? true : false,
                     isSortedDescending: currentsortedcolumn && currentsortedcolumn.fieldName === colname ? !currentsortedcolumn.isSortedDescending : true,
                     onColumnClick: this.onColumnClick.bind(this),
+                    onRenderHeader: (props, defaultRender) => (
+                        <div id={`header-${props?.column.key}`}>
+                            {defaultRender!(props)}
+                        </div>
+                    ),
                     onRender: (item: any) => {
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_");
 
@@ -111,14 +116,14 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 />
                             }
                             else if(columnname == "person_cr549_id"){
-                                return <Text aria-label={c.displayName} aria-labelledby={c.name}>
+                                return <Text aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>
                                     {this.state.editablerecord[columnname] ?? ""}
                                 </Text>;
                             }
                             else {
                                 return <><TextField key={columnname} 
                                     ariaLabel={c.displayName}
-                                    aria-labelledby={c.name}
+                                    aria-labelledby={`header-${c.name}`}
                                     defaultValue={this.state.editablerecord[columnname] ?? ""} 
                                     value={this.state.editablerecord[columnname] ?? ""} 
                                     onChange={(e, val) => this.onFieldChange(columnname, val)}
@@ -143,10 +148,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
                             else if(columnname == "person_cr549_email_address" || columnname == "person_cr549_email_address_2"){
-                                return <Link href={`mailto:${item[columnname+'_value']}`} aria-label={c.displayName} aria-labelledby={c.name}>{item[columnname]}</Link>
+                                return <Link href={`mailto:${item[columnname+'_value']}`} aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>{item[columnname]}</Link>
                             }
                             else {
-                                return <Text aria-label={c.displayName} aria-labelledby={c.name}>{item[columnname] ?? ""}</Text>;
+                                return <Text aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>{item[columnname] ?? ""}</Text>;
                             }
                         }
                     }
