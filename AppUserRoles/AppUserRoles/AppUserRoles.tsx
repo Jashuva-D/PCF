@@ -168,7 +168,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     return <Stack horizontal tokens={{childrenGap: 3}}><IconButton iconProps={{ iconName: "Save", style: { fontSize: 20 } }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel", style: { fontSize: 20 } }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
-                    return <IconButton iconProps={{ iconName: "Edit", style: { fontSize: 15 } }} title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{ color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/>
+                    return <IconButton iconProps={{ iconName: "Edit", style: { fontSize: 15 } }} title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{ padding:0, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/>
                     //return <Text>Test</Text>
                 }
             }
