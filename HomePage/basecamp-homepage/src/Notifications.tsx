@@ -120,16 +120,20 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                     }}
                 >
                     <StackItem align="center">
-                        <Icon
+                        {/* <Icon
                             iconName={this.GetNotificationIcon(NotificationType.Info)}
                             styles={{ root: { color: this.GetNotificationColor(NotificationType.Info), fontSize: 30, fontWeight: "bold" } }}
+                        /> */}
+                        <Icon
+                            iconName={this.GetNotificationIcon(NotificationType.Info)}
+                            //styles={{ root: { color: this.GetNotificationColor(notification.icontype!), fontSize: 30, fontWeight: "bold" } }}
                         />
                     </StackItem>
                     <Stack grow>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <div style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px", height: "25px", borderRadius: 4, background: this.GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", fontFamily: "Segoe UI", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                     {notification.title ?? "EMPTY"}
+                                     {notification.title ?? "No Title"}
                                      {/*{notification.icontype === NotificationType.Info && "Information"} 
                                               {notification.icontype === NotificationType.Warning && "Warning"} 
                                             {notification.icontype === NotificationType.Failure && "Failure"} 
