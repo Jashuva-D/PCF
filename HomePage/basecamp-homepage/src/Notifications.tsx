@@ -124,10 +124,35 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             iconName={this.GetNotificationIcon(NotificationType.Info)}
                             styles={{ root: { color: this.GetNotificationColor(NotificationType.Info), fontSize: 30, fontWeight: "bold" } }}
                         /> */}
-                        <Icon
-                            iconName={this.GetNotificationIcon(NotificationType.Info)}
-                            //styles={{ root: { color: this.GetNotificationColor(notification.icontype!), fontSize: 30, fontWeight: "bold" } }}
-                        />
+                        <Stack
+                            horizontalAlign="center"
+                            verticalAlign="center"
+                            styles={{
+                                root: {
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: "50%",
+                                    backgroundColor: "#E5E5E5", // outer light grey
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width: 24,
+                                    height: 24,
+                                    borderRadius: "50%",
+                                    backgroundColor: "#2F6FED", // blue circle
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}
+                            >
+                                <Icon iconName="Info" style={{ color: "white", fontSize: 14 }} />
+                            </div>
+                        </Stack>
                     </StackItem>
                     <Stack grow>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
