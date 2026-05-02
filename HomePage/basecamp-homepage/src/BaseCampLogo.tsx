@@ -32,8 +32,8 @@ class BaseCampLogo extends Component<BaseCampLogoProps> {
         alt="logo"
         style={{
           width: "100%",
-          height: "200px",
-          objectFit: "contain",
+          height: "300px",
+          //objectFit: "contain",
         }}
       />  
   }
