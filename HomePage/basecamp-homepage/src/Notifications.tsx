@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Stack, StackItem, Icon, Text, initializeIcons, Label} from "@fluentui/react";
 import { NotificationType } from "./Constants";
-import { CMSInfo } from "./Icons";
+import { CMSAlertIcon, CMSInfo } from "./Icons";
 
 
 interface NotificationModel {
@@ -121,30 +121,37 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
     render(): React.ReactNode {
         
-        return <><Label style={{fontWeight: "bold", fontSize: 16, paddingTop: 5, paddingBottom: 10}}>My Notifications</Label>
-        <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", maxHeight: "400px", backgroundColor: "#ffffff", borderRadius: 6 } }} >
-            {this.state.notifications.map((notification) => (
+        return <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", maxHeight: "400px", backgroundColor: "#ffffff", borderRadius: 6 } }} >
+            <Stack horizontal tokens={{childrenGap: 10}} styles={{root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)",paddingLeft: 10, paddingTop: 10, paddingBottom: 10}}}>
+                <CMSAlertIcon size={50} color={"#0D2499"}/>
+                <Stack tokens={{childrenGap: 2}}>
+                    <Label style={{fontWeight: "bold", fontSize: 16}}>My Notifications</Label>
+                    <Text>Stay updated with important alerts and messages.</Text>
+                </Stack>
+            </Stack>
+            {this.state.notifications.map((notification, index) => (
                 <><Stack
                     horizontal
                     tokens={{ childrenGap: 25 }}
                     styles={{
                         root: {
                             //border: `1px solid ${GetNotificationColor(notification.icontype!)}`,
-                            padding: 10,
+                            padding: 5,
                             borderRadius: 5,
                             border: "1px",
-                            borderLeft: `5px solid ${this.GetNotificationColor(notification.icontype!)}`,
-                            boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.15)"
+                            borderLeft: `5px solid ${(index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463"}`,
+                            //boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.15)"
+                            boxShadow: "0 1px 3px rgba(0,0,0,0.15)"
                         }
                     }}
                 >
                     <StackItem align="center">
-                        <CMSInfo size={40} color="#115EA3" />
+                        <CMSInfo size={40} color= {(index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463"} />
                     </StackItem>
                     <Stack grow style={{border: 3}} styles={{ root: { border: `1px solid ${this.GetNotificationColor(NotificationType.Info)}`, padding: 10, borderRadius: 5 } }}>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <Text style={{ color: this.GetNotificationColor(NotificationType.Info) , fontSize: 18, fontWeight: "bold" }}>{notification.title ?? "No Title"}</Text>
+                                <Text style={{ color: (index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463", fontSize: 14, fontWeight: "bold" }}>{notification.title ?? "No Title"}</Text>
                             </Stack>
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
@@ -159,7 +166,6 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 </>
             ))}
         </Stack>
-        </>
     }
 }
 
