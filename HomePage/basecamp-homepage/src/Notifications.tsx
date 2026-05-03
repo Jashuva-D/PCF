@@ -159,7 +159,8 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                     <Stack grow>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <div style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px", height: "25px", borderRadius: 4, background: this.GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", fontFamily: "Segoe UI", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <h2 color={this.GetNotificationColor(NotificationType.Info)}>{notification.title ?? "No Title"}</h2>
+                                {/* <div style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px", height: "25px", borderRadius: 4, background: this.GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", fontFamily: "Segoe UI", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                      {notification.title ?? "No Title"}
                                      {/*{notification.icontype === NotificationType.Info && "Information"} 
                                               {notification.icontype === NotificationType.Warning && "Warning"} 
@@ -167,7 +168,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                                             {notification.icontype === NotificationType.Mention && "Mention"}
                                             {notification.icontype === NotificationType.Custom && "Custom"} 
                                             {notification.icontype === NotificationType.Success && "Success"}   */}
-                                </div>
+                                {/* </div> */}
                                 {/* <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetPriorityColor(notification.priority!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                                 {notification.priority === NotificationPriority.High && "High"} 
                                                 {notification.priority === NotificationPriority.Medium && "Medium"} 
