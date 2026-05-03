@@ -150,7 +150,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                                     justifyContent: "center"
                                 }}
                             >
-                                <Icon iconName="Info" style={{ color: "white", fontSize: 14 }} />
+                                <Icon iconName="InfoSolid" style={{ color: "white", fontSize: 14 }} />
                             </div>
                         </Stack>
                     </StackItem>
