@@ -133,6 +133,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             padding: 10,
                             borderRadius: 5,
                             borderLeft: `5px solid ${this.GetNotificationColor(notification.icontype!)}`,
+                            border: '1px #ccc'
                         }
                     }}
                 >
