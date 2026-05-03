@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Stack, StackItem, Icon, Text, initializeIcons, Label} from "@fluentui/react";
 import { NotificationType } from "./Constants";
+import { CMSInfo } from "./Icons";
 
 
 interface NotificationModel {
@@ -124,7 +125,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             iconName={this.GetNotificationIcon(NotificationType.Info)}
                             styles={{ root: { color: this.GetNotificationColor(NotificationType.Info), fontSize: 30, fontWeight: "bold" } }}
                         /> */}
-                        <Stack
+                        {/* <Stack
                             horizontalAlign="center"
                             verticalAlign="center"
                             styles={{
@@ -152,7 +153,8 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             >
                                 <Icon iconName="Info" style={{ color: "white", fontSize: 20 }} />
                             </div>
-                        </Stack>
+                        </Stack> */}
+                        <CMSInfo size={40} color="#0D2499" />
                     </StackItem>
                     <Stack grow>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
