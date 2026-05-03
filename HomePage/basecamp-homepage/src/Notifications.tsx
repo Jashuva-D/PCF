@@ -154,7 +154,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                                 <Icon iconName="Info" style={{ color: "white", fontSize: 20 }} />
                             </div>
                         </Stack> */}
-                        <CMSInfo size={40} color="#0D2499" />
+                        <CMSInfo size={40} color="#115EA3" />
                     </StackItem>
                     <Stack grow>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
