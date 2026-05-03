@@ -122,7 +122,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
     render(): React.ReactNode {
         
         return <><Label style={{fontWeight: "bold", fontSize: 16, paddingTop: 5, paddingBottom: 10}}>My Notifications</Label>
-        <Stack tokens={{ childrenGap: 5 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", maxHeight: "400px", backgroundColor: "#ffffff", borderRadius: 6 } }} >
+        <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", maxHeight: "400px", backgroundColor: "#ffffff", borderRadius: 6 } }} >
             {this.state.notifications.map((notification) => (
                 <><Stack
                     horizontal
@@ -132,7 +132,9 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             //border: `1px solid ${GetNotificationColor(notification.icontype!)}`,
                             padding: 10,
                             borderRadius: 5,
+                            border: "1px",
                             borderLeft: `5px solid ${this.GetNotificationColor(notification.icontype!)}`,
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.15)"
                         }
                     }}
                 >
@@ -153,7 +155,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                         <Text>{notification.body}</Text>
                     </Stack>
                 </Stack>
-                     <div style={{ border: "1px #ccc" }}></div> 
+                     {/* <div style={{ border: "1px solid #ccc" }}></div>  */}
                 </>
             ))}
         </Stack>
