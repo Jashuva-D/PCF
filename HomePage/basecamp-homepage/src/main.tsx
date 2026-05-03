@@ -100,3 +100,9 @@ async function renderHomePage() {
 
 renderHomePage();
 
+// createRoot(document.getElementById('root')!).render(
+//         <StrictMode>
+//           <HomePage />
+//         </StrictMode>,
+//       )
+

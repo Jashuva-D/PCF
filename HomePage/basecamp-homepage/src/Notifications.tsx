@@ -35,7 +35,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         today.setHours(0,0,0,0);
 
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon desc`).then(
+        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon desc`).then(
             function success(resp : any) {
                 var recs : NotificationModel[] = []
                 resp.entities.forEach((x : any) => {
@@ -59,6 +59,21 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 console.log(error.message);
             }
         );
+        // this.setState({
+        //     notifications: [
+        //         {
+        //             title: "Notification 1",
+        //             body: "This is the body of notification 1.",
+        //             createdon: "2024-01-01",        
+        //             createdon_value: new Date("2024-01-01"),
+        //             expirationdate: "2024-12-31",
+        //             expirationdate_value: new Date("2024-12-31"),   
+        //             priority: 200000001,
+        //             icontype: NotificationType.Info
+        //         } as NotificationModel
+        //     ]
+        // });
+                
     }
 
     GetNotificationIcon(notificationType: number): string {
@@ -117,79 +132,28 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             //border: `1px solid ${GetNotificationColor(notification.icontype!)}`,
                             padding: 10,
                             borderRadius: 5,
+                            borderLeft: `5px solid ${this.GetNotificationColor(notification.icontype!)}`,
                         }
                     }}
                 >
                     <StackItem align="center">
-                        {/* <Icon
-                            iconName={this.GetNotificationIcon(NotificationType.Info)}
-                            styles={{ root: { color: this.GetNotificationColor(NotificationType.Info), fontSize: 30, fontWeight: "bold" } }}
-                        /> */}
-                        {/* <Stack
-                            horizontalAlign="center"
-                            verticalAlign="center"
-                            styles={{
-                                root: {
-                                    width: 40,
-                                    height: 40,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#E5E5E5", // outer light grey
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }
-                            }}
-                        >
-                            <div
-                                style={{
-                                    width: 24,
-                                    height: 24,
-                                    borderRadius: "50%",
-                                    backgroundColor: "#2F6FED", // blue circle
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center"
-                                }}
-                            >
-                                <Icon iconName="Info" style={{ color: "white", fontSize: 20 }} />
-                            </div>
-                        </Stack> */}
                         <CMSInfo size={40} color="#115EA3" />
                     </StackItem>
-                    <Stack grow>
+                    <Stack grow style={{border: 3}} styles={{ root: { border: `1px solid ${this.GetNotificationColor(NotificationType.Info)}`, padding: 10, borderRadius: 5 } }}>
                         <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <h2 color={this.GetNotificationColor(NotificationType.Info)}>{notification.title ?? "No Title"}</h2>
-                                {/* <div style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px", height: "25px", borderRadius: 4, background: this.GetNotificationColor(NotificationType.Info), color: "white", fontSize: 14, fontWeight: "bold", fontFamily: "Segoe UI", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                     {notification.title ?? "No Title"}
-                                     {/*{notification.icontype === NotificationType.Info && "Information"} 
-                                              {notification.icontype === NotificationType.Warning && "Warning"} 
-                                            {notification.icontype === NotificationType.Failure && "Failure"} 
-                                            {notification.icontype === NotificationType.Mention && "Mention"}
-                                            {notification.icontype === NotificationType.Custom && "Custom"} 
-                                            {notification.icontype === NotificationType.Success && "Success"}   */}
-                                {/* </div> */}
-                                {/* <div  style={{ alignContent: "center", paddingLeft: "10px", paddingRight: "10px", paddingTop: "2px", paddingBottom: "2px",   height: "25px", borderRadius: 4, background: GetPriorityColor(notification.priority!), color: "white", fontSize: 14, fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                {notification.priority === NotificationPriority.High && "High"} 
-                                                {notification.priority === NotificationPriority.Medium && "Medium"} 
-                                                {notification.priority === NotificationPriority.Normal && "Normal"} 
-                                        </div> */}
+                                <Text style={{ color: this.GetNotificationColor(NotificationType.Info) , fontSize: 18, fontWeight: "bold" }}>{notification.title ?? "No Title"}</Text>
                             </Stack>
-
                             <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
                                 <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
                                 <Text>{`Expiry Date: ${notification.expirationdate ?? "N/A"} ${notification.expirationdate != null ? "11:59 PM" : ""}`}</Text>
                                 {/* <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} /> */}
                             </Stack>
                         </Stack>
-                        {/* <Label style={{color: "black"}}>{notification.title}</Label>  */}
-                        {/* <Text variant="mediumPlus" styles={{ root: { fontWeight: "bold" } }}>
-                                    {notification.title}
-                                </Text> */}
                         <Text>{notification.body}</Text>
                     </Stack>
                 </Stack>
-                    <div style={{ border: "1px solid #ccc" }}></div>
+                    {/* <div style={{ border: "1px solid #ccc" }}></div> */}
                 </>
             ))}
         </Stack>
