@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Icon, Text, initializeIcons, Label} from "@fluentui/react";
+import { Stack, StackItem, Icon, Text, initializeIcons, Label, DefaultButton} from "@fluentui/react";
 import { NotificationType } from "./Constants";
 import { CMSAlertIcon, CMSInfo } from "./Icons";
 
@@ -18,7 +18,8 @@ interface NotificationModel {
 interface NotificationsProps {
 }
 interface NotificationsState {
-    notifications: NotificationModel[]
+    notifications: NotificationModel[];
+    currentPage: number; // Added for pagination
 }
 
 class Notifications extends React.Component<NotificationsProps, NotificationsState> {
@@ -26,14 +27,16 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         super(props);
         initializeIcons();
         this.state = {
-            notifications: []
-        }
+            notifications: [],
+            currentPage: 1 // Initialize current page
+        };
     }
     componentDidMount(): void {
         var obj = this;
         var today = new Date();
         today.setHours(0,0,0,0);
 
+        // Commented out the existing code to preserve it
         
         (parent as any).Xrm?.WebApi.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon desc`).then(
             function success(resp : any) {
@@ -59,21 +62,23 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                 console.log(error.message);
             }
         );
-        // this.setState({
-        //     notifications: [
-        //         {
-        //             title: "Notification 1",
-        //             body: "This is the body of notification 1.",
-        //             createdon: "2024-01-01",        
-        //             createdon_value: new Date("2024-01-01"),
-        //             expirationdate: "2024-12-31",
-        //             expirationdate_value: new Date("2024-12-31"),   
-        //             priority: 200000001,
-        //             icontype: NotificationType.Info
-        //         } as NotificationModel
-        //     ]
-        // });
-                
+        
+
+        // Sample data for testing
+        // const sampleNotifications: NotificationModel[] = [
+        //     { title: "Notification 1", body: "This is the body of notification 1.This is the body of notification 1This is the body of notification 1This is the body of notification 1This is the body of notification 1This is the body of notification 1This is the body of notification 1This is the body of notification 1", createdon: "2026-05-01", createdon_value: new Date("2026-05-01"), expirationdate: "2026-05-10", expirationdate_value: new Date("2026-05-10"), priority: 200000001, icontype: NotificationType.Info, ttlinseconds: null },
+        //     { title: "Notification 2", body: "This is the body of notification 2.", createdon: "2026-05-02", createdon_value: new Date("2026-05-02"), expirationdate: "2026-05-11", expirationdate_value: new Date("2026-05-11"), priority: 200000002, icontype: NotificationType.Warning, ttlinseconds: null },
+        //     { title: "Notification 3", body: "This is the body of notification 3.", createdon: "2026-05-03", createdon_value: new Date("2026-05-03"), expirationdate: "2026-05-12", expirationdate_value: new Date("2026-05-12"), priority: 200000000, icontype: NotificationType.Failure, ttlinseconds: null },
+        //     { title: "Notification 4", body: "This is the body of notification 4.", createdon: "2026-05-04", createdon_value: new Date("2026-05-04"), expirationdate: "2026-05-13", expirationdate_value: new Date("2026-05-13"), priority: 200000001, icontype: NotificationType.Mention, ttlinseconds: null },
+        //     { title: "Notification 5", body: "This is the body of notification 5.", createdon: "2026-05-05", createdon_value: new Date("2026-05-05"), expirationdate: "2026-05-14", expirationdate_value: new Date("2026-05-14"), priority: 200000002, icontype: NotificationType.Success, ttlinseconds: null },
+        //     { title: "Notification 6", body: "This is the body of notification 6.", createdon: "2026-05-06", createdon_value: new Date("2026-05-06"), expirationdate: "2026-05-15", expirationdate_value: new Date("2026-05-15"), priority: 200000000, icontype: NotificationType.Custom, ttlinseconds: null },
+        //     { title: "Notification 7", body: "This is the body of notification 7.", createdon: "2026-05-07", createdon_value: new Date("2026-05-07"), expirationdate: "2026-05-16", expirationdate_value: new Date("2026-05-16"), priority: 200000001, icontype: NotificationType.Info, ttlinseconds: null },
+        //     { title: "Notification 8", body: "This is the body of notification 8.", createdon: "2026-05-08", createdon_value: new Date("2026-05-08"), expirationdate: "2026-05-17", expirationdate_value: new Date("2026-05-17"), priority: 200000002, icontype: NotificationType.Warning, ttlinseconds: null },
+        //     { title: "Notification 9", body: "This is the body of notification 9.", createdon: "2026-05-09", createdon_value: new Date("2026-05-09"), expirationdate: "2026-05-18", expirationdate_value: new Date("2026-05-18"), priority: 200000000, icontype: NotificationType.Failure, ttlinseconds: null },
+        //     { title: "Notification 10", body: "This is the body of notification 10.", createdon: "2026-05-10", createdon_value: new Date("2026-05-10"), expirationdate: "2026-05-19", expirationdate_value: new Date("2026-05-19"), priority: 200000001, icontype: NotificationType.Mention, ttlinseconds: null }
+        // ];
+
+        // this.setState({ notifications: sampleNotifications });
     }
 
     GetNotificationIcon(notificationType: number): string {
@@ -120,53 +125,99 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
     }
 
     render(): React.ReactNode {
-        
-        return <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", maxHeight: "400px", backgroundColor: "#ffffff", borderRadius: 6 } }} >
-            <Stack horizontal tokens={{childrenGap: 10}} styles={{root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)",paddingLeft: 10, paddingTop: 10, paddingBottom: 10}}}>
-                <CMSAlertIcon size={50} color={"#0D2499"}/>
-                <Stack tokens={{childrenGap: 2}}>
-                    <Label style={{fontWeight: "bold", fontSize: 16}}>My Notifications</Label>
-                    <Text>Stay updated with important alerts and messages.</Text>
-                </Stack>
-            </Stack>
-            {this.state.notifications.map((notification, index) => (
-                <><Stack
-                    horizontal
-                    tokens={{ childrenGap: 25 }}
-                    styles={{
-                        root: {
-                            //border: `1px solid ${GetNotificationColor(notification.icontype!)}`,
-                            padding: 5,
-                            borderRadius: 5,
-                            border: "1px",
-                            borderLeft: `5px solid ${(index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463"}`,
-                            //boxShadow: "0 2px 4px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.15)"
-                            boxShadow: "0 1px 3px rgba(0,0,0,0.15)"
-                        }
-                    }}
-                >
-                    <StackItem align="center">
-                        <CMSInfo size={40} color= {(index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463"} />
-                    </StackItem>
-                    <Stack grow style={{border: 3}} styles={{ root: { border: `1px solid ${this.GetNotificationColor(NotificationType.Info)}`, padding: 10, borderRadius: 5 } }}>
-                        <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-                            <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <Text style={{ color: (index + 1) % 4 == 0 ? "#F57C00" : (index + 1) % 3 == 0 ? "#A98CF5" : (index + 1) % 2 == 0 ? "#115EA3" : "#1FA463", fontSize: 14, fontWeight: "bold" }}>{notification.title ?? "No Title"}</Text>
+        const { notifications, currentPage } = this.state;
+        const itemsPerPage = 4;
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const paginatedNotifications = notifications.slice(startIndex, startIndex + itemsPerPage);
+        const totalPages = Math.ceil(notifications.length / itemsPerPage);
+        const startItem = startIndex + 1;
+        const endItem = Math.min(startIndex + itemsPerPage, notifications.length);
+
+        return (
+            <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", backgroundColor: "#ffffff", borderRadius: 6, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" } }}>
+                <div>
+                    <Stack horizontal tokens={{ childrenGap: 10 }} styles={{ root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)", paddingLeft: 10, paddingTop: 10, paddingBottom: 10 } }}>
+                        <CMSAlertIcon size={50} color={"#0D2499"}/>
+                        <Stack tokens={{ childrenGap: 2 }}>
+                            <Label style={{ fontWeight: "bold", fontSize: 16 }}>My Notifications</Label>
+                            <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>Stay updated with important alerts and messages.</Text>
+                        </Stack>
+                    </Stack>
+                    {paginatedNotifications.map((notification, index) => (
+                        <Stack
+                            key={index}
+                            horizontal
+                            tokens={{ childrenGap: 25 }}
+                            styles={{
+                                root: {
+                                    padding: 5,
+                                    borderRadius: 5,
+                                    border: "1px",
+                                    borderLeft: `5px solid ${(index + 1) % 4 === 0 ? "#F57C00" : (index + 1) % 3 === 0 ? "#A98CF5" : (index + 1) % 2 === 0 ? "#115EA3" : "#1FA463"}`,
+                                    boxShadow: "0 1px 3px rgba(0,0,0,0.15)"
+                                }
+                            }}
+                        >
+                            <StackItem align="center">
+                                <CMSInfo size={40} color={(index + 1) % 4 === 0 ? "#F57C00" : (index + 1) % 3 === 0 ? "#A98CF5" : (index + 1) % 2 === 0 ? "#115EA3" : "#1FA463"} />
+                            </StackItem>
+                            <Stack grow style={{ border: 3 }} styles={{ root: { border: `1px solid ${this.GetNotificationColor(NotificationType.Info)}`, padding: 10, borderRadius: 5 } }}>
+                                <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                                    <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
+                                        <Text style={{ color: (index + 1) % 4 === 0 ? "#F57C00" : (index + 1) % 3 === 0 ? "#A98CF5" : (index + 1) % 2 === 0 ? "#115EA3" : "#1FA463", fontSize: 14, fontWeight: "bold" }}>{notification.title ?? "No Title"}</Text>
+                                    </Stack>
+                                    
+                                    {/* <Stack tokens={{ childrenGap: 10 }} verticalAlign="center">
+                                        <Stack horizontal tokens={{childrenGap: 10}}>
+                                            <Icon iconName="clock" styles={{ root: { color: "#ccc", fontSize: 16, paddingTop: 5 } }}/>
+                                            <Label style={{ color: "#ccc" }}>Expires on</Label>
+                                        </Stack>
+                                        <Stack horizontalAlign="start">
+                                            <Label>{`${notification.expirationdate ?? "N/A"} ${notification.expirationdate != null ? "11:59 PM" : ""}`}</Label>
+                                        </Stack>
+                                    </Stack> */}
+                                </Stack>
+                                <Text>{notification.body}</Text>
                             </Stack>
-                            <Stack horizontal tokens={{ childrenGap: 10 }} verticalAlign="center">
-                                <Icon iconName="clock" styles={{ root: { color: "gray", fontSize: 16 } }} />
-                                <Text>{`Expiry Date: ${notification.expirationdate ?? "N/A"} ${notification.expirationdate != null ? "11:59 PM" : ""}`}</Text>
-                                {/* <Timer expiredTime={new Date(new Date(notification.createdon_value).getTime() + (notification.ttlinseconds ? notification.ttlinseconds * 1000 : 0))} /> */}
+                            <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                <Icon iconName="clock" styles={{ root: { color: "#6A7A99", fontSize: 16, paddingTop: 5 } }} />
+                                <Stack>
+                                    <Label style={{ color: "#6A7A99" }}>Expires on</Label>
+                                    <Label styles={{root: {whiteSpace: "nowrap"}}}>{`${notification.expirationdate ?? "N/A"} ${notification.expirationdate != null ? "11:59 PM" : ""}`}</Label>
+                                </Stack>
                             </Stack>
                         </Stack>
-                        <Text>{notification.body}</Text>
+                    ))}
+                </div>
+                <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
+                    <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                        <Text>&nbsp;</Text>
+                        <Text>{`${startItem} - ${endItem} of ${notifications.length} notifications`}</Text>
+                        <Stack horizontal tokens={{ childrenGap: 10 }}>
+                            <DefaultButton
+                                text={"<"}
+                                onClick={() => this.handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                styles = {{root: {minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc"}}}
+                            />
+                            <DefaultButton
+                                text={">"}
+                                onClick={() => this.handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                styles = {{root: {minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc"}}}
+                                //styles={{ root: { padding: "5px 10px", backgroundColor: "white", border: "1px solid #ccc", borderRadius: "4px" }, rootDisabled: { cursor: "not-allowed", backgroundColor: "#f0f0f0", borderColor: "#ddd" } }}
+                            />
+                        </Stack>
                     </Stack>
-                </Stack>
-                     {/* <div style={{ border: "1px solid #ccc" }}></div>  */}
-                </>
-            ))}
-        </Stack>
+                </div>
+            </Stack>
+        );
     }
+
+    // Method to handle page change
+    handlePageChange = (page: number): void => {
+        this.setState({ currentPage: page });
+    };
 }
 
 export default Notifications;
