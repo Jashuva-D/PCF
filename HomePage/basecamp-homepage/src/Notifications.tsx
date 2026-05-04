@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, StackItem, Icon, Text, initializeIcons, Label, DefaultButton} from "@fluentui/react";
+import { Stack, StackItem, Icon, Text, initializeIcons, Label, DefaultButton, Link} from "@fluentui/react";
 import { NotificationType } from "./Constants";
 import { CMSAlertIcon, CMSInfo } from "./Icons";
 
@@ -133,15 +133,43 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         const startItem = startIndex + 1;
         const endItem = Math.min(startIndex + itemsPerPage, notifications.length);
 
+        var roles = (parent as any).Xrm?.Utility.getGlobalContext().userSettings.roles.get();
+        var hasCommunicationsTeamRole = roles?.some((x: any) => x.name == "Communications Team");
+
         return (
             <Stack tokens={{ childrenGap: 1 }} styles={{ root: { paddingLeft: 10, paddingRight: 10, paddingBottom: 10, overflowY: "auto", backgroundColor: "#ffffff", borderRadius: 6, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" } }}>
                 <div>
                     <Stack horizontal tokens={{ childrenGap: 10 }} styles={{ root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)", paddingLeft: 10, paddingTop: 10, paddingBottom: 10 } }}>
                         <CMSAlertIcon size={50} color={"#0D2499"}/>
-                        <Stack tokens={{ childrenGap: 2 }}>
+                        <Stack tokens={{ childrenGap: 2 }} grow>
                             <Label style={{ fontWeight: "bold", fontSize: 16 }}>My Notifications</Label>
                             <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>Stay updated with important alerts and messages.</Text>
                         </Stack>
+                        { hasCommunicationsTeamRole &&
+                        <StackItem align="center">
+                                <Link
+                                    onClick={() => {
+                                        (parent as any).Xrm.Navigation.navigateTo({
+                                            pageType: "entitylist",
+                                            entityName: "cr549_notification"
+                                        });
+                                    }}
+                                    styles={{
+                                        root: {
+                                            display: "flex",
+                                            alignItems: "center",   // ✅ vertical alignment fix
+                                            gap: 4,                 // space between text & icon
+                                            paddingRight: 10
+                                        }
+                                    }}
+                                >
+                                    <span>View All Notifications</span>
+                                    <Icon
+                                        iconName="ChevronRightSmall"
+                                        styles={{ root: { fontSize: 12 } }}
+                                    />
+                                </Link>
+                        </StackItem>}
                     </Stack>
                     {paginatedNotifications.map((notification, index) => (
                         <Stack

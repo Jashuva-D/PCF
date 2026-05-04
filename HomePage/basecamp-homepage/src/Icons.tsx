@@ -26,4 +26,22 @@ export const CMSAlertIcon: React.FC<{ size?: number, color?: string }> = ({ size
     </svg>
 );
 
+export const CMSMyAppsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
+    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="32" fill="#E6F0FF" />
+        <g stroke="#0D2499" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="18" y="20" width="28" height="24" rx="3" />
+            <circle cx="38" cy="24" r="1.5" fill="#0D2499" stroke="none" />
+            <circle cx="42" cy="24" r="1.5" fill="#0D2499" stroke="none" />
+            <circle cx="46" cy="24" r="1.5" fill="#0D2499" stroke="none" />
+            <line x1="22" y1="30" x2="42" y2="30" />
+            <line x1="22" y1="35" x2="38" y2="35" />
+            <line x1="22" y1="40" x2="40" y2="40" />
+        </g>
+    </svg>
+);
+
+
+//Stay organized with your applications and their important details.
+
 
