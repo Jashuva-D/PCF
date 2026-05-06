@@ -1,5 +1,6 @@
 import { Component } from "react";
-import { Stack, Label } from "@fluentui/react";
+import { Stack, Label, Text } from "@fluentui/react";
+import { CMSMApplicationsByPlatFormIcon } from "./Icons";
 
 interface PowerBIReportProps {}
 interface PowerBIReportState {embedUrl: string}
@@ -32,15 +33,19 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
 
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
-            <Label style={{ fontWeight: "bold", fontSize: 16 }}>
-                Applications By Platform
-            </Label>
+            <Stack horizontal verticalAlign='center'>
+                <CMSMApplicationsByPlatFormIcon size={32} />
+                <Stack tokens={{ childrenGap: 2 }} style={{ paddingLeft: 10 }}>
+                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>Applications By Platform</Label>
+                    <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>View and explore applications grouped by platform.</Text>
+                </Stack>
+            </Stack>
 
             <div
                 style={{
                     borderRadius: "6px",
-                    overflow: "hidden", // ✅ IMPORTANT
-                    border: "1px solid #ddd" // optional
+                    overflow: "hidden", 
+                    // border: "1px solid #ddd" 
                 }}
             >
                 <iframe
@@ -49,7 +54,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
                     src={this.state.embedUrl}
                     frameBorder="0"
                     allowFullScreen
-                    style={{ display: "block" }} // avoids tiny gaps
+                    style={{ display: "block" }} 
                 />
             </div>
         </Stack>

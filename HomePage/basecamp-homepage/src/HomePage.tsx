@@ -34,9 +34,9 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
         return <>
             <BaseCampLogo/>
             <Stack tokens={{childrenGap: 10}}>
-                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10}}><Notifications /></StackItem>
-                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10}}><Applications /></StackItem>
-                {this.state.enablePowerBIReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10}}><PowerBIReport /></StackItem>}
+                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Notifications /></StackItem>
+                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Applications /></StackItem>
+                {this.state.enablePowerBIReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><PowerBIReport /></StackItem>}
             </Stack>
         </>
     }

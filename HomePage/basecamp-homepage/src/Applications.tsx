@@ -1,7 +1,8 @@
 import * as React from 'react';
 import type {IColumn} from "@fluentui/react";
-import { DefaultButton, DetailsList, Label, SelectionMode, Stack, StackItem, Link, initializeIcons, Text} from '@fluentui/react';
+import { DefaultButton, DetailsList, Label, SelectionMode, Stack, StackItem, Link, initializeIcons, Text, Icon} from '@fluentui/react';
 import { getUserEmail } from './Helper';
+import { CMSMyAppsIcon } from './Icons';
 
 interface MyApplicationsProps {
     
@@ -20,7 +21,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
             columns: [
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
-                        return <Link onClick={() => this.openRecord("cr549_application",item.key)}>{item.cr549_id}</Link>
+                        return <Link onClick={() => this.openRecord("cr549_application",item.key)} style={{fontSize: 14}}>{item.cr549_id}</Link>
                     }
                 },
                 { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
@@ -66,7 +67,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onRender: (item: any) => {
                         if(item._cr549_technicaladvisor_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)} style={{fontSize: 14}}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link>
                         }
                         return null;
                     }
@@ -75,7 +76,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: '_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
                         if(item._cr549_hostingcoordinator_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)} style={{fontSize: 14}}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link>
                         }
                         return null;
                     }
@@ -83,7 +84,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: '_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onRender: (item: any) => {
                         if(item._cr549_financialanalyst_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)} style={{fontSize: 14}}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link>
                         }
                         return null;
                     }
@@ -151,33 +152,49 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
 
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
-                <Stack horizontal horizontalAlign="space-between">
-                    <Label style={{fontWeight: "bold", fontSize: 16}}>My Applications</Label>
-                    <StackItem style={{paddingTop: 0}}>
-                        <DefaultButton 
-                            text="Refresh"
-                            iconProps={{iconName: "refresh"}}
-                            onClick={this.LoadApplications.bind(this)} 
-                            style={{ marginRight: 10, backgroundColor: "#0D2499", color: "white", borderRadius: 6 }} />
-                        <DefaultButton 
-                            text="See All Applications" 
-                            iconProps={{iconName: "view"}}
+                <Stack horizontal horizontalAlign="space-between" style={{backgroundColor: "white"}}>
+                    <Stack horizontal verticalAlign='center'>
+                        <CMSMyAppsIcon size={32} />
+                        <Stack tokens={{childrenGap: 2}} style={{paddingLeft: 10}}>
+                            <Label style={{fontWeight: "bold", fontSize: 16, color: "#0D2499"}}>My Applications</Label>
+                            <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>View and manage your applications and their key details.</Text>
+                        </Stack>
+                    </Stack>
+                    <StackItem align="center">
+                        <Link
                             onClick={() => {
                                 (parent as any).Xrm.Navigation.navigateTo({
                                     pageType: "entitylist",
                                     entityName: "cr549_application"
                                 });
                             }}
-                            style = {{marginRight: 10, backgroundColor: "#0D2499", color: "white", borderRadius: 6 }}
-                        />
+                            styles={{
+                                root: {
+                                    display: "flex",
+                                    alignItems: "center",   // ✅ vertical alignment fix
+                                    gap: 4,                 // space between text & icon
+                                    paddingRight: 10
+                                }
+                            }}
+                        >
+                            <span>View All Applications</span>
+                            <Icon
+                                iconName="ChevronRightSmall"
+                                styles={{ root: { fontSize: 12 } }}
+                            />
+                        </Link>
                     </StackItem>
                 </Stack>
+                <Stack horizontal tokens={{ childrenGap: 0 }} styles={{ root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)", paddingLeft: 10,  paddingBottom: 10 } }}>
+                    
+                </Stack>
                 <DetailsList
-                    items={this.state.records}
-                    columns={this.state.columns}
-                    selectionMode={SelectionMode.none}
-                    className='myapplications'
-                />
+                        items={this.state.records}
+                        columns={this.state.columns}
+                        selectionMode={SelectionMode.none}
+                        className='myapplications'
+                    />
+               
             </Stack>
             
     }
