@@ -23,13 +23,13 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     componentDidMount() {
         var obj = this;
         var recs : IPersonaProps[] = [];
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_project", "?$select=cr549_role_name,cr549_id,cr549_roleid").then(
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_project", "?$select=cr549_projectnumber,cr549_projectnameshort").then(
             (response) => {
                 response.entities.forEach((ent) => {
-                    recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
+                    recs.push({ id: ent["cr549_projectid"], text: ent["cr549_projectnameshort"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
                 });
-                var selectedrecords = response.entities.filter(x => x["cr549_projectnumber"] == this.props.hostingprojectnumber);
-                //var selectedrecords = recs.filter(x => x.cr549_projectnumber == this.props.hostingprojectnumber);
+                //var selectedrecords = response.entities.filter(x => x["cr549_projectnumber"] == this.props.hostingprojectnumber);
+                var selectedrecords = recs.filter(x => x.secondaryText == this.props.hostingprojectnumber);
                 obj.setState({ allitems: recs, selectedRecords: selectedrecords });
             },
             (error) => {
