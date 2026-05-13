@@ -185,18 +185,18 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         </Link>
                     </StackItem>
                 </Stack>
-                <Stack horizontal tokens={{ childrenGap: 0 }} styles={{ root: { boxShadow: "0 4px 8px rgba(0,0,0,0.15)", paddingLeft: 10,  paddingBottom: 10 } }}>
-                    
-                </Stack>
                 <DetailsList
                         items={this.state.records}
                         columns={this.state.columns}
                         selectionMode={SelectionMode.none}
                         className='myapplications'
+                        styles={{
+                            root: {
+                                boxShadow: "0 -4px 8px rgba(0,0,0,0.15)"  // 👈 TOP shadow
+                            }
+                        }}
                     />
-               
             </Stack>
-            
     }
 }
 

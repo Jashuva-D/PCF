@@ -5,6 +5,7 @@ import './index.css'
 import HomePage from './HomePage.tsx';
 import Notifications from './Notifications.tsx';
 import ReleaseBanner from './ReleaseBanner.tsx';
+import PowerBIReport from './PowerBiReport.tsx';
 
 async function renderHomePage() {
 
@@ -103,7 +104,7 @@ renderHomePage();
 
 // createRoot(document.getElementById('root')!).render(
 //         <StrictMode>
-//           <Notifications />
+//           <PowerBIReport />
 //         </StrictMode>,
 //       )
 

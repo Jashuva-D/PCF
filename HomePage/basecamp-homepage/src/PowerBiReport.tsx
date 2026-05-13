@@ -14,7 +14,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
     }
     componentDidMount(): void {
         var obj = this;
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_crmmainpage_reporturl'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
+        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_crmmainpage_reporturl'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
             if (result.entities.length > 0) {
                 var reporturl = "";
                 let record = result.entities[0];
@@ -45,7 +45,9 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
                 style={{
                     borderRadius: "6px",
                     overflow: "hidden", 
-                    // border: "1px solid #ddd" 
+                    border: "1px solid #ddd",
+                    boxShadow: "0 -4px 12px #0d2499",
+                    backgroundColor: "white"
                 }}
             >
                 <iframe
