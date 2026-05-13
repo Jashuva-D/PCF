@@ -51,7 +51,6 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         //return <div> Hosting Project </div>
         return (    
             <NormalPeoplePicker
-                label="Hosting Project"
                 onEmptyResolveSuggestions={() => allitems}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                 pickerSuggestionsProps={{
@@ -61,13 +60,19 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 selectedItems={[...this.state.selectedRecords]}
                 itemLimit={1}
                 onChange={(items) => {
-                    this.setState({selectedRecords: items ?? []})
-                    if(items && items.length > 0) {
+                    this.setState({ selectedRecords: items ?? [] });
+
+                    if (items && items.length > 0) {
                         var item = items[0];
                         this.props.onRecordSelect(item.secondaryText as string);
                     }
                 }}
-                inputProps={{ style: { backgroundColor: 'white', width: 150 } }}
+                inputProps={{
+                    style: {
+                        backgroundColor: "#B2BEB5", // ash color
+                        border: "0px",
+                    }
+                }}
             />
         );
     }   
