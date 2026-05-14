@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
-import { IPersonaProps, NormalPeoplePicker } from "@fluentui/react";
+import { IPersonaProps, NormalPeoplePicker, TagPicker } from "@fluentui/react";
 
 interface LookupControlProps {
     context: ComponentFramework.Context<IInputs>;
@@ -23,18 +23,20 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     componentDidMount() {
         var obj = this;
         var recs : IPersonaProps[] = [];
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_projects", "?$select=cr549_projectsid,cr549_projectnumber,cr549_projectname").then(
-            (response) => {
-                response.entities.forEach((ent) => {
-                    recs.push({ id: ent["cr549_projectsid"], text: ent["cr549_projectname"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
-                });
-                var selectedrecords = this.props.hostingprojectnumber != "" ? recs.filter(x => x.secondaryText == this.props.hostingprojectnumber) : [];
-                obj.setState({ allitems: recs, selectedRecords: selectedrecords });
-            },
-            (error) => {
-                console.error("Error fetching records: ", error);
-            }
-        );
+        recs.push({ id: "1", text: "Test Project 11111111111111111122222222222", secondaryText: "HP001", showSecondaryText: true } as IPersonaProps);
+        this.setState({ allitems: recs, selectedRecords: recs.filter(x => x.secondaryText === "HP001") });
+        // this.props.context.webAPI.retrieveMultipleRecords("cr549_projects", "?$select=cr549_projectsid,cr549_projectnumber,cr549_projectname").then(
+        //     (response) => {
+        //         response.entities.forEach((ent) => {
+        //             recs.push({ id: ent["cr549_projectsid"], text: ent["cr549_projectname"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
+        //         });
+        //         var selectedrecords = this.props.hostingprojectnumber != "" ? recs.filter(x => x.secondaryText == this.props.hostingprojectnumber) : [];
+        //         obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+        //     },
+        //     (error) => {
+        //         console.error("Error fetching records: ", error);
+        //     }
+        // );
         
     }
     
@@ -56,21 +58,24 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     loadingText: "Loading...",
                     suggestionsHeaderText: header
                 }}
+                // pickerCalloutProps={{
+
+                // }}
                 selectedItems={[...this.state.selectedRecords]}
                 itemLimit={1}
-                onChange={(items) => {
-                    this.setState({ selectedRecords: items ?? [] });
+                // onChange={(items) => {
+                //     this.setState({ selectedRecords: items ?? [] });
 
-                    if (items && items.length > 0) {
-                        var item = items[0];
-                        this.props.onRecordSelect(item.secondaryText as string);
-                    }
-                }}
-                onRenderItem={(props) => (
-                    <div style={{ minWidth: 300 }}>
-                        {props?.children}
-                    </div>
-                )}
+                //     if (items && items.length > 0) {
+                //         var item = items[0];
+                //         this.props.onRecordSelect(item.secondaryText as string);
+                //     }
+                // }}
+                
+                // onRenderItem={(props: any) => {
+                //     debugger;
+                //     return <div>Test{props.item.secondaryText}</div>
+                // }}
                 inputProps={{
                     style: {
                         backgroundColor: "#F5F5F5"
@@ -85,6 +90,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                         backgroundColor: "#F5F5F5"
                     }
                 }}
+                
             />
         );
     }   
