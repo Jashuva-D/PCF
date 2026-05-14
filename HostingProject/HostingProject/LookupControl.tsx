@@ -23,20 +23,20 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     componentDidMount() {
         var obj = this;
         var recs : IPersonaProps[] = [];
-        recs.push({ id: "1", text: "Test Project 11111111111111111122222222222", secondaryText: "HP001", showSecondaryText: true } as IPersonaProps);
-        this.setState({ allitems: recs, selectedRecords: recs.filter(x => x.secondaryText === "HP001") });
-        // this.props.context.webAPI.retrieveMultipleRecords("cr549_projects", "?$select=cr549_projectsid,cr549_projectnumber,cr549_projectname").then(
-        //     (response) => {
-        //         response.entities.forEach((ent) => {
-        //             recs.push({ id: ent["cr549_projectsid"], text: ent["cr549_projectname"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
-        //         });
-        //         var selectedrecords = this.props.hostingprojectnumber != "" ? recs.filter(x => x.secondaryText == this.props.hostingprojectnumber) : [];
-        //         obj.setState({ allitems: recs, selectedRecords: selectedrecords });
-        //     },
-        //     (error) => {
-        //         console.error("Error fetching records: ", error);
-        //     }
-        // );
+        // recs.push({ id: "1", text: "Test Project 11111111111111111122222222222", secondaryText: "HP001", showSecondaryText: true } as IPersonaProps);
+        // this.setState({ allitems: recs, selectedRecords: recs.filter(x => x.secondaryText === "HP001") });
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_projects", "?$select=cr549_projectsid,cr549_projectnumber,cr549_projectname").then(
+            (response) => {
+                response.entities.forEach((ent) => {
+                    recs.push({ id: ent["cr549_projectsid"], text: ent["cr549_projectname"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
+                });
+                var selectedrecords = this.props.hostingprojectnumber != "" ? recs.filter(x => x.secondaryText == this.props.hostingprojectnumber) : [];
+                obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+            },
+            (error) => {
+                console.error("Error fetching records: ", error);
+            }
+        );
         
     }
     
