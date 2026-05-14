@@ -58,24 +58,16 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     loadingText: "Loading...",
                     suggestionsHeaderText: header
                 }}
-                // pickerCalloutProps={{
-
-                // }}
                 selectedItems={[...this.state.selectedRecords]}
                 itemLimit={1}
-                // onChange={(items) => {
-                //     this.setState({ selectedRecords: items ?? [] });
+                onChange={(items) => {
+                    this.setState({ selectedRecords: items ?? [] });
 
-                //     if (items && items.length > 0) {
-                //         var item = items[0];
-                //         this.props.onRecordSelect(item.secondaryText as string);
-                //     }
-                // }}
-                
-                // onRenderItem={(props: any) => {
-                //     debugger;
-                //     return <div>Test{props.item.secondaryText}</div>
-                // }}
+                    if (items && items.length > 0) {
+                        var item = items[0];
+                        this.props.onRecordSelect(item.secondaryText as string);
+                    }
+                }}
                 inputProps={{
                     style: {
                         backgroundColor: "#F5F5F5"
