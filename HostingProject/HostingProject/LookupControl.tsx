@@ -28,8 +28,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 response.entities.forEach((ent) => {
                     recs.push({ id: ent["cr549_projectsid"], text: ent["cr549_projectname"], secondaryText: ent["cr549_projectnumber"], showSecondaryText: true } as IPersonaProps);
                 });
-                //var selectedrecords = response.entities.filter(x => x["cr549_projectnumber"] == this.props.hostingprojectnumber);
-                var selectedrecords = recs.filter(x => x.secondaryText == this.props.hostingprojectnumber);
+                var selectedrecords = this.props.hostingprojectnumber != "" ? recs.filter(x => x.secondaryText == this.props.hostingprojectnumber) : [];
                 obj.setState({ allitems: recs, selectedRecords: selectedrecords });
             },
             (error) => {
@@ -69,8 +68,16 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 }}
                 inputProps={{
                     style: {
-                        backgroundColor: "#B2BEB5", // ash color
-                        border: "0px",
+                        backgroundColor: "#F5F5F5"
+                    }
+                }}
+                styles={{
+                    root: {
+                        backgroundColor: "#F5F5F5"
+                    },
+                    text: {
+                        border: "none",
+                        backgroundColor: "#F5F5F5"
                     }
                 }}
             />
