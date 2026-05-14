@@ -66,6 +66,11 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                         this.props.onRecordSelect(item.secondaryText as string);
                     }
                 }}
+                onRenderItem={(props) => (
+                    <div style={{ minWidth: 300 }}>
+                        {props?.children}
+                    </div>
+                )}
                 inputProps={{
                     style: {
                         backgroundColor: "#F5F5F5"
