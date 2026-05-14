@@ -44,7 +44,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         if (filterText == null || filterText.trim() == "")
             return this.state.allitems;
         else
-            return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+            return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()) || item.secondaryText?.toLowerCase().includes(filterText.toLowerCase()));
     }
     render() {
         const allitems = [...this.state.allitems];
