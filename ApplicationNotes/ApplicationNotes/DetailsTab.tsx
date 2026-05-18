@@ -47,10 +47,6 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                     <Label style={{ color: "#808080" }}>Topic</Label>
                     <Text>{this.props.topic ?? "\u00A0"}</Text>
                 </StackItem>
-                {/* <StackItem>
-                    <Label style={{ color: "#808080" }}>Topic Owner</Label>
-                    <Text>{this.props.topicowner ?? "\u00A0"}</Text>
-                </StackItem> */}
                 <StackItem>
                     <Label style={{ color: "#808080" }}>Interaction Type</Label>
                     <Text>{this.props.interactiontype != null ? Interactiontypes.filter(x => x.key == this.props.interactiontype)[0].text : "\u00A0"}</Text>
