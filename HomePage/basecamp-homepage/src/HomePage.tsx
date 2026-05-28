@@ -24,7 +24,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
         }
     }
     componentDidMount(): void {
-        var allowedroles = ["Financial Operations (Funding)", "Hosting Coordinator", "Financial Analyst", "Technical Advisor", "System Administrator", "Communications Team"];
+        var allowedroles = ["Hosting Coordinator", "Financial Analyst", "Technical Advisor", "System Administrator"];
         var roles = (parent as any).Xrm?.Utility.getGlobalContext().userSettings.roles.get();
         if(roles?.some((x: any) => allowedroles.includes(x.name))) {
             this.setState({ enablePowerBIReport: true });

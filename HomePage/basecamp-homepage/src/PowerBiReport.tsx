@@ -18,14 +18,15 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
             if (result.entities.length > 0) {
                 var reporturl = "";
                 let record = result.entities[0];
-                if (
-                    record.environmentvariabledefinition_environmentvariablevalue &&
+                if (record.environmentvariabledefinition_environmentvariablevalue &&
                     record.environmentvariabledefinition_environmentvariablevalue.length > 0 &&
-                    record.environmentvariabledefinition_environmentvariablevalue[0].value
-                ) {
+                    record.environmentvariabledefinition_environmentvariablevalue[0].value)
+                {
                     reporturl = record.environmentvariabledefinition_environmentvariablevalue[0].value;
                 }
-                reporturl = record.defaultvalue;
+                else {
+                    reporturl = record.defaultvalue;
+                }
             }
             obj.setState({ embedUrl: reporturl! });
         });
@@ -36,8 +37,8 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
             <Stack horizontal verticalAlign='center'>
                 <CMSMApplicationsByPlatFormIcon size={32} />
                 <Stack tokens={{ childrenGap: 2 }} style={{ paddingLeft: 10 }}>
-                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>Applications By Platform</Label>
-                    <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>View and explore applications grouped by platform.</Text>
+                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>HC/TA/FA Dashboard</Label>
+                    <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>View and manage your assigned applications and Jira tickets.</Text>
                 </Stack>
             </Stack>
 
