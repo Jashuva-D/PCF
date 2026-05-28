@@ -47,7 +47,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
                     borderRadius: "6px",
                     overflow: "hidden", 
                     border: "1px solid #ddd",
-                    boxShadow: "0 -4px 12px #0d2499",
+                    boxShadow: "0 -4px 12px rgba(0,0,0,0.15)",
                     backgroundColor: "white"
                 }}
             >
