@@ -49,26 +49,26 @@ async function renderHomePage() {
           </StrictMode>,
         )
       }
-      else if (roles.some((x: any) => x.name == "Manager")) {
-        var dashboardid = "";
-        dashboardid = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_managerdefaultdashboardid'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
-          if (result.entities.length > 0) {
-            let record = result.entities[0];
-            if (
-              record.environmentvariabledefinition_environmentvariablevalue &&
-              record.environmentvariabledefinition_environmentvariablevalue.length > 0 &&
-              record.environmentvariabledefinition_environmentvariablevalue[0].value
-            ) {
-              return record.environmentvariabledefinition_environmentvariablevalue[0].value;
-            }
-            return record.defaultvalue;
-          }
-          return null;
-        });
-        console.log("Dashboardid Retrieved: ", dashboardid);
-        (parent as any).Xrm.Navigation.navigateTo({ pageType: "dashboard", dashboardid: dashboardid });
-      }
-      else if (roles.some((x: any) => x.name == "Financial Operations (Funding)" || x.name == "Hosting Coordinator" || x.name == "Financial Analyst" || x.name == "Technical Advisor")) {
+      // else if (roles.some((x: any) => x.name == "Manager")) {
+      //   var dashboardid = "";
+      //   dashboardid = await (parent as any).Xrm.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_managerdefaultdashboardid'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
+      //     if (result.entities.length > 0) {
+      //       let record = result.entities[0];
+      //       if (
+      //         record.environmentvariabledefinition_environmentvariablevalue &&
+      //         record.environmentvariabledefinition_environmentvariablevalue.length > 0 &&
+      //         record.environmentvariabledefinition_environmentvariablevalue[0].value
+      //       ) {
+      //         return record.environmentvariabledefinition_environmentvariablevalue[0].value;
+      //       }
+      //       return record.defaultvalue;
+      //     }
+      //     return null;
+      //   });
+      //   console.log("Dashboardid Retrieved: ", dashboardid);
+      //   (parent as any).Xrm.Navigation.navigateTo({ pageType: "dashboard", dashboardid: dashboardid });
+      // }
+      else if (roles.some((x: any) => x.name == "Financial Operations (Funding)" || x.name == "Hosting Coordinator" || x.name == "Financial Analyst" || x.name == "Technical Advisor" || x.name == "Manager")) {
         createRoot(document.getElementById('root')!).render(
           <StrictMode>
             <HomePage />
