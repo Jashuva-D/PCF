@@ -2,7 +2,11 @@ import { Component } from "react";
 import { Stack, Label, Text } from "@fluentui/react";
 import { CMSMApplicationsByPlatFormIcon } from "./Icons";
 
-interface PowerBIReportProps {}
+interface PowerBIReportProps {
+    environmentVariableName?: string;
+    title?: string;
+    subtitle?: string;
+}
 interface PowerBIReportState {embedUrl: string}
 
 class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
@@ -14,7 +18,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
     }
     componentDidMount(): void {
         var obj = this;
-        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq 'crm2_crmmainpage_reporturl'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
+        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("environmentvariabledefinition", `?$select=defaultvalue,schemaname&$filter=schemaname eq '${this.props.environmentVariableName}'&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)`).then(function (result: any) {
             if (result.entities.length > 0) {
                 var reporturl = "";
                 let record = result.entities[0];
@@ -37,8 +41,8 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
             <Stack horizontal verticalAlign='center'>
                 <CMSMApplicationsByPlatFormIcon size={32} />
                 <Stack tokens={{ childrenGap: 2 }} style={{ paddingLeft: 10 }}>
-                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>HC/TA/FA Dashboard</Label>
-                    <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>View and manage your assigned applications and Jira tickets.</Text>
+                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>{this.props.title}</Label>
+                    <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>{this.props.subtitle}</Text>
                 </Stack>
             </Stack>
 

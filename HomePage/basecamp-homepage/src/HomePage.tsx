@@ -11,7 +11,8 @@ interface HomePageProps {
 interface HomePageState {
     enableNotifications: boolean;
     enableApplications: boolean;
-    enablePowerBIReport: boolean;
+    enableHCTAFAReport: boolean;
+    enableManagerDashboard: boolean;
 }
 
 class HomePage extends React.Component<HomePageProps, HomePageState> {
@@ -20,14 +21,21 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
         this.state = {
             enableNotifications: false,
             enableApplications: false,
-            enablePowerBIReport: false
+            enableHCTAFAReport: false,
+            enableManagerDashboard: false
         }
     }
     componentDidMount(): void {
-        var allowedroles = ["Hosting Coordinator", "Financial Analyst", "Technical Advisor", "System Administrator"];
+        var hctafadashboardallowedroles = ["Hosting Coordinator", "Financial Analyst", "Technical Advisor", "System Administrator"];
+        var managerdashboardallowedroles = ["Manager", "System Administrator"];
+        
         var roles = (parent as any).Xrm?.Utility.getGlobalContext().userSettings.roles.get();
-        if(roles?.some((x: any) => allowedroles.includes(x.name))) {
-            this.setState({ enablePowerBIReport: true });
+
+        if(roles?.some((x: any) => hctafadashboardallowedroles.includes(x.name))) {
+            this.setState({ enableHCTAFAReport: true });
+        }
+        if(roles?.some((x: any) => managerdashboardallowedroles.includes(x.name))) {
+            this.setState({ enableManagerDashboard: true });
         }
     }
     render() {
@@ -36,7 +44,20 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
             <Stack tokens={{childrenGap: 10}}>
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Notifications /></StackItem>
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Applications /></StackItem>
-                {this.state.enablePowerBIReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><PowerBIReport /></StackItem>}
+                {this.state.enableHCTAFAReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
+                    <PowerBIReport 
+                        environmentVariableName="crm2_crmmainpage_hctafadashboard_reporturl"
+                        title="HC/TA/FA Dashboard"
+                        subtitle="View and manage your assigned applications and Jira tickets."
+                    />
+                </StackItem>}
+                {this.state.enableManagerDashboard && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
+                    <PowerBIReport 
+                        environmentVariableName="crm2_crmmainpage_executivedashboard_reporturl"
+                        title="Executive Basecamp Dashboard"
+                        subtitle="Executive visibility across cloud platforms and operational activities"
+                    />
+                </StackItem>}
             </Stack>
         </>
     }
