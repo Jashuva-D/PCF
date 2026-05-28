@@ -46,14 +46,14 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Applications /></StackItem>
                 {this.state.enableHCTAFAReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
-                        environmentVariableName="crm2_crmmainpage_hctafadashboard_reporturl"
+                        environmentVariableName="crm2_mainpage_hctafadashboard_url"
                         title="HC/TA/FA Dashboard"
                         subtitle="View and manage your assigned applications and Jira tickets."
                     />
                 </StackItem>}
                 {this.state.enableManagerDashboard && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
-                        environmentVariableName="crm2_crmmainpage_executivedashboard_reporturl"
+                        environmentVariableName="crm2_mainpage_executivedashboard_url"
                         title="Executive Basecamp Dashboard"
                         subtitle="Executive visibility across cloud platforms and operational activities"
                     />
