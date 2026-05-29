@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type {IColumn} from "@fluentui/react";
-import { DefaultButton, DetailsList, Label, SelectionMode, Stack, StackItem, Link, initializeIcons, Text, Icon} from '@fluentui/react';
+import { DefaultButton, DetailsList, Label, SelectionMode, Stack, StackItem, Link, initializeIcons, Text, Icon, TooltipHost, DirectionalHint} from '@fluentui/react';
 import { getUserEmail } from './Helper';
 import { CMSMyAppsIcon } from './Icons';
 
@@ -119,9 +119,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
             ]
         }
     }
+
     componentDidMount() {
         this.LoadApplications.bind(this)();
     }
+
     LoadApplications(){
         var obj = this;
         getUserEmail((parent as any).Xrm.WebApi,(parent as any).Xrm.Utility.getGlobalContext().userSettings.userId).then((email) => {
@@ -176,13 +178,15 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
         }
 
         const isSortedDescending = this.state.sortColumn === column.fieldName ? !this.state.isSortedDescending : false;
+
         const sortedRecords = [...this.state.records].sort((a, b) => {
+
             const aValue = a[column.fieldName || ""] ?? "";
             const bValue = b[column.fieldName || ""] ?? "";
 
             if (aValue < bValue) return isSortedDescending ? 1 : -1;
             if (aValue > bValue) return isSortedDescending ? -1 : 1;
-            
+
             return 0;
         });
 
@@ -204,7 +208,27 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
         });
     }
 
+    onRenderDetailsHeader(props: any, defaultRender: any) {
+
+        if (!props || !defaultRender) {
+            return null;
+        }
+
+        return defaultRender({
+            ...props,
+            onRenderColumnHeaderTooltip: (tooltipProps: any) => (
+                <TooltipHost
+                    content={tooltipProps.column?.name}
+                    directionalHint={DirectionalHint.topCenter}
+                >
+                    {tooltipProps.children}
+                </TooltipHost>
+            )
+        });
+    }
+
     render() {
+
         const startIndex = (this.state.currentPage - 1) * this.state.pageSize;
         const endIndex = startIndex + this.state.pageSize;
         const paginatedRecords = this.state.records.slice(startIndex, endIndex);
@@ -244,11 +268,13 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         </Link>
                     </StackItem>
                 </Stack>
+
                 <DetailsList
                         items={paginatedRecords}
                         columns={this.state.columns}
                         selectionMode={SelectionMode.none}
                         className='myapplications'
+                        onRenderDetailsHeader={this.onRenderDetailsHeader.bind(this)}
                         styles={{
                             root: {
                                 boxShadow: "0 -4px 8px rgba(0,0,0,0.15)"  

@@ -47,7 +47,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
                 {this.state.enableManagerDashboard && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
                         environmentVariableName="crm2_mainpage_executivedashboard_url"
-                        title="Executive Basecamp Dashboard"
+                        title="Executive BaseCamp Dashboard"
                         subtitle="Executive visibility across cloud platforms and operational activities"
                     />
                 </StackItem>}
