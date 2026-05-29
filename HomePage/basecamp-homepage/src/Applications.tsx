@@ -9,7 +9,9 @@ interface MyApplicationsProps {
 }
 interface MyApplicationsState {
     records: any[],
-    columns: IColumn[]
+    columns: IColumn[],
+    currentPage: number,
+    pageSize: number
 }
 
 class Applications extends React.Component<MyApplicationsProps, MyApplicationsState> {
@@ -18,6 +20,8 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
         super(props);
         this.state = {
             records: [],
+            currentPage: 1,
+            pageSize: 10,
             columns: [
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
@@ -151,6 +155,14 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
     }
 
     render() {
+
+        const startIndex = (this.state.currentPage - 1) * this.state.pageSize;
+        const endIndex = startIndex + this.state.pageSize;
+
+        const paginatedRecords = this.state.records.slice(startIndex, endIndex);
+
+        const totalPages = Math.ceil(this.state.records.length / this.state.pageSize);
+
         return <Stack tokens={{ childrenGap: 10 }}>
                 <Stack horizontal horizontalAlign="space-between" style={{backgroundColor: "white"}}>
                     <Stack horizontal verticalAlign='center'>
@@ -171,8 +183,8 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                             styles={{
                                 root: {
                                     display: "flex",
-                                    alignItems: "center",   // ✅ vertical alignment fix
-                                    gap: 4,                 // space between text & icon
+                                    alignItems: "center",
+                                    gap: 4,
                                     paddingRight: 10
                                 }
                             }}
@@ -186,7 +198,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     </StackItem>
                 </Stack>
                 <DetailsList
-                        items={this.state.records}
+                        items={paginatedRecords}
                         columns={this.state.columns}
                         selectionMode={SelectionMode.none}
                         className='myapplications'
@@ -196,6 +208,43 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                             }
                         }}
                     />
+
+                <Stack
+                    horizontal
+                    horizontalAlign="space-between"
+                    verticalAlign="center"
+                    style={{ paddingTop: 10 }}
+                >
+                    <Text>
+                        Page {this.state.currentPage} of {totalPages || 1}
+                    </Text>
+
+                    <Stack horizontal tokens={{ childrenGap: 10 }}>
+                        <DefaultButton
+                            text="Previous"
+                            disabled={this.state.currentPage === 1}
+                            onClick={() =>
+                                this.setState({
+                                    currentPage: this.state.currentPage - 1
+                                })
+                            }
+                        />
+
+                        <DefaultButton
+                            text="Next"
+                            disabled={
+                                this.state.currentPage === totalPages ||
+                                totalPages === 0
+                            }
+                            onClick={() =>
+                                this.setState({
+                                    currentPage: this.state.currentPage + 1
+                                })
+                            }
+                        />
+                    </Stack>
+                </Stack>
+
             </Stack>
     }
 }
