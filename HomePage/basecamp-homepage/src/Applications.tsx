@@ -201,12 +201,32 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         className='myapplications'
                         styles={{
                             root: {
-                                boxShadow: "0 -4px 8px rgba(0,0,0,0.15)"  // 👈 TOP shadow
+                                boxShadow: "0 -4px 8px rgba(0,0,0,0.15)"  
                             }
                         }}
                     />
 
-                <Stack
+                <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
+                    <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                        <Text>&nbsp;</Text>
+                        <Text>{`${this.state.records.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.records.length)} of ${this.state.records.length} applications`}</Text>
+                        <Stack horizontal tokens={{ childrenGap: 10 }}>
+                            <DefaultButton
+                                text={"<"}
+                                onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
+                                disabled={this.state.currentPage === 1}
+                                styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                            />
+                            <DefaultButton
+                                text={">"}
+                                onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
+                                disabled={this.state.currentPage === totalPages || totalPages === 0}
+                                styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                            />
+                        </Stack>
+                    </Stack>
+                </div>
+                {/* <Stack
                     horizontal
                     horizontalAlign="space-between"
                     verticalAlign="center"
@@ -216,7 +236,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         Page {this.state.currentPage} of {totalPages || 1}
                     </Text>
 
-                    {/* <Stack horizontal tokens={{ childrenGap: 10 }}>
+                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                         <DefaultButton
                             text="Previous"
                             disabled={this.state.currentPage === 1}
@@ -239,28 +259,9 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                                 })
                             }
                         />
-                    </Stack> */}
-                    <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
-                        <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-                            <Text>&nbsp;</Text>
-                            <Text>{`${startIndex} - ${endIndex} of ${this.state.records.length} applications`}</Text>
-                            <Stack horizontal tokens={{ childrenGap: 10 }}>
-                                <DefaultButton
-                                    text={"<"}
-                                    onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
-                                    disabled={this.state.currentPage === 1}
-                                    styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
-                                />
-                                <DefaultButton
-                                    text={">"}
-                                    onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
-                                    disabled={this.state.currentPage === totalPages || totalPages === 0}
-                                    styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
-                                />
-                            </Stack>
-                        </Stack>
-                    </div>
-                </Stack>
+                    </Stack> 
+                    
+                </Stack> */}
 
             </Stack>
     }
