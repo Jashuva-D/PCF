@@ -11,7 +11,9 @@ interface MyApplicationsState {
     records: any[],
     columns: IColumn[],
     currentPage: number,
-    pageSize: number
+    pageSize: number,
+    sortColumn: string,
+    isSortedDescending: boolean
 }
 
 class Applications extends React.Component<MyApplicationsProps, MyApplicationsState> {
@@ -22,13 +24,17 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
             records: [],
             currentPage: 1,
             pageSize: 6,
+            sortColumn: "",
+            isSortedDescending: false,
             columns: [
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         return <Link onClick={() => this.openRecord("cr549_application",item.key)} style={{fontSize: 14}}>{item.cr549_id}</Link>
                     }
                 },
                 { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_cms_group){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#EBE8CE", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item.cr549_cms_group}</Text></Stack>;
@@ -37,6 +43,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                 },
                 { key: 'cr549_hosting_delivery_platform_name', name: 'Hosting Delivery Model', fieldName: 'cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_hosting_delivery_platform_name){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_hosting_delivery_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
@@ -45,6 +52,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                  },
                 { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_platform_name){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d9ecd8", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
@@ -53,6 +61,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                  },
                 { key: 'cr549_proj_phase_name', name: 'Stage', fieldName: 'cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 150, isResizable: true,
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_proj_phase_name){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#f2f2f2", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_proj_phase_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
@@ -61,6 +70,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                  },
                 { key: 'cr549_marketplace', name: 'Marketplace Application', fieldName: 'cr549_marketplace@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_marketplace){
                             return <Stack verticalAlign="center" horizontalAlign="center" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: item.cr549_marketplace == 1 ? "#12890E" : "#E31C3D"}}>{item.cr549_marketplace == 1 ? "Yes" : "No"}</Text></Stack>
@@ -69,6 +79,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                  },
                 { key: 'cr549_technicaladvisor', name: 'Technical Advisor', fieldName: '_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_technicaladvisor_value){
                             return <Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)} style={{fontSize: 14}}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link>
@@ -78,6 +89,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
 
                 },
                 { key: 'cr549_hostingcoordinator', name: 'Hosting Coordinator', fieldName: '_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_hostingcoordinator_value){
                             return <Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)} style={{fontSize: 14}}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link>
@@ -86,6 +98,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     }
                  },
                 { key: 'cr549_financialanalyst', name: 'Financial Analyst', fieldName: '_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_financialanalyst_value){
                             return <Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)} style={{fontSize: 14}}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link>
@@ -95,6 +108,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
 
                  },
                 { key: 'cr549_cms_office', name: 'Business Owner Office/Center', fieldName: 'cr549_cms_office@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_cms_office){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#E6C8DB", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item['cr549_cms_office@OData.Community.Display.V1.FormattedValue']}</Text></Stack>;
@@ -150,8 +164,44 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
             });
         });
     }
+
     openRecord(entityname: string, id: string){
         (parent as any).Xrm.Navigation.openForm({ entityName: entityname, entityId: id });   
+    }
+
+    onColumnClick(ev?: React.MouseEvent<HTMLElement>, column?: IColumn) {
+
+        if (!column) {
+            return;
+        }
+
+        const isSortedDescending = this.state.sortColumn === column.fieldName ? !this.state.isSortedDescending : false;
+        const sortedRecords = [...this.state.records].sort((a, b) => {
+            const aValue = a[column.fieldName || ""] ?? "";
+            const bValue = b[column.fieldName || ""] ?? "";
+
+            if (aValue < bValue) return isSortedDescending ? 1 : -1;
+            if (aValue > bValue) return isSortedDescending ? -1 : 1;
+            
+            return 0;
+        });
+
+        const updatedColumns = this.state.columns.map((col) => ({
+            ...col,
+            isSorted: col.key === column.key,
+            isSortedDescending:
+                col.key === column.key
+                    ? isSortedDescending
+                    : false
+        }));
+
+        this.setState({
+            records: sortedRecords,
+            columns: updatedColumns,
+            sortColumn: column.fieldName || "",
+            isSortedDescending: isSortedDescending,
+            currentPage: 1
+        });
     }
 
     render() {
@@ -226,42 +276,6 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         </Stack>
                     </Stack>
                 </div>
-                {/* <Stack
-                    horizontal
-                    horizontalAlign="space-between"
-                    verticalAlign="center"
-                    style={{ paddingTop: 10 }}
-                >
-                    <Text>
-                        Page {this.state.currentPage} of {totalPages || 1}
-                    </Text>
-
-                     <Stack horizontal tokens={{ childrenGap: 10 }}>
-                        <DefaultButton
-                            text="Previous"
-                            disabled={this.state.currentPage === 1}
-                            onClick={() =>
-                                this.setState({
-                                    currentPage: this.state.currentPage - 1
-                                })
-                            }
-                        />
-
-                        <DefaultButton
-                            text="Next"
-                            disabled={
-                                this.state.currentPage === totalPages ||
-                                totalPages === 0
-                            }
-                            onClick={() =>
-                                this.setState({
-                                    currentPage: this.state.currentPage + 1
-                                })
-                            }
-                        />
-                    </Stack> 
-                    
-                </Stack> */}
 
             </Stack>
     }
