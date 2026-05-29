@@ -21,7 +21,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
         this.state = {
             records: [],
             currentPage: 1,
-            pageSize: 10,
+            pageSize: 6,
             columns: [
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onRender: (item: any) => {
