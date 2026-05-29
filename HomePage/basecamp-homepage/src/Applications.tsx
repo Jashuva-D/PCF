@@ -155,12 +155,9 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
     }
 
     render() {
-
         const startIndex = (this.state.currentPage - 1) * this.state.pageSize;
         const endIndex = startIndex + this.state.pageSize;
-
         const paginatedRecords = this.state.records.slice(startIndex, endIndex);
-
         const totalPages = Math.ceil(this.state.records.length / this.state.pageSize);
 
         return <Stack tokens={{ childrenGap: 10 }}>
@@ -219,7 +216,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         Page {this.state.currentPage} of {totalPages || 1}
                     </Text>
 
-                    <Stack horizontal tokens={{ childrenGap: 10 }}>
+                    {/* <Stack horizontal tokens={{ childrenGap: 10 }}>
                         <DefaultButton
                             text="Previous"
                             disabled={this.state.currentPage === 1}
@@ -242,7 +239,27 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                                 })
                             }
                         />
-                    </Stack>
+                    </Stack> */}
+                    <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
+                        <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                            <Text>&nbsp;</Text>
+                            <Text>{`${startIndex} - ${endIndex} of ${this.state.records.length} applications`}</Text>
+                            <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                <DefaultButton
+                                    text={"<"}
+                                    onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
+                                    disabled={this.state.currentPage === 1}
+                                    styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                                />
+                                <DefaultButton
+                                    text={">"}
+                                    onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
+                                    disabled={this.state.currentPage === totalPages || totalPages === 0}
+                                    styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                                />
+                            </Stack>
+                        </Stack>
+                    </div>
                 </Stack>
 
             </Stack>
