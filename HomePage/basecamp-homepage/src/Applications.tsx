@@ -30,7 +30,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'cr549_id', name: 'Application Name (Short)', fieldName: 'cr549_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        return <Link onClick={() => this.openRecord("cr549_application",item.key)} style={{fontSize: 14}}>{item.cr549_id}</Link>
+                        return <Stack verticalAlign='center' horizontalAlign='start'><Link onClick={() => this.openRecord("cr549_application",item.key)} style={{fontSize: 14}}>{item.cr549_id}</Link></Stack>;
                     }
                 },
                 { key: 'cr549_cms_group', name: 'Business Owner Group', fieldName: 'cr549_cms_group', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
@@ -82,7 +82,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_technicaladvisor_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)} style={{fontSize: 14}}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Stack verticalAlign="center" horizontalAlign='center'><Link onClick={() => this.openRecord("cr549_person",item._cr549_technicaladvisor_value)} style={{fontSize: 14}}>{item['_cr549_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
@@ -92,7 +92,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_hostingcoordinator_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)} style={{fontSize: 14}}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Stack verticalAlign="center" horizontalAlign="center"><Link onClick={() => this.openRecord("cr549_person",item._cr549_hostingcoordinator_value)} style={{fontSize: 14}}>{item['_cr549_hostingcoordinator_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
@@ -101,7 +101,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._cr549_financialanalyst_value){
-                            return <Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)} style={{fontSize: 14}}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link>
+                            return <Stack verticalAlign="center" horizontalAlign="center"><Link onClick={() => this.openRecord("cr549_person",item._cr549_financialanalyst_value)} style={{fontSize: 14}}>{item['_cr549_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
