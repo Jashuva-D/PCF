@@ -250,6 +250,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         submitCallBack={this.onSubmitCallBack.bind(this)} 
                         cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} 
                         showalert={this.showAlertMessage.bind(this)}
+                        parententity={this.props.parententity}
                     />
                 </StackItem>}
                 <StackItem grow styles={{root: {overflowY: "auto", maxHeight: "calc(100vh - 200px)", backgroundColor: "rgb(243, 243, 243)"}}}>
