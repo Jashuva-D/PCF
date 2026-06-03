@@ -200,7 +200,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_interactiondescription : this.state.interactiondescription
         }
         this.props.context?.webAPI.createRecord("cr549_componentnotes",record).then(function(resp){
-            if(obj.props.parententity && obj.props.parententity.trim() !== "cr549_application") {
+            if(obj.props.parententity && obj.props.parententity.trim() == "cr549_application") {
                 var associateRequest = {
                   target: { entityType: "cr549_componentnotes", id: resp.id },
                   relatedEntities: [{
