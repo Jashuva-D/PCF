@@ -104,6 +104,21 @@ class Note extends React.Component<NoteProps,NoteState> {
             });
         };
     }
+    onRemoveClick() {
+        var obj = this;
+        var disAssociateRequest = {
+            target: { entityType: "cr549_componentnotes", id: obj.props.recordid },
+            relatedEntityId: (obj.props.context as any).page.entityId,
+            relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+            getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Disassociate" }; }
+        };
+        (obj.props.context.webAPI as any).execute(disAssociateRequest).then(function (response: any) {
+            obj.props.showalert(CMSAlertType.Success, "Note removed from application successfully.");
+            obj.props.deleteCallBack(obj.props.recordid);
+        }, function (err: any) {
+            obj.props.context.navigation.openErrorDialog({ message: "Error occured while removing note from application.", details: err.message });
+        });
+    }
     editCancel(){
         this.setState({
             editmode : false
@@ -122,7 +137,31 @@ class Note extends React.Component<NoteProps,NoteState> {
 
         var buttons = [
             {key: `${this.props.recordid}_edit`, text: "Edit", iconOnly:true, iconProps:{iconName: "Edit"}, buttonStyles: {icon: { fontSize: 15 }}, onClick: this.onEditClick.bind(this), fontsize: 10, disabled: this.state.displayApps}, 
-            { 
+        ] as ICommandBarItemProps[];
+
+        if(this.props.parententity === "cr549_application"){
+            buttons.push({ 
+                key: `${this.props.recordid}_delete`, 
+                text: "Remove", iconOnly:true, 
+                iconProps:{iconName: "delete"}, 
+                buttonStyles: {icon: { fontSize: 15 }}, 
+                onClick: () => {
+                    this.setState({
+                        showDialog: true,
+                        dialogCancelButtonLabel: "Cancel",
+                        dialogConfirmButtonLabel: "Remove",
+                        dialogTitle: "Confirm Remove",
+                        dialogSubtext: "Do you want to remove the record? \n This action will remove the record from the current application only, record will still be available in other applications (where it is added) and in the main notes list.",
+                        dialogConfirmCallback: () => {
+                            this.onRemoveClick();
+                        }
+                    })
+                },
+                disabled: this.state.displayApps
+            });
+        } 
+        else {
+            buttons.push({ 
                 key: `${this.props.recordid}_delete`, 
                 text: "Delete", iconOnly:true, 
                 iconProps:{iconName: "Delete"}, 
@@ -140,8 +179,8 @@ class Note extends React.Component<NoteProps,NoteState> {
                     })
                 },
                 disabled: this.state.displayApps
-            }
-        ] as ICommandBarItemProps[];
+            });
+        }
 
         //var overflowbuttons = [] as ICommandBarItemProps[];
 
@@ -197,7 +236,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
                                 Action Items
                         </DefaultButton>
-                        {this.props.parententity === "cr549_application" && (
+                        {this.props.parententity != "cr549_application" && (
                             <DefaultButton 
                                 style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
                                 onClick={() => {this.setState({currenttab: NoteTabs.Applications})}}>
