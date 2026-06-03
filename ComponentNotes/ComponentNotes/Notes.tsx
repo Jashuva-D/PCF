@@ -16,6 +16,7 @@ import "react-quill/dist/quill.snow.css";
 
 interface NotesProps {
     context: ComponentFramework.Context<IInputs>,
+    parententity?: string
 }
 interface NotesState {
     notes: any[],
@@ -105,7 +106,27 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes","?$orderby=createdon desc").then((resp) => {
+        var query = `?$orderby=createdon desc`;
+
+        if(this.props.parententity == "cr549_application"){
+
+            var fetchxml = "<fetch>";
+            fetchxml += "<entity name='cr549_componentnotes'>";
+            fetchxml += "<all-attributes/>";
+            fetchxml += "<order attribute='createdon' descending='false'/>";
+            fetchxml += "<link-entity name='crm2_cr549_componentnotes_cr549_application' from='cr549_componentnotesid' to='cr549_componentnotesid' visible='false' intersect='true'>";  
+            fetchxml += "<link-entity name=`cr549_application` from=`cr549_applicationid` to=`cr549_applicationid` alias='ab'>";
+            fetchxml += "<filter type='and'>";
+            fetchxml += `<condition attribute='cr549_applicationid' operator='eq' value='{9A5926CF-7DDF-F011-8544-001DD806C085}'/>`;
+            fetchxml += "</filter>";
+            fetchxml += "</link-entity>";
+            fetchxml += "</link-entity>";
+            fetchxml += "</entity>";
+            fetchxml += "</fetch>";
+
+            query = `?fetchXml=${encodeURIComponent(fetchxml)}`;
+        }
+        this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes", query).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({

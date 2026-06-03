@@ -16,17 +16,14 @@ export class ComponentNotes implements ComponentFramework.StandardControl<IInput
         state: ComponentFramework.Dictionary,
         container: HTMLDivElement
     ): void {
-
-        // Set the container background color and remove padding
-        //container.style.backgroundColor = "rgb(243, 243, 243)";
-        //container.style.padding = "0";
-
         this._container = container;
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(Notes, { context: context }));
+        var parententity = context.parameters.parententity.raw ?? undefined;
+        
+        root.render(React.createElement(Notes, { context: context, parententity: parententity }));
     }
 
     public getOutputs(): IOutputs {
