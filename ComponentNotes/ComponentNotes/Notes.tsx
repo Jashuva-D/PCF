@@ -273,6 +273,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
                             interactiondescription={x.interactiondescription}
+                            parententity={this.props.parententity}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                             refresh = {this.Refresh.bind(this)}
                             showalert = {this.showAlertMessage.bind(this)}

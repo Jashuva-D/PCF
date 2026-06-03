@@ -23,6 +23,7 @@ interface NoteProps {
     statecode : number,
     interactiontype? : number,
     interactiondescription? : string,
+    parententity? : string,
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
     showalert : (type: CMSAlertType, message: string) => void,
@@ -196,11 +197,13 @@ class Note extends React.Component<NoteProps,NoteState> {
                             onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
                                 Action Items
                         </DefaultButton>
-                        <DefaultButton 
-                            style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
-                            onClick={() => {this.setState({currenttab: NoteTabs.Applications})}}>
-                                Applications
-                        </DefaultButton>
+                        {this.props.parententity === "cr549_application" && (
+                            <DefaultButton 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Applications ? "2px solid #0D2499" : "none"}} 
+                                onClick={() => {this.setState({currenttab: NoteTabs.Applications})}}>
+                                    Applications
+                            </DefaultButton>
+                        )}
                     </StackItem>}
                     { !this.state.editmode && 
                         <StackItem>
