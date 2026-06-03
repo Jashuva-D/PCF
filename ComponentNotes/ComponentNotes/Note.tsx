@@ -299,6 +299,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 interactiontype={this.props.interactiontype}
                                 interactiondescription={this.props.interactiondescription}
                                 showalert={this.props.showalert}
+                                parententity={this.props.parententity}
                             />
                         </StackItem>
                     }

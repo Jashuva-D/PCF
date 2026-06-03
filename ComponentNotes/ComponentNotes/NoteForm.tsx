@@ -25,6 +25,7 @@ interface NoteFormProps{
   confluencepageid? : string,
   confluencespace? : string,
   confluencepagetitle? : string,
+  parententity? : string,
   showalert : (type: CMSAlertType, message: string) => void,
 }
 interface NoteFormState {
@@ -199,11 +200,39 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           cr549_interactiondescription : this.state.interactiondescription
         }
         this.props.context?.webAPI.createRecord("cr549_componentnotes",record).then(function(resp){
-            obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-            obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
-            obj.setState({
-              displayprogress: false,
-            });
+            if(obj.props.parententity && obj.props.parententity.trim() !== "cr549_application") {
+                var associateRequest = {
+                  target: { entityType: "cr549_componentnotes", id: resp.id },
+                  relatedEntities: [{
+                    entityType: "cr549_application",
+                    id: (obj.props.context as any).page.entityId
+                  }],
+                  relationship: "crm2_cr549_ComponentNotes_cr549_Application_cr549_Application",
+                  getMetadata: function () { return { boundParameter: null, parameterTypes: {}, operationType: 2, operationName: "Associate" }; }
+                };
+                (obj.props.context.webAPI as any).execute(associateRequest).then(function success(response: any) {
+                    obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+                    obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+                    obj.setState({
+                      displayprogress: false,
+                    });
+                  }
+                ).catch(function (error: any) {
+                    obj.setState({displayprogress: false});
+                    obj.props.context.navigation.openErrorDialog({
+                      message: error.message
+                    }).then(() => {
+                      obj.props.showalert(CMSAlertType.Error, "Error creating note: \n" + error?.message);
+                    },() => {});
+                });
+            }
+            else {
+                obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});
+                obj.setState({
+                  displayprogress: false,
+                });
+            }
         },function(error){
             obj.setState({displayprogress: false});
             obj.props.context.navigation.openErrorDialog({
