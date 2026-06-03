@@ -109,17 +109,16 @@ class Notes extends React.Component<NotesProps, NotesState> {
         var query = `?$orderby=createdon desc`;
 
         if(this.props.parententity == "cr549_application"){
+            var applicationid = (obj.props.context as any).page.entityId
 
             var fetchxml = "<fetch>";
             fetchxml += "<entity name='cr549_componentnotes'>";
-            fetchxml += "<all-attributes/>";
-            fetchxml += "<order attribute='createdon' descending='false'/>";
-            fetchxml += "<link-entity name='crm2_cr549_componentnotes_cr549_application' from='cr549_componentnotesid' to='cr549_componentnotesid' visible='false' intersect='true'>";  
-            fetchxml += "<link-entity name=`cr549_application` from=`cr549_applicationid` to=`cr549_applicationid` alias='ab'>";
-            fetchxml += "<filter type='and'>";
-            fetchxml += `<condition attribute='cr549_applicationid' operator='eq' value='{9A5926CF-7DDF-F011-8544-001DD806C085}'/>`;
+            fetchxml += "<all-attributes />";
+            fetchxml += "<order attribute='createdon' descending='false' />";
+            fetchxml += "<link-entity name='crm2_cr549_componentnotes_cr549_application' from='cr549_componentnotesid' to='cr549_componentnotesid' intersect='true'>";
+            fetchxml += "<filter>";
+            fetchxml += `<condition attribute='cr549_applicationid' operator='eq' value='${applicationid}' />`;
             fetchxml += "</filter>";
-            fetchxml += "</link-entity>";
             fetchxml += "</link-entity>";
             fetchxml += "</entity>";
             fetchxml += "</fetch>";
