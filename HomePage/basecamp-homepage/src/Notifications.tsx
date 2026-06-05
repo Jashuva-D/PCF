@@ -130,7 +130,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
         const startIndex = (currentPage - 1) * itemsPerPage;
         const paginatedNotifications = notifications.slice(startIndex, startIndex + itemsPerPage);
         const totalPages = Math.ceil(notifications.length / itemsPerPage);
-        const startItem = startIndex + 1;
+        const startItem = notifications.length > 0 ? startIndex + 1 : 0;
         const endItem = Math.min(startIndex + itemsPerPage, notifications.length);
 
         var roles = (parent as any).Xrm?.Utility.getGlobalContext().userSettings.roles.get();
