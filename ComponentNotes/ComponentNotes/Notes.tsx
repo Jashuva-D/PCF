@@ -123,7 +123,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
             fetchxml += "</entity>";
             fetchxml += "</fetch>";
 
-            query = `?fetchXml=${encodeURIComponent(fetchxml)}`;
+            query = `?fetchXml=${encodeURIComponent(fetchxml)}&$orderby=createdon desc`;
         }
         this.props.context.webAPI.retrieveMultipleRecords("cr549_componentnotes", query).then((resp) => {
             let notes = [] as any[]
