@@ -27,87 +27,14 @@ export const CMSAlertIcon: React.FC<{ size?: number, color?: string }> = ({ size
 );
 
 export const CMSNotifications: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
-    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <radialGradient id="bellBg" cx="50%" cy="45%" r="55%">
-                <stop offset="0%" stop-color="#F5FAFF" />
-                <stop offset="100%" stop-color="#DDEBFF" />
-            </radialGradient>
-        </defs>
-        <circle cx="32" cy="32" r="30" fill="url(#bellBg)" />
-        <g fill="none" stroke="#0D6EFD" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M24 21.5L21.8 23.7" />
-            <path d="M27 19.2L26.2 21.2" />
-            <path d="M29.5 22.2C29.5 20.6 30.8 19.3 32.4 19.3C34 19.3 35.3 20.6 35.3 22.2" />
-            <path d="M32.4 22.2V24" />
-            <path d="M25 39.5V30C25 25.2 28.1 22 32 22C35.9 22 39 25.2 39 30V39.5" />
-            <path d="M22 39.5H42" />
-            <path d="M22 39.5C24 37.5 25 35.2 25 31.5" />
-            <path d="M42 39.5C40 37.5 39 35.2 39 31.5" />
-            <path d="M29.5 27.8C30.1 26.4 31 25.5 32.5 25" />
-            <path d="M29 44C30.4 45.6 33.6 45.6 35 44" />
-        </g>
-    </svg>
-);
-
-
-// export const CMSMyAppsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
-//     <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-//         <circle cx="32" cy="32" r="32" fill="#E6F0FF" />
-//         <g stroke="#0D2499" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round">
-//             <rect x="18" y="20" width="28" height="24" rx="3" />
-//             <circle cx="38" cy="24" r="1.5" fill="#0D2499" stroke="none" />
-//             <circle cx="42" cy="24" r="1.5" fill="#0D2499" stroke="none" />
-//             <circle cx="46" cy="24" r="1.5" fill="#0D2499" stroke="none" />
-//             <line x1="22" y1="30" x2="42" y2="30" />
-//             <line x1="22" y1="35" x2="38" y2="35" />
-//             <line x1="22" y1="40" x2="40" y2="40" />
-//         </g>
-//     </svg>
-// );
-
-export const CMSMyAppsIcon2: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
-    <svg width="64" height="64" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <radialGradient id="bg" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#F5FAFF" />
-            <stop offset="100%" stop-color="#DDEEFF" />
-        </radialGradient>
-    </defs>
-
-    <circle cx="24" cy="24" r="23.4" fill="url(#bg)" />
-
-    <rect x="8.9" y="12.2" width="30.2" height="26.3" rx="2.2"
-        fill="none" stroke="#0D6EFD" stroke-width="2.25" />
-
-    <line x1="8.9" y1="17.3" x2="39.1" y2="17.3"
-        stroke="#0D6EFD" stroke-width="2.25" />
-
-    <circle cx="31.4" cy="14.5" r="0.7" fill="#0D6EFD" />
-    <circle cx="34.0" cy="14.5" r="0.7" fill="#0D6EFD" />
-    <circle cx="36.6" cy="14.5" r="0.7" fill="#0D6EFD" />
-
-    <circle cx="17.1" cy="23.4" r="3.4"
-        fill="none" stroke="#0D6EFD" stroke-width="2.25" />
-
-    <path d="M11.3 34.7
-       V31.9
-       C11.3 28.9 13.8 27.4 17.1 27.4
-       C20.4 27.4 22.9 28.9 22.9 31.9
-       V34.7 Z"
-        fill="none" stroke="#0D6EFD" stroke-width="2.25"
-        stroke-linejoin="round" />
-
-    <line x1="24.6" y1="21.6" x2="37.0" y2="21.6"
-        stroke="#0D6EFD" stroke-width="2.25" stroke-linecap="round" />
-    <line x1="24.6" y1="24.8" x2="37.0" y2="24.8"
-        stroke="#0D6EFD" stroke-width="2.25" stroke-linecap="round" />
-    <line x1="24.6" y1="28.1" x2="37.0" y2="28.1"
-        stroke="#0D6EFD" stroke-width="2.25" stroke-linecap="round" />
-    <line x1="24.6" y1="31.4" x2="34.9" y2="31.4"
-        stroke="#0D6EFD" stroke-width="2.25" stroke-linecap="round" />
-    <line x1="24.6" y1="34.2" x2="32.3" y2="34.2"
-        stroke="#0D6EFD" stroke-width="2.25" stroke-linecap="round" />
+    <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="28" cy="28" r="28" fill="#E6F0FF"/>
+    <g transform="translate(7,7) scale(1.75)">
+        <path d="M15.25 7h-2.5l-.101.007A.75.75 0 0 0 12.75 8.5h1.043l-1.653 2.314-.055.09A.75.75 0 0 0 12.75 12h2.5l.102-.007a.75.75 0 0 0-.102-1.493h-1.042l1.653-2.314.055-.09A.75.75 0 0 0 15.25 7ZM21.25 2h-3.5l-.101.007A.75.75 0 0 0 17.75 3.5h2.134l-2.766 4.347-.05.09A.75.75 0 0 0 17.75 9h3.5l.102-.007A.75.75 0 0 0 21.25 7.5h-2.133l2.766-4.347.05-.09A.75.75 0 0 0 21.25 2Z"
+              fill="#0D6EFD"/>
+        <path d="M12.7 5.5h2.55c.508 0 .956.158 1.316.42l.629-.989a2.251 2.251 0 0 1-1.692-2.06A7.5 7.5 0 0 0 4.505 9.24l-.005.25v4.012l-1.415 3.16a.95.95 0 0 0 .867 1.338h16.1a.95.95 0 0 0 .866-1.338l-1.418-3.16V10.5h-1.75c-.134 0-.265-.011-.39-.032a2.25 2.25 0 0 1-1.807 3.012l-.05.006-.203.014h-2.55c-1.73 0-2.765-1.835-1.992-3.297l.024-.045.108-.175.382-.536a2.25 2.25 0 0 1 1.174-3.927l.05-.006.203-.014ZM14.958 19.003a3 3 0 0 1-5.916 0h5.916Z"
+              fill="#0D6EFD"/>
+    </g>
 </svg>
 );
 
