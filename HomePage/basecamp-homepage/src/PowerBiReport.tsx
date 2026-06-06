@@ -6,6 +6,7 @@ interface PowerBIReportProps {
     environmentVariableName?: string;
     title?: string;
     subtitle?: string;
+    reporticon?: React.ReactNode;
 }
 interface PowerBIReportState {embedUrl: string}
 
@@ -39,7 +40,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
     render() {
         return <Stack tokens={{ childrenGap: 10 }}>
             <Stack horizontal verticalAlign='center'>
-                <CMSMApplicationsByPlatFormIcon size={32} />
+                {this.props.reporticon}
                 <Stack tokens={{ childrenGap: 2 }} style={{ paddingLeft: 10 }}>
                     <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>{this.props.title}</Label>
                     <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>{this.props.subtitle}</Text>
