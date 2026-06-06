@@ -4,7 +4,7 @@ import Applications from "./Applications";
 import PowerBIReport from "./PowerBiReport";
 import {Stack, StackItem} from "@fluentui/react";
 import BaseCampLogo from "./BaseCampLogo";
-import { CMSMyAppsIcon, CMSHCTADDashBoardIcon, CMSMApplicationsByPlatFormIcon } from "./Icons";
+import { CMSMyAppsIcon, CMSHCTADDashBoardIcon, CMSExecutiveDashboardIcon } from "./Icons";
 
 interface HomePageProps {
 
@@ -50,7 +50,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
                         environmentVariableName="crm2_mainpage_executivedashboard_url"
                         title="Executive BaseCamp Dashboard"
                         subtitle="Executive visibility across cloud platforms and operational activities"
-                        reporticon={<CMSMApplicationsByPlatFormIcon size={24} />}
+                        reporticon={<CMSExecutiveDashboardIcon size={24} />}
                     />
                 </StackItem>}
                 {this.state.enableHCTAFAReport && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>

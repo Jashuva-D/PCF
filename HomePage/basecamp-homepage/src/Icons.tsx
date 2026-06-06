@@ -111,15 +111,14 @@ export const CMSMyAppsIcon2: React.FC<{ size?: number, color?: string }> = ({ si
 </svg>
 );
 
-export const CMSMApplicationsByPlatFormIcon: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
-    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="32" cy="32" r="32" fill="#E6F0FF" />
-        <g fill="#0D6EFD">
-            <path d="M32 17L47 25L32 33L17 25L32 17Z" />
-            <path d="M17 32L21 29.9L32 35.7L43 29.9L47 32L32 40L17 32Z" />
-            <path d="M17 39L21 36.9L32 42.7L43 36.9L47 39L32 47L17 39Z" />
-        </g>
-    </svg>
+export const CMSExecutiveDashboardIcon: React.FC<{ size?: number, color?: string }> = ({ size = 64, color = "#0D2499" }) => (
+    <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="28" cy="28" r="28" fill="#E6F0FF"/>
+    <g transform="translate(7,7) scale(1.75)">
+        <path d="M18.832 3.445A1 1 0 0 0 18 3H6l-.125.008a1 1 0 0 0-.77.545l-3 6-.052.125a1 1 0 0 0 .204.991l8.982 9.983a.976.976 0 0 0 .532.322l.112.02a1.009 1.009 0 0 0 .556-.093A4.376 4.376 0 0 1 12 19v-.5a2.5 2.5 0 0 1 2.5-2.5h.95a3.75 3.75 0 1 1 5.742-4.719l.551-.612.084-.107a1 1 0 0 0 .067-1.01l-3-6-.062-.107ZM9.423 11h5.153L12 17.342 9.423 11Zm-4.177 0h2.018l1.66 4.087L5.246 11Zm1.372-6h2.004l-1.3 4H4.618l2-4Zm4.108 0h2.547l1.299 4H9.427l1.299-4Zm4.651 0h2.004l2 4h-2.704l-1.3-4ZM21.5 17a1.5 1.5 0 0 1 1.5 1.5v.5c0 1.971-1.86 4-5 4-3.14 0-5-2.029-5-4v-.5a1.5 1.5 0 0 1 1.5-1.5h7ZM18 10.5a2.75 2.75 0 1 1 0 5.5 2.75 2.75 0 0 1 0-5.5Z"
+              fill="#0D6EFD"/>
+    </g>
+</svg>
 );
 
 export const CMSMyAppsIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (

@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { Stack, Label, Text } from "@fluentui/react";
-import { CMSMApplicationsByPlatFormIcon } from "./Icons";
 
 interface PowerBIReportProps {
     environmentVariableName?: string;
