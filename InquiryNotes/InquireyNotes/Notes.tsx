@@ -106,6 +106,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
     Refresh() {
         var obj = this;
         var query = "";
+        if((this.props.context as any).page.entityTypeName == "cr549_application")
+            query = `?$filter=_cr549_applicationname_value eq '${(this.props.context as any).page.entityId}'&$orderby=createdon desc`;
         if((this.props.context as any).page.entityTypeName == "cr549_interestform")
             query = `?$filter=_cr549_ccifppifticket_value eq '${(this.props.context as any).page.entityId}'&$orderby=createdon desc`;
         else if((this.props.context as any).page.entityTypeName == "cr549_ppinterestforms")
