@@ -280,6 +280,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
               <StackItem grow>
                 <TextField label="Topic" value={this.state.topic} styles={{fieldGroup : { borderRadius: 5}}} onChange={(evt, newvalue) => {this.setState({topic: newvalue})}}/>
               </StackItem>
+              {(this.props.context as any).page.entityTypeName != "cr549_application" &&
               <StackItem grow>
                 <Label>Application</Label>
                 <LookupControl 
@@ -288,7 +289,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                           this.setState({application_id: id, application_name: name});
                     }}
                 />
-              </StackItem>
+              </StackItem>}
               <StackItem grow>
                 <Dropdown
                   label="Interaction Type"
