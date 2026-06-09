@@ -51,11 +51,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                  },
-                { key: 'cr549_platform_name', name: 'Hosting Platform', fieldName: 'cr549_platform_name@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                { key: 'cr549_hostingplatform', name: 'Hosting Platform', fieldName: 'cr549_hostingplatform@OData.Community.Display.V1.FormattedValu', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.cr549_platform_name){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d9ecd8", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_platform_name@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                        if(item.cr549_hostingplatform){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d9ecd8", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["cr549_hostingplatform@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
