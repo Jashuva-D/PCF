@@ -13,7 +13,7 @@ Error generating stack: `+e.message+`
                         <attribute name="cr549_id"/>
                         <attribute name="cr549_cms_group"/>
                         <attribute name="cr549_hosting_delivery_platform_name"/>
-                        <attribute name="cr549_platform_name"/>
+                        <attribute name="cr549_hostingplatform"/>
                         <attribute name="cr549_proj_phase_name"/>
                         <attribute name="cr549_marketplace"/>
                         <attribute name="cr549_technicaladvisor"/>
