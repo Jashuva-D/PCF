@@ -266,6 +266,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                         lineHeight: 36,
                                                     },
                                                 }}
+                                                disabled={this.state.generateSummary}
                                             />
                                         </StackItem>
                                     </Stack>
