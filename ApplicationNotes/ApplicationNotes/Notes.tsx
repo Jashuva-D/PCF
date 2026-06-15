@@ -255,7 +255,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         </StackItem>
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                                                style={{ borderRadius: 6, backgroundColor: (this.state.generateSummary) ? "#F2F2F2" : "#0D2499", color: (this.state.generateSummary) ? "#5A5A5A" : "white", width: "100%" }}
                                                 styles={ { 
                                                     root: {
                                                         height: 36,
