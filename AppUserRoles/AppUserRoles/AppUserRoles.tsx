@@ -2,12 +2,13 @@ import * as React from "react";
 import { IInputs } from "./generated/ManifestTypes";
 import { DetailsList, DetailsListLayoutMode, IColumn} from "@fluentui/react/lib/DetailsList";
 import { Icon } from "@fluentui/react/lib/Icon";
-import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, DefaultButton, Stack, IconButton, PeoplePickerItem, NormalPeoplePicker, Dropdown, CommandBarButton, CommandBar, Link, MarqueeSelection, ThemeProvider, createTheme, Label } from "@fluentui/react";
+import { initializeIcons,Selection, SelectionMode, PrimaryButton, TextField, Text,StackItem,Checkbox, Stack, IconButton, Dropdown, Link, MarqueeSelection, createTheme, Panel } from "@fluentui/react";
 import LookupControl from "./LookupControl";
 import { CMSAlertType } from "./Constants";
 import CMSAlert from "./CMSAlert";
 import { SearchIcon } from "./Icons";
 import CMSDialog from "./CMSDialog";
+import AppUserRoleQuickCreate from "./AppUserRoleQuickCreate";
 
 interface AppUserRolesProps {
     context: ComponentFramework.Context<IInputs>;
@@ -31,6 +32,7 @@ interface AppUserRolesState{
     dialogSubtext?: string;
     dialogConfirmButtonLabel?: string;
     dialogCancelButtonLabel?: string;
+    openQuickCreatePanel : boolean;
     dialogConfirmCallback?: () => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
@@ -61,7 +63,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             selectedrecordids: [],
             searchtext: "",
             filterApplied: false,
-            fitlteredrecords: []
+            fitlteredrecords: [],
+            openQuickCreatePanel: false
         }
     }
     getColumns(sortedcolumn : string): IColumn[] {
@@ -611,6 +614,20 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                                 disabled={!haseditrole}
                             />
+                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => this.setState({ openQuickCreatePanel: true })} 
+                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#0D2499" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
+                                styles={ { 
+                                    root: {
+                                        height: 36,
+                                        padding: "0 20px",
+                                    },
+                                    label: {
+                                        fontSize: 15,
+                                        lineHeight: 36,
+                                    },
+                                }}
+                                disabled={!haseditrole}
+                            />
                             <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
                                 styles={ { 
@@ -691,6 +708,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     this.state.dialogCancelCallback && this.state.dialogCancelCallback();
                 }}
             />
+            { this.state.openQuickCreatePanel &&
+                <AppUserRoleQuickCreate 
+                    context={this.props.context}
+                    onClose={() => this.setState({ openQuickCreatePanel: false })}
+                />
+            }
         </div>
     }
 }
