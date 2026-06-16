@@ -6,6 +6,7 @@ import * as ReactDOM from "react-dom/client";
 import AppUserRolesComponent from "./AppUserRoles";
 import CMSAlert from "./CMSAlert";
 import { CMSAlertType } from "./Constants";
+import AppUserRoleQuickCreate from "./AppUserRoleQuickCreate";
 
 export class AppUserRoles implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private _container: HTMLDivElement;
@@ -45,8 +46,8 @@ export class AppUserRoles implements ComponentFramework.StandardControl<IInputs,
         this.selectedrecordids = [];
         var root = ReactDOM.createRoot(this._container);
         root.render(React.createElement(AppUserRolesComponent, { context: context, showalert: this.AlertMessage.bind(this)}));
+        //root.render(React.createElement(AppUserRoleQuickCreate, { context: context, onClose: () => console.log("closed" )}));
     }
-
     /**
      * It is called by the framework prior to a control receiving new data.
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
