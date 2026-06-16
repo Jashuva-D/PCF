@@ -37,7 +37,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <Label>Person</Label>
                         <LookupControl
                             context={this.props.context}
-                            recordId={null}
+                            recordId={""}
                             entityType="cr549_person"
                             onRecordSelect={(id, name) => {
                                 console.log(`Selected record ID: ${id}, Name: ${name}`);
@@ -49,7 +49,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <Label>Role</Label>
                         <LookupControl
                             context={this.props.context}
-                            recordId={null}
+                            recordId={""}
                             entityType="cr549_role"
                             onRecordSelect={(id, name) => {
                                 console.log(`Selected record ID: ${id}, Name: ${name}`);
