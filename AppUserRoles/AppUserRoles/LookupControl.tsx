@@ -8,7 +8,7 @@ interface LookupControlProps {
     recordId: string | null;
     entityType: string;
     allowMultiSelect?: boolean;
-    onRecordSelect: (id: string, name: string) => void;
+    onRecordSelect: (items : any[]) => void;
 }
 interface LookupControlState {
     selectedRecords: IPersonaProps[]
@@ -103,10 +103,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 itemLimit={this.props.allowMultiSelect ? undefined : 1}
                 onChange={(items) => {
                     this.setState({selectedRecords: items ?? []})
-                    if(items && items.length > 0) {
-                        var item = items[0];
-                        this.props.onRecordSelect(item.id as string, item.text as string);
-                    }
+                    this.props.onRecordSelect(items ?? []);
                 }}
                 inputProps={{ style: { backgroundColor: 'white', width: '100%' } }}
             />

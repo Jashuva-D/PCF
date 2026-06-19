@@ -104,8 +104,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                             else if(columnname == "cr549_role"){
                                 return <LookupControl 
                                     context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} 
-                                    onRecordSelect={(id, name) => {
+                                    onRecordSelect={(items) => {
+                                        if(items && items.length > 0) {
+                                            let id = items[0]?.id as string;
+                                            let name = items[0]?.text as string;
                                             this.onFieldChange(columnname, {id: {guid: id}, name: name, entityType: "cr549_role"});
+                                        }
                                     }}
                                 />;
                             }
@@ -113,8 +117,12 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 //return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
                                 return <LookupControl 
                                     context={this.props.context} entityType="cr549_person" recordId={item[`${columnname}_value`]?.id?.guid ?? null}
-                                    onRecordSelect={(id, name) => {
-                                        this.onFieldChange(columnname,{id: {guid: id}, name: name, entityType: "cr549_person"})
+                                    onRecordSelect={(items) => {
+                                        if(items && items.length > 0) {
+                                            let id = items[0]?.id as string;
+                                            let name = items[0]?.text as string;
+                                            this.onFieldChange(columnname,{id: {guid: id}, name: name, entityType: "cr549_person"})
+                                        }
                                     }}
                                 />
                             }
@@ -712,6 +720,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 <AppUserRoleQuickCreate 
                     context={this.props.context}
                     onClose={() => this.setState({ openQuickCreatePanel: false })}
+                    appid={(this.props.context as any).page.entityId}
                 />
             }
         </div>

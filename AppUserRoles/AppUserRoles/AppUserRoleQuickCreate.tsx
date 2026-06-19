@@ -6,21 +6,38 @@ import LookupControl from "./LookupControl";
 interface AppUserRoleQuickCreateProps {
     context: ComponentFramework.Context<IInputs>;
     onClose: () => void;
+    appid: string;
 }
 interface AppUserRoleQuickCreateState {
-    
+    person : { id: string, name: string } | null;
+    roles : { id: string, name: string }[];
 }   
 
 class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps, AppUserRoleQuickCreateState> {
     constructor(props: AppUserRoleQuickCreateProps) {
         super(props);
         this.state = {
-            
+            person: null,
+            roles: []
         };
     }   
 
-    onSave() {  
-
+    onSave() {
+        var obj = this;
+        if(this.state.person && this.state.roles.length > 0){
+            var promises : Promise<any>[] = [];
+            this.state.roles.forEach(function(role){
+                var data = {
+                    "cr549_person": `/cr549_persons(${obj.state.person!.id})`,
+                    "cr549_role": `/cr549_roles(${role.id})`,
+                    "cr549_app": `/cr549_apps(${obj.props.appid})`
+                };
+                promises.push(obj.props.context.webAPI.createRecord("cr549_appuserrole", data));
+            }, this);
+            Promise.all(promises).then(() => {
+                obj.props.onClose();
+            });
+        }
     }
 
     render() {
@@ -43,9 +60,14 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                     context={this.props.context}
                                     recordId={""}
                                     entityType="cr549_person"
-                                    onRecordSelect={(id, name) => {
-                                        console.log(`Selected record ID: ${id}, Name: ${name}`);
-
+                                    onRecordSelect={(items) => {
+                                        if (items && items.length > 0) {
+                                            const { id, text } = items[0];
+                                            this.setState({ person: { id, name: text } });
+                                        }
+                                        else {
+                                            this.setState({ person: null });
+                                        }
                                     }}
                                 />
                             </td>
@@ -59,8 +81,14 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                     context={this.props.context}
                                     recordId={""}
                                     entityType="cr549_role"
-                                    onRecordSelect={(id, name) => {
-                                        console.log(`Selected record ID: ${id}, Name: ${name}`);
+                                    onRecordSelect={(items) => {
+                                        if (items && items.length > 0) {
+                                            const roles = items.map((item) => ({ id: item.id as string, name: item.text as string }));
+                                            this.setState({ roles });
+                                        }
+                                        else {
+                                            this.setState({ roles: [] });
+                                        }
                                     }}
                                     allowMultiSelect={true}
                                 />
