@@ -31,7 +31,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     response.entities.forEach((ent) => {
                         recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
                     });
-                    var selectedrecords = recs.filter(x => x.id == this.props.recordId); 
+                    var selectedrecords = (obj.props.recordId != null && obj.props.recordId != "") ? recs.filter(x => x.id == this.props.recordId) : [];
                     obj.setState({ allitems: recs, selectedRecords: selectedrecords });
                 },
                 (error) => {
@@ -40,14 +40,17 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             );
         }
         if(this.props.entityType == "cr549_person"){
-            var query = "?$select=cr549_name,cr549_id,cr549_personid";
-            this.props.context.webAPI.retrieveRecord("cr549_person",this.props.recordId!,query).then(function(resp){
-                recs.push({ id: resp["cr549_personid"], text: resp["cr549_name"], secondaryText: resp["cr549_id"], showSecondaryText: true } as IPersonaProps);
-                var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
-                obj.setState({ allitems: recs, selectedRecords: selectedrecords });
-            },function(err){
-                console.log("Error occured while fetching the query");
-            })
+            if(this.props.recordId != null && this.props.recordId != ""){
+                var query = "?$select=cr549_name,cr549_id,cr549_personid";
+                this.props.context.webAPI.retrieveRecord("cr549_person",this.props.recordId!,query).then(function(resp){
+                    recs.push({ id: resp["cr549_personid"], text: resp["cr549_name"], secondaryText: resp["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                    var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
+                    obj.setState({ allitems: recs, selectedRecords: selectedrecords });
+                },function(err){
+                    console.log("Error occured while fetching the query");
+                })
+            }
+            
             // this.loadRecords("cr549_person", query).then(function(resp){
             //     var selectedrecords = resp.filter(x => x.id == obj.props.recordId); 
             //     obj.setState({ allitems: resp, selectedRecords: selectedrecords });
