@@ -50,7 +50,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 closeButtonAriaLabel="Close"
                 customWidth="1000px"
             >
-                <Stack tokens={{childrenGap: 20}} styles={{root: {padding: 40}}}>
+                <Stack tokens={{childrenGap: 20}} styles={{root: {paddingTop: 40}}}>
                     <table className="appuserroles-quickcreate-table">
                         <tbody>
                             <tr>
