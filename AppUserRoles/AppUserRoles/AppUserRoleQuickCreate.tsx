@@ -30,7 +30,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 var data = {
                     "cr549_person": `/cr549_persons(${obj.state.person!.id})`,
                     "cr549_role": `/cr549_roles(${role.id})`,
-                    "cr549_app": `/cr549_apps(${obj.props.appid})`
+                    "cr549_app": `/cr549_applications(${obj.props.appid})`
                 };
                 promises.push(obj.props.context.webAPI.createRecord("cr549_appuserrole", data));
             }, this);
