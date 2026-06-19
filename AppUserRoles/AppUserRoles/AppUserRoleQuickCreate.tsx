@@ -6,6 +6,7 @@ import LookupControl from "./LookupControl";
 interface AppUserRoleQuickCreateProps {
     context: ComponentFramework.Context<IInputs>;
     onClose: () => void;
+    onComplete: () => void;
     appid: string;
 }
 interface AppUserRoleQuickCreateState {
@@ -35,7 +36,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 promises.push(obj.props.context.webAPI.createRecord("cr549_appuserrole", data));
             }, this);
             Promise.all(promises).then(() => {
-                obj.props.onClose();
+                obj.props.onComplete();
             });
         }
     }

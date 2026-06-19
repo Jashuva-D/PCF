@@ -720,6 +720,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 <AppUserRoleQuickCreate 
                     context={this.props.context}
                     onClose={() => this.setState({ openQuickCreatePanel: false })}
+                    onComplete={() => {
+                        this.setState({ openQuickCreatePanel: false });
+                        this.props.context.parameters.sampleDataSet.refresh();
+                    }}
                     appid={(this.props.context as any).page.entityId}
                 />
             }
