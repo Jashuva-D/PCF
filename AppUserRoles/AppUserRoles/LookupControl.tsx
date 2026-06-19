@@ -126,7 +126,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                         this.props.onRecordSelect(item.id as string, item.text as string);
                     }
                 }}
-                inputProps={{ style: { backgroundColor: 'white', width: 150 } }}
+                inputProps={{ style: { backgroundColor: 'white', width: '100%' } }}
             />
         );
     }   

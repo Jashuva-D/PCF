@@ -31,3 +31,28 @@
 /* .appuserroles .ms-DetailsRow-cell {
   padding: 0;
 } */
+
+.appuserroles-quickcreate-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appuserroles-quickcreate-label-cell {
+  width: 70px;
+  padding: 0 12px 12px 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.appuserroles-quickcreate-control-cell {
+  padding: 0 0 12px 0;
+  vertical-align: middle;
+}
+
+.appuserroles-quickcreate-control-cell .ms-PeoplePicker {
+  width: 100%;
+}
+
+.appuserroles-quickcreate-control-cell .ms-BasePicker-text {
+  width: 100%;
+}

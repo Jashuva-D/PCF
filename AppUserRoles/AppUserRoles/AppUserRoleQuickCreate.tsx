@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Panel, PrimaryButton, Stack, DefaultButton, Label } from "@fluentui/react";     
+import { Panel, PrimaryButton, DefaultButton, Label } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
 
@@ -31,37 +31,45 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 onDismiss={this.props.onClose}
                 closeButtonAriaLabel="Close"
             >
-                <Stack tokens={{ childrenGap: 20 }}>
-                    <Stack tokens={{ childrenGap: 10 }}>
-                    <Stack>
-                        <Label>Person</Label>
-                        <LookupControl
-                            context={this.props.context}
-                            recordId={""}
-                            entityType="cr549_person"
-                            onRecordSelect={(id, name) => {
-                                console.log(`Selected record ID: ${id}, Name: ${name}`);
+                <table className="appuserroles-quickcreate-table">
+                    <tbody>
+                        <tr>
+                            <td className="appuserroles-quickcreate-label-cell">
+                                <Label>Person</Label>
+                            </td>
+                            <td className="appuserroles-quickcreate-control-cell">
+                                <LookupControl
+                                    context={this.props.context}
+                                    recordId={""}
+                                    entityType="cr549_person"
+                                    onRecordSelect={(id, name) => {
+                                        console.log(`Selected record ID: ${id}, Name: ${name}`);
 
-                            }}
-                        />
-                    </Stack>
-                    <Stack>
-                        <Label>Role</Label>
-                        <LookupControl
-                            context={this.props.context}
-                            recordId={""}
-                            entityType="cr549_role"
-                            onRecordSelect={(id, name) => {
-                                console.log(`Selected record ID: ${id}, Name: ${name}`);
-                            }}
-                        />
-                    </Stack>
-                </Stack>
-                <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="end" styles={{ root: { marginTop: "auto" } }}>
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="appuserroles-quickcreate-label-cell">
+                                <Label>Role</Label>
+                            </td>
+                            <td className="appuserroles-quickcreate-control-cell">
+                                <LookupControl
+                                    context={this.props.context}
+                                    recordId={""}
+                                    entityType="cr549_role"
+                                    onRecordSelect={(id, name) => {
+                                        console.log(`Selected record ID: ${id}, Name: ${name}`);
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
                     <PrimaryButton text="Save" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
                     <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
-                </Stack>
-                </Stack>
+                </div>
             </Panel>
         );
     }
