@@ -30,8 +30,9 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 isOpen={true}
                 onDismiss={this.props.onClose}
                 closeButtonAriaLabel="Close"
+                customWidth="60vw"
             >
-                <table className="appuserroles-quickcreate-table">
+                <table className="appuserroles-quickcreate-table" style={{ paddingTop: 40, paddingLeft: 10, paddingRight: 10 }}>
                     <tbody>
                         <tr>
                             <td className="appuserroles-quickcreate-label-cell">
