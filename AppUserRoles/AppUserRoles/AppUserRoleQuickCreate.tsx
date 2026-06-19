@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Panel, PrimaryButton, DefaultButton, Label } from "@fluentui/react";     
+import { Panel, PrimaryButton, DefaultButton, Label, Stack } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
 
@@ -50,57 +50,59 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 closeButtonAriaLabel="Close"
                 customWidth="1000px"
             >
-                <table className="appuserroles-quickcreate-table" style={{ paddingTop: 40, paddingLeft: 10, paddingRight: 10 }}>
-                    <tbody>
-                        <tr>
-                            <td className="appuserroles-quickcreate-label-cell">
-                                <Label>Person</Label>
-                            </td>
-                            <td className="appuserroles-quickcreate-control-cell">
-                                <LookupControl
-                                    context={this.props.context}
-                                    recordId={""}
-                                    entityType="cr549_person"
-                                    onRecordSelect={(items) => {
-                                        if (items && items.length > 0) {
-                                            const { id, text } = items[0];
-                                            this.setState({ person: { id, name: text } });
-                                        }
-                                        else {
-                                            this.setState({ person: null });
-                                        }
-                                    }}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="appuserroles-quickcreate-label-cell">
-                                <Label>Role</Label>
-                            </td>
-                            <td className="appuserroles-quickcreate-control-cell">
-                                <LookupControl
-                                    context={this.props.context}
-                                    recordId={""}
-                                    entityType="cr549_role"
-                                    onRecordSelect={(items) => {
-                                        if (items && items.length > 0) {
-                                            const roles = items.map((item) => ({ id: item.id as string, name: item.text as string }));
-                                            this.setState({ roles });
-                                        }
-                                        else {
-                                            this.setState({ roles: [] });
-                                        }
-                                    }}
-                                    allowMultiSelect={true}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
-                    <PrimaryButton text="Save" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
-                    <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
-                </div>
+                <Stack tokens={{childrenGap: 20}} styles={{root: {padding: 40}}}>
+                    <table className="appuserroles-quickcreate-table" style={{ paddingTop: 40, paddingLeft: 10, paddingRight: 10 }}>
+                        <tbody>
+                            <tr>
+                                <td className="appuserroles-quickcreate-label-cell">
+                                    <Label>Person</Label>
+                                </td>
+                                <td className="appuserroles-quickcreate-control-cell">
+                                    <LookupControl
+                                        context={this.props.context}
+                                        recordId={""}
+                                        entityType="cr549_person"
+                                        onRecordSelect={(items) => {
+                                            if (items && items.length > 0) {
+                                                const { id, text } = items[0];
+                                                this.setState({ person: { id, name: text } });
+                                            }
+                                            else {
+                                                this.setState({ person: null });
+                                            }
+                                        }}
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="appuserroles-quickcreate-label-cell">
+                                    <Label>Role</Label>
+                                </td>
+                                <td className="appuserroles-quickcreate-control-cell">
+                                    <LookupControl
+                                        context={this.props.context}
+                                        recordId={""}
+                                        entityType="cr549_role"
+                                        onRecordSelect={(items) => {
+                                            if (items && items.length > 0) {
+                                                const roles = items.map((item) => ({ id: item.id as string, name: item.text as string }));
+                                                this.setState({ roles });
+                                            }
+                                            else {
+                                                this.setState({ roles: [] });
+                                            }
+                                        }}
+                                        allowMultiSelect={true}
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
+                        <PrimaryButton text="Save" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
+                        <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
+                    </div>
+                </Stack>
             </Panel>
         );
     }
