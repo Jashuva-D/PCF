@@ -30,7 +30,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 isOpen={true}
                 onDismiss={this.props.onClose}
                 closeButtonAriaLabel="Close"
-                customWidth="60vw"
+                customWidth="1000px"
             >
                 <table className="appuserroles-quickcreate-table" style={{ paddingTop: 40, paddingLeft: 10, paddingRight: 10 }}>
                     <tbody>
@@ -62,6 +62,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                     onRecordSelect={(id, name) => {
                                         console.log(`Selected record ID: ${id}, Name: ${name}`);
                                     }}
+                                    allowMultiSelect={true}
                                 />
                             </td>
                         </tr>

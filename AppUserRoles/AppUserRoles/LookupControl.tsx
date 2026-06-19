@@ -7,6 +7,7 @@ interface LookupControlProps {
     context: ComponentFramework.Context<IInputs>;
     recordId: string | null;
     entityType: string;
+    allowMultiSelect?: boolean;
     onRecordSelect: (id: string, name: string) => void;
 }
 interface LookupControlState {
@@ -50,25 +51,6 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     console.log("Error occured while fetching the query");
                 })
             }
-            
-            // this.loadRecords("cr549_person", query).then(function(resp){
-            //     var selectedrecords = resp.filter(x => x.id == obj.props.recordId); 
-            //     obj.setState({ allitems: resp, selectedRecords: selectedrecords });
-            // })
-            // while(query && query != ""){
-            //     this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, query).then(
-            //         (response) => {
-            //             response.entities.forEach((ent) => {
-            //                 recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
-            //             });
-            //             query = response.nextLink;
-            //         },
-            //         (error) => {
-            //             console.error("Error fetching records: ", error);
-            //         }
-            //     );
-            // }
-            
         }
     }
     async loadRecords(entityType: string, query: string | null): Promise<any[]>{
@@ -118,7 +100,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     suggestionsHeaderText: header
                 }}
                 selectedItems={[...this.state.selectedRecords]}
-                itemLimit={1}
+                itemLimit={this.props.allowMultiSelect ? undefined : 1}
                 onChange={(items) => {
                     this.setState({selectedRecords: items ?? []})
                     if(items && items.length > 0) {
