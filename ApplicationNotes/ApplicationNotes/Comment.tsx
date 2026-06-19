@@ -65,7 +65,7 @@ export default class Comment extends Component<CommentProps, CommentState> {
 
     const clampStyle: React.CSSProperties = {
       display: "-webkit-box",
-      WebkitLineClamp: 2 as any,
+      WebkitLineClamp: 10 as any,
       WebkitBoxOrient: "vertical" as any,
       overflow: "hidden",
       whiteSpace: "pre-wrap",
