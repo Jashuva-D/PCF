@@ -35,6 +35,9 @@
 .appuserroles-quickcreate-table {
   width: 100%;
   border-collapse: collapse;
+  padding-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .appuserroles-quickcreate-label-cell {
