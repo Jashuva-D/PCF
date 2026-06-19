@@ -51,7 +51,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 customWidth="1000px"
             >
                 <Stack tokens={{childrenGap: 20}} styles={{root: {padding: 40}}}>
-                    <table className="appuserroles-quickcreate-table" style={{ paddingTop: 40, paddingLeft: 10, paddingRight: 10 }}>
+                    <table className="appuserroles-quickcreate-table">
                         <tbody>
                             <tr>
                                 <td className="appuserroles-quickcreate-label-cell">
