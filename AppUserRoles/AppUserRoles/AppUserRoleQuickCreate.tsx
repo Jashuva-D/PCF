@@ -2,6 +2,7 @@ import * as React from "react";
 import { Panel, PrimaryButton, DefaultButton, Label, Stack, Text, PanelType } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
+import CMSDialog from "./CMSDialog";
 
 interface AppUserRoleQuickCreateProps {
     context: ComponentFramework.Context<IInputs>;
@@ -12,6 +13,14 @@ interface AppUserRoleQuickCreateProps {
 interface AppUserRoleQuickCreateState {
     person : { id: string, name: string } | null;
     roles : { id: string, name: string }[];
+    showDialog?: boolean;
+    dialogTitle?: string;
+    dialogSubtext?: string;
+    dialogConfirmButtonLabel?: string;
+    dialogCancelButtonLabel?: string;
+    dialogConfirmCallback?: () => void;
+    dialogCancelCallback?: () => void;
+    dialogDismissCallback?: () => void;
 }   
 
 class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps, AppUserRoleQuickCreateState> {
@@ -19,7 +28,8 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
         super(props);
         this.state = {
             person: null,
-            roles: []
+            roles: [],
+            showDialog: false,
         };
     }   
 
@@ -38,8 +48,33 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
             Promise.all(promises).then(() => {
                 obj.props.onComplete();
             }).catch((error) => {
-                console.error("Error occurred while saving app user roles:", error);
+                this.props.context.navigation.openErrorDialog({ message: "Error creating App User Role", details: error.message });
             });
+        }
+    }
+    onCacel() {
+        var obj = this;
+        if(this.state.person != null || this.state.roles.length > 0){
+            this.props.onClose();
+        }
+        else {
+            this.setState({
+                showDialog: true,
+                dialogTitle: "Unsaved Changes",
+                dialogSubtext: `You have unsaved changes. Are you sure you want to discard them?`,
+                dialogConfirmButtonLabel: "Discard",
+                dialogCancelButtonLabel: "Keep Editing",
+                dialogConfirmCallback: async () => {
+                    obj.setState({ showDialog: false });
+                    obj.props.onClose();
+                },
+                dialogCancelCallback: () => {
+                    obj.setState({ showDialog: false });
+                },
+                dialogDismissCallback: () => {
+                    obj.setState({ showDialog: false });
+                }
+            })
         }
     }
 
@@ -51,7 +86,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 onDismiss={this.props.onClose}
                 closeButtonAriaLabel="Close"
                 type={PanelType.custom}
-                customWidth="1000px"
+                customWidth="600px"
             >
                 <Stack tokens={{childrenGap: 20}} styles={{root: {paddingTop: 40}}}>
                     <table className="appuserroles-quickcreate-table">
@@ -106,6 +141,25 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>
+                <CMSDialog
+                    isOpen={this.state.showDialog!}
+                    title={this.state.dialogTitle}
+                    subText={this.state.dialogSubtext}
+                    confirmButtonText={this.state.dialogConfirmButtonLabel}
+                    cancelButtonText={this.state.dialogCancelButtonLabel}
+                    onDismiss={() => {
+                        this.setState({ showDialog: false });
+                        this.state.dialogDismissCallback && this.state.dialogDismissCallback();
+                    }}
+                    onConfirm={() => {
+                        this.setState({ showDialog: false });
+                        this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                    }}
+                    onCancel={() => {
+                        this.setState({ showDialog: false });
+                        this.state.dialogCancelCallback && this.state.dialogCancelCallback();
+                    }}
+                />
             </Panel>
         );
     }

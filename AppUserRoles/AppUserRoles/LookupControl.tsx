@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { IInputs } from "./generated/ManifestTypes";
-import { IPersonaProps, NormalPeoplePicker } from "@fluentui/react";
+import { IPersonaProps, NormalPeoplePicker, IPeoplePickerProps } from "@fluentui/react";
 
 interface LookupControlProps {
     context: ComponentFramework.Context<IInputs>;
@@ -105,7 +105,10 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     this.setState({selectedRecords: items ?? []})
                     this.props.onRecordSelect(items ?? []);
                 }}
-                inputProps={{ style: { backgroundColor: 'white', width: '100%' } }}
+                inputProps={{ 
+                    style: { backgroundColor: 'white', width: '100%' },
+                    placeholder: this.props.entityType == "cr549_person" ? "Search for a person..." : "Search for a role..."
+                }}
             />
         );
     }   
