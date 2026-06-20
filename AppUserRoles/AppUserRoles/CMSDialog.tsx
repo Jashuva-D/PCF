@@ -1,8 +1,9 @@
 import * as React from "react";
-import { DefaultButton, Dialog, DialogFooter, PrimaryButton, Link, Stack, StackItem, Label } from "@fluentui/react";   
+import { DefaultButton, Dialog, Icon, PrimaryButton, Link, Stack, StackItem, Label } from "@fluentui/react";   
 
 interface CMSDialogProps {
     isOpen: boolean;
+    iserror?: boolean;
     confirmButtonText?: string;
     cancelButtonText?: string;
     title: string | null | undefined;
@@ -26,7 +27,7 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                 hidden={!this.props.isOpen}
                 onDismiss={this.props.onDismiss}
                 dialogContentProps={{
-                    title: this.props.title!,
+                    title: <span><Icon iconName={this.props.iserror ? "Error" : "Info"} color={this.props.iserror ? "red" : "#0D2499"} style={{fontSize: 16}} /> &nbsp;{this.props.title!}</span>,
                     subText: this.props.subText!,
                     styles: {
                         subText: { whiteSpace: "pre-line" }

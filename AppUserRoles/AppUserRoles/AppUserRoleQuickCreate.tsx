@@ -2,7 +2,7 @@ import * as React from "react";
 import { Panel, PrimaryButton, DefaultButton, Label, Stack, Text, PanelType } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
-import CMSError from "./CMSError";
+import CMSDialog from "./CMSDialog";
 
 interface AppUserRoleQuickCreateProps {
     context: ComponentFramework.Context<IInputs>;
@@ -21,6 +21,7 @@ interface AppUserRoleQuickCreateState {
     dialogConfirmCallback?: () => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
+    dialogIsError?: boolean;
 }   
 
 class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps, AppUserRoleQuickCreateState> {
@@ -52,6 +53,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                     showDialog: true,
                     dialogTitle: "Error creating App User Role",
                     dialogSubtext: error?.message || "An unexpected error occurred while creating App User Role.",
+                    dialogIsError: true,
                     dialogConfirmButtonLabel: "OK",
                     dialogCancelButtonLabel: "Cancel",
                     dialogConfirmCallback: () => {
@@ -156,12 +158,13 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <DefaultButton text="Cancel" onClick={this.onCancel.bind(this)} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>
-                <CMSError
+                <CMSDialog
                     isOpen={this.state.showDialog!}
                     title={this.state.dialogTitle}
                     subText={this.state.dialogSubtext}
                     confirmButtonText={this.state.dialogConfirmButtonLabel}
                     cancelButtonText={this.state.dialogCancelButtonLabel}
+                    iserror={this.state.dialogIsError}
                     onDismiss={() => {
                         this.setState({ showDialog: false });
                         this.state.dialogDismissCallback && this.state.dialogDismissCallback();
