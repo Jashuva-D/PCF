@@ -95,12 +95,20 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             }
         }
     }
+    onEmptyResolveSuggestions = () : IPersonaProps[] => {
+        var items = this.state.allitems;
+        this.state.selectedRecords.forEach(function(selected){
+            items = items.filter(x => x.id != selected.id);
+        });
+        
+        return items;
+    }
     render() {
         const allitems = [...this.state.allitems];
         const header = this.props.entityType == "cr549_person" ? "Persons" : "Roles";
         return (    
             <NormalPeoplePicker
-                onEmptyResolveSuggestions={() => allitems}
+                onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                 pickerSuggestionsProps={{
                     loadingText: "Loading...",
