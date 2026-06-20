@@ -131,7 +131,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                             </tr>
                             <tr>
                                 <td className="appuserroles-quickcreate-label-cell">
-                                    <Label>Role</Label>
+                                    <Text>Role</Text>
                                 </td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
