@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Panel, PrimaryButton, DefaultButton, Label, Stack } from "@fluentui/react";     
+import { Panel, PrimaryButton, DefaultButton, Label, Stack, Text, PanelType } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
 
@@ -37,6 +37,8 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
             }, this);
             Promise.all(promises).then(() => {
                 obj.props.onComplete();
+            }).catch((error) => {
+                console.error("Error occurred while saving app user roles:", error);
             });
         }
     }
@@ -48,6 +50,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 isOpen={true}
                 onDismiss={this.props.onClose}
                 closeButtonAriaLabel="Close"
+                type={PanelType.custom}
                 customWidth="1000px"
             >
                 <Stack tokens={{childrenGap: 20}} styles={{root: {paddingTop: 40}}}>
@@ -55,7 +58,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <tbody>
                             <tr>
                                 <td className="appuserroles-quickcreate-label-cell">
-                                    <Label>Person</Label>
+                                    <Text>Person</Text>
                                 </td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
@@ -99,7 +102,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         </tbody>
                     </table>
                     <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
-                        <PrimaryButton text="Save" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
+                        <PrimaryButton text="Save & Close" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
                         <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>
