@@ -67,7 +67,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
             });
         }
     }
-    onCacel() {
+    onCancel() {
         var obj = this;
         if(this.state.person == null || this.state.roles.length == 0){
             this.props.onClose();
@@ -153,7 +153,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                     </table>
                     <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
                         <PrimaryButton text="Save & Close" onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor: "#0D2499"  , color: "white" }}/>
-                        <DefaultButton text="Cancel" onClick={this.props.onClose} style={{ borderRadius: 6 }}/>
+                        <DefaultButton text="Cancel" onClick={this.onCancel.bind(this)} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>
                 <CMSDialog
