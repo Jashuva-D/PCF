@@ -27,7 +27,7 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                 hidden={!this.props.isOpen}
                 onDismiss={this.props.onDismiss}
                 dialogContentProps={{
-                    title: <span><Icon iconName={this.props.iserror ? "Error" : "Info"} color={this.props.iserror ? "red" : "#0D2499"} style={{fontSize: 16}} /> &nbsp;{this.props.title!}</span>,
+                    title: <span><Icon iconName={this.props.iserror ? "Error" : "Info"} styles={{ root: { color: this.props.iserror ? "red" : "#0D2499", fontSize: 20 } }} /> &nbsp;{this.props.title!}</span>,
                     subText: this.props.subText!,
                     styles: {
                         subText: { whiteSpace: "pre-line" }
