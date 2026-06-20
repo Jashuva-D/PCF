@@ -48,13 +48,28 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
             Promise.all(promises).then(() => {
                 obj.props.onComplete();
             }).catch((error) => {
-                this.props.context.navigation.openErrorDialog({ message: "Error creating App User Role", details: error.message });
+                obj.setState({
+                    showDialog: true,
+                    dialogTitle: "Error creating App User Role",
+                    dialogSubtext: error?.message || "An unexpected error occurred while creating App User Role.",
+                    dialogConfirmButtonLabel: "OK",
+                    dialogCancelButtonLabel: "Cancel",
+                    dialogConfirmCallback: () => {
+                        obj.setState({ showDialog: false });
+                    },
+                    dialogCancelCallback: () => {
+                        obj.setState({ showDialog: false });
+                    },
+                    dialogDismissCallback: () => {
+                        obj.setState({ showDialog: false });
+                    }
+                });
             });
         }
     }
     onCacel() {
         var obj = this;
-        if(this.state.person != null || this.state.roles.length > 0){
+        if(this.state.person == null || this.state.roles.length == 0){
             this.props.onClose();
         }
         else {
