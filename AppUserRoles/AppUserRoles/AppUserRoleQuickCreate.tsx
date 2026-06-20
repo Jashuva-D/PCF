@@ -2,7 +2,7 @@ import * as React from "react";
 import { Panel, PrimaryButton, DefaultButton, Label, Stack, Text, PanelType } from "@fluentui/react";     
 import { IInputs } from "./generated/ManifestTypes";
 import LookupControl from "./LookupControl";
-import CMSDialog from "./CMSDialog";
+import CMSError from "./CMSError";
 
 interface AppUserRoleQuickCreateProps {
     context: ComponentFramework.Context<IInputs>;
@@ -69,7 +69,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
     }
     onCancel() {
         var obj = this;
-        if(this.state.person == null || this.state.roles.length == 0){
+        if(this.state.person == null && this.state.roles.length == 0){
             this.props.onClose();
         }
         else {
@@ -156,7 +156,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <DefaultButton text="Cancel" onClick={this.onCancel.bind(this)} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>
-                <CMSDialog
+                <CMSError
                     isOpen={this.state.showDialog!}
                     title={this.state.dialogTitle}
                     subText={this.state.dialogSubtext}
