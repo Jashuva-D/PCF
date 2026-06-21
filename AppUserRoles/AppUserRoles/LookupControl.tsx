@@ -126,7 +126,8 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                 pickerSuggestionsProps={{
                     loadingText: "Loading...",
-                    suggestionsHeaderText: header
+                    suggestionsHeaderText: header,
+                    noResultsFoundText: "search for more than 3 characters to find more results",
                 }}
                 selectedItems={[...this.state.selectedRecords]}
                 itemLimit={this.props.allowMultiSelect ? undefined : 1}
