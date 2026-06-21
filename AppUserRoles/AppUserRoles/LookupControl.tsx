@@ -51,6 +51,16 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                     console.log("Error occured while fetching the query");
                 })
             }
+            else {
+                this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp){
+                    resp.entities.forEach((ent) => {
+                        recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                    });
+                    obj.setState({ allitems: recs });
+                },function(err){
+                    console.log("Error occured while fetching the query");
+                })
+            }
         }
     }
     async loadRecords(entityType: string, query: string | null): Promise<any[]>{
@@ -84,8 +94,10 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             return items;
         }
         else {
-            if(filterText?.length < 3)
+            if(filterText?.length < 3){
                 return [];
+            }
+                
             else {
                 return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')&$orderby=cr549_name asc`).then(function(resp){
                     return resp.entities.map((ent) => {
@@ -105,7 +117,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     }
     render() {
         const allitems = [...this.state.allitems];
-        const header = this.props.entityType == "cr549_person" ? "Persons" : "Roles";
+        const header = this.props.entityType == "cr549_person" ? "People" : "Roles";
         return (    
             <NormalPeoplePicker
                 onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
