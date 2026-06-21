@@ -94,10 +94,12 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
             return items;
         }
         else {
-            if(filterText?.length < 3){
-                return [];
+            if(filterText == null || filterText.trim() == ""){
+                return this.state.allitems;
             }
-                
+            if(filterText?.length < 3){
+                return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
+            }
             else {
                 return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')&$orderby=cr549_name asc`).then(function(resp){
                     return resp.entities.map((ent) => {
