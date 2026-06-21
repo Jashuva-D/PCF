@@ -34,11 +34,20 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
         };
     }   
 
-    onSave() {
+    async onSave() {
         var obj = this;
         if(this.state.person && this.state.roles.length > 0){
+
+            var existingroles = await obj.props.context.webAPI.retrieveMultipleRecords("cr549_appuserrole", `?$filter=_cr549_personid_value eq '${obj.state.person?.id}' and _cr549_appid_value eq ${obj.props.appid}`).then(function(resp){
+                return resp.entities;
+            }).catch(function(error){
+                console.log("Error while fetching existing roles for the person");
+            });
+
+            var targetroles = this.state.roles.filter(role => existingroles?.filter((x: any) => x["_cr549_role_value"] == role.id).length == 0);
+            
             var promises : Promise<any>[] = [];
-            this.state.roles.forEach(function(role){
+            targetroles.forEach(function(role){
                 var data = {
                     "cr549_person@odata.bind": `/cr549_persons(${obj.state.person!.id})`,
                     "cr549_role@odata.bind": `/cr549_roles(${role.id})`,
@@ -110,9 +119,9 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         <tbody>
                             <tr>
                                 <td className="appuserroles-quickcreate-label-cell">
-                                    <Text>Person</Text>
+                                    Person <span style={{ color: "red" }}>*</span>
                                 </td>
-                                <td><Text style={{ color: "red" }}>*</Text>:</td>
+                                <td><Text>:</Text></td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
                                         context={this.props.context}
@@ -132,9 +141,9 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                             </tr>
                             <tr>
                                 <td className="appuserroles-quickcreate-label-cell">
-                                    <Text>Role</Text>
+                                    Role <span style={{ color: "red" }}>*</span>
                                 </td>
-                                <td><Text style={{ color: "red" }}>*</Text>:</td>
+                                <td><Text>:</Text></td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
                                         context={this.props.context}
