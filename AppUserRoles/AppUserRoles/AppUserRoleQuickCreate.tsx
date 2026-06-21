@@ -38,7 +38,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
         var obj = this;
         if(this.state.person && this.state.roles.length > 0){
 
-            var existingroles = await obj.props.context.webAPI.retrieveMultipleRecords("cr549_appuserrole", `?$filter=_cr549_person_value eq '${obj.state.person?.id}' and _cr549_appid_value eq ${obj.props.appid}`).then(function(resp){
+            var existingroles = await obj.props.context.webAPI.retrieveMultipleRecords("cr549_appuserrole", `?$filter=_cr549_person_value eq '${obj.state.person?.id}' and _cr549_app_value eq ${obj.props.appid}`).then(function(resp){
                 return resp.entities;
             }).catch(function(error){
                 console.log("Error while fetching existing roles for the person");
