@@ -38,7 +38,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
         var obj = this;
         if(this.state.person && this.state.roles.length > 0){
 
-            var existingroles = await obj.props.context.webAPI.retrieveMultipleRecords("cr549_appuserrole", `?$filter=_cr549_personid_value eq '${obj.state.person?.id}' and _cr549_appid_value eq ${obj.props.appid}`).then(function(resp){
+            var existingroles = await obj.props.context.webAPI.retrieveMultipleRecords("cr549_appuserrole", `?$filter=_cr549_person_value eq '${obj.state.person?.id}' and _cr549_appid_value eq ${obj.props.appid}`).then(function(resp){
                 return resp.entities;
             }).catch(function(error){
                 console.log("Error while fetching existing roles for the person");
@@ -121,7 +121,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                 <td className="appuserroles-quickcreate-label-cell">
                                     Person <span style={{ color: "red" }}>*</span>
                                 </td>
-                                <td><Text>:</Text></td>
+                                <td><Text style={{ paddingRight: 10 }}>:</Text></td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
                                         context={this.props.context}
@@ -143,7 +143,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                 <td className="appuserroles-quickcreate-label-cell">
                                     Role <span style={{ color: "red" }}>*</span>
                                 </td>
-                                <td><Text>:</Text></td>
+                                <td><Text style={{ paddingRight: 10 }}>:</Text></td>
                                 <td className="appuserroles-quickcreate-control-cell">
                                     <LookupControl
                                         context={this.props.context}
