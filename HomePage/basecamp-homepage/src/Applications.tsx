@@ -290,7 +290,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                             <DefaultButton
                                 text={"<"}
                                 onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
-                                disabled={this.state.currentPage === 1}
+                                disabled={this.state.currentPage === 1 || totalPages === 0}
                                 styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                             />
                             <DefaultButton

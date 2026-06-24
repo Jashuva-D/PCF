@@ -230,13 +230,13 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                             <DefaultButton
                                 text={"<"}
                                 onClick={() => this.handlePageChange(currentPage - 1)}
-                                disabled={currentPage === 1}
+                                disabled={totalPages === 0 || currentPage === 1}
                                 styles = {{root: {minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc"}}}
                             />
                             <DefaultButton
                                 text={">"}
                                 onClick={() => this.handlePageChange(currentPage + 1)}
-                                disabled={currentPage === totalPages}
+                                disabled={totalPages === 0 || currentPage === totalPages}
                                 styles = {{root: {minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc"}}}
                                 //styles={{ root: { padding: "5px 10px", backgroundColor: "white", border: "1px solid #ccc", borderRadius: "4px" }, rootDisabled: { cursor: "not-allowed", backgroundColor: "#f0f0f0", borderColor: "#ddd" } }}
                             />
