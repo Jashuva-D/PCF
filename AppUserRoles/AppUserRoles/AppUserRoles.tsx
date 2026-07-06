@@ -56,7 +56,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             }
         });
         this.state = {
-            columns: this.getColumns("cr549_person"),
+            columns: this.getColumns("cr549_role"),
             items: [],
             editablerecord: null,
             showalert: false,
