@@ -77,7 +77,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
         this.setState({ notes: notes });
     }
     componentDidMount(): void {
-        this.GetFakeData();
+        //this.GetFakeData();
         this.Refresh();
     }
     onAddNoteClick() {
