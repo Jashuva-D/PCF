@@ -70,60 +70,21 @@ export const CMSHCTADDashBoardIcon: React.FC<{size?: number}> = ({ size = 64}) =
 </svg>
 )
 
-export const CMSAuditingDashboardIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const CMSAuditingDashboardIcon: React.FC<{ size?: number }> = ({ size = 48 }) => (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="32" r="32" fill="#E8F0FE" />
-        <rect x="17" y="14"
-            width="24"
-            height="34"
-            rx="4"
-            stroke="#1A73E8"
-            stroke-width="2.8" />
-        <rect x="24" y="10"
-            width="10"
-            height="6"
-            rx="3"
-            fill="#E8F0FE"
-            stroke="#1A73E8"
-            stroke-width="2.8" />
-        <path d="M22 23L24 25L28 21"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round"
-            stroke-linejoin="round" />
-        <path d="M22 30L24 32L28 28"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round"
-            stroke-linejoin="round" />
-        <path d="M22 37L24 39L28 35"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round"
-            stroke-linejoin="round" />
-        <line x1="31" y1="23" x2="36" y2="23"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round" />
-        <line x1="31" y1="30" x2="36" y2="30"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round" />
-        <line x1="31" y1="37" x2="34" y2="37"
-            stroke="#1A73E8"
-            stroke-width="2.4"
-            stroke-linecap="round" />
-        <circle cx="42" cy="40"
-            r="6.5"
-            fill="white"
-            stroke="#1A73E8"
-            stroke-width="2.8" />
-        <line x1="46.5" y1="44.5"
-            x2="51.5" y2="49.5"
-            stroke="#1A73E8"
-            stroke-width="3"
-            stroke-linecap="round" />
-    </svg>)
+        <rect x="17" y="14" width="24" height="34" rx="4" stroke="#1A73E8" strokeWidth="2.8" />
+        <rect x="24" y="10" width="10" height="6" rx="3" fill="#E8F0FE" stroke="#1A73E8" strokeWidth="2.8" />
+        <path d="M22 23L24 25L28 21" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 30L24 32L28 28" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 37L24 39L28 35" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="31" y1="23" x2="36" y2="23" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" />
+        <line x1="31" y1="30" x2="36" y2="30" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" />
+        <line x1="31" y1="37" x2="34" y2="37" stroke="#1A73E8" strokeWidth="2.4" strokeLinecap="round" />
+        <circle cx="42" cy="40" r="6.5" fill="white" stroke="#1A73E8" strokeWidth="2.8" />
+        <line x1="46.5" y1="44.5" x2="51.5" y2="49.5" stroke="#1A73E8" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+);
 
 
 
