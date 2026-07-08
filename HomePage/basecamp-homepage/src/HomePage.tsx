@@ -61,14 +61,14 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
                         reporticon={<CMSHCTADDashBoardIcon size={24} />}
                     />
                 </StackItem>}
-                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
+                {this.state.enableManagerDashboard && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
                         environmentVariableName="crm2_mainpage_auditingdashboard_url"
                         title="Auditor Dashboard"
                         subtitle="View and manage audit records, compliance reviews, and audit findings."
                         reporticon={<CMSAuditingDashboardIcon size={24} />}
                     />
-                </StackItem>
+                </StackItem>}
             </Stack>
         </>
     }
