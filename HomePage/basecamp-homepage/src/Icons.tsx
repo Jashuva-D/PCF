@@ -73,30 +73,20 @@ export const CMSHCTADDashBoardIcon: React.FC<{size?: number}> = ({ size = 64}) =
 
 export const CMSAuditingDashboardIcon: React.FC<{ size?: number }> = ({ size = 64 }) => (
     <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="28" cy="28" r="28" fill="#E8F0FE" />
-
-        <g transform="translate(4,4) scale(0.88)">
-            <rect x="17" y="14" width="24" height="34" rx="4" stroke="#1A73E8" strokeWidth="3.2" />
-
-            <rect x="24" y="10" width="10" height="6" rx="3" fill="#E8F0FE" stroke="#1A73E8" strokeWidth="3.2" />
-
-            <path d="M22 23L24 25L28 21" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-
-            <path d="M22 30L24 32L28 28" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-
-            <path d="M22 37L24 39L28 35" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" />
-
-            <line x1="31" y1="23" x2="36" y2="23" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" />
-
-            <line x1="31" y1="30" x2="36" y2="30" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" />
-
-            <line x1="31" y1="37" x2="34" y2="37" stroke="#1A73E8" strokeWidth="2.8" strokeLinecap="round" />
-
-            <circle cx="42" cy="40" r="6.5" fill="white" stroke="#1A73E8" strokeWidth="3.2" />
-
-            <line x1="46.5" y1="44.5" x2="51.5" y2="49.5" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" />
-        </g>
-    </svg>
+    <circle cx="28" cy="28" r="28" fill="#E8F0FE" />
+    <g transform="translate(4,4) scale(0.88)">
+        <rect x="17" y="14" width="24" height="34" rx="4" stroke="#1A73E8" strokeWidth="3.8" />
+        <rect x="24" y="10" width="10" height="6" rx="3" fill="#E8F0FE" stroke="#1A73E8" strokeWidth="3.8" />
+        <path d="M22 23L24 25L28 21" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 30L24 32L28 28" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 37L24 39L28 35" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="31" y1="23" x2="36" y2="23" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" />
+        <line x1="31" y1="30" x2="36" y2="30" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" />
+        <line x1="31" y1="37" x2="34" y2="37" stroke="#1A73E8" strokeWidth="3.4" strokeLinecap="round" />
+        <circle cx="42" cy="40" r="6.5" fill="white" stroke="#1A73E8" strokeWidth="3.8" />
+        <line x1="46.5" y1="44.5" x2="51.5" y2="49.5" stroke="#1A73E8" strokeWidth="4" strokeLinecap="round" />
+    </g>
+</svg>
 );
 
 
