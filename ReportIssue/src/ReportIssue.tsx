@@ -68,10 +68,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   componentDidMount() {
     var userid = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
+        debugger;
         this.setState({ useremail: user.internalemailaddress });
       }
     ,function (error : any) {
-      console.log(error.message);
+        debugger;
+        console.log(error.message);
     })
   }
 
