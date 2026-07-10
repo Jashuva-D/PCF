@@ -64,10 +64,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     };
   }
   componentDidMount() {
-    alert("componentDidMount");
     var userid = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
-        alert("user: " + JSON.stringify(user));
         this.setState({ useremail: user.internalemailaddress });
       }
     ,function (error : any) {
@@ -77,7 +75,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   }
 
   render() {
-    alert(this.state.useremail);
     const { appname } = this.props;
     const userName = (parent as any)?.Xrm?.Utility?.getGlobalContext()?.userSettings?.userName ?? "";
     const userEmail = this.state.useremail;
@@ -141,12 +138,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
-              <TextField defaultValue={userName} />
+              <TextField value={userName} />
             </div>
 
             <div>
               <Label>Email</Label>
-              <TextField defaultValue={userEmail ?? ""} />
+              <TextField value={userEmail ?? ""} />
             </div>
           </div>
         </div>
