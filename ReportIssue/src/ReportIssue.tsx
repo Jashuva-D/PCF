@@ -28,7 +28,9 @@ const issueCategoryOptions = [
   { key: "6", text: "Inquiry Notes" },
   { key: "7", text: "Application URLs" },
   { key: "8", text: "JIRA Tickets" },
-  { key: "9", text: "Other/Unknown" },
+  { key: "9", text: "Emails" },
+  { key: "10", text: "Documents" },
+  { key: "11", text: "Other or N/A" },
 ];
 
 const fieldOptions = [
@@ -41,7 +43,7 @@ const fieldOptions = [
   { key: "7", text: "Communication" },
   { key: "8", text: "Market Place" },
   { key: "9", text: "Accounts" },
-  { key: "10", text: "Other/Unknown" },
+  { key: "10", text: "Other or N/A" },
 ];
 
 class RequiredLabel extends Component<{ children: React.ReactNode }> {
