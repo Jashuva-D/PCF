@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  DefaultButton,
-  Dropdown,
-  Icon,
-  Label,
-  PrimaryButton,
-  TextField,
-  initializeIcons,
-} from "@fluentui/react";
+import {  DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons } from "@fluentui/react";
 import "./index.css";
 
 const recordTypeOptions = [
@@ -17,15 +9,20 @@ const recordTypeOptions = [
 ];
 
 const issueCategoryOptions = [
-  { key: "Incorrect Data", text: "Incorrect Data" },
-  { key: "Missing Data", text: "Missing Data" },
-  { key: "Duplicate Data", text: "Duplicate Data" },
+  { key: "1", text: "General" },
+  { key: "2", text: "Accounts" },
+  { key: "3", text: "Assigned People" },
+  { key: "4", text: "Application Notes" },
+  { key: "5", text: "Component Notes" },
+  { key: "6", text: "Inquiry Notes" },
+  { key: "7", text: "Application URLs" },
+  { key: "8", text: "JIRA Tickets" },
 ];
 
 const fieldOptions = [
-  { key: "Application Owner", text: "Application Owner" },
-  { key: "Application Name", text: "Application Name" },
-  { key: "Status", text: "Status" },
+  { key: "1", text: "Details" },
+  { key: "2", text: "Hosting Details" },
+  { key: "3", text: "Business & System Owners" },
 ];
 
 function RequiredLabel({ children }: { children: React.ReactNode }) {
@@ -59,42 +56,15 @@ export default function ReportIssue() {
         <div className="section-title">1. Issue Details</div>
 
         <div className="form-grid">
+          
           <div>
-            <RequiredLabel>Record Type</RequiredLabel>
-            <Dropdown
-              selectedKey="Application"
-              options={recordTypeOptions}
-              onRenderOption={(option) => (
-                <div className="dropdown-option">
-                  {option?.data?.icon && <Icon iconName={option.data.icon} />}
-                  <span>{option?.text}</span>
-                </div>
-              )}
-              onRenderTitle={(options) => (
-                <div className="dropdown-option">
-                  <Icon iconName="AppIconDefault" />
-                  <span>{options?.[0]?.text}</span>
-                </div>
-              )}
-            />
+            <RequiredLabel>Tab with Issue</RequiredLabel>
+            <Dropdown selectedKey="1" options={issueCategoryOptions} />
           </div>
 
           <div>
-            <RequiredLabel>Record</RequiredLabel>
-            <TextField
-              defaultValue="Contoso CRM Modernization"
-              iconProps={{ iconName: "Search" }}
-            />
-          </div>
-
-          <div>
-            <RequiredLabel>Issue Category</RequiredLabel>
-            <Dropdown selectedKey="Incorrect Data" options={issueCategoryOptions} />
-          </div>
-
-          <div>
-            <RequiredLabel>Field with Issue</RequiredLabel>
-            <Dropdown selectedKey="Application Owner" options={fieldOptions} />
+            <RequiredLabel>Section with Issue</RequiredLabel>
+            <Dropdown selectedKey="1" options={fieldOptions} />
           </div>
 
           <div className="full-width">
@@ -108,57 +78,17 @@ export default function ReportIssue() {
               <span className="counter">85/2000</span>
             </div>
           </div>
-
-          <div>
-            <Label>Correct Information (if known)</Label>
-            <div className="textarea-wrap">
-              <TextField multiline rows={3} defaultValue="John Smith" />
-              <span className="counter">10/1000</span>
-            </div>
-          </div>
-
-          <div>
-            <Label>Impact / Reason (Optional)</Label>
-            <div className="textarea-wrap">
-              <TextField
-                multiline
-                rows={3}
-                defaultValue="This affects notifications and routing."
-              />
-              <span className="counter">36/1000</span>
-            </div>
-          </div>
-
-          <div>
-            <Label>Attachments (Optional)</Label>
-            <div className="upload-box">
-              <Icon iconName="Attach" />
-              <div>
-                <div className="upload-text">
-                  Drag and drop files here or{" "}
-                  <button type="button" className="upload-link">
-                    Browse
-                  </button>
-                </div>
-                <div className="upload-help">
-                  Supported file types: .png, .jpg, .pdf, .docx (Max 10 MB)
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <div className="contact-title">2. Contact Information</div>
 
         <div className="form-grid">
           <div>
             <Label>Your Name</Label>
-            <TextField defaultValue="Swathi Madala" />
+            <TextField defaultValue={(parent as any).Xrm.Utility.getGlobalContext().userSettings.userName} />
           </div>
 
           <div>
             <Label>Email</Label>
-            <TextField defaultValue="swathi.madala@contoso.com" />
+            <TextField />
           </div>
         </div>
       </div>
