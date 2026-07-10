@@ -9,6 +9,7 @@ import {
   initializeIcons,
 } from "@fluentui/react";
 import "./index.css";
+import { TabOptions } from "./data";
 
 interface ReportIssueProps {
   appname?: string;
@@ -17,6 +18,8 @@ interface ReportIssueProps {
 
 interface ReportIssueState {
     useremail: string | null;
+    selectedTab: string;
+    selectedSection: string;
 }
 
 const issueCategoryOptions = [
@@ -62,7 +65,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     super(props);
     initializeIcons();
     this.state = {
-      useremail: ""
+      useremail: "",
+      selectedTab: TabOptions[0].key,
+      selectedSection: TabOptions[0].sections[0].key,
     };
   }
   componentDidMount() {
@@ -75,11 +80,29 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         console.log(error.message);
     })
   }
+  private onTabChanged = (_: any, option?: any) => {
+    if (!option) return;
+
+    this.setState({
+      selectedTab: option.key,
+      selectedSection: ""
+    });
+  };
+
+  private onSectionChanged = (_: any, option?: any) => {
+    if (!option) return;
+
+    this.setState({
+      selectedSection: option.key
+    });
+  };
 
   render() {
     const { appname } = this.props;
     const userName = (parent as any)?.Xrm?.Utility?.getGlobalContext()?.userSettings?.userName ?? "";
     const userEmail = this.state.useremail;
+    const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
+    const sectionOptions = selectedTab?.sections ?? [];
 
     return (
       <div className="report-page">
@@ -107,17 +130,19 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             <div>
               <RequiredLabel>Tab with Issue</RequiredLabel>
               <Dropdown
-                selectedKey="1"
-                options={issueCategoryOptions}
-              />
+                options={TabOptions}
+                selectedKey={this.state.selectedTab}
+                onChange={this.onTabChanged}
+            />
             </div>
 
             <div>
               <RequiredLabel>Section with Issue</RequiredLabel>
               <Dropdown
-                selectedKey="1"
-                options={fieldOptions}
-              />
+                options={sectionOptions}
+                selectedKey={this.state.selectedSection}
+                onChange={this.onSectionChanged}
+            />
             </div>
 
             <div className="full-width">
