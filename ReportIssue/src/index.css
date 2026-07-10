@@ -1,0 +1,152 @@
+.report-page {
+  min-height: 100vh;
+  background-color: #fafafa;
+  padding: 18px 14px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f1f1f;
+}
+
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.report-header-icon {
+  width: 54px;
+  height: 54px;
+  border: 1px solid #d1d1d1;
+  border-radius: 6px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f5db8;
+  font-size: 28px;
+}
+
+.report-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.report-subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #4f4f4f;
+}
+
+.report-card {
+  background-color: #fff;
+  border: 1px solid #d6d6d6;
+  border-radius: 7px;
+  padding: 18px 22px;
+}
+
+.section-title,
+.contact-title {
+  color: #0f5db8;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.section-title {
+  margin-bottom: 12px;
+}
+
+.contact-title {
+  margin-top: 22px;
+  margin-bottom: 8px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 46px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.required {
+  color: #d13438;
+  margin-left: 4px;
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.textarea-wrap {
+  position: relative;
+}
+
+.counter {
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  font-size: 11px;
+  color: #616161;
+  pointer-events: none;
+}
+
+.upload-box {
+  min-height: 72px;
+  border: 1px dashed #bdbdbd;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  color: #0f5db8;
+  background-color: #fff;
+}
+
+.upload-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.upload-help {
+  margin-top: 5px;
+  font-size: 11px;
+  color: #616161;
+}
+
+.upload-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #0f5db8;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.report-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.cancel-button {
+  min-width: 94px;
+}
+
+.submit-button {
+  min-width: 150px;
+  background-color: #0f5db8;
+  border-color: #0f5db8;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
