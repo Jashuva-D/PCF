@@ -66,13 +66,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     };
   }
   componentDidMount() {
+    alert("componentDidMount");
     var userid = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
-        debugger;
+        alert("user: " + JSON.stringify(user));
         this.setState({ useremail: user.internalemailaddress });
       }
     ,function (error : any) {
-        debugger;
+        alert("error: " + JSON.stringify(error));
         console.log(error.message);
     })
   }
