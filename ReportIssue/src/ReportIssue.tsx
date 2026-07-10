@@ -151,7 +151,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <div className="textarea-wrap">
                 <TextField
                   multiline
-                  rows={3}
+                  rows={6}
                   defaultValue=""
                   placeholder="Please provide a detailed description of the issue."
                 />
