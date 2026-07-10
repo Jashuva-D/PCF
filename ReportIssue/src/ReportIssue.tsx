@@ -58,9 +58,7 @@ class RequiredLabel extends Component<{ children: React.ReactNode }> {
 export default class ReportIssue extends Component<ReportIssueProps, ReportIssueState> {
   constructor(props: ReportIssueProps) {
     super(props);
-
     initializeIcons();
-
     this.state = {
       useremail: ""
     };
@@ -79,6 +77,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   }
 
   render() {
+    alert(this.state.useremail);
     const { appname } = this.props;
     const userName = (parent as any)?.Xrm?.Utility?.getGlobalContext()?.userSettings?.userName ?? "";
     const userEmail = this.state.useremail;
@@ -138,6 +137,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
           </div>
 
+          <div className="contact-title">2. Contact Information</div>
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
