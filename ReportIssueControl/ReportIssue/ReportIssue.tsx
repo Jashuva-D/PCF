@@ -27,7 +27,7 @@ class ReportIssueButton extends React.Component<IProps> {
         >
             <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
                 <Text variant="mediumPlus" style={{ fontWeight: 600 }}>
-                    {this.props.headerName}
+                    {this.props.headerName ?? "Title"}
                 </Text>
             </Stack>
 
