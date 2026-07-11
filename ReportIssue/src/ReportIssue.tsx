@@ -59,7 +59,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         console.log(error.message);
     });
 
-    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid, "?$select=cr549_hostingcoordinator").then((app : any) => {
+    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid, "?$select=_cr549_hostingcoordinator_value").then((app : any) => {
        alert(JSON.stringify(app));
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
