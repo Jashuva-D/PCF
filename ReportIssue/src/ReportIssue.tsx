@@ -17,6 +17,7 @@ interface ReportIssueProps {
 }
 
 interface ReportIssueState {
+    issueDescription: string;
     useremail: string | null;
     selectedTab: string;
     selectedSection: string;
@@ -44,6 +45,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     super(props);
     initializeIcons();
     this.state = {
+      issueDescription: "",
       useremail: "",
       selectedTab: TabOptions[0].key,
       selectedSection: TabOptions[0].sections[0].key,
@@ -90,6 +92,40 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       selectedSection: option.key
     });
   };
+
+  private OnSubmitIssue() {
+    var execute_crm2_ReportIssueCreateIssue_Request = {
+      Application: (parent as any).Xrm.Page.getAttribute("cr549_id").getValue() ?? "", 
+      TabName: TabOptions.find(x => x.key === this.state.selectedTab)?.text ?? "", 
+      SectionName: TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.text ?? "", 
+      Description: this.state.issueDescription ?? "",
+      FromEmailAddress: this.state.useremail ?? "",
+      FromUserId: (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, ""),
+
+      getMetadata: function () {
+        return {
+          boundParameter: null,
+          parameterTypes: {
+            Application: { typeName: "Edm.String", structuralProperty: 1 },
+            TabName: { typeName: "Edm.String", structuralProperty: 1 },
+            SectionName: { typeName: "Edm.String", structuralProperty: 1 },
+            Description: { typeName: "Edm.String", structuralProperty: 1 },
+            FromEmailAddress: { typeName: "Edm.String", structuralProperty: 1 },
+            FromUserId: { typeName: "Edm.String", structuralProperty: 1 }
+          },
+          operationType: 0, operationName: "crm2_ReportIssueCreateIssue"
+        };
+      }
+    };
+
+    (parent as any).Xrm.WebApi.execute(execute_crm2_ReportIssueCreateIssue_Request).then(
+      function success(response: any) {
+        if (response.ok) { console.log("Success"); }
+      }
+    ).catch(function (error: any) {
+      console.log(error.message);
+    });
+  }
 
   render() {
     const { appname } = this.props;
@@ -148,6 +184,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   rows={6}
                   defaultValue=""
                   placeholder="Please provide a detailed description of the issue."
+                  value={this.state.issueDescription}
+                  onChange={(e, value) => this.setState({ issueDescription: value ?? "" })}
                 />
               </div>
             </div>
@@ -197,6 +235,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             text="Submit Issue"
             iconProps={{ iconName: "Send" }}
             className="submit-button"
+            onClick={() => this.OnSubmitIssue()}
           />
         </div>
       </div>
