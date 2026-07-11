@@ -93,7 +93,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     });
   };
 
-  private OnSubmitIssue() {
+  OnSubmitIssue() {
+    alert("Submitting issue...");
 
     var request = {
       Application: (parent as any).Xrm.Page.getAttribute("cr549_id").getValue() ?? "", 
