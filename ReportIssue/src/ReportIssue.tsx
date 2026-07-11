@@ -125,7 +125,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     (parent as any).Xrm.WebApi.execute(request).then(
       function success(response: any) {
         alert(JSON.stringify(response));
-        if (response.ok) { console.log("Success"); }
+        if (response.ok) { 
+          console.log("Success"); 
+          window.close();
+        }
       }
     ).catch(function (error: any) {
       alert(JSON.stringify(error));
