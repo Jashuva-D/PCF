@@ -161,14 +161,18 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="form-grid">
             <div>
               <Label>Hosting Coordinator</Label>
-              <TextField value={this.state.hostingcoordinator?.name ?? ""} />
+              <TextField value={this.state.hostingcoordinator?.name ?? ""} disabled/>
             </div>
             <div>
               <Label>Email</Label>
-              <TextField value={this.state.hostingcoordinator?.email ?? ""} />
+              <TextField value={this.state.hostingcoordinator?.email ?? ""} disabled/>
             </div>
             <div>
               <Label>Delegate To</Label>
+              <TextField />
+            </div>
+            <div>
+              <Label>Delegate To Email</Label>
               <TextField />
             </div>
           </div>
@@ -177,12 +181,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
-              <TextField value={userName} />
+              <TextField value={userName} disabled/>
             </div>
 
             <div>
               <Label>Email</Label>
-              <TextField value={userEmail ?? ""} />
+              <TextField value={userEmail ?? ""} disabled/>
             </div>
           </div>
         </div>
