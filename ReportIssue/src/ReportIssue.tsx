@@ -95,7 +95,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
   OnSubmitIssue() {
     var obj = this;
-    alert("Submitting issue...");
 
     var request = {
       Application: obj.props.appname ?? "", 
@@ -121,17 +120,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       }
     };
 
-    alert(JSON.stringify(request));
     (parent as any).Xrm.WebApi.execute(request).then(
       function success(response: any) {
-        alert(JSON.stringify(response));
         if (response.ok) { 
           console.log("Success"); 
           window.close();
         }
       }
     ).catch(function (error: any) {
-      alert(JSON.stringify(error));
       console.log(error.message);
     });
   }
