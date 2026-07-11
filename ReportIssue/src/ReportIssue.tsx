@@ -161,7 +161,23 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
           </div>
 
-          <div className="contact-title">2. Contact Information</div>
+          <div className="contact-title">2. Report To</div>
+          <div className="form-grid">
+            <div>
+              <Label>Hosting Coordinator</Label>
+              <TextField value={userName} />
+            </div>
+            <div>
+              <Label>Email</Label>
+              <TextField value={userEmail ?? ""} />
+            </div>
+            <div>
+              <Label>Delegate To</Label>
+              <TextField value={userEmail ?? ""} />
+            </div>
+          </div>
+
+          <div className="contact-title">3. Reported By</div>
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
@@ -180,7 +196,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             text="Cancel"
             className="cancel-button"
           />
-
           <PrimaryButton
             text="Submit Issue"
             iconProps={{ iconName: "Send" }}
