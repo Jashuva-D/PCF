@@ -20,34 +20,13 @@ interface ReportIssueState {
     useremail: string | null;
     selectedTab: string;
     selectedSection: string;
+    hostingcoordinator?: {
+      name : string | null,
+      email : string | null,
+      recordid : string | null
+    }
 }
 
-const issueCategoryOptions = [
-  { key: "1", text: "General" },
-  { key: "2", text: "Accounts" },
-  { key: "3", text: "Assigned People" },
-  { key: "4", text: "Application Notes" },
-  { key: "5", text: "Component Notes" },
-  { key: "6", text: "Inquiry Notes" },
-  { key: "7", text: "Application URLs" },
-  { key: "8", text: "JIRA Tickets" },
-  { key: "9", text: "Emails" },
-  { key: "10", text: "Documents" },
-  { key: "11", text: "Other or N/A" },
-];
-
-const fieldOptions = [
-  { key: "1", text: "Details" },
-  { key: "2", text: "Hosting Details" },
-  { key: "3", text: "Business & System Owners" },
-  { key: "4", text: "Funding" },
-  { key: "5", text: "FISMA" },
-  { key: "6", text: "Dates" },
-  { key: "7", text: "Communication" },
-  { key: "8", text: "Market Place" },
-  { key: "9", text: "Accounts" },
-  { key: "10", text: "Other or N/A" },
-];
 
 class RequiredLabel extends Component<{ children: React.ReactNode }> {
   render() {
@@ -71,12 +50,26 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     };
   }
   componentDidMount() {
+    var obj = this;
     var userid = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
-        this.setState({ useremail: user.internalemailaddress });
+        obj.setState({ useremail: user.internalemailaddress });
       }
     ,function (error : any) {
-        alert("error: " + JSON.stringify(error));
+        console.log(error.message);
+    });
+
+    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid, "?$select=cr549_hostingcoordinator").then((app : any) => {
+        (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
+          obj.setState({ hostingcoordinator: {
+            name: coordinator.cr549_name,
+            email: coordinator.cr549_email_address,
+            recordid: coordinator.id
+          } });
+        },function (error : any) {
+          console.log(error.message);
+        });
+      },function (error : any) {
         console.log(error.message);
     })
   }
@@ -85,7 +78,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
     this.setState({
       selectedTab: option.key,
-      selectedSection: ""
+      selectedSection: TabOptions.find(x => x.key === option.key)?.sections[0].key ?? ""
     });
   };
 
@@ -155,25 +148,23 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   defaultValue=""
                   placeholder="Please provide a detailed description of the issue."
                 />
-
-                <span className="counter">85/2000</span>
               </div>
             </div>
           </div>
 
-          <div className="contact-title">2. Report To</div>
+          <div className="contact-title">2. Assign To</div>
           <div className="form-grid">
             <div>
               <Label>Hosting Coordinator</Label>
-              <TextField value={userName} />
+              <TextField value={this.state.hostingcoordinator?.name ?? ""} />
             </div>
             <div>
               <Label>Email</Label>
-              <TextField value={userEmail ?? ""} />
+              <TextField value={this.state.hostingcoordinator?.email ?? ""} />
             </div>
             <div>
               <Label>Delegate To</Label>
-              <TextField value={userEmail ?? ""} />
+              <TextField />
             </div>
           </div>
 
