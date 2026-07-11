@@ -1,7 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { ReportIssueButton } from "./ReportIssue";
+import  ReportIssueButton  from "./ReportIssue";
 import { initializeIcons } from "@fluentui/react";
 
 initializeIcons();
@@ -23,8 +23,9 @@ export class ReportIssue implements ComponentFramework.StandardControl<IInputs, 
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+        var title = context.parameters.title && context.parameters.title.raw ? context.parameters.title.raw : "Report Issue";
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(ReportIssueButton, { onClick: () => alert("Issue reported!") }));
+        root.render(React.createElement(ReportIssueButton, { headerName: title ?? "", onClick: () => alert("Issue reported!") }));
     }
 
     /**
