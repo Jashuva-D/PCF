@@ -47,7 +47,7 @@
 
 .section-title,
 .contact-title {
-  color: #0f5db8;
+  color: #0D2499;
   font-weight: 700;
   font-size: 16px;
 }
@@ -122,7 +122,7 @@
   border: 0;
   padding: 0;
   background: transparent;
-  color: #0f5db8;
+  color: #0D2499;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -141,8 +141,8 @@
 
 .submit-button {
   min-width: 150px;
-  background-color: #0f5db8;
-  border-color: #0f5db8;
+  background-color: #0D2499;
+  border-color: #0D2499;
 }
 
 @media (max-width: 768px) {

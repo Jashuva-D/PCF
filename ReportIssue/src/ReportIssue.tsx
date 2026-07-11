@@ -148,7 +148,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
           <div>
             <h1 className="report-title">
-              Report an Issue with {appname}
+              Report an Issue for {appname}
             </h1>
 
             <div className="report-subtitle">
