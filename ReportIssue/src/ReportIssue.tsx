@@ -94,10 +94,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   };
 
   OnSubmitIssue() {
+    var obj = this;
     alert("Submitting issue...");
 
     var request = {
-      Application: (parent as any).Xrm.Page.getAttribute("cr549_id").getValue() ?? "", 
+      Application: obj.props.appname ?? "", 
       TabName: TabOptions.find(x => x.key === this.state.selectedTab)?.text ?? "", 
       SectionName: TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.text ?? "", 
       Description: this.state.issueDescription ?? "",
