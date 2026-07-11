@@ -94,7 +94,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   };
 
   private OnSubmitIssue() {
-    var execute_crm2_ReportIssueCreateIssue_Request = {
+
+    var request = {
       Application: (parent as any).Xrm.Page.getAttribute("cr549_id").getValue() ?? "", 
       TabName: TabOptions.find(x => x.key === this.state.selectedTab)?.text ?? "", 
       SectionName: TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.text ?? "", 
@@ -118,11 +119,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       }
     };
 
-    (parent as any).Xrm.WebApi.execute(execute_crm2_ReportIssueCreateIssue_Request).then(
+    alert(JSON.stringify(request));
+    (parent as any).Xrm.WebApi.execute(request).then(
       function success(response: any) {
+        alert(JSON.stringify(response));
         if (response.ok) { console.log("Success"); }
       }
     ).catch(function (error: any) {
+      alert(JSON.stringify(error));
       console.log(error.message);
     });
   }
@@ -235,7 +239,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             text="Submit Issue"
             iconProps={{ iconName: "Send" }}
             className="submit-button"
-            onClick={() => this.OnSubmitIssue()}
+            onClick={this.OnSubmitIssue.bind(this)}
           />
         </div>
       </div>
