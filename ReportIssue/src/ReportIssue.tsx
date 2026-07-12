@@ -79,7 +79,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 100,
           onRender: (item: any) => {
             if(item.newrecord){
-
+              return <TextField />
             }
             else {
               return <Text>{item.currentvalue}</Text>
@@ -299,12 +299,17 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </div>
             </div>
           </div>
-          <div>
-          <DetailsList
-            items={this.state.datafields}
-            columns={this.state.datacolumns}
-          />
+          <div className="section-title">2. Data Fields</div>
+          <div className="form-grid">
+            <div>
+              <DefaultButton iconProps={{ iconName: "Add" }} style={{ alignItems: "end" }} text="Add Field" onClick={() => this.setState({ datafields: [...this.state.datafields, { newrecord: true, tabname: this.state.selectedTab, sectionname: this.state.selectedSection, fieldname: "", currentvalue: "", newvalue: "" }] })} />
+              <DetailsList
+                items={this.state.datafields}
+                columns={this.state.datacolumns}
+              />
+            </div>
           </div>
+          
           
           <div className="contact-title">2. Assign To</div>
           <div className="form-grid">
