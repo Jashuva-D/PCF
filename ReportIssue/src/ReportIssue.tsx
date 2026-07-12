@@ -43,7 +43,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     initializeIcons();
     const firstTab = TabOptions[0];
     const firstSection = firstTab.sections[0];
-
+    var currentrecord = { newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }
     this.state = {
       issueTitle: "",
       issueDescription: "",
@@ -51,8 +51,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       selectedTab: firstTab.key,
       selectedSection: firstSection.key,
       selectedField: firstSection.fields?.[0]?.key ?? "",
-      currentrecord: { newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" },
-      datafields: [this.state.currentrecord],
+      currentrecord: currentrecord,
+      datafields: [currentrecord],
       datacolumns: [
         {
           key: "fieldname",
