@@ -1,15 +1,7 @@
 import React, { Component } from "react";
-import {
-  DefaultButton,
-  Dropdown,
-  Icon,
-  Label,
-  PrimaryButton,
-  TextField,
-  initializeIcons,
-} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text} from "@fluentui/react";
 import "./index.css";
-import { TabOptions } from "./data";
+import { TabOptions, DataField } from "./data";
 
 interface ReportIssueProps {
   appname?: string;
@@ -28,6 +20,8 @@ interface ReportIssueState {
       email : string | null,
       recordid : string | null
     }
+    datafields : DataField[];
+    datacolumns : IColumn[];
 }
 
 
@@ -56,7 +50,61 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       selectedTab: firstTab.key,
       selectedSection: firstSection.key,
       selectedField: firstSection.fields?.[0]?.key ?? "",
+      datafields: [{ newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }],
+      datacolumns: [
+        {
+          key: "fieldname",
+          name: "Field Name",
+          fieldName: "FieldName",
+          minWidth: 100,
+          onRender: (item: any) => {
+            if(item.newrecord){
+              return (
+                <Dropdown 
+                  options = {TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields?.map(f => ({ key: f.key, text: f.text })) ?? []}
+                  selectedKey={item.fieldname}
+                />
+              );
+            }
+            else {
+              return (<Text>{item.fieldname}</Text>)
+            }
+            
+          }
+        } as IColumn,
+        {
+          key: "currentvalue",
+          name: "Current Value",
+          fieldName: "CurrentValue",
+          minWidth: 100,
+          onRender: (item: any) => {
+            if(item.newrecord){
+
+            }
+            else {
+              return <Text>{item.currentvalue}</Text>
+            }
+          }
+        } as IColumn,
+        {
+          key: "newvalue",
+          name: "New Value",
+          fieldName: "NewValue",
+          minWidth: 100,
+          onRender: (item: any) => {
+            if(item.newrecord){
+              return <TextField />
+            }
+            else {
+              return <Text>{item.newvalue}</Text>
+            }
+          }
+        } as IColumn
+      ]
     };
+
+    
+    
   }
   componentDidMount() {
     var obj = this;
@@ -209,7 +257,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 onChange={this.onTabChanged}
               />
             </div>
-            {/* <div>
+            <div>
               <RequiredLabel>Tab with Issue</RequiredLabel>
               <Dropdown
                 options={TabOptions}
@@ -225,14 +273,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 onChange={this.onSectionChanged}
               />
             </div>
-            <div>
-              <RequiredLabel>Field with Issue</RequiredLabel>
-              <Dropdown
-                options={fieldOptions}
-                selectedKey={this.state.selectedField}
-                onChange={this.onFieldChanged}
-              />
-            </div> */}
             
             <div className="full-width">
               <RequiredLabel>Issue Title</RequiredLabel>
@@ -247,7 +287,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
             <div className="full-width">
               <RequiredLabel>Issue Description</RequiredLabel>
-
               <div className="textarea-wrap">
                 <TextField
                   multiline
@@ -260,7 +299,13 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </div>
             </div>
           </div>
-
+          <div>
+          <DetailsList
+            items={this.state.datafields}
+            columns={this.state.datacolumns}
+          />
+          </div>
+          
           <div className="contact-title">2. Assign To</div>
           <div className="form-grid">
             <div>

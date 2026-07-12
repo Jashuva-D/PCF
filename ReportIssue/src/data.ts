@@ -15,6 +15,15 @@ export interface TabOption {
     sections: SectionOption[];
 }
 
+export interface DataField {
+    newrecord: boolean;
+    tabname: string;
+    sectionname: string;
+    fieldname: string;
+    currentvalue: string;
+    newvalue: string
+}
+
 export const TabOptions: TabOption[] = [
     {
         key: "general",
