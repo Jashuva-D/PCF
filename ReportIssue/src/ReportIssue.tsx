@@ -326,6 +326,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           </div>
           <div className="section-title">2. Data Fields</div>
           <div className="form-grid">
+            <div>
             <Stack>
               <Stack horizontalAlign="end">
                 <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
@@ -347,6 +348,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   />
               </StackItem>
             </Stack>
+            </div>
           </div>
           <div className="contact-title">3. Assign To</div>
           <div className="form-grid">
