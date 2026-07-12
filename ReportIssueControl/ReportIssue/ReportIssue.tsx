@@ -17,7 +17,7 @@ class ReportIssueButton extends React.Component<IProps> {
             verticalAlign="center"
             styles={{
                 root: {
-                    background: "lightgray",
+                    background: "rgb(243,243, 243)",
                     borderLeft: "4px solid #0D2499",
                     padding: "10px 14px",
                     borderRadius: 6,
@@ -37,6 +37,8 @@ class ReportIssueButton extends React.Component<IProps> {
                     root: {
                         fontWeight: 600,
                         color: "#0D2499",
+                        hoverColor: "#0D2499",
+                        hoverunderline: "none",
                     }
                 }}
             >
