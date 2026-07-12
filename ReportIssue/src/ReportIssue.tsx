@@ -22,6 +22,7 @@ interface ReportIssueState {
     useremail: string | null;
     selectedTab: string;
     selectedSection: string;
+    selectedField: string;
     hostingcoordinator?: {
       name : string | null,
       email : string | null,
@@ -45,12 +46,16 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   constructor(props: ReportIssueProps) {
     super(props);
     initializeIcons();
+    const firstTab = TabOptions[0];
+    const firstSection = firstTab.sections[0];
+
     this.state = {
       issueTitle: "",
       issueDescription: "",
       useremail: "",
-      selectedTab: TabOptions[0].key,
-      selectedSection: TabOptions[0].sections[0].key,
+      selectedTab: firstTab.key,
+      selectedSection: firstSection.key,
+      selectedField: firstSection.fields?.[0]?.key ?? "",
     };
   }
   componentDidMount() {
@@ -81,27 +86,48 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   private onTabChanged = (_: any, option?: any) => {
     if (!option) return;
 
+    const selectedTab = TabOptions.find(x => x.key === option.key);
+    const firstSection = selectedTab?.sections[0];
+
     this.setState({
       selectedTab: option.key,
-      selectedSection: TabOptions.find(x => x.key === option.key)?.sections[0].key ?? ""
+      selectedSection: firstSection?.key ?? "",
+      selectedField: firstSection?.fields?.[0]?.key ?? ""
     });
   };
 
   private onSectionChanged = (_: any, option?: any) => {
     if (!option) return;
 
+    const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
+    const selectedSection = selectedTab?.sections.find(x => x.key === option.key);
+
     this.setState({
-      selectedSection: option.key
+      selectedSection: option.key,
+      selectedField: selectedSection?.fields?.[0]?.key ?? ""
+    });
+  };
+
+  private onFieldChanged = (_: any, option?: any) => {
+    if (!option) return;
+
+    this.setState({
+      selectedField: option.key
     });
   };
 
   OnSubmitIssue() {
     var obj = this;
 
+    const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
+    const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
+    const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
+
     var request = {
       Application: obj.props.appname ?? "", 
-      TabName: TabOptions.find(x => x.key === this.state.selectedTab)?.text ?? "", 
-      SectionName: TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.text ?? "", 
+      TabName: selectedTabData?.text ?? "", 
+      SectionName: selectedSectionData?.text ?? "",
+      FieldName: selectedFieldData?.text ?? "",
       Description: this.state.issueDescription ?? "",
       FromEmailAddress: this.state.useremail ?? "",
       FromUserId: (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, ""),
@@ -113,6 +139,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             Application: { typeName: "Edm.String", structuralProperty: 1 },
             TabName: { typeName: "Edm.String", structuralProperty: 1 },
             SectionName: { typeName: "Edm.String", structuralProperty: 1 },
+            FieldName: { typeName: "Edm.String", structuralProperty: 1 },
             Description: { typeName: "Edm.String", structuralProperty: 1 },
             FromEmailAddress: { typeName: "Edm.String", structuralProperty: 1 },
             FromUserId: { typeName: "Edm.String", structuralProperty: 1 }
@@ -140,6 +167,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     const userEmail = this.state.useremail;
     const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
     const sectionOptions = selectedTab?.sections ?? [];
+    const selectedSectionData = sectionOptions.find(x => x.key === this.state.selectedSection);
+    const fieldOptions = selectedSectionData?.fields ?? [];
 
     return (
       <div className="report-page">
@@ -165,6 +194,22 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
           <div className="form-grid">
             <div>
+              <RequiredLabel>Application</RequiredLabel>
+              <TextField value={appname} disabled/>
+            </div>
+            <div>
+              <RequiredLabel>Priority</RequiredLabel>
+              <Dropdown
+                options={[
+                  { key: "high", text: "High" },
+                  { key: "medium", text: "Medium" },
+                  { key: "low", text: "Low" },
+                ]}
+                selectedKey={this.state.selectedTab}
+                onChange={this.onTabChanged}
+              />
+            </div>
+            {/* <div>
               <RequiredLabel>Tab with Issue</RequiredLabel>
               <Dropdown
                 options={TabOptions}
@@ -183,13 +228,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             <div>
               <RequiredLabel>Field with Issue</RequiredLabel>
               <Dropdown
-                options={sectionOptions}
-                selectedKey={this.state.selectedSection}
-                onChange={this.onSectionChanged}
+                options={fieldOptions}
+                selectedKey={this.state.selectedField}
+                onChange={this.onFieldChanged}
               />
-            </div>
+            </div> */}
             
-
             <div className="full-width">
               <RequiredLabel>Issue Title</RequiredLabel>
               <div className="textarea-wrap">
