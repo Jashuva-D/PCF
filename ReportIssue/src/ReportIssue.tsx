@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 
@@ -99,12 +99,37 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return <Text>{item.newvalue}</Text>
             }
           }
-        } as IColumn
+        } as IColumn,
+        {
+          key: "actions",
+          name: "Actions",
+          fieldName: "Actions",
+          minWidth: 100,
+          onRender: (item: any) => {
+            if (item.newrecord) {
+              return <Stack horizontal>
+                <PrimaryButton
+                  text="Save"
+                  onClick={() => this.OnSubmitIssue()}
+                />
+              </Stack>
+            }
+            else {
+              return <Stack horizontal>
+                <PrimaryButton
+                  onClick={() => {
+                    this.setState(prevState => ({
+                      datafields: prevState.datafields.filter((_, i) => i !== prevState.datafields.indexOf(item))
+                    }));
+                  }}
+                  text="Delete"
+                />
+              </Stack>
+            }
+          }
+        }
       ]
     };
-
-    
-    
   }
   componentDidMount() {
     var obj = this;
@@ -318,13 +343,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   <DetailsList
                     items={this.state.datafields}
                     columns={this.state.datacolumns}
+                    selectionMode={SelectionMode.none} // Disable selection
                   />
               </StackItem>
-              
             </Stack>
           </div>
-          
-          
           <div className="contact-title">3. Assign To</div>
           <div className="form-grid">
             <div>
