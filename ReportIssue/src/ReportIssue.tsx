@@ -22,6 +22,7 @@ interface ReportIssueState {
     }
     datafields : DataField[];
     datacolumns : IColumn[];
+    currentrecord: DataField;
 }
 
 
@@ -50,13 +51,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       selectedTab: firstTab.key,
       selectedSection: firstSection.key,
       selectedField: firstSection.fields?.[0]?.key ?? "",
-      datafields: [{ newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }],
+      currentrecord: { newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" },
+      datafields: [this.state.currentrecord],
       datacolumns: [
         {
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 150,
+          minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
               return (
@@ -76,7 +78,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "currentvalue",
           name: "Current Value",
           fieldName: "CurrentValue",
-          minWidth: 150,
+          minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -90,7 +92,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "newvalue",
           name: "New Value",
           fieldName: "NewValue",
-          minWidth: 150,
+          minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -110,7 +112,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return <Stack horizontal>
                 <PrimaryButton
                   text="Save"
-                  onClick={() => this.OnSubmitIssue()}
+                  onClick={() => {
+                    var currentrecord = { ...this.state.currentrecord , newrecord: false};
+                    var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord];
+                    this.setState({
+                      datafields: datafields,
+                      currentrecord: { newrecord: true, tabname: this.state.selectedTab, sectionname: this.state.selectedSection, fieldname: this.state.selectedField, currentvalue: "", newvalue: "" }
+                    })
+                  }}
                   style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
