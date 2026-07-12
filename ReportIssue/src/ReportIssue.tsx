@@ -17,6 +17,7 @@ interface ReportIssueProps {
 }
 
 interface ReportIssueState {
+    issueTitle: string;
     issueDescription: string;
     useremail: string | null;
     selectedTab: string;
@@ -45,6 +46,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     super(props);
     initializeIcons();
     this.state = {
+      issueTitle: "",
       issueDescription: "",
       useremail: "",
       selectedTab: TabOptions[0].key,
@@ -170,16 +172,35 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 onChange={this.onTabChanged}
             />
             </div>
-
             <div>
               <RequiredLabel>Section with Issue</RequiredLabel>
               <Dropdown
                 options={sectionOptions}
                 selectedKey={this.state.selectedSection}
                 onChange={this.onSectionChanged}
-            />
+              />
             </div>
+            <div>
+              <RequiredLabel>Field with Issue</RequiredLabel>
+              <Dropdown
+                options={sectionOptions}
+                selectedKey={this.state.selectedSection}
+                onChange={this.onSectionChanged}
+              />
+            </div>
+            
 
+            <div className="full-width">
+              <RequiredLabel>Issue Title</RequiredLabel>
+              <div className="textarea-wrap">
+                <TextField
+                  defaultValue=""
+                  placeholder="Please provide a brief title for the issue."
+                  value={this.state.issueTitle}
+                  onChange={(e, value) => this.setState({ issueTitle: value ?? "" })}
+                />
+              </div>
+            </div>
             <div className="full-width">
               <RequiredLabel>Issue Description</RequiredLabel>
 
