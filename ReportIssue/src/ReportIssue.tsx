@@ -56,7 +56,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 200,
+          minWidth: 150,
           onRender: (item: any) => {
             if(item.newrecord){
               return (
@@ -76,7 +76,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "currentvalue",
           name: "Current Value",
           fieldName: "CurrentValue",
-          minWidth: 200,
+          minWidth: 150,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -90,7 +90,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "newvalue",
           name: "New Value",
           fieldName: "NewValue",
-          minWidth: 200,
+          minWidth: 150,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -111,6 +111,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <PrimaryButton
                   text="Save"
                   onClick={() => this.OnSubmitIssue()}
+                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
@@ -123,6 +124,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     }));
                   }}
                   text="Delete"
+                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
@@ -327,27 +329,27 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="section-title">2. Data Fields</div>
           <div className="form-grid">
             <div>
-            <Stack>
-              <Stack horizontalAlign="end">
-                <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
-                    const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
-                    const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
-                    const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
-                    this.setState(prevState => ({
-                      datafields: [...prevState.datafields, { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }]
-                    }));
-                  }}
-                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
-                />
-              </Stack>
-              <StackItem>
-                  <DetailsList
-                    items={this.state.datafields}
-                    columns={this.state.datacolumns}
-                    selectionMode={SelectionMode.none} // Disable selection
+              <Stack>
+                <Stack horizontalAlign="end">
+                  <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
+                      const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
+                      const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
+                      const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
+                      this.setState(prevState => ({
+                        datafields: [...prevState.datafields, { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }]
+                      }));
+                    }}
+                    style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                   />
-              </StackItem>
-            </Stack>
+                </Stack>
+                <StackItem>
+                    <DetailsList
+                      items={this.state.datafields}
+                      columns={this.state.datacolumns}
+                      selectionMode={SelectionMode.none} // Disable selection
+                    />
+                </StackItem>
+              </Stack>
             </div>
           </div>
           <div className="contact-title">3. Assign To</div>
