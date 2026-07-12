@@ -71,7 +71,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             else {
               return (<Text>{item.fieldname}</Text>)
             }
-            
           }
         } as IColumn,
         {
@@ -81,7 +80,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField />
+              return <TextField value = {this.state.currentrecord.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.currentvalue}</Text>
@@ -95,7 +94,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField />
+              return <TextField value = {this.state.currentrecord.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord, newvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.newvalue}</Text>
@@ -116,8 +115,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     var currentrecord = { ...this.state.currentrecord , newrecord: false};
                     var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord];
                     this.setState({
-                      datafields: datafields,
-                      currentrecord: { newrecord: true, tabname: this.state.selectedTab, sectionname: this.state.selectedSection, fieldname: this.state.selectedField, currentvalue: "", newvalue: "" }
+                      datafields: datafields
                     })
                   }}
                   style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
