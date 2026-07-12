@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Icon, IconButton, Link, PrimaryButton, Stack, Text } from "@fluentui/react";
+import { Icon, IconButton, Link, PrimaryButton, Stack, Text, DefaultButton } from "@fluentui/react";
 
 export interface IProps {
     headerName: string | null;
@@ -26,24 +26,30 @@ class ReportIssueButton extends React.Component<IProps> {
             }}
         >
             <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-                <Text variant="mediumPlus" style={{ fontWeight: 600 }}>
+                <Text variant="mediumPlus" style={{ fontWeight: 700 }}>
                     {this.props.headerName ?? "Title"}
                 </Text>
             </Stack>
 
-            <Link
+            <DefaultButton
+                text="Report Issue"
+                iconProps={{ iconName: "Bug", style: { color: "#a83240" } }}
                 onClick={this.props.onClick}
                 styles={{
                     root: {
-                        fontWeight: 600,
+                        minWidth: "auto",
+                        padding: "0 12px",
+                        border: 0,
+                        backgroundColor: "transparent",
                         color: "#0D2499",
-                        hoverColor: "#0D2499",
-                        hoverunderline: "none",
+                        hover: {
+                            backgroundColor: "transparent",
+                            color: "#0D2499"
+                        }
                     }
                 }}
-            >
-                🐞 Report Issue
-            </Link>
+                
+            />
         </Stack>
     }
 
