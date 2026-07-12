@@ -344,6 +344,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 </Stack>
                 <StackItem>
                     <DetailsList
+                      className="appuserroles"
                       items={this.state.datafields}
                       columns={this.state.datacolumns}
                       selectionMode={SelectionMode.none} // Disable selection

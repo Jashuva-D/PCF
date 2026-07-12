@@ -150,3 +150,23 @@
     grid-template-columns: 1fr;
   }
 }
+
+.appuserroles .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.appuserroles .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+} 
+ .appuserroles .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.appuserroles .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}
