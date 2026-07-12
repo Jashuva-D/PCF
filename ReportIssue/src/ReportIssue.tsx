@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 
@@ -56,7 +56,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 100,
+          minWidth: 200,
           onRender: (item: any) => {
             if(item.newrecord){
               return (
@@ -76,7 +76,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "currentvalue",
           name: "Current Value",
           fieldName: "CurrentValue",
-          minWidth: 100,
+          minWidth: 200,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -90,7 +90,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "newvalue",
           name: "New Value",
           fieldName: "NewValue",
-          minWidth: 100,
+          minWidth: 200,
           onRender: (item: any) => {
             if(item.newrecord){
               return <TextField />
@@ -301,17 +301,31 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           </div>
           <div className="section-title">2. Data Fields</div>
           <div className="form-grid">
-            <div>
-              <DefaultButton iconProps={{ iconName: "Add" }} style={{ alignItems: "end" }} text="Add Field" onClick={() => this.setState({ datafields: [...this.state.datafields, { newrecord: true, tabname: this.state.selectedTab, sectionname: this.state.selectedSection, fieldname: "", currentvalue: "", newvalue: "" }] })} />
-              <DetailsList
-                items={this.state.datafields}
-                columns={this.state.datacolumns}
-              />
-            </div>
+            <Stack>
+              <Stack horizontalAlign="end">
+                <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
+                    const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
+                    const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
+                    const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
+                    this.setState(prevState => ({
+                      datafields: [...prevState.datafields, { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }]
+                    }));
+                  }}
+                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
+                />
+              </Stack>
+              <StackItem>
+                  <DetailsList
+                    items={this.state.datafields}
+                    columns={this.state.datacolumns}
+                  />
+              </StackItem>
+              
+            </Stack>
           </div>
           
           
-          <div className="contact-title">2. Assign To</div>
+          <div className="contact-title">3. Assign To</div>
           <div className="form-grid">
             <div>
               <Label>Hosting Coordinator</Label>
@@ -331,7 +345,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
           </div>
 
-          <div className="contact-title">3. Reported By</div>
+          <div className="contact-title">4. Reported By</div>
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
