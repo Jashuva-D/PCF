@@ -333,7 +333,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </div>
             </div>
           </div>
-          <div className="section-title">2. Data Fields</div>
+          <div className="contact-title">2. Data Fields</div>
           <div className="form-grid">
             <div>
               <Stack>
@@ -352,9 +352,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <StackItem>
                     <DetailsList
                       className="appuserroles"
-                      items={this.state.datafields}
-                      columns={this.state.datacolumns}
-                      selectionMode={SelectionMode.none} // Disable selection
+                      items={[...this.state.datafields]}
+                      columns={[...this.state.datacolumns]}
+                      selectionMode={SelectionMode.none} 
                     />
                 </StackItem>
               </Stack>
