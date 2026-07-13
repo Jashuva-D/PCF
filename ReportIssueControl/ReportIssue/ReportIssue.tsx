@@ -19,7 +19,7 @@ class ReportIssueButton extends React.Component<IProps> {
                 root: {
                     background: "rgb(243,243, 243)",
                     borderLeft: "4px solid #0D2499",
-                    padding: "10px 14px",
+                    padding: "6px 6px",
                     borderRadius: 6,
                     marginBottom: 12
                 }
@@ -38,7 +38,7 @@ class ReportIssueButton extends React.Component<IProps> {
                 styles={{
                     root: {
                         minWidth: "auto",
-                        padding: "0 12px",
+                        padding: "0 6px",
                         border: 0,
                         backgroundColor: "transparent",
                         color: "#0D2499",
