@@ -22,7 +22,7 @@ interface ReportIssueState {
     }
     datafields : DataField[];
     datacolumns : IColumn[];
-    currentrecord: DataField;
+    currentrecord: DataField | null;
 }
 
 
@@ -80,7 +80,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField value = {this.state.currentrecord.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord, currentvalue: value ?? ""}})}}/>
+              return <TextField value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.currentvalue}</Text>
@@ -94,7 +94,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField value = {this.state.currentrecord.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord, newvalue: value ?? ""}})}}/>
+              return <TextField value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.newvalue}</Text>
@@ -112,10 +112,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <PrimaryButton
                   text="Save"
                   onClick={() => {
-                    var currentrecord = { ...this.state.currentrecord , newrecord: false};
-                    var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord];
+                    var currentrecord = { ...this.state.currentrecord , newrecord: false} as DataField;
+                    var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord!];
                     this.setState({
-                      datafields: datafields
+                      datafields: datafields,
+                      currentrecord: null
                     })
                   }}
                   style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
@@ -342,9 +343,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
                       const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
                       const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
-                      this.setState(prevState => ({
-                        datafields: [...prevState.datafields, { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }]
-                      }));
+                      var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }
+                      this.setState({
+                        datafields: [...this.state.datafields, currentrecord],
+                        currentrecord: currentrecord
+                      });
                     }}
                     style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                   />
