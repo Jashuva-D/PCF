@@ -64,7 +64,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return (
                 <Dropdown 
                   options = {TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields?.map(f => ({ key: f.key, text: f.text })) ?? []}
-                  selectedKey={item.fieldname}
+                  selectedKey={this.state.currentrecord?.fieldname}
                   onChange={(evt, option) => {
                     if(!option) return;
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "" } as DataField;
