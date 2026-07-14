@@ -314,7 +314,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <Dropdown
                 options={TabOptions}
                 selectedKey={this.state.selectedTab}
-                onChange={this.onTabChanged}
+                //onChange={this.onTabChanged}
+                disabled
             />
             </div>
             <div>
@@ -322,7 +323,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <Dropdown
                 options={sectionOptions}
                 selectedKey={this.state.selectedSection}
-                onChange={this.onSectionChanged}
+                //onChange={this.onSectionChanged}
+                disabled
               />
             </div>
             
@@ -332,8 +334,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <TextField
                   defaultValue=""
                   placeholder="Please provide a brief title for the issue."
-                  value={this.state.issueTitle}
-                  onChange={(e, value) => this.setState({ issueTitle: value ?? "" })}
+                  value={`${this.props.appname} - ${this.props.tabname} - ${this.props.sectionname} - Data Discrepancy`}
+                  //onChange={(e, value) => this.setState({ issueTitle: value ?? "" })}
+                  disabled
                 />
               </div>
             </div>
@@ -399,7 +402,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   if(items.length > 0){
                     this.setState({
                       delegateuser: {  
-                          name: items[0].text ?? "", email: items[0].secondaryText ?? "", recordid: items[0].id ?? ""
+                          name: items[0].text ?? "", email: items[0].thirdText ?? "", recordid: items[0].id ?? ""
                       }
                     })
                   }

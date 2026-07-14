@@ -59,9 +59,9 @@ class Lookup extends React.Component<LookupProps, LookupState> {
             return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
         }
         else {
-            return (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person", `?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')&$orderby=cr549_name asc`).then(function (resp:any) {
+            return (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person", `?$select=cr549_name,cr549_id,cr549_personid,cr549_email_address&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')&$orderby=cr549_name asc`).then(function (resp:any) {
                 return resp.entities.map((ent: any) => {
-                    return { id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps;
+                    return { id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true, thirdText: ent["cr549_email_address"] } as IPersonaProps;
                 });
             })
         }

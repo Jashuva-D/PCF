@@ -1,14 +1,31 @@
 import * as React from "react";
 import { Icon, IconButton, Link, PrimaryButton, Stack, Text, DefaultButton } from "@fluentui/react";
+import { IInputs } from "./generated/ManifestTypes";
 
-export interface IProps {
+interface ReportIssueProps {
     headerName: string | null;
-    onClick: () => void;
+    appName: string | null;
+    tabName: string | null;
+    sectionName: string | null;
+    context: ComponentFramework.Context<IInputs>
+}
+interface ReportIssueState{
+
 }
 
-class ReportIssueButton extends React.Component<IProps> {
-    constructor(props: IProps) {
+class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueState> {
+    constructor(props: ReportIssueProps) {
         super(props);
+    }
+    onClick(){
+        var data = {
+            appname: this.props.appName,
+            recordid: (this.props.context as any).page.entityId,
+            tabname: this.props.tabName,
+            sectionname: this.props.sectionName
+        }
+        this.props.context.navigation.openWebResource("crm2_/reportissue/index.html",{ height: 900, width: 800, openInNewWindow: false}, JSON.stringify(data))
+        
     }
     render() {
         return <Stack
@@ -34,7 +51,7 @@ class ReportIssueButton extends React.Component<IProps> {
             <DefaultButton
                 text="Report Issue"
                 iconProps={{ iconName: "Bug", style: { color: "#a83240" } }}
-                onClick={this.props.onClick}
+                onClick={this.onClick.bind(this)}
                 styles={{
                     root: {
                         minWidth: "auto",

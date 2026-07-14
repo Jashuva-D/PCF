@@ -23,9 +23,12 @@ export class ReportIssue implements ComponentFramework.StandardControl<IInputs, 
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
-        var title = context.parameters.title && context.parameters.title.raw ? context.parameters.title.raw : "Report Issue";
+        var title = context.parameters.title && context.parameters.title.raw ? context.parameters.title.raw : "Title";
+        var tabname = context.parameters.tab && context.parameters.tab.raw ? context.parameters.tab.raw : "";
+        var section = context.parameters.section && context.parameters.section.raw ? context.parameters.section.raw : "";
+        var appname = context.parameters.appname && context.parameters.appname.raw ? context.parameters.appname.raw : "";
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(ReportIssueButton, { headerName: title ?? "", onClick: () => alert("Issue reported!") }));
+        root.render(React.createElement(ReportIssueButton, { context: context, headerName : title, appName: appname, tabName : tabname, sectionName: section }));
     }
 
     /**

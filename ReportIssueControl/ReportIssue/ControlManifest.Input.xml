@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PCFCONTROLS" constructor="ReportIssue" version="0.0.6" display-name-key="ReportIssue" description-key="ReportIssue description" control-type="standard" >
+  <control namespace="PCFCONTROLS" constructor="ReportIssue" version="0.0.8" display-name-key="ReportIssue" description-key="ReportIssue description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -19,7 +19,11 @@
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="title" display-name-key="Property_Display_Key2" description-key="Property_Desc_Key2" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="title" display-name-key="title_name_key" description-key="title_description_key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="tab" display-name-key="tabname_name_key" description-key="tabname_description_key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="section" display-name-key="section_name_key" description-key="section_description_key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="appname" display-name-key="app_name_key" description-key="app_description_key" of-type="SingleLine.Text" usage="input" required="false" />
+    
     <!--
       Property node's of-type attribute can be of-type-group attribute.
       Example:
