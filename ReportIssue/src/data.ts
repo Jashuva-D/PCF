@@ -29,8 +29,19 @@ export const TabOptions: TabOption[] = [
         key: "general",
         text: "General",
         sections: [
-            { key: "details", text: "Details", fields: [{ key: "applicationname", text: "Application Name" }, { key: "description", text: "Description" }] },
-            { key: "hosting", text: "Hosting Details", fields: [{ key: "hostingtype", text: "Hosting Type" }, { key: "environment", text: "Environment" }] },
+            {
+                key: "details",
+                text: "Details",
+                fields: [
+                    { key: "applicationname", text: "Application Name" },
+                    { key: "description", text: "Description" }
+                ]
+            },
+            { 
+                key: "hosting", 
+                text: "Hosting Details", 
+                fields: [{ key: "hostingtype", text: "Hosting Type" }, { key: "environment", text: "Environment" }] 
+            },
             { key: "owners", text: "Business & System Owners", fields: [{ key: "businessowner", text: "Business Owner" }, { key: "systemowner", text: "System Owner" }] },
             { key: "funding", text: "Funding", fields: [{ key: "fundingsource", text: "Funding Source" }, { key: "budget", text: "Budget" }] },
             { key: "fisma", text: "FISMA", fields: [{ key: "fismastatus", text: "FISMA Status" }, { key: "impactlevel", text: "Impact Level" }] },
@@ -84,7 +95,7 @@ export const TabOptions: TabOption[] = [
         ]
     },
     {
-        key: "jira",
+        key: "jiratickets",
         text: "JIRA Tickets",
         sections: [
             { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details" }] }

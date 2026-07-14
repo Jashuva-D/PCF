@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
+import Lookup from "./Lookup";
 
 interface ReportIssueProps {
   appname?: string;
   recordid?: string;
+  tabname?: string;
+  sectionname?: string;
 }
 
 interface ReportIssueState {
@@ -16,6 +19,11 @@ interface ReportIssueState {
     selectedSection: string;
     selectedField: string;
     hostingcoordinator?: {
+      name : string | null,
+      email : string | null,
+      recordid : string | null
+    }
+    delegateuser? : {
       name : string | null,
       email : string | null,
       recordid : string | null
@@ -41,16 +49,19 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   constructor(props: ReportIssueProps) {
     super(props);
     initializeIcons();
-    const firstTab = TabOptions[0];
-    const firstSection = firstTab.sections[0];
-    var currentrecord = { newrecord: true, tabname: firstTab.text, sectionname: firstSection.text, fieldname: firstSection.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }
+
+    var tab = TabOptions.find(x => x.key === this.props.tabname);
+    var section = tab?.sections.find(x => x.key === this.props.sectionname);
+
+    var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: section?.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }
+    
     this.state = {
       issueTitle: "",
       issueDescription: "",
       useremail: "",
-      selectedTab: firstTab.key,
-      selectedSection: firstSection.key,
-      selectedField: firstSection.fields?.[0]?.key ?? "",
+      selectedTab: tab?.key ?? "",
+      selectedSection: section?.key ?? "",
+      selectedField: section?.fields?.[0]?.key ?? "",
       currentrecord: currentrecord,
       datafields: [currentrecord],
       datacolumns: [
@@ -145,6 +156,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         }
       ]
     };
+
   }
   componentDidMount() {
     var obj = this;
@@ -380,11 +392,22 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
             <div>
               <Label>Delegate To</Label>
-              <TextField />
+              <Lookup 
+                  entityType="cr549_person" 
+                  allowMultiSelect={false} 
+                  onRecordSelect={(items) => {
+                  if(items.length > 0){
+                    this.setState({
+                      delegateuser: {  
+                          name: items[0].text ?? "", email: items[0].secondaryText ?? "", recordid: items[0].id ?? ""
+                      }
+                    })
+                  }
+               }}/>
             </div>
             <div>
               <Label>Delegate To Email</Label>
-              <TextField />
+              <TextField disabled value={this.state.delegateuser?.email ?? ""} />
             </div>
           </div>
 
