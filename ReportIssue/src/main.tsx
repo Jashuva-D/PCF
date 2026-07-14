@@ -9,6 +9,6 @@ const data = JSON.parse(params.get("data") || "{}");
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ReportIssue appname={data.appname ?? ""} recordid={data.recordid ?? ""} />
+    <ReportIssue appname={data.appname ?? ""} recordid={data.recordid ?? ""} tabname={data.tabname ?? ""} sectionname={data.sectionname ?? ""} />
   </StrictMode>,
 )
