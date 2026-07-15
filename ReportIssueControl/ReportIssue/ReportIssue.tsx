@@ -26,7 +26,7 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
         };
         var pageInput = {
             pageType: "webresource",
-            webResourceName: "crm2_/reportissue/index.html",
+            webresourceName: "crm2_/reportissue/index.html",
             data: JSON.stringify(data)
         };
         var navigationOptions = {
