@@ -34,7 +34,7 @@ export const TabOptions: TabOption[] = [
                 key: "details",
                 text: "Details",
                 fields: [
-                    { key: "cr549_id", text: "Application Name (Lhort)" },
+                    { key: "cr549_id", text: "Application Name (Short)" },
                     { key: "cr549_long_app_name", text: "Application Name (Long)"},
                     { key: "cr549_description", text: "Application Description" },
                     { key: "cr549_hostingcoordinator", text: "Hosting Coordinator"},
@@ -99,6 +99,17 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization"},
                     { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID"}
                 ] 
+            },
+            {
+                key: "ado",
+                text: "ADO",
+                fields: [
+                    { key: "cr549_ado_name", text: "ADO Name"},
+                    { key: "cr549_ado_dl", text: "ADO Distribution List"},
+                    { key: "cr549_oncall_sec_dl", text: "ADO On-Call Distribution List"},
+                    { key: "cr549_ado_sec_dl", text: "ADO Security Distribution List"},
+                    { key: "cr549_ado_ops_dl", text: "ADO Operations Distribution List"}
+                ]
             },
             { 
                 key: "dates", 
