@@ -69,7 +69,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 170,
+          minWidth: 220,
           onRender: (item: any) => {
             if(item.newrecord){
               return (
@@ -121,10 +121,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "actions",
           name: "Actions",
           fieldName: "Actions",
-          minWidth: 100,
+          minWidth: 50,
           onRender: (item: any) => {
             if (item.newrecord) {
-              return <Stack horizontal horizontalAlign="end">
+              return <Stack horizontal horizontalAlign="center">
                 <IconButton
                   title="Save"
                   iconProps={{iconName: "save"}}
@@ -136,13 +136,13 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       currentrecord: null
                     })
                   }}
-                  style={{fontSize: 24, color: "#0D2499"}}
+                  style={{fontSize: 36, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
             else {
-              return <Stack horizontal horizontalAlign="end">
+              return <Stack horizontal horizontalAlign="center">
                 <IconButton
                   onClick={() => {
                     this.setState(prevState => ({
@@ -151,7 +151,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                   title="Cancel"
                   iconProps={{iconName: "delete"}}
-                  style={{fontSize: 24, color: "#0D2499"}}
+                  style={{fontSize: 36, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
