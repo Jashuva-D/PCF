@@ -28,8 +28,9 @@
 
 .report-title {
   margin: 0;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 600;
+  color: #0D2499
 }
 
 .report-subtitle {

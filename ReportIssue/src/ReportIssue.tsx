@@ -3,6 +3,7 @@ import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextFie
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
+import { FlagIcon } from "./icons";
 
 interface ReportIssueProps {
   appname?: string;
@@ -53,7 +54,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key === this.props.tabname);
     var section = tab?.sections.find(x => x.key === this.props.sectionname);
 
-    var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: section?.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "" }
+    var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: section?.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: section?.fields?.[0]?.text ?? "" }
     
     this.state = {
       issueTitle: "",
@@ -85,7 +86,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               );
             }
             else {
-              return (<Text>{item.fieldname}</Text>)
+              return (<Text>{item.fieldlabel}</Text>)
             }
           }
         } as IColumn,
@@ -129,7 +130,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   title="Save"
                   iconProps={{iconName: "save"}}
                   onClick={() => {
-                    var currentrecord = { ...this.state.currentrecord , newrecord: false} as DataField;
+                    var fieldlabel = section?.fields?.find(x => x.key == this.state.currentrecord?.fieldname)?.text;
+                    var currentrecord = { ...this.state.currentrecord , newrecord: false, fieldlabel: fieldlabel} as DataField;
                     var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord!];
                     this.setState({
                       datafields: datafields,
@@ -187,30 +189,30 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         console.log(error.message);
     })
   }
-  private onTabChanged = (_: any, option?: any) => {
-    if (!option) return;
+  // private onTabChanged = (_: any, option?: any) => {
+  //   if (!option) return;
 
-    const selectedTab = TabOptions.find(x => x.key === option.key);
-    const firstSection = selectedTab?.sections[0];
+  //   const selectedTab = TabOptions.find(x => x.key === option.key);
+  //   const firstSection = selectedTab?.sections[0];
 
-    this.setState({
-      selectedTab: option.key,
-      selectedSection: firstSection?.key ?? "",
-      selectedField: firstSection?.fields?.[0]?.key ?? ""
-    });
-  };
+  //   this.setState({
+  //     selectedTab: option.key,
+  //     selectedSection: firstSection?.key ?? "",
+  //     selectedField: firstSection?.fields?.[0]?.key ?? ""
+  //   });
+  // };
 
-  private onSectionChanged = (_: any, option?: any) => {
-    if (!option) return;
+  // private onSectionChanged = (_: any, option?: any) => {
+  //   if (!option) return;
 
-    const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
-    const selectedSection = selectedTab?.sections.find(x => x.key === option.key);
+  //   const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
+  //   const selectedSection = selectedTab?.sections.find(x => x.key === option.key);
 
-    this.setState({
-      selectedSection: option.key,
-      selectedField: selectedSection?.fields?.[0]?.key ?? ""
-    });
-  };
+  //   this.setState({
+  //     selectedSection: option.key,
+  //     selectedField: selectedSection?.fields?.[0]?.key ?? ""
+  //   });
+  // };
 
   private onFieldChanged = (_: any, option?: any) => {
     if (!option) return;
@@ -274,11 +276,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     const selectedSectionData = sectionOptions.find(x => x.key === this.state.selectedSection);
     const fieldOptions = selectedSectionData?.fields ?? [];
 
+    var tab = TabOptions.find(x => x.key == this.state.selectedTab);
+    var section = tab?.sections.find(x => x.key == this.state.selectedSection);
+
     return (
       <div className="report-page">
         <div className="report-header">
           <div className="report-header-icon">
-            <Icon iconName="Flag" />
+            <FlagIcon />
           </div>
 
           <div>
@@ -319,7 +324,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <TextField
                   defaultValue=""
                   placeholder="Please provide a brief title for the issue."
-                  value={`${this.props.appname} - ${this.props.tabname} - ${this.props.sectionname} - Data Discrepancy`}
+                  value={`${appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`}
                   disabled
                 />
               </div>
@@ -347,7 +352,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
                       const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
                       const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
-                      var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "" }
+                      var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: selectedFieldData?.text ?? "" }
                       this.setState({
                         datafields: [...this.state.datafields, currentrecord],
                         currentrecord: currentrecord

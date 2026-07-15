@@ -20,6 +20,7 @@ export interface DataField {
     tabname: string;
     sectionname: string;
     fieldname: string;
+    fieldlabel: string;
     currentvalue: string;
     newvalue: string
 }
@@ -88,12 +89,59 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_project_num_hosting_projectnumber", text: "Hosting Project Number"}
                 ] 
             },
-            { key: "fisma", text: "FISMA", fields: [{ key: "fismastatus", text: "FISMA Status" }, { key: "impactlevel", text: "Impact Level" }] },
-            { key: "dates", text: "Dates", fields: [{ key: "startdate", text: "Start Date" }, { key: "reviewdate", text: "Review Date" }] },
-            { key: "communication", text: "Communication", fields: [{ key: "contactemail", text: "Contact Email" }, { key: "escalationcontact", text: "Escalation Contact" }] },
-            { key: "marketplace", text: "Market Place", fields: [{ key: "marketplaceavailability", text: "Marketplace Availability" }, { key: "marketplacestatus", text: "Marketplace Status" }] },
-            { key: "accounts", text: "Accounts", fields: [{ key: "accountname", text: "Account Name" }, { key: "adminaccount", text: "Admin Account" }] },
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details" }] }
+            { 
+                key: "fisma", 
+                text: "FISMA", 
+                fields: [
+                    { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System" }, 
+                    { key: "cr549_cfactsfismasystem_cmsfismaacronym", text: "CMS FISAM Acronym" },
+                    { key: "cr549_cfactsfismasystem_name", text: "Name"},
+                    { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization"},
+                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID"}
+                ] 
+            },
+            { 
+                key: "dates", 
+                text: "Dates", 
+                fields: [
+                    { key: "cr549_date_intake_submit", text: "Intake Date" }, 
+                    { key: "cr549_date_funded", text: "Funded Date" },
+                    { key: "cr549_date_acct_delivered", text: "Accounts Delivered Date"},
+                    { key: "cr549_date_golive", text: "Go-Live Date"},
+                    { key: "cr549_date_intended_golive", text: "Intended Go-Live Date"},
+                    { key: "cr549_date_app_decom", text: "Decommissioned Date"}
+                ] 
+            },
+            { 
+                key: "communication", 
+                text: "Communication", 
+                fields: [
+                    { key: "cr549_conf_link", text: "Confluence" }, 
+                    { key: "cr549_meeting_link", text: "Meeting Notes" },
+                    { key: "cr549_jira_link", text: "Jira"},
+                    { key: "cr549_slack_channel", text: "Slack"}
+                ] 
+            },
+            { 
+                key: "marketplace", 
+                text: "Market Place", 
+                fields: [
+                    { key: "cr549_marketplace", text: "Marketplace Application" },
+                    { key: "cr549_managed", text: "Managed Application" },
+                    { key: "cr549_oe_effect", text: "Marketplace OE Impacting"},
+                    { key: "cr549_medic_oe_effect", text: "Medicare OE Impacting"}
+                ] 
+            },
+            { 
+                key: "accounts", 
+                text: "Accounts", 
+                fields: [] 
+            },
+            { 
+                key: "other", 
+                text: "Other or N/A", 
+                fields: [] 
+            }
         ]
     },
     {
