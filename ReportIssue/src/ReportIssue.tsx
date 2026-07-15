@@ -124,7 +124,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 100,
           onRender: (item: any) => {
             if (item.newrecord) {
-              return <Stack horizontal>
+              return <Stack horizontal horizontalAlign="end">
                 <IconButton
                   title="Save"
                   iconProps={{iconName: "save"}}
@@ -136,13 +136,13 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       currentrecord: null
                     })
                   }}
-                  style={{fontSize: 24}}
+                  style={{fontSize: 24, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
             else {
-              return <Stack horizontal>
+              return <Stack horizontal horizontalAlign="end">
                 <IconButton
                   onClick={() => {
                     this.setState(prevState => ({
@@ -151,7 +151,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                   title="Cancel"
                   iconProps={{iconName: "delete"}}
-                  style={{fontSize: 24}}
+                  style={{fontSize: 24, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
