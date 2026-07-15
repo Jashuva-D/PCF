@@ -23,9 +23,26 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             recordid: (this.props.context as any).page.entityId,
             tabname: this.props.tabName,
             sectionname: this.props.sectionName
-        }
-        this.props.context.navigation.openWebResource("crm2_/reportissue/index.html",{ height: 900, width: 800, openInNewWindow: false}, JSON.stringify(data))
-        
+        };
+        var pageInput = {
+            pageType: "webresource",
+            webResourceName: "crm2_/reportissue/index.html",
+            data: JSON.stringify(data)
+        };
+        var navigationOptions = {
+            target: 2,          
+            width: {
+                value: 800,
+                unit: "px"
+            },
+            height: {
+                value: 900,
+                unit: "px"
+            },
+            position: 1         
+        };
+        //(this.props.context.navigation as any).openWebResource("crm2_/reportissue/index.html",{ height: 900, width: 800, openInNewWindow: false}, JSON.stringify(data))
+        (this.props.context.navigation as any).navigateTo(pageInput,navigationOptions).then(function(resp: any){},function(err: any){});
     }
     render() {
         return <Stack
@@ -69,25 +86,6 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             />
         </Stack>
     }
-
-    // return (
-    //     <PrimaryButton style={{ width: "100%", borderRadius: "4px", color: "black", backgroundColor: "lightgray", border: "1px solid #ccc" }} text="Report Issue" onClick={onClick} />
-    //     // <div
-    //     //     style={{
-    //     //         display: "flex",
-    //     //         justifyContent: "flex-end",
-    //     //         width: "100%"
-    //     //     }}
-    //     // >
-    //     //     <IconButton
-    //     //         iconProps={{ iconName: "Bug" }}
-    //     //         title="Report Issue"
-    //     //         ariaLabel="Report Issue"
-    //     //         onClick={onClick}
-    //     //     />
-    //     // </div>
-    // );
-
 }
 
 export default ReportIssueButton;
