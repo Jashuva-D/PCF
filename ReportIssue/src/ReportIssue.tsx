@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
@@ -125,8 +125,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           onRender: (item: any) => {
             if (item.newrecord) {
               return <Stack horizontal>
-                <PrimaryButton
-                  text="Save"
+                <IconButton
+                  title="Save"
+                  iconProps={{iconName: "save"}}
                   onClick={() => {
                     var currentrecord = { ...this.state.currentrecord , newrecord: false} as DataField;
                     var datafields = [...this.state.datafields.filter(x => x.newrecord === false), currentrecord!];
@@ -135,20 +136,23 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       currentrecord: null
                     })
                   }}
-                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
+                  style={{fontSize: 24}}
+                  //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
             else {
               return <Stack horizontal>
-                <PrimaryButton
+                <IconButton
                   onClick={() => {
                     this.setState(prevState => ({
                       datafields: prevState.datafields.filter((_, i) => i !== prevState.datafields.indexOf(item))
                     }));
                   }}
-                  text="Delete"
-                  style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
+                  title="Cancel"
+                  iconProps={{iconName: "delete"}}
+                  style={{fontSize: 24}}
+                  //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
@@ -279,7 +283,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
           <div>
             <h1 className="report-title">
-              Report an Issue for {appname}
+              Report Data Discrepancy for application - {appname}
             </h1>
 
             <div className="report-subtitle">
@@ -294,27 +298,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
           <div className="form-grid">
             <div>
-              <RequiredLabel>Application</RequiredLabel>
-              <TextField value={appname} disabled/>
-            </div>
-            <div>
-              <RequiredLabel>Priority</RequiredLabel>
-              <Dropdown
-                options={[
-                  { key: "high", text: "High" },
-                  { key: "medium", text: "Medium" },
-                  { key: "low", text: "Low" },
-                ]}
-                selectedKey={this.state.selectedTab}
-                onChange={this.onTabChanged}
-              />
-            </div>
-            <div>
               <RequiredLabel>Tab with Issue</RequiredLabel>
               <Dropdown
                 options={TabOptions}
                 selectedKey={this.state.selectedTab}
-                //onChange={this.onTabChanged}
                 disabled
             />
             </div>
@@ -323,11 +310,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <Dropdown
                 options={sectionOptions}
                 selectedKey={this.state.selectedSection}
-                //onChange={this.onSectionChanged}
                 disabled
               />
             </div>
-            
             <div className="full-width">
               <RequiredLabel>Issue Title</RequiredLabel>
               <div className="textarea-wrap">
@@ -335,7 +320,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   defaultValue=""
                   placeholder="Please provide a brief title for the issue."
                   value={`${this.props.appname} - ${this.props.tabname} - ${this.props.sectionname} - Data Discrepancy`}
-                  //onChange={(e, value) => this.setState({ issueTitle: value ?? "" })}
                   disabled
                 />
               </div>
