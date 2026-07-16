@@ -348,7 +348,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <Stack>
                 <Stack horizontalAlign="space-between" horizontal>
                   <div className="contact-title">Data Fields</div>
-                  <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
+                  <div><PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
                       const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
                       const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
                       const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
@@ -360,6 +360,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     }}
                     style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                   />
+                  </div>
                 </Stack>
                 <StackItem>
                     <DetailsList
