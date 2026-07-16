@@ -346,7 +346,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="form-grid">
             <div>
               <Stack>
-                <Stack horizontalAlign="space-between">
+                <Stack horizontalAlign="space-between" horizontal>
                   <div className="contact-title">Data Fields</div>
                   <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
                       const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
