@@ -138,7 +138,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       currentrecord: null
                     })
                   }}
-                  style={{fontSize: 36, color: "#0D2499"}}
+                  style={{fontSize: 48, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
@@ -153,7 +153,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                   title="Cancel"
                   iconProps={{iconName: "delete"}}
-                  style={{fontSize: 36, color: "#0D2499"}}
+                  style={{fontSize: 48, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
@@ -299,7 +299,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         </div>
 
         <div className="report-card">
-          <div className="section-title">1. Issue Details</div>
+          <div className="section-title">Issue Details</div>
 
           <div className="form-grid">
             <div>
@@ -343,11 +343,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </div>
             </div>
           </div>
-          <div className="contact-title">2. Data Fields</div>
           <div className="form-grid">
             <div>
               <Stack>
-                <Stack horizontalAlign="end">
+                <Stack horizontalAlign="space-between">
+                  <div className="contact-title">Data Fields</div>
                   <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
                       const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
                       const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
@@ -372,7 +372,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </Stack>
             </div>
           </div>
-          <div className="contact-title">3. Assign To</div>
+          <div className="contact-title">Assign To</div>
           <div className="form-grid">
             <div>
               <Label>Hosting Coordinator</Label>
@@ -403,7 +403,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             </div>
           </div>
 
-          <div className="contact-title">4. Reported By</div>
+          <div className="contact-title">Reported By</div>
           <div className="form-grid">
             <div>
               <Label>Your Name</Label>
