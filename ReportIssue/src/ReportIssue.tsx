@@ -350,14 +350,16 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   <div className="contact-title">Data Fields</div>
                   <div style={{paddingTop: 12}}>
                     <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => {
-                      const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
-                      const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
-                      const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
-                      var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: selectedFieldData?.text ?? "" }
-                      this.setState({
-                        datafields: [...this.state.datafields, currentrecord],
-                        currentrecord: currentrecord
-                      });
+                      if(this.state.datafields.filter(x => x.newrecord == true).length == 0){
+                        const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
+                        const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
+                        const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
+                        var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: selectedFieldData?.text ?? "" }
+                        this.setState({
+                          datafields: [...this.state.datafields, currentrecord],
+                          currentrecord: currentrecord
+                        });
+                      }
                     }}
                     style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                   />
