@@ -128,7 +128,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return <Stack horizontal horizontalAlign="center">
                 <IconButton
                   title="Save"
-                  iconProps={{iconName: "save", style: {fontSize: 36}}}
+                  iconProps={{iconName: "save", styles:{ root: {fontSize: 36}}}}
                   onClick={() => {
                     var fieldlabel = section?.fields?.find(x => x.key == this.state.currentrecord?.fieldname)?.text;
                     var currentrecord = { ...this.state.currentrecord , newrecord: false, fieldlabel: fieldlabel} as DataField;
@@ -152,7 +152,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     }));
                   }}
                   title="Cancel"
-                  iconProps={{iconName: "delete", style: {fontSize: 36}}}
+                  iconProps={{iconName: "delete", styles: { root: {fontSize: 36}}}}
                   style={{fontSize: 48, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
