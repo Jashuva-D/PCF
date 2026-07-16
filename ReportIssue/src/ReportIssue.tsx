@@ -140,7 +140,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     })
                   }}
                   style={{fontSize: 48, color: "#0D2499"}}
-                  disabled = {enablesavebutton}
+                  disabled = {!enablesavebutton}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
