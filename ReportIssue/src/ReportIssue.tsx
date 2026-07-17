@@ -97,7 +97,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              return <TextField multiline rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.currentvalue}</Text>
@@ -111,7 +111,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
+              return <TextField multiline rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
               return <Text>{item.newvalue}</Text>
@@ -290,12 +290,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
           <div>
             <h1 className="report-title">
-              Report Data Discrepancy for application - {appname}
+              Application: {appname}
             </h1>
 
             <div className="report-subtitle">
-              Help us keep data accurate and reliable. Report incorrect or
-              outdated information on this record.
+              Help us improve BaseCamp by reporting incorrect or outdated application information.
             </div>
           </div>
         </div>

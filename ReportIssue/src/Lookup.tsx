@@ -94,7 +94,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                 }}
                 inputProps={{ 
                     style: { backgroundColor: 'white', width: '100%' },
-                    placeholder: this.props.entityType == "cr549_person" ? "Search for a person..." : "Search for a role..."
+                    placeholder: "Type at least 3 characters to search..." 
                 }}
             />
         );
