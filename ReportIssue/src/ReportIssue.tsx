@@ -81,16 +81,16 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   onChange={(evt, option) => {
                     if(!option) return;
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline } as DataField;
-                    if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname) || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`))){
-                      if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`)){
+                    if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0 || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`).length != 0)){
+                      if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
                         alert(`Optionset value found.  fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
                       }
-                      else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`)){
+                      else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`).length != 0){
                         alert(`Lookup value found.. fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
                       }
-                      else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname)){
+                      else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0){
                         alert(`general value found.. fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[currentrecord.fieldname] ?? "";
                       }
