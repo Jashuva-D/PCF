@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
@@ -97,10 +97,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField multiline rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              return <TextField multiline autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
-              return <Text>{item.currentvalue}</Text>
+              return <TooltipHost content={item.currentvalue}><Text>{item.currentvalue}</Text></TooltipHost>
             }
           }
         } as IColumn,
@@ -111,10 +111,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField multiline rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
+              return <TextField multiline autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
-              return <Text>{item.newvalue}</Text>
+              return <TooltipHost content={item.newvalue}> <Text>{item.newvalue}</Text> </TooltipHost>
             }
           }
         } as IColumn,
