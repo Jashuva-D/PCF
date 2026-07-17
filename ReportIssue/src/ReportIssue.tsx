@@ -153,9 +153,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       datafields: prevState.datafields.filter((_, i) => i !== prevState.datafields.indexOf(item))
                     }));
                   }}
-                  title="Cancel"
-                  iconProps={{iconName: "delete", styles: { root: {fontSize: 24}}}}
-                  style={{fontSize: 48, color: "#0D2499"}}
+                  title="Delete"
+                  iconProps={{iconName: "delete", styles: { root: {fontSize: 18}}}}
+                  style={{fontSize: 18, color: "#0D2499"}}
                   //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
@@ -373,6 +373,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       items={[...this.state.datafields]}
                       columns={[...this.state.datacolumns]}
                       selectionMode={SelectionMode.none} 
+                      styles={{
+                        contentWrapper: {
+                          backgroundColor: "rgb(243,243, 243)",
+                        },
+                      }}
                     />
                 </StackItem>
               </Stack>

@@ -16,8 +16,6 @@
 .report-header-icon {
   width: 54px;
   height: 54px;
-  border: 1px solid #d1d1d1;
-  border-radius: 6px;
   background-color: #fff;
   display: flex;
   align-items: center;
