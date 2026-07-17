@@ -432,13 +432,16 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <DefaultButton
             text="Cancel"
             className="cancel-button"
+            style={{borderRadius: 6}}
             onClick={() => window.close()}
           />
           <PrimaryButton
             text="Submit Issue"
             iconProps={{ iconName: "Send" }}
             className="submit-button"
+            style={{ borderRadius: 6, backgroundColor: this.state.datafields.filter(x => x.newrecord == false).length != 0 ? "#0D2499" : "#F2F2F2" , color: this.state.datafields.filter(x => x.newrecord == false).length != 0 ? "white" : "#5A5A5A" }}
             onClick={this.OnSubmitIssue.bind(this)}
+            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0}
           />
         </div>
       </div>
