@@ -164,7 +164,7 @@
  .appuserroles .ms-DetailsRow {
   background-color: #F2F2F2;
   border-color: #F2F2F2;
-  height: auto;
+  min-height: 24px;
 }
 .appuserroles .ms-DetailsRow:hover {
   background-color: #F2F2F2;
