@@ -45,7 +45,7 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_app_live_status", text: "Application Live Status"},
                     { key: "cr549_proj_phase_name", text: "Stage"},
                     { key: "cr549_period_name", text: "Period"},
-                    { key: "cr549_region", text: "Region"}
+                    { key: "cr549_region", text: "Region", multiline: true}
                 ]
             },
             { 
@@ -72,8 +72,8 @@ export const TabOptions: TabOption[] = [
                 text: "Business & System Owners", 
                 fields: [
                     { key: "cr549_cms_office", text: "Business Owner Office/Center" }, 
-                    { key: "cr549_cms_group", text: "Business Owner Group" },
-                    { key: "cr549_cms_division", text: "Business Owner Division"},
+                    { key: "cr549_cms_group", text: "Business Owner Group" , multiline: true},
+                    { key: "cr549_cms_division", text: "Business Owner Division", multiline: true},
                     { key: "cr549_cms_system_owner_office", text: "System Owner Office/Center"},
                     { key: "cr549_cms_system_owner_group", text : "System Owner Group"}
                 ] 
