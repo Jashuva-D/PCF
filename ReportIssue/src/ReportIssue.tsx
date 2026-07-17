@@ -19,6 +19,7 @@ interface ReportIssueState {
     selectedTab: string;
     selectedSection: string;
     selectedField: string;
+    applicationdata?: any;
     hostingcoordinator?: {
       name : string | null,
       email : string | null,
@@ -80,6 +81,18 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   onChange={(evt, option) => {
                     if(!option) return;
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline } as DataField;
+                    if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname) || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`))
+                    ){
+                      if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`)){
+                        currentrecord.currentvalue = this.state.applicationdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
+                      }
+                      else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`)){
+                        currentrecord.currentvalue = this.state.applicationdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
+                      }
+                      else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname)){
+                        currentrecord.currentvalue = this.state.applicationdata[currentrecord.fieldname] ?? "";
+                      }
+                    }
                     this.setState({currentrecord: currentrecord})
                   }}
                 />
@@ -176,14 +189,17 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         console.log(error.message);
     });
 
-    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid, "?$select=_cr549_hostingcoordinator_value").then((app : any) => {
+    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid).then((app : any) => {
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
-          obj.setState({ hostingcoordinator: {
-            name: coordinator.cr549_name,
-            email: coordinator.cr549_email_address,
-            recordid: coordinator.id
-          } });
+          obj.setState({ 
+            applicationdata: app,
+            hostingcoordinator: {
+              name: coordinator.cr549_name,
+              email: coordinator.cr549_email_address,
+              recordid: coordinator.id
+            } 
+          });
         },function (error : any) {
           console.log(error.message);
         });
