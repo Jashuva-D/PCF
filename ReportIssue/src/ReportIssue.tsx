@@ -83,19 +83,19 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline } as DataField;
                     if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname) || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`))){
                       if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`)){
-                        alert(`fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
+                        alert(`Optionset value found.  fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
                       }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`)){
-                        alert(`fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
+                        alert(`Lookup value found.. fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
                       }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname)){
-                        alert(`fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
+                        alert(`general value found.. fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`)
                         currentrecord.currentvalue = this.state.applicationdata[currentrecord.fieldname] ?? "";
                       }
                       else {
-                        alert(`fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`);
+                        alert(`Not Found.. fieldname : ${currentrecord.fieldname}, App Data ${JSON.stringify(this.state.applicationdata)}`);
                       }
                     }
                     else { alert (`${currentrecord.fieldname} is not found in app . ${JSON.stringify(this.state.applicationdata)}`)}
@@ -196,6 +196,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     });
 
     (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid).then((app : any) => {
+      console.log(JSON.stringify(app));
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
           obj.setState({ 
