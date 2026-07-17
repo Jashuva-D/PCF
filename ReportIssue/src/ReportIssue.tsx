@@ -75,11 +75,11 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             if(item.newrecord){
               return (
                 <Dropdown 
-                  options = {TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields?.map(f => ({ key: f.key, text: f.text })) ?? []}
+                  options = {TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields?.map(f => ({ key: f.key, text: f.text, multiline: f.multiline })) ?? []}
                   selectedKey={this.state.currentrecord?.fieldname}
                   onChange={(evt, option) => {
                     if(!option) return;
-                    var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "" } as DataField;
+                    var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline } as DataField;
                     this.setState({currentrecord: currentrecord})
                   }}
                 />
@@ -97,7 +97,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField multiline autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <TooltipHost content={item.currentvalue}><Text>{item.currentvalue}</Text></TooltipHost>
@@ -111,7 +111,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField multiline autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
+              return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
               return <TooltipHost content={item.newvalue}> <Text>{item.newvalue}</Text> </TooltipHost>

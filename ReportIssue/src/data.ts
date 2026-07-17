@@ -1,6 +1,7 @@
 export interface FieldOption {
     key: string;
     text: string;
+    multiline?: boolean
 }
 
 export interface SectionOption {
@@ -22,7 +23,8 @@ export interface DataField {
     fieldname: string;
     fieldlabel: string;
     currentvalue: string;
-    newvalue: string
+    newvalue: string,
+    multiline?: boolean
 }
 
 export const TabOptions: TabOption[] = [
@@ -36,7 +38,7 @@ export const TabOptions: TabOption[] = [
                 fields: [
                     { key: "cr549_id", text: "Application Name (Short)" },
                     { key: "cr549_long_app_name", text: "Application Name (Long)"},
-                    { key: "cr549_description", text: "Application Description" },
+                    { key: "cr549_description", text: "Application Description", multiline: true },
                     { key: "cr549_hostingcoordinator", text: "Hosting Coordinator"},
                     { key: "cr549_technicaladvisor", text: "Technical Advisor"},
                     { key: "cr549_financialanalyst", text: "Financial Analyst"},
