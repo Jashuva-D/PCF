@@ -393,7 +393,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <TextField value={this.state.hostingcoordinator?.email ?? ""} disabled/>
             </div>
             <div>
-              <Label>Delegate To</Label>
+              <TooltipHost content={"Select a delegate if the Hosting Coordinator is unavailable."}><Label>Delegate To</Label></TooltipHost>
               <Lookup 
                   entityType="cr549_person" 
                   allowMultiSelect={false} 
