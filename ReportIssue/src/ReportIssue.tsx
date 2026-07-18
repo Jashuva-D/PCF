@@ -80,7 +80,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   selectedKey={this.state.currentrecord?.fieldname}
                   onChange={(evt, option) => {
                     if(!option) return;
-                    var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline } as DataField;
+                    var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline, currentvalue: "", newvalue: "" } as DataField;
                     if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0 || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`).length != 0)){
                       if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
                         currentrecord.currentvalue = this.state.applicationdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
@@ -90,6 +90,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0){
                         currentrecord.currentvalue = this.state.applicationdata[currentrecord.fieldname] ?? "";
+                      }
+                      else{
+                        currentrecord.currentvalue = "";
                       }
                     }
                     this.setState({currentrecord: currentrecord})
