@@ -158,7 +158,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </Stack>
             }
             else {
-              return <Stack horizontal horizontalAlign="center">
+              return <Stack horizontal horizontalAlign="center" verticalAlign="start">
                 <IconButton
                   onClick={() => {
                     this.setState(prevState => ({
@@ -454,9 +454,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             text="Submit Issue"
             iconProps={{ iconName: "Send" }}
             className="submit-button"
-            style={{ borderRadius: 6, backgroundColor: this.state.datafields.filter(x => x.newrecord == false).length != 0 ? "#0D2499" : "#F2F2F2" , color: this.state.datafields.filter(x => x.newrecord == false).length != 0 ? "white" : "#5A5A5A" }}
+            style={{ borderRadius: 6, backgroundColor: this.state.datafields.filter(x => x.newrecord == false).length != 0 && (this.state.issueDescription != null && this.state.issueDescription?.trim() != "") ? "#0D2499" : "#F2F2F2" , color: (this.state.datafields.filter(x => x.newrecord == false).length != 0 && this.state.issueDescription != null && this.state.issueDescription != "") ? "white" : "#5A5A5A" }}
             onClick={this.OnSubmitIssue.bind(this)}
-            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0}
+            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0 || this.state.issueDescription == null || this.state.issueDescription?.trim() != ""}
           />
         </div>
       </div>
