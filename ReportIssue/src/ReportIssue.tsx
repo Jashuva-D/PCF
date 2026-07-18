@@ -400,7 +400,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                         });
                       }
                     }}
-                    style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
+                    style={{ borderRadius: 6, backgroundColor: this.state.datafields.length >= fieldOptions.length ? "#F2F2F2" : "#0D2499" , color: this.state.datafields.length >= fieldOptions.length ? "#5A5A5A" : "white" }}
+                    disabled = {this.state.datafields.length >= fieldOptions.length}
                   />
                   </div>
                 </Stack>
