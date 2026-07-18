@@ -112,7 +112,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
-              return <TooltipHost content={item.currentvalue}><Text>{item.currentvalue}</Text></TooltipHost>
+              return <TooltipHost content={item.currentvalue}><Text style={{minHeight: 18}}>{item.currentvalue}</Text></TooltipHost>
             }
           }
         } as IColumn,
@@ -126,7 +126,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
-              return <TooltipHost content={item.newvalue}> <Text>{item.newvalue}</Text> </TooltipHost>
+              return <TooltipHost content={item.newvalue}> <Text style={{minHeight: 18}}>{item.newvalue}</Text> </TooltipHost>
             }
           }
         } as IColumn,
@@ -153,7 +153,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                   style={{fontSize: 48, color: "#0D2499"}}
                   disabled = {!enablesavebutton}
-                  //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                 />
               </Stack>
             }
@@ -166,9 +165,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     }));
                   }}
                   title="Delete"
-                  iconProps={{iconName: "delete", styles: { root: {fontSize: 18}}}}
-                  style={{fontSize: 18, color: "#0D2499"}}
-                  //style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
+                  iconProps={{iconName: "delete", styles: { root: {fontSize: 18}}, }}
+                  style={{color: "#0D2499", alignContent: "start", alignItems: "start"}}
                 />
               </Stack>
             }
@@ -402,26 +400,29 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="form-grid">
             <div>
               <Label>Hosting Coordinator</Label>
-              <TextField value={this.state.hostingcoordinator?.name ?? ""} disabled/>
+              <TooltipHost content="Auto-Assigned"><TextField value={this.state.hostingcoordinator?.name ?? ""} disabled/></TooltipHost>
+              
             </div>
             <div>
-              <Label>Email</Label>
+              <Label>Hosting Coordinator Email</Label>
               <TextField value={this.state.hostingcoordinator?.email ?? ""} disabled/>
             </div>
             <div>
-              <TooltipHost content={"Select a delegate if the Hosting Coordinator is unavailable."}><Label>Delegate To</Label></TooltipHost>
-              <Lookup 
-                  entityType="cr549_person" 
-                  allowMultiSelect={false} 
-                  onRecordSelect={(items) => {
-                  if(items.length > 0){
-                    this.setState({
-                      delegateuser: {  
-                          name: items[0].text ?? "", email: items[0].thirdText ?? "", recordid: items[0].id ?? ""
-                      }
-                    })
-                  }
-               }}/>
+              <Label>Delegate To</Label>
+              <TooltipHost content={"Select a delegate if the Hosting Coordinator is unavailable."}>
+                <Lookup 
+                    entityType="cr549_person" 
+                    allowMultiSelect={false} 
+                    onRecordSelect={(items) => {
+                    if(items.length > 0){
+                      this.setState({
+                        delegateuser: {  
+                            name: items[0].text ?? "", email: items[0].thirdText ?? "", recordid: items[0].id ?? ""
+                        }
+                      })
+                    }
+                }}/>
+               </TooltipHost>
             </div>
             <div>
               <Label>Delegate To Email</Label>
