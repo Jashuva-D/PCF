@@ -74,9 +74,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 220,
           onRender: (item: any) => {
             if(item.newrecord){
+              var fields = TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields ?? [];
+              fields = fields.filter(x => this.state.datafields.filter(y => y.fieldname == x.key).length == 0)
+              var options = fields.map(f => ({ key: f.key, text: f.text, multiline: f.multiline })) ?? [];
               return (
                 <Dropdown 
-                  options = {TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields?.map(f => ({ key: f.key, text: f.text, multiline: f.multiline })) ?? []}
+                  options = {options}
                   selectedKey={this.state.currentrecord?.fieldname}
                   onChange={(evt, option) => {
                     if(!option) return;
