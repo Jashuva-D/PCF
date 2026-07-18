@@ -167,6 +167,24 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   title="Delete"
                   iconProps={{iconName: "delete", styles: { root: {fontSize: 18}}, }}
                   style={{color: "#0D2499", alignContent: "start", alignItems: "start", padding: 0}}
+                  styles={{
+                    root: {
+                      minWidth: 20,
+                      width: 20,
+                      height: 20,
+                      padding: 0,
+                      color: "#0D2499",
+                    },
+                    rootHovered: {
+                      backgroundColor: "transparent",
+                    },
+                    rootPressed: {
+                      backgroundColor: "transparent",
+                    },
+                    flexContainer: {
+                      height: 20,
+                    },
+                  }}
                 />
               </Stack>
             }
