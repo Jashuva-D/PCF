@@ -158,8 +158,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             }
             else {
               return <Stack horizontal horizontalAlign="center" verticalAlign="start">
-                <Text>Some Text</Text>
-                {/* <IconButton
+                <IconButton
                   onClick={() => {
                     this.setState(prevState => ({
                       datafields: prevState.datafields.filter((_, i) => i !== prevState.datafields.indexOf(item))
@@ -167,8 +166,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                   title="Delete"
                   iconProps={{iconName: "delete", styles: { root: {fontSize: 18}}, }}
-                  style={{color: "#0D2499", alignContent: "start", alignItems: "start"}}
-                /> */}
+                  style={{color: "#0D2499", alignContent: "start", alignItems: "start", padding: 0}}
+                />
               </Stack>
             }
           }
