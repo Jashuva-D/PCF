@@ -58,7 +58,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: section?.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: section?.fields?.[0]?.text ?? "" }
     
     this.state = {
-      issueTitle: "",
+      issueTitle: `${this.props.appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`,
       issueDescription: "",
       useremail: "",
       selectedTab: tab?.key ?? "",
@@ -369,7 +369,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <TextField
                   defaultValue=""
                   placeholder="Please provide a brief title for the issue."
-                  value={`${appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`}
+                  value={this.state.issueTitle}
                   disabled
                 />
               </div>
