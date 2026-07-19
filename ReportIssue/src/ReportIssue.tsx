@@ -488,7 +488,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             className="submit-button"
             style={{ borderRadius: 6, backgroundColor: this.state.datafields.filter(x => x.newrecord == false).length != 0 && (this.state.issueDescription != null && this.state.issueDescription?.trim() != "") ? "#0D2499" : "#F2F2F2" , color: (this.state.datafields.filter(x => x.newrecord == false).length != 0 && this.state.issueDescription != null && this.state.issueDescription != "") ? "white" : "#5A5A5A" }}
             onClick={this.OnSubmitIssue.bind(this)}
-            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0 || this.state.issueDescription == null || this.state.issueDescription?.trim() != ""}
+            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0 || this.state.issueDescription == null || this.state.issueDescription?.trim() == ""}
           />
         </div>
       </div>
