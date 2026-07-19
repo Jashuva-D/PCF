@@ -270,25 +270,31 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
 
     var request = {
-      Application: obj.props.appname ?? "", 
-      TabName: selectedTabData?.text ?? "", 
-      SectionName: selectedSectionData?.text ?? "",
-      FieldName: selectedFieldData?.text ?? "",
-      Description: this.state.issueDescription ?? "",
-      FromEmailAddress: this.state.useremail ?? "",
-      FromUserId: (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, ""),
+      entityname: "test",
+      recordid: "test",
+      tab: "test",
+      section: "test",
+      fields: JSON.stringify([{fieldname : "Application Short Name", currentvalue: "Current Value", newvalue: "New Value"}, {fieldname: "Application Long Name", currentvalue: "Current Value", newvalue: "New Value"}]), 
+      title: "test",
+      description: "test",
+      assignedto_email: "test",
+      delegateto_email: "test",
+      reportedby_email: "test",
 
       getMetadata: function () {
         return {
           boundParameter: null,
           parameterTypes: {
-            Application: { typeName: "Edm.String", structuralProperty: 1 },
-            TabName: { typeName: "Edm.String", structuralProperty: 1 },
-            SectionName: { typeName: "Edm.String", structuralProperty: 1 },
-            FieldName: { typeName: "Edm.String", structuralProperty: 1 },
-            Description: { typeName: "Edm.String", structuralProperty: 1 },
-            FromEmailAddress: { typeName: "Edm.String", structuralProperty: 1 },
-            FromUserId: { typeName: "Edm.String", structuralProperty: 1 }
+            entityname: { typeName: "Edm.String", structuralProperty: 1 },
+            recordid: { typeName: "Edm.String", structuralProperty: 1 },
+            tab: { typeName: "Edm.String", structuralProperty: 1 },
+            section: { typeName: "Edm.String", structuralProperty: 1 },
+            fields: { typeName: "Edm.String", structuralProperty: 1 },
+            title: { typeName: "Edm.String", structuralProperty: 1 },
+            description: { typeName: "Edm.String", structuralProperty: 1 },
+            assignedto_email: { typeName: "Edm.String", structuralProperty: 1 },
+            delegateto_email: { typeName: "Edm.String", structuralProperty: 1 },
+            reportedby_email: { typeName: "Edm.String", structuralProperty: 1 }
           },
           operationType: 0, operationName: "crm2_ReportIssueCreateIssue"
         };
