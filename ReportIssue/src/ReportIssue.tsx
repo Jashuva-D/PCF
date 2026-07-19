@@ -272,6 +272,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var request = {
       entityname: "cr549_application",
       recordid: obj.props.recordid,
+      recordname: obj.props.appname,
       tab: selectedTabData?.text,
       section: selectedSectionData?.text,
       fields: JSON.stringify(selectedfields),
@@ -287,6 +288,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           parameterTypes: {
             entityname: { typeName: "Edm.String", structuralProperty: 1 },
             recordid: { typeName: "Edm.String", structuralProperty: 1 },
+            recordname: { typeName: "Edm.String", structuralProperty: 1 },
             tab: { typeName: "Edm.String", structuralProperty: 1 },
             section: { typeName: "Edm.String", structuralProperty: 1 },
             fields: { typeName: "Edm.String", structuralProperty: 1 },
