@@ -265,21 +265,21 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   OnSubmitIssue() {
     var obj = this;
 
-    const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
-    const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
-    const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
+    const selectedTabData = TabOptions.find(x => x.key === this.props.tabname);
+    const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.props.sectionname);
+    const selectedfields = this.state.datafields.filter(x => x.newrecord == false).map(function(x){ return {fieldname : x.fieldlabel, currentvalue: x.currentvalue, newvalue: x.newvalue}});
 
     var request = {
-      entityname: "test",
-      recordid: "test",
-      tab: "test",
-      section: "test",
-      fields: JSON.stringify([{fieldname : "Application Short Name", currentvalue: "Current Value", newvalue: "New Value"}, {fieldname: "Application Long Name", currentvalue: "Current Value", newvalue: "New Value"}]), 
-      title: "test",
-      description: "test",
-      assignedto_email: "test",
-      delegateto_email: "test",
-      reportedby_email: "test",
+      entityname: "cr549_application",
+      recordid: obj.props.recordid,
+      tab: selectedTabData?.text,
+      section: selectedSectionData?.text,
+      fields: JSON.stringify(selectedfields),
+      title: obj.state.issueTitle,
+      description: obj.state.issueDescription,
+      assignedto_email: obj.state.hostingcoordinator?.email,
+      delegateto_email: obj.state.delegateuser?.email,
+      reportedby_email: obj.state.useremail,
 
       getMetadata: function () {
         return {
