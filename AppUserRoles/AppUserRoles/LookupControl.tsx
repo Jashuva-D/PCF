@@ -101,7 +101,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
             }
             else {
-                return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}')&$orderby=cr549_name asc`).then(function(resp){
+                return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}') or contains(cr549_email_address,'${filterText}')&$orderby=cr549_name asc`).then(function(resp){
                     return resp.entities.map((ent) => {
                         return { id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps;
                     });
