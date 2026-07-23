@@ -66,7 +66,7 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             </Stack>
 
             <DefaultButton
-                text="Report Issue"
+                text="Report Data Discrepancy"
                 iconProps={{ iconName: "Bug", style: { color: "#a83240" } }}
                 onClick={this.onClick.bind(this)}
                 styles={{
