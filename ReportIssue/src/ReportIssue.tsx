@@ -115,7 +115,17 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField disabled style={{border: 1, borderColor: "black"}} multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              return <TextField disabled styles={{
+                  fieldGroup: {
+                      border: "1px solid black",
+                      selectors: {
+                          ":disabled": {
+                              border: "1px solid black",
+                          },
+                      },
+                  },
+              }} 
+              multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <TooltipHost content={item.currentvalue}><Text style={{minHeight: 18}}>{item.currentvalue}</Text></TooltipHost>
