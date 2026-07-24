@@ -55,7 +55,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key === this.props.tabname);
     var section = tab?.sections.find(x => x.key === this.props.sectionname);
 
-    var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: section?.fields?.[0]?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: section?.fields?.[0]?.text ?? "" }
+    var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: "", currentvalue: "", newvalue: "", fieldlabel: section?.fields?.[0]?.text ?? "" }
     
     this.state = {
       issueTitle: `${this.props.appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`,
@@ -115,7 +115,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- /n (No value in the syste)" : this.state.currentrecord?.currentvalue; 
+              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- \n (No value in the syste)" : this.state.currentrecord?.currentvalue; 
               //alert(currentvalue);
               return <TextField disabled styles={{
                   fieldGroup: {
@@ -416,7 +416,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                         const selectedTabData = TabOptions.find(x => x.key === this.state.selectedTab);
                         const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.state.selectedSection);
                         const selectedFieldData = selectedSectionData?.fields?.find(x => x.key === this.state.selectedField);
-                        var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: selectedFieldData?.text ?? "", currentvalue: "", newvalue: "", fieldlabel: selectedFieldData?.text ?? "" }
+                        var currentrecord = { newrecord: true, tabname: selectedTabData?.text ?? "", sectionname: selectedSectionData?.text ?? "", fieldname: "", currentvalue: "", newvalue: "", fieldlabel: selectedFieldData?.text ?? "" }
                         this.setState({
                           datafields: [...this.state.datafields, currentrecord],
                           currentrecord: currentrecord
