@@ -115,7 +115,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- \n (No value in the system)" : this.state.currentrecord?.currentvalue; 
+              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "------" : this.state.currentrecord?.currentvalue; 
               return <Stack style={{border: 1, borderColor: "red"}}><TextField disabled styles={{
                   fieldGroup: {
                       border: "1px solid black",
