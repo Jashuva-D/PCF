@@ -37,7 +37,7 @@ export const TabOptions: TabOption[] = [
                 text: "Details",
                 fields: [
                     { key: "cr549_id", text: "Application Name (Short)" },
-                    { key: "cr549_long_app_name", text: "Application Name (Long)"},
+                    { key: "cr549_long_app_name", text: "Application Name (Long)", multiline: true},
                     { key: "cr549_description", text: "Application Description", multiline: true },
                     { key: "cr549_hostingcoordinator", text: "Hosting Coordinator"},
                     { key: "cr549_technicaladvisor", text: "Technical Advisor"},
@@ -52,7 +52,7 @@ export const TabOptions: TabOption[] = [
                 key: "hostingdetails", 
                 text: "Hosting Details", 
                 fields: [
-                    { key: "cr549_hostingplatform", text: "Hosting Platform" }, 
+                    { key: "cr549_hostingplatform", text: "Hosting Platform", multiline: true }, 
                     { key: "cr549_hosting_tenancy_model", text: "Hosting Tenancy Model" },
                     { key: "cr549_multi_tenancy_group_name_new", text: "Multi Tenancy Group"},
                     { key: "cr549_cloud_hosting_intention", text: "Cloud Hosting Intention"},
@@ -82,9 +82,9 @@ export const TabOptions: TabOption[] = [
                 key: "funding", 
                 text: "Funding", 
                 fields: [
-                    { key: "cr549_project_num", text: "Project" }, 
+                    { key: "cr549_project_num", text: "Project", multiline: true }, 
                     { key: "cr549_cms_funding_group", text: "Funding Source Organization" },
-                    { key: "cr549_project_num_projectname", text: "Project Name"},
+                    { key: "cr549_project_num_projectname", text: "Project Name", multiline: true},
                     { key: "cr549_project_num_projectname_short", text: "Project Name (Short)"},
                     { key: "cr549_project_num_projectname_projectnumber", text: "Project Number"},
                     { key: "cr549_project_num_hosting_projectid", text: "Hosting Project Id"},
@@ -95,11 +95,11 @@ export const TabOptions: TabOption[] = [
                 key: "fisma", 
                 text: "FISMA", 
                 fields: [
-                    { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System" }, 
+                    { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System", multiline: true }, 
                     { key: "cr549_cfactsfismasystem_cmsfismaacronym", text: "CMS FISAM Acronym" },
-                    { key: "cr549_cfactsfismasystem_name", text: "Name"},
+                    { key: "cr549_cfactsfismasystem_name", text: "Name", multiline: true},
                     { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization"},
-                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID"}
+                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID", multiline: true}
                 ] 
             },
             {
@@ -129,10 +129,10 @@ export const TabOptions: TabOption[] = [
                 key: "communication", 
                 text: "Communication", 
                 fields: [
-                    { key: "cr549_conf_link", text: "Confluence" }, 
+                    { key: "cr549_conf_link", text: "Confluence", multiline: true }, 
                     { key: "cr549_meeting_link", text: "Meeting Notes" },
                     { key: "cr549_jira_link", text: "Jira"},
-                    { key: "cr549_slack_channel", text: "Slack"}
+                    { key: "cr549_slack_channel", text: "Slack", multiline: true}
                 ] 
             },
             { 
