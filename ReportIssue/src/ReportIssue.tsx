@@ -115,6 +115,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
+              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.currentvalue != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- /n (No value in the syste)" : this.state.currentrecord?.currentvalue; 
               return <TextField disabled styles={{
                   fieldGroup: {
                       border: "1px solid black",
@@ -125,7 +126,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       },
                   },
               }} 
-              multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.currentvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              multiline={this.state.currentrecord?.multiline} 
+              autoAdjustHeight rows={1} 
+              value = {currentvalue} 
+              onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
             }
             else {
               return <TooltipHost content={item.currentvalue}><Text style={{minHeight: 18}}>{item.currentvalue}</Text></TooltipHost>
