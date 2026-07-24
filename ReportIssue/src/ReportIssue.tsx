@@ -116,6 +116,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           onRender: (item: any) => {
             if(item.newrecord){
               var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.currentvalue != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- /n (No value in the syste)" : this.state.currentrecord?.currentvalue; 
+              alert(currentvalue);
               return <TextField disabled styles={{
                   fieldGroup: {
                       border: "1px solid black",
