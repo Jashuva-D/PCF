@@ -431,7 +431,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       selectionMode={SelectionMode.none} 
                       styles={{
                         contentWrapper: {
-                          backgroundColor: "rgb(243,243, 243)",
+                          backgroundColor: "white",
                         },
                       }}
                     />
