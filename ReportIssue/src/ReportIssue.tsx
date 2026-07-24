@@ -115,9 +115,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- \n (No value in the syste)" : this.state.currentrecord?.currentvalue; 
-              //alert(currentvalue);
-              return <TextField disabled styles={{
+              var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "--- \n (No value in the system)" : this.state.currentrecord?.currentvalue; 
+              return <Stack style={{border: 1, borderColor: "red"}}><TextField disabled styles={{
                   fieldGroup: {
                       border: "1px solid black",
                       selectors: {
@@ -126,11 +125,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                           },
                       },
                   },
-              }} 
+              }}
               multiline={this.state.currentrecord?.multiline} 
               autoAdjustHeight rows={1} 
               value = {currentvalue} 
               onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, currentvalue: value ?? ""}})}}/>
+              </Stack>
             }
             else {
               return <TooltipHost content={item.currentvalue}><Text style={{minHeight: 18}}>{item.currentvalue}</Text></TooltipHost>
