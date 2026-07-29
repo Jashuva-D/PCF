@@ -45,7 +45,7 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_hostingcoordinator", text: "Hosting Coordinator", type: "stirng"},
                     { key: "cr549_technicaladvisor", text: "Technical Advisor", type: "string"},
                     { key: "cr549_financialanalyst", text: "Financial Analyst", type: "string"},
-                    { key: "cr549_app_live_status", text: "Application Live Status", type: "string"},
+                    { key: "cr549_app_live_status", text: "Application Live Status", type: "dropdown", values: ["Live", "Non-Live"]},
                     { key: "cr549_proj_phase_name", text: "Stage", type: "dropdown", values: ["Interest and Onboarding", "Cloud tenant provisioning", "Build/ Go live", "O&M", "Decommissioned", "Canceled", "Cloud to Cloud Migration", "Power Platform Environment Provisioning"]},
                     { key: "cr549_period_name", text: "Period", type: "dropdown", values: ["Interest and Intros", "Kickoff and education", "Cloud Walkthrough", "Funding", "Environment Setup", "Provisioning required and optional Cloud Shared Services", "Tenant env Validation & Notification", "Build", "Production readiness checklist", "Go live", "O&M", "Decommissioned", "Canceled", "NA", "Archived", "Provisioning connectors and other services", "Environment Validation & Notification"]},
                     { key: "cr549_region", text: "Region",type: "string", multiline: true}
@@ -62,10 +62,10 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_cloud_hosting_type", text: "Cloud Hosting Type", type: "dropdown", values: ["Application", "Component", "Sandbox", "System", "Tool", "Unique FISMA System"]},
                     { key: "cr549_cloud_vdc_purpose", text: "Cloud Hosting Purpose", type: "string"},
                     { key: "cr549_hosting_delivery_platform_name", text: "Hosting Delivery Model", type: "dropdown", values: ["Self-Service", "Fully Managed Services - batCAVE", "Managed Services - Marketplace", "TBD", "Managed Services - MISP", "Managed Services - FFS", "Citizen Developer", "DaaS (Development as a Service)", "BYOADO (Bring your own ADO)"]},
-                    { key: "cr549_is_internal", text: "Internal Application", type: "string"},
-                    { key: "cr549_blanket_pass_reset", text: "Blanket Passwrod Reset Approval", type: "string"},
+                    { key: "cr549_is_internal", text: "Internal Application", type: "dropdown", values: ["Yes", "No"]},
+                    { key: "cr549_blanket_pass_reset", text: "Blanket Passwrod Reset Approval", type: "dropdown", values: ["Yes", "No"]},
                     { key: "cr549_blanket_pass_reset_info", text: "Blanket Password Reset Approval", type: "string"},
-                    { key: "cr549_legacy_mark", text: "Reason For Onboarding", type: "string"},
+                    { key: "cr549_legacy_mark", text: "Reason For Onboarding", type: "dropdown", values: ["Migration", "New Application"]},
                     { key: "cr549_other_data_center", text: "Other Data Center", type: "string"},
                     { key: "cr549_other_data_center", text: "Hosting Data Center Migrating/ed From", type: "string"}
                 ] 
@@ -142,10 +142,10 @@ export const TabOptions: TabOption[] = [
                 key: "marketplace", 
                 text: "Market Place", 
                 fields: [
-                    { key: "cr549_marketplace", text: "Marketplace Application", type: "stirng"},
-                    { key: "cr549_managed", text: "Managed Application", type: "stirng" },
-                    { key: "cr549_oe_effect", text: "Marketplace OE Impacting", type: "stirng"},
-                    { key: "cr549_medic_oe_effect", text: "Medicare OE Impacting", type: "stirng"}
+                    { key: "cr549_marketplace", text: "Marketplace Application", type: "dropdown", values: ["Yes", "No"]},
+                    { key: "cr549_managed", text: "Managed Application", type: "dropdown", values:["Yes", "No"] },
+                    { key: "cr549_oe_effect", text: "Marketplace OE Impacting", type: "dropdown", values: ["Yes", "No"]},
+                    { key: "cr549_medic_oe_effect", text: "Medicare OE Impacting", type: "dropdown", values: ["Yes", "No"]}
                 ] 
             },
             { 
