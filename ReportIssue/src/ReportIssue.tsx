@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost, IDropdownOption} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
@@ -144,7 +144,18 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 170,
           onRender: (item: any) => {
             if(item.newrecord){
-              return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
+              var field = TabOptions.find(x => x.key == this.state.selectedTab)?.sections?.find(x => x.key == this.state.selectedSection)?.fields?.find(x => x.key == this.state.currentrecord?.fieldname);
+              if(field?.type == "dropdown"){
+                var options = field.values?.map((value : string, index: number) => ({ key: index.toString(), text: value } as IDropdownOption));
+                return <Dropdown 
+                  options={options}
+                  onChange={(evt, option) => {
+                      this.setState({currentrecord: {...this.state.currentrecord!, newvalue: option?.text ?? ""}})
+                  }}
+                />
+              }
+              else 
+                return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
             else {
               return <TooltipHost content={item.newvalue}> <Text style={{minHeight: 18}}>{item.newvalue}</Text> </TooltipHost>
