@@ -158,7 +158,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           minWidth: 50,
           onRender: (item: any) => {
             if (item.newrecord) {
-              var enablesavebutton = this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && this.state.currentrecord?.currentvalue != null && this.state.currentrecord?.currentvalue != "" && this.state.currentrecord?.newvalue != null && this.state.currentrecord?.newvalue != "";
+              var enablesavebutton = this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && this.state.currentrecord?.newvalue != null && this.state.currentrecord?.newvalue != "";
               return <Stack horizontal horizontalAlign="center">
                 <IconButton
                   title="Save"
