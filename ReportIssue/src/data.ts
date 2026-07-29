@@ -47,7 +47,7 @@ export const TabOptions: TabOption[] = [
                     { key: "cr549_financialanalyst", text: "Financial Analyst", type: "string"},
                     { key: "cr549_app_live_status", text: "Application Live Status", type: "string"},
                     { key: "cr549_proj_phase_name", text: "Stage", type: "dropdown", values: ["Interest and Onboarding", "Cloud tenant provisioning", "Build/ Go live", "O&M", "Decommissioned", "Canceled", "Cloud to Cloud Migration", "Power Platform Environment Provisioning"]},
-                    { key: "cr549_period_name", text: "Period", type: "string"},
+                    { key: "cr549_period_name", text: "Period", type: "dropdown", values: ["Interest and Intros", "Kickoff and education", "Cloud Walkthrough", "Funding", "Environment Setup", "Provisioning required and optional Cloud Shared Services", "Tenant env Validation & Notification", "Build", "Production readiness checklist", "Go live", "O&M", "Decommissioned", "Canceled", "NA", "Archived", "Provisioning connectors and other services", "Environment Validation & Notification"]},
                     { key: "cr549_region", text: "Region",type: "string", multiline: true}
                 ]
             },
@@ -56,12 +56,12 @@ export const TabOptions: TabOption[] = [
                 text: "Hosting Details", 
                 fields: [
                     { key: "cr549_hostingplatform", text: "Hosting Platform",type: "string", multiline: true }, 
-                    { key: "cr549_hosting_tenancy_model", text: "Hosting Tenancy Model", type: "string" },
-                    { key: "cr549_multi_tenancy_group_name_new", text: "Multi Tenancy Group", type: "string"},
-                    { key: "cr549_cloud_hosting_intention", text: "Cloud Hosting Intention", type: "string"},
-                    { key: "cr549_cloud_hosting_type", text: "Cloud Hosting Type", type: "string"},
+                    { key: "cr549_hosting_tenancy_model", text: "Hosting Tenancy Model", type: "dropdown", values: ["Single Tenancy", "Multi Tenancy"] },
+                    { key: "cr549_multi_tenancy_group_name_new", text: "Multi Tenancy Group", type: "dropdown", values: ["BCMT ISPG", "BCMT CCSQ", "Pending", "FFS Workload A", "FFS Workload B"]},
+                    { key: "cr549_cloud_hosting_intention", text: "Cloud Hosting Intention", type: "dropdown", values: ["Production", "Non-Production", "Proof of Concept"]},
+                    { key: "cr549_cloud_hosting_type", text: "Cloud Hosting Type", type: "dropdown", values: ["Application", "Component", "Sandbox", "System", "Tool", "Unique FISMA System"]},
                     { key: "cr549_cloud_vdc_purpose", text: "Cloud Hosting Purpose", type: "string"},
-                    { key: "cr549_hosting_delivery_platform_name", text: "Hosting Delivery Model", type: "string"},
+                    { key: "cr549_hosting_delivery_platform_name", text: "Hosting Delivery Model", type: "dropdown", values: ["Self-Service", "Fully Managed Services - batCAVE", "Managed Services - Marketplace", "TBD", "Managed Services - MISP", "Managed Services - FFS", "Citizen Developer", "DaaS (Development as a Service)", "BYOADO (Bring your own ADO)"]},
                     { key: "cr549_is_internal", text: "Internal Application", type: "string"},
                     { key: "cr549_blanket_pass_reset", text: "Blanket Passwrod Reset Approval", type: "string"},
                     { key: "cr549_blanket_pass_reset_info", text: "Blanket Password Reset Approval", type: "string"},
@@ -74,7 +74,7 @@ export const TabOptions: TabOption[] = [
                 key: "businessandsystemowners", 
                 text: "Business & System Owners", 
                 fields: [
-                    { key: "cr549_cms_office", text: "Business Owner Office/Center", type: "stirng" }, 
+                    { key: "cr549_cms_office", text: "Business Owner Office/Center", type: "dropdown", values: ["CCIIO", "CCSQ", "CM", "CMCS", "CMMI", "CPI", "OA", "OAGM", "OBRHI", "OC", "OEDA", "OFM", "OHC", "OHEI", "OHI", "OIT", "OMH", "OPOLE", "OSFLO", "OSORA", "OSPR", "FCHCO", "OACT"] }, 
                     { key: "cr549_cms_group", text: "Business Owner Group" ,type: "string", multiline: true},
                     { key: "cr549_cms_division", text: "Business Owner Division", type: "stirng", multiline: true},
                     { key: "cr549_cms_system_owner_office", text: "System Owner Office/Center", type: "stirng"},
@@ -86,7 +86,7 @@ export const TabOptions: TabOption[] = [
                 text: "Funding", 
                 fields: [
                     { key: "cr549_project_num", text: "Project", multiline: true, type: "stirng" }, 
-                    { key: "cr549_cms_funding_group", text: "Funding Source Organization",  type: "stirng" },
+                    { key: "cr549_cms_funding_group", text: "Funding Source Organization",  type: "dropdown", values: ["AMG", "CCSQ", "CM", "CMCS", "CMMI", "CPI", "EADG", "ESSG", "ISPG", "IUSG", "MITG", "OBRHI", "OC", "OEDA", "OFM", "OHI", "OMH", "OSORA", "OSPR"] },
                     { key: "cr549_project_num_projectname", text: "Project Name", type: "stirng", multiline: true},
                     { key: "cr549_project_num_projectname_short", text: "Project Name (Short)",  type: "stirng"},
                     { key: "cr549_project_num_projectname_projectnumber", text: "Project Number",  type: "stirng"},
