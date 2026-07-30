@@ -2,7 +2,7 @@ import * as React from "react";
 import { Stack, Text, PrimaryButton, Icon, mergeStyleSets } from "@fluentui/react";
 
 /**
- * DataDiscrepancyModal
+ * Alert
  *
  * Body content for the success confirmation shown after a user submits a
  * "Report Data Discrepancy" form. Assumes it is rendered inside an existing
@@ -19,15 +19,8 @@ export interface AlertProps {
 }
 
 const classNames = mergeStyleSets({
-  container: {
-    width: "100%",
-    maxWidth: 560,
-    backgroundColor: "#ffffff",
-    borderRadius: 12,
-    boxShadow: "0 20px 40px rgba(0,0,0,0.2)",
-  },
   body: {
-    padding: "32px 24px",
+    width: "100%",
   },
   successIconWrap: {
     width: 56,
@@ -104,72 +97,70 @@ export default function Alert({
   siteName = "",
 }: AlertProps) {
   return (
-    <Stack className={classNames.container}>
-      <Stack className={classNames.body} tokens={{ childrenGap: 24 }}>
-        {/* Success icon + heading */}
-        <Stack
-          horizontal
-          verticalAlign="center"
-          tokens={{ childrenGap: 16 }}
-          wrap
-        >
-          <Stack className={classNames.successIconWrap}>
-            <Icon iconName="CheckMark" className={classNames.successIcon} />
-          </Stack>
-          <Stack tokens={{ childrenGap: 2 }}>
-            <Text className={classNames.thankYou} block>
-              Thank You!
-            </Text>
-            <Text className={classNames.submittedText} block>
-              Data Discrepancy Submitted Successfully
-            </Text>
-          </Stack>
+    <Stack className={classNames.body} tokens={{ childrenGap: 24 }}>
+      {/* Success icon + heading */}
+      <Stack
+        horizontal
+        verticalAlign="center"
+        tokens={{ childrenGap: 16 }}
+        wrap
+      >
+        <Stack className={classNames.successIconWrap}>
+          <Icon iconName="CheckMark" className={classNames.successIcon} />
         </Stack>
-
-        {/* Info panel */}
-        <Stack
-          horizontal
-          className={classNames.infoPanel}
-          tokens={{ childrenGap: 16 }}
-        >
-          <Stack className={classNames.infoIconWrap}>
-            <Icon iconName="Contact" className={classNames.infoIcon} />
-          </Stack>
-          <Stack tokens={{ childrenGap: 12 }}>
-            <Text className={classNames.infoText} block>
-              The Hosting Coordinator for{" "}
-              <span className={classNames.siteName}>{siteName}</span> has
-              been notified and will review the fields you flagged.
-            </Text>
-            <Text className={classNames.infoText} block>
-              You will be notified of any updates.
-            </Text>
-          </Stack>
+        <Stack tokens={{ childrenGap: 2 }}>
+          <Text className={classNames.thankYou} block>
+            Thank You!
+          </Text>
+          <Text className={classNames.submittedText} block>
+            Data Discrepancy Submitted Successfully
+          </Text>
         </Stack>
+      </Stack>
 
-        <hr className={classNames.divider} />
-
-        {/* Confirmation email + CTA */}
-        <Stack
-          horizontal
-          horizontalAlign="space-between"
-          verticalAlign="center"
-          tokens={{ childrenGap: 16 }}
-          wrap
-        >
-          <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-            <Icon iconName="Mail" className={classNames.mailIcon} />
-            <Text className={classNames.emailRow}>
-              A confirmation email has been sent to you.
-            </Text>
-          </Stack>
-          <PrimaryButton
-            className={classNames.ctaButton}
-            onClick={onGoToApplication}
-            iconProps={{ iconName: "Home" }}
-            text="Go to Application"
-          />
+      {/* Info panel */}
+      <Stack
+        horizontal
+        className={classNames.infoPanel}
+        tokens={{ childrenGap: 16 }}
+      >
+        <Stack className={classNames.infoIconWrap}>
+          <Icon iconName="Contact" className={classNames.infoIcon} />
         </Stack>
+        <Stack tokens={{ childrenGap: 12 }}>
+          <Text className={classNames.infoText} block>
+            The Hosting Coordinator for{" "}
+            <span className={classNames.siteName}>{siteName}</span> has been
+            notified and will review the fields you flagged.
+          </Text>
+          <Text className={classNames.infoText} block>
+            You will be notified of any updates.
+          </Text>
+        </Stack>
+      </Stack>
+
+      <hr className={classNames.divider} />
+
+      {/* Confirmation email + CTA */}
+      <Stack
+        horizontal
+        horizontalAlign="space-between"
+        verticalAlign="center"
+        tokens={{ childrenGap: 16 }}
+        wrap
+      >
+        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+          <Icon iconName="Mail" className={classNames.mailIcon} />
+          <Text className={classNames.emailRow}>
+            A confirmation email has been sent to you.
+          </Text>
+        </Stack>
+        <PrimaryButton
+          className={classNames.ctaButton}
+          onClick={onGoToApplication}
+          iconProps={{ iconName: "Home" }}
+          text="Go to Application"
+        />
       </Stack>
     </Stack>
   );
