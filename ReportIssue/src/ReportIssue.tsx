@@ -4,6 +4,7 @@ import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
 import { FlagIcon } from "./icons";
+import Alert from "./Alert";
 
 interface ReportIssueProps {
   appname?: string;
@@ -33,6 +34,7 @@ interface ReportIssueState {
     datafields : DataField[];
     datacolumns : IColumn[];
     currentrecord: DataField | null;
+    submitted: boolean;
 }
 
 
@@ -58,6 +60,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var currentrecord = { newrecord: true, tabname: tab?.text ?? "", sectionname: section?.text ?? "", fieldname: "", currentvalue: "", newvalue: "", fieldlabel: section?.fields?.[0]?.text ?? "" }
     
     this.state = {
+      submitted: false,
       issueTitle: `${this.props.appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`,
       issueDescription: "",
       useremail: "",
@@ -262,30 +265,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         console.log(error.message);
     })
   }
-  // private onTabChanged = (_: any, option?: any) => {
-  //   if (!option) return;
-
-  //   const selectedTab = TabOptions.find(x => x.key === option.key);
-  //   const firstSection = selectedTab?.sections[0];
-
-  //   this.setState({
-  //     selectedTab: option.key,
-  //     selectedSection: firstSection?.key ?? "",
-  //     selectedField: firstSection?.fields?.[0]?.key ?? ""
-  //   });
-  // };
-
-  // private onSectionChanged = (_: any, option?: any) => {
-  //   if (!option) return;
-
-  //   const selectedTab = TabOptions.find(x => x.key === this.state.selectedTab);
-  //   const selectedSection = selectedTab?.sections.find(x => x.key === option.key);
-
-  //   this.setState({
-  //     selectedSection: option.key,
-  //     selectedField: selectedSection?.fields?.[0]?.key ?? ""
-  //   });
-  // };
 
   private onFieldChanged = (_: any, option?: any) => {
     if (!option) return;
@@ -340,6 +319,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       function success(response: any) {
         if (response.ok) { 
           console.log("Success"); 
+          obj.setState({submitted: true})
           window.close();
         }
       }
@@ -360,7 +340,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key == this.state.selectedTab);
     var section = tab?.sections.find(x => x.key == this.state.selectedSection);
 
-    return (
+    if(this.state.submitted) return <Alert></Alert>
+    else return (
       <div className="report-page">
         <div className="report-header">
           <div className="report-header-icon">
