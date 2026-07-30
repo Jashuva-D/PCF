@@ -155,7 +155,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 />
               }
               else if(field?.type == "date"){
-                <DatePicker
+                return <DatePicker
                   onSelectDate={(date) => {
                     this.setState({currentrecord: {...this.state.currentrecord!, newvalue: date?.toDateString() ?? ""}})
                   }}
