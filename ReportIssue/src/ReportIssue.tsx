@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost, IDropdownOption} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost, IDropdownOption, DatePicker} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
@@ -153,6 +153,13 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       this.setState({currentrecord: {...this.state.currentrecord!, newvalue: option?.text ?? ""}})
                   }}
                 />
+              }
+              else if(field?.type == "date"){
+                <DatePicker
+                  onSelectDate={(date) => {
+                    this.setState({currentrecord: {...this.state.currentrecord!, newvalue: date?.toDateString() ?? ""}})
+                  }}
+                ></DatePicker>
               }
               else 
                 return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
