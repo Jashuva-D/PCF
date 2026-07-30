@@ -20,8 +20,10 @@ export interface AlertProps {
 
 const classNames = mergeStyleSets({
   body: {
-    width: "100%",
-  },
+    width: 600,
+    maxWidth: "90%",
+    margin: "0 auto",
+    },
   successIconWrap: {
     width: 56,
     height: 56,
@@ -97,7 +99,19 @@ export default function Alert({
   siteName = "",
 }: AlertProps) {
   return (
+    <Stack
+    horizontalAlign="center"
+    verticalAlign="center"
+    verticalFill
+    styles={{
+      root: {
+        width: "100%",
+        height: "100%",
+      },
+    }}
+  >
     <Stack className={classNames.body} tokens={{ childrenGap: 24 }}>
+      <Stack className={classNames.body} tokens={{ childrenGap: 24 }}>
       {/* Success icon + heading */}
       <Stack
         horizontal
@@ -163,5 +177,8 @@ export default function Alert({
         />
       </Stack>
     </Stack>
+    </Stack>
+  </Stack>
+    
   );
 }
