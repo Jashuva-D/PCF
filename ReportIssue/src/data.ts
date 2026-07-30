@@ -76,66 +76,66 @@ export const TabOptions: TabOption[] = [
                 fields: [
                     { key: "cr549_cms_office", text: "Business Owner Office/Center", type: "dropdown", values: ["CCIIO", "CCSQ", "CM", "CMCS", "CMMI", "CPI", "OA", "OAGM", "OBRHI", "OC", "OEDA", "OFM", "OHC", "OHEI", "OHI", "OIT", "OMH", "OPOLE", "OSFLO", "OSORA", "OSPR", "FCHCO", "OACT"] }, 
                     { key: "cr549_cms_group", text: "Business Owner Group" ,type: "string", multiline: true},
-                    { key: "cr549_cms_division", text: "Business Owner Division", type: "stirng", multiline: true},
-                    { key: "cr549_cms_system_owner_office", text: "System Owner Office/Center", type: "stirng"},
-                    { key: "cr549_cms_system_owner_group", text : "System Owner Group", type: "stirng"}
+                    { key: "cr549_cms_division", text: "Business Owner Division", type: "string", multiline: true},
+                    { key: "cr549_cms_system_owner_office", text: "System Owner Office/Center", type: "string"},
+                    { key: "cr549_cms_system_owner_group", text : "System Owner Group", type: "string"}
                 ] 
             },
             { 
                 key: "funding", 
                 text: "Funding", 
                 fields: [
-                    { key: "cr549_project_num", text: "Project", multiline: true, type: "stirng" }, 
+                    { key: "cr549_project_num", text: "Project", multiline: true, type: "string" }, 
                     { key: "cr549_cms_funding_group", text: "Funding Source Organization",  type: "dropdown", values: ["AMG", "CCSQ", "CM", "CMCS", "CMMI", "CPI", "EADG", "ESSG", "ISPG", "IUSG", "MITG", "OBRHI", "OC", "OEDA", "OFM", "OHI", "OMH", "OSORA", "OSPR"] },
-                    { key: "cr549_project_num_projectname", text: "Project Name", type: "stirng", multiline: true},
-                    { key: "cr549_project_num_projectname_short", text: "Project Name (Short)",  type: "stirng"},
-                    { key: "cr549_project_num_projectname_projectnumber", text: "Project Number",  type: "stirng"},
-                    { key: "cr549_project_num_hosting_projectid", text: "Hosting Project Id",  type: "stirng"},
-                    { key: "cr549_project_num_hosting_projectnumber", text: "Hosting Project Number",  type: "stirng"}
+                    { key: "cr549_project_num_projectname", text: "Project Name", type: "string", multiline: true},
+                    { key: "cr549_project_num_projectname_short", text: "Project Name (Short)",  type: "string"},
+                    { key: "cr549_project_num_projectname_projectnumber", text: "Project Number",  type: "string"},
+                    { key: "cr549_project_num_hosting_projectid", text: "Hosting Project Id",  type: "string"},
+                    { key: "cr549_project_num_hosting_projectnumber", text: "Hosting Project Number",  type: "string"}
                 ] 
             },
             { 
                 key: "fisma", 
                 text: "FISMA", 
                 fields: [
-                    { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System", type: "stirng", multiline: true }, 
-                    { key: "cr549_cfactsfismasystem_cmsfismaacronym", text: "CMS FISAM Acronym",  type: "stirng" },
-                    { key: "cr549_cfactsfismasystem_name", text: "Name", type: "stirng", multiline: true},
-                    { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization",  type: "stirng"},
-                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID", type: "stirng", multiline: true}
+                    { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System", type: "string", multiline: true }, 
+                    { key: "cr549_cfactsfismasystem_cmsfismaacronym", text: "CMS FISAM Acronym",  type: "string" },
+                    { key: "cr549_cfactsfismasystem_name", text: "Name", type: "string", multiline: true},
+                    { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization",  type: "string"},
+                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID", type: "string", multiline: true}
                 ] 
             },
             {
                 key: "ado",
                 text: "ADO",
                 fields: [
-                    { key: "cr549_ado_name", text: "ADO Name",  type: "stirng"},
-                    { key: "cr549_ado_dl", text: "ADO Distribution List",  type: "stirng"},
-                    { key: "cr549_oncall_sec_dl", text: "ADO On-Call Distribution List",  type: "stirng"},
-                    { key: "cr549_ado_sec_dl", text: "ADO Security Distribution List",  type: "stirng"},
-                    { key: "cr549_ado_ops_dl", text: "ADO Operations Distribution List",  type: "stirng"}
+                    { key: "cr549_ado_name", text: "ADO Name",  type: "string"},
+                    { key: "cr549_ado_dl", text: "ADO Distribution List",  type: "string"},
+                    { key: "cr549_oncall_sec_dl", text: "ADO On-Call Distribution List",  type: "string"},
+                    { key: "cr549_ado_sec_dl", text: "ADO Security Distribution List",  type: "string"},
+                    { key: "cr549_ado_ops_dl", text: "ADO Operations Distribution List",  type: "string"}
                 ]
             },
             { 
                 key: "dates", 
                 text: "Dates", 
                 fields: [
-                    { key: "cr549_date_intake_submit", text: "Intake Date",  type: "stirng" }, 
-                    { key: "cr549_date_funded", text: "Funded Date",  type: "stirng" },
-                    { key: "cr549_date_acct_delivered", text: "Accounts Delivered Date",  type: "stirng"},
-                    { key: "cr549_date_golive", text: "Go-Live Date",  type: "stirng"},
-                    { key: "cr549_date_intended_golive", text: "Intended Go-Live Date",  type: "stirng"},
-                    { key: "cr549_date_app_decom", text: "Decommissioned Date",  type: "stirng"}
+                    { key: "cr549_date_intake_submit", text: "Intake Date",  type: "date" }, 
+                    { key: "cr549_date_funded", text: "Funded Date",  type: "date" },
+                    { key: "cr549_date_acct_delivered", text: "Accounts Delivered Date",  type: "date"},
+                    { key: "cr549_date_golive", text: "Go-Live Date",  type: "date"},
+                    { key: "cr549_date_intended_golive", text: "Intended Go-Live Date",  type: "date"},
+                    { key: "cr549_date_app_decom", text: "Decommissioned Date",  type: "date"}
                 ] 
             },
             { 
                 key: "communication", 
                 text: "Communication", 
                 fields: [
-                    { key: "cr549_conf_link", text: "Confluence", multiline: true,  type: "stirng" }, 
-                    { key: "cr549_meeting_link", text: "Meeting Notes",  type: "stirng" },
-                    { key: "cr549_jira_link", text: "Jira",  type: "stirng"},
-                    { key: "cr549_slack_channel", text: "Slack", type: "stirng", multiline: true}
+                    { key: "cr549_conf_link", text: "Confluence", multiline: true,  type: "string" }, 
+                    { key: "cr549_meeting_link", text: "Meeting Notes",  type: "string" },
+                    { key: "cr549_jira_link", text: "Jira",  type: "string"},
+                    { key: "cr549_slack_channel", text: "Slack", type: "string", multiline: true}
                 ] 
             },
             { 
@@ -164,42 +164,42 @@ export const TabOptions: TabOption[] = [
         key: "accounts",
         text: "Accounts",
         sections: [
-            { key: "accounts", text: "Accounts", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng"}] }
+            { key: "accounts", text: "Accounts", fields: [{ key: "otherdetails", text: "Other Details", type: "string"}] }
         ]
     },
     {
         key: "assignedpeople",
         text: "Assigned People",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng"}] }
+            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string"}] }
         ]
     },
     {
         key: "applicationnotes",
         text: "Application Notes",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng" }] }
+            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string" }] }
         ]
     },
     {
         key: "componentnotes",
         text: "Component Notes",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng" }] }
+            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string" }] }
         ]
     },
     {
         key: "inquirynotes",
         text: "Inquiry Notes",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng" }] }
+            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string" }] }
         ]
     },
     {
         key: "applicationurls",
         text: "Application URLs",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "stirng" }] }
+            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string" }] }
         ]
     },
     {
