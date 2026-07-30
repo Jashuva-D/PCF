@@ -320,7 +320,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         if (response.ok) { 
           console.log("Success"); 
           obj.setState({submitted: true})
-          window.close();
         }
       }
     ).catch(function (error: any) {
@@ -340,7 +339,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key == this.state.selectedTab);
     var section = tab?.sections.find(x => x.key == this.state.selectedSection);
 
-    if(this.state.submitted) return <Alert></Alert>
+    if(this.state.submitted) return <Alert onGoToApplication={() => window.close()} siteName={this.props.appname ?? ""}></Alert>
     else return (
       <div className="report-page">
         <div className="report-header">

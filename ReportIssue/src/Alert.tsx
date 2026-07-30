@@ -101,7 +101,7 @@ const classNames = mergeStyleSets({
 
 export default function Alert({
   onGoToApplication = () => {},
-  siteName = "1115 PMDA",
+  siteName = "",
 }: AlertProps) {
   return (
     <Stack className={classNames.container}>
