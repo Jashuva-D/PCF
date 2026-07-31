@@ -339,7 +339,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key == this.state.selectedTab);
     var section = tab?.sections.find(x => x.key == this.state.selectedSection);
 
-    if(this.state.submitted) return <Stack verticalAlign="center" horizontalAlign="center"><Alert onGoToApplication={() => window.close()} siteName={this.props.appname ?? ""}></Alert></Stack>
+    if(this.state.submitted) return <Stack verticalFill verticalAlign="center" horizontalAlign="center" styles={{ root: {height: "100%"}}}><Alert onGoToApplication={() => window.close()} siteName={this.props.appname ?? ""}></Alert></Stack>
     else return (
       <div className="report-page">
         <div className="report-header">

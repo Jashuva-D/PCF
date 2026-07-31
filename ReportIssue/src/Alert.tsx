@@ -22,11 +22,11 @@ const classNames = mergeStyleSets({
   body: {
     maxWidth: "80%",
     margin: "0 auto",
-    },
+  },
   successIconWrap: {
-    width: 24,
-    height: 24,
-    minWidth: 24,
+    width: 28,
+    height: 28,
+    minWidth: 28,
     borderRadius: "50%",
     border: "2px solid #107C10",
     display: "flex",
@@ -34,16 +34,16 @@ const classNames = mergeStyleSets({
     justifyContent: "center",
   },
   successIcon: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#107C10",
   },
   thankYou: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 700,
     color: "#107C10",
   },
   submittedText: {
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: 700,
     color: "#004E8C",
   },
