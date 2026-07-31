@@ -21,7 +21,7 @@ export interface AlertProps {
 const classNames = mergeStyleSets({
   body: {
     maxWidth: "80%",
-    margin: "0 auto",
+    paddingTop: 80
   },
   successIconWrap: {
     width: 28,
