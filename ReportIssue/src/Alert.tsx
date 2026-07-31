@@ -1,20 +1,8 @@
 import * as React from "react";
 import { Stack, Text, PrimaryButton, Icon, mergeStyleSets } from "@fluentui/react";
 
-/**
- * Alert
- *
- * Body content for the success confirmation shown after a user submits a
- * "Report Data Discrepancy" form. Assumes it is rendered inside an existing
- * Fluent UI Panel/Modal shell that already provides the header (title +
- * close/expand icons), so no header is included here.
- *
- * Built with Fluent UI v8 (@fluentui/react) only.
- */
 export interface AlertProps {
-  /** Called when the user clicks the primary button */
   onGoToApplication?: () => void;
-  /** The site/coordinator identifier (e.g. "1115 PMDA") */
   siteName?: string;
 }
 
@@ -154,8 +142,6 @@ export default function Alert({
         </Stack>
       </Stack>
 
-      <hr className={classNames.divider} />
-
       {/* Confirmation email + CTA */}
       <Stack
         horizontal
@@ -167,7 +153,7 @@ export default function Alert({
         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
           <Icon iconName="Mail" className={classNames.mailIcon} />
           <Text className={classNames.emailRow}>
-            A confirmation has been sent to you via email and Microsoft Teams.
+            A confirmation has been sent to you via email and Teams.
           </Text>
         </Stack>
         <PrimaryButton
