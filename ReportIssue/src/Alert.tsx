@@ -20,14 +20,13 @@ export interface AlertProps {
 
 const classNames = mergeStyleSets({
   body: {
-    width: 600,
-    maxWidth: "90%",
+    maxWidth: "80%",
     margin: "0 auto",
     },
   successIconWrap: {
-    width: 56,
-    height: 56,
-    minWidth: 56,
+    width: 24,
+    height: 24,
+    minWidth: 24,
     borderRadius: "50%",
     border: "2px solid #107C10",
     display: "flex",
@@ -35,16 +34,16 @@ const classNames = mergeStyleSets({
     justifyContent: "center",
   },
   successIcon: {
-    fontSize: 28,
+    fontSize: 12,
     color: "#107C10",
   },
   thankYou: {
-    fontSize: 24,
+    fontSize: 16,
     fontWeight: 700,
     color: "#107C10",
   },
   submittedText: {
-    fontSize: 17,
+    fontSize: 12,
     fontWeight: 700,
     color: "#004E8C",
   },
@@ -91,6 +90,7 @@ const classNames = mergeStyleSets({
   ctaButton: {
     backgroundColor: "#004E8C",
     borderColor: "#004E8C",
+    borderRadius: 6
   },
 });
 
