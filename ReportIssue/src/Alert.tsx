@@ -167,7 +167,7 @@ export default function Alert({
         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
           <Icon iconName="Mail" className={classNames.mailIcon} />
           <Text className={classNames.emailRow}>
-            A confirmation email has been sent to you.
+            A confirmation has been sent to you via email and Microsoft Teams.
           </Text>
         </Stack>
         <PrimaryButton
