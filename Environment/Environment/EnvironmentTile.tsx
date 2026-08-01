@@ -21,7 +21,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
         };
     }
     onClickOpenInNewWindow = () => {
-        var targeturl = `${this.props.environmenturl}/WebResources/crm2_/HTML/FeedbackFactoryApp`;
+        var targeturl = `${this.props.environmenturl}/WebResources/crm2_/HTML/OpenApplication`;
         window.open(targeturl, "_blank");
     }
 
