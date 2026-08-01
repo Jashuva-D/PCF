@@ -21,13 +21,14 @@ export class Environment implements ComponentFramework.StandardControl<IInputs, 
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         var root = ReactDOM.createRoot(this._container);
-
+        
+        var type = context.parameters.type.raw || "default";
         var environmentName = context.parameters.environmentname.raw || "DEV Environment";
         var applicationName = context.parameters.applicationname.raw || "1115 PMDA";
         var color = context.parameters.color.raw || "#0D2499";
         var environmentUrl = context.parameters.environmenturl.raw || "https://example.com";
 
-        root.render(React.createElement(EnvironmentTile, { environmentname: environmentName, applicationname: applicationName, color: color, environmenturl: environmentUrl }));
+        root.render(React.createElement(EnvironmentTile, { type: type, environmentname: environmentName, applicationname: applicationName, color: color, environmenturl: environmentUrl }));
     }
 
     public getOutputs(): IOutputs {
