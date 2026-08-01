@@ -25,8 +25,9 @@ export class Environment implements ComponentFramework.StandardControl<IInputs, 
         var environmentName = context.parameters.environmentname.raw || "DEV Environment";
         var applicationName = context.parameters.applicationname.raw || "1115 PMDA";
         var color = context.parameters.color.raw || "#0D2499";
-        
-        root.render(React.createElement(EnvironmentTile, { environmentname: environmentName, applicationname: applicationName, color: color }));
+        var environmentUrl = context.parameters.environmenturl.raw || "https://example.com";
+
+        root.render(React.createElement(EnvironmentTile, { environmentname: environmentName, applicationname: applicationName, color: color, environmenturl: environmentUrl }));
     }
 
     public getOutputs(): IOutputs {
