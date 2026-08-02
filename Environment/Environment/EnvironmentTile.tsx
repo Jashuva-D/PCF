@@ -22,7 +22,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
         };
     }
     onClickOpenInNewWindow = () => {
-        var targeturl = `${this.props.environmenturl}/WebResources/crm2_/HTML/OpenApplication`;
+        var targeturl = `${this.props.environmenturl}/WebResources/crm2_/HTML/OpenApplication?appname=${encodeURIComponent(this.props.applicationname)}`;
         window.open(targeturl, "_blank");
     }
 
