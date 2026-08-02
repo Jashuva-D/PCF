@@ -31,13 +31,16 @@ class ApplicationLinks extends React.Component<IApplicationLinksProps, IApplicat
                     maxWidth: 200, 
                     isResizable: true,
                     onRender: (item: any) => (
-                        <EnvironmentTile
-                            environmentname="DEV"
-                            applicationname={item.applicationname}
-                            environment_url={item.environment_dev_url}
-                            color={item.color}
-                            bgcolor="#EEF2FF"
-                        />
+                        <div style={{ padding: 10 }}>
+                            <EnvironmentTile
+                                environmentname="DEV"
+                                applicationname={item.applicationname}
+                                environment_url={item.environment_dev_url}
+                                color={item.color}
+                                bgcolor="#EEF2FF"
+                            />
+                        </div>
+                        
                     )  
                 },
                 { 
@@ -48,13 +51,15 @@ class ApplicationLinks extends React.Component<IApplicationLinksProps, IApplicat
                     maxWidth: 200, 
                     isResizable: true,
                     onRender: (item: any) => (
-                        <EnvironmentTile
-                            environmentname="UAT"
-                            applicationname={item.applicationname}
-                            environment_url={item.environment_UAT_url}
-                            color="#53389E"
-                            bgcolor="#F2EEFB"
-                        />
+                        <div style={{ padding: 10 }}>
+                            <EnvironmentTile
+                                environmentname="UAT"
+                                applicationname={item.applicationname}
+                                environment_url={item.environment_UAT_url}
+                                color="#53389E"
+                                bgcolor="#F2EEFB"
+                            />
+                        </div>
                     )  
                 },
                 { 
@@ -65,13 +70,15 @@ class ApplicationLinks extends React.Component<IApplicationLinksProps, IApplicat
                     maxWidth: 200, 
                     isResizable: false,
                     onRender: (item: any) => (
-                        <EnvironmentTile
-                            environmentname="PROD"
-                            applicationname={item.applicationname}
-                            environment_url={item.environment_prod_url}
-                            color="#0E7433"
-                            bgcolor="#EDF9F1"
-                        />
+                        <div style={{ padding: 10 }}>
+                            <EnvironmentTile
+                                environmentname="PROD"
+                                applicationname={item.applicationname}
+                                environment_url={item.environment_prod_url}
+                                color="#0E7433"
+                                bgcolor="#EDF9F1"
+                            />
+                        </div>
                     )  
                 },
                 { 

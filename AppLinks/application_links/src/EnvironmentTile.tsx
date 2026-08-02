@@ -23,7 +23,7 @@ class EnvironmentTile extends React.Component<IEnvironmentTileProps> {
     }
     render() {
         return (
-            <Stack horizontal verticalAlign="center" styles={{ root: { width: "100%", height: "100%", backgroundColor: this.props.bgcolor, borderRadius: 6 } }} horizontalAlign="space-between">
+            <Stack horizontal verticalAlign="center" styles={{ root: { width: "100%", height: "100%", backgroundColor: this.props.bgcolor, borderRadius: 6, padding: 10 } }} horizontalAlign="space-between">
                 <EnvironmentIcon size={36} color={this.props.color} />
                 <Stack verticalAlign="center" styles={{ root: { marginLeft: 10 } }}>
                     <div style={{ fontSize: 16, color: this.props.color, fontWeight: "bold", alignContent: "start", alignItems: "start" }}>
