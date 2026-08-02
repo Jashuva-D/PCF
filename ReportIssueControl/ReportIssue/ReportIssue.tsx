@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Icon, IconButton, Link, PrimaryButton, Stack, Text, DefaultButton } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
+import { DetailsIcon } from "./Icons";
+import { TabSectionDetails } from "./Constants";
 
 interface ReportIssueProps {
     headerName: string | null;
@@ -45,6 +47,8 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
         (this.props.context.navigation as any).navigateTo(pageInput,navigationOptions).then(function(resp: any){},function(err: any){});
     }
     render() {
+        const iconcomp = TabSectionDetails.find((item) => item.tab === this.props.tabName && item.section === this.props.sectionName)?.icon;
+        
         return <Stack
             horizontal
             horizontalAlign="space-between"
@@ -60,11 +64,11 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             }}
         >
             <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+                {iconcomp && React.createElement(iconcomp, { size: 22, color: "#0D2499" })}
                 <Text variant="mediumPlus" style={{ fontWeight: 600 }}>
                     {this.props.headerName ?? "Title"}
                 </Text>
             </Stack>
-
             <DefaultButton
                 text="Report Data Discrepancy"
                 iconProps={{ iconName: "Bug", style: { color: "#a83240" } }}
