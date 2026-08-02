@@ -1,4 +1,4 @@
-import { ADOIcon, BusinessSystemOwnersIcon, DatesIcon, DetailsIcon, FISMAIcon, FundingIcon, HostingDetailsIcon, CommunicationIcon, MarketPlaceIcon } from "./Icons";
+import { ADOIcon, BusinessSystemOwnersIcon, DatesIcon, DetailsIcon, FISMAIcon, FundingIcon, HostingDetailsIcon, CommunicationIcon, MarketPlaceIcon, EnvironmentURLIcon } from "./Icons";
 
 export const TabSectionDetails = [
 {
@@ -53,6 +53,12 @@ export const TabSectionDetails = [
     tab: "general",
     section: "marketplace",
     icon:  MarketPlaceIcon,
+    iconColor: "#0D2499"
+},
+{
+    tab: "general",
+    section: "environmenturls",
+    icon:  EnvironmentURLIcon,
     iconColor: "#0D2499"
 }
 ];

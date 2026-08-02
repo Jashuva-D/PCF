@@ -107,3 +107,16 @@ export const MarketPlaceIcon: React.FC<{ size?: number, color?: string }> = ({ s
         </g>
     </svg>
 )
+
+export const EnvironmentURLIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#262626" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 64 64" fill="none">
+        <g stroke={color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M32 17L17 43" />
+            <path d="M32 17L47 43" />
+            <path d="M17 43H47" />
+            <circle cx="32" cy="14" r="7" fill="#FFFFFF" />
+            <circle cx="15" cy="46" r="7" fill="#FFFFFF" />
+            <circle cx="49" cy="46" r="7" fill="#FFFFFF" />
+        </g>
+    </svg>
+)
