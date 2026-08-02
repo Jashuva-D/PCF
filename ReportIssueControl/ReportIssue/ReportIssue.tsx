@@ -9,6 +9,7 @@ interface ReportIssueProps {
     appName: string | null;
     tabName: string | null;
     sectionName: string | null;
+    bgcolor: string | null;
     context: ComponentFramework.Context<IInputs>
 }
 interface ReportIssueState{
@@ -55,7 +56,7 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             verticalAlign="center"
             styles={{
                 root: {
-                    background: "rgb(243,243, 243)",
+                    background: this.props.bgcolor ?? "rgb(243,243, 243)",
                     borderLeft: "4px solid #0D2499",
                     padding: "6px 6px",
                     borderRadius: 6,

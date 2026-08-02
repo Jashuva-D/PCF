@@ -27,8 +27,10 @@ export class ReportIssue implements ComponentFramework.StandardControl<IInputs, 
         var tabname = context.parameters.tab && context.parameters.tab.raw ? context.parameters.tab.raw : "";
         var section = context.parameters.section && context.parameters.section.raw ? context.parameters.section.raw : "";
         var appname = context.parameters.appname && context.parameters.appname.raw ? context.parameters.appname.raw : "";
+        var bgcolor = context.parameters.bgcolor && context.parameters.bgcolor.raw ? context.parameters.bgcolor.raw : "rgb(243,243, 243)";//"#0D24996B";
+
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(ReportIssueButton, { context: context, headerName : title, appName: appname, tabName : tabname, sectionName: section }));
+        root.render(React.createElement(ReportIssueButton, { context: context, headerName : title, appName: appname, tabName : tabname, sectionName: section, bgcolor: bgcolor }));
     }
 
     /**

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PCFCONTROLS" constructor="ReportIssue" version="0.0.13" display-name-key="ReportIssue" description-key="ReportIssue description" control-type="standard" >
+  <control namespace="PCFCONTROLS" constructor="ReportIssue" version="0.0.14" display-name-key="ReportIssue" description-key="ReportIssue description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -23,6 +23,7 @@
     <property name="tab" display-name-key="Tab Name" description-key="tabname_description_key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="section" display-name-key="Section Name" description-key="section_description_key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="appname" display-name-key="Application Name" description-key="app_description_key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="bgcolor" display-name-key="Background Color" description-key="bgcolor_description_key" of-type="SingleLine.Text" usage="input" required="false" />
     
     <!--
       Property node's of-type attribute can be of-type-group attribute.
