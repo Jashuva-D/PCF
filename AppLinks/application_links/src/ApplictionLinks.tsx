@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { DetailsList, IColumn } from '@fluentui/react/lib/DetailsList';
+import { DetailsList, IColumn, Stack, Label, StackItem, TextField } from '@fluentui/react';
 import EnvironmentTile from './EnvironmentTile';
+import { ApplicationIcon, SearchIcon } from './Icons';
 
 interface IApplicationLinksProps {
 }
@@ -20,8 +21,22 @@ class ApplicationLinks extends React.Component<IApplicationLinksProps, IApplicat
                     name: 'Application', 
                     fieldName: 'applicationname', 
                     minWidth: 200, 
-                    maxWidth: 200, 
+                    maxWidth: 300,
                     isResizable: true,
+                    onRenderHeader: () => (
+                        <Label style={{ fontSize: 20, fontWeight: "bold", alignContent: "center", alignItems: "center" }}>Application</Label>
+                    ),
+                    onRender: (item: any) => (
+                        <div style={{ padding: 10 }}>
+                            <Stack horizontal horizontalAlign='start' verticalAlign="center" styles={{ root: { margin: 10 } }} tokens={{ childrenGap: 10 }}>
+                                <ApplicationIcon size={24} color={item.color} />
+                                <div style={{ fontSize: 16, fontWeight: "bold", alignContent: "start", alignItems: "start" }}>
+                                    {item.applicationname}
+                                </div>
+                            </Stack>
+                        </div>
+                        
+                    )
                 },
                 { 
                     key: 'dev_url', 
@@ -120,7 +135,38 @@ class ApplicationLinks extends React.Component<IApplicationLinksProps, IApplicat
     }
     render() {
         return <>
-            <div>Application Links</div>
+            <Stack horizontal tokens={{ childrenGap: 10 }} horizontalAlign="space-between">
+                <StackItem grow>
+                    <TextField
+                        style={{ borderRadius: "10" }}
+                        //value={this.state.searchText || ""}
+                        placeholder="Search Notes..."
+                        onChange={(e, newValue) => {
+                            if (newValue == null || newValue == "") {
+                                //this.setState({searchText: "", filterApplied : false})
+                            }
+                            else {
+                                //this.setState({ searchText: newValue || "" });
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                //this.onSearchClick.bind(this)();
+                            }
+                        }}
+                        styles={{
+                            fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", height: 36 },
+                            field: { borderRadius: 6, height: 36, fontSize: 15, padding: 8 },
+                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                            suffix: { background: "transparent" },
+                        }}
+                        onRenderPrefix={() => (
+                            <span style={{ borderRadius: 20 }}><SearchIcon size={24} color="white" /> </span>
+                        )}
+
+                    />
+                </StackItem>
+            </Stack>
             <DetailsList
                 columns={this.state.columns}
                 items={this.state.items}
