@@ -46,7 +46,9 @@ export const BusinessSystemOwnersIcon: React.FC<{ size?: number, color?: string 
 export const ADOIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#262626" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 64 64" fill="none">
         <g stroke={color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M43 36h2c7 0 11 5 11 12v2H44"/>
+            <path d="M14 19l20-8 17 7v29l-18 7-19-9z"/><path d="M14 19l19 7 18-8"/>
+            <path d="M33 26v28"/>
+            <path d="M8 25l12-4v22L8 39z" fill={color} stroke="none"/>
         </g>
     </svg>
 );
@@ -84,7 +86,7 @@ export const DatesIcon: React.FC<{ size?: number, color?: string }> = ({ size = 
     </svg>
 );
 
-export const CommunicationsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#262626" }) => (
+export const CommunicationIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#262626" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 64 64" fill="none">
         <g stroke={color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M10 28h9l25-13v34L19 36h-9z"/>
@@ -94,3 +96,14 @@ export const CommunicationsIcon: React.FC<{ size?: number, color?: string }> = (
         </g>
     </svg>
 );
+
+export const MarketPlaceIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#262626" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 64 64" fill="none">
+        <g stroke={color} stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 24h36l-3-11H17z"/>
+            <path d="M12 24h40v6c0 4-3 7-7 7s-7-3-7-7c0 4-3 7-7 7s-7-3-7-7c0 4-3 7-7 7s-7-3-7-7z"/>
+            <path d="M15 37v19h34V37"/>
+            <path d="M28 56V43h9v13"/>
+        </g>
+    </svg>
+)
