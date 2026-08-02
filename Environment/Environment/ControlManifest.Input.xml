@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="PCFCONTROLS" constructor="Environment" version="0.0.8" display-name-key="Environment" description-key="Environment description" control-type="standard" >
+  <control namespace="PCFCONTROLS" constructor="Environment" version="0.0.9" display-name-key="Environment" description-key="Environment description" control-type="standard" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -19,10 +19,13 @@
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="applicationname" display-name-key="Application Name" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="environmentname" display-name-key="Environment Name" description-key="Environment name to display on the tile" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="color" display-name-key="Color" description-key="Color for the environment tile" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="environmenturl" display-name-key="Environment URL" description-key="URL for the environment" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="type" display-name-key="Component Type" description-key="component type" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="environmentname" display-name-key="Environment Name" description-key="Environment name to display on the tile" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="color" display-name-key="Color" description-key="Color for the environment tile" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="type" display-name-key="Component Type" description-key="component type" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="environment_url" display-name-key="Target Environment URL" description-key="URL for the target environment" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="environment_dev_url" display-name-key="Dev Environment URL" description-key="URL for the Dev environment" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="environment_uat_url" display-name-key="UAT Environment URL" description-key="URL for the UAT environment" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="environment_prod_url" display-name-key="Prod Environment URL" description-key="URL for the Prod environment" of-type="SingleLine.Text" usage="input" required="false" />
     <!--
       Property node's of-type attribute can be of-type-group attribute.
       Example:

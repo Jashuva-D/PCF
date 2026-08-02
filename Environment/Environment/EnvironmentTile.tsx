@@ -9,7 +9,10 @@ interface EnvironmentTileProps {
     environmentname: string;
     applicationname: string;
     color: string;
-    environmenturl: string;
+    environment_url?: string;
+    environment_dev_url?: string;
+    environment_uat_url?: string;
+    environment_prod_url?: string;
 }
 interface EnvironmentTileState {
 }
@@ -21,9 +24,12 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
         this.state = {
         };
     }
-    onClickOpenInNewWindow = () => {
-        var targeturl = `${this.props.environmenturl}/WebResources/crm2_/HTML/OpenApplication?appname=${encodeURIComponent(this.props.applicationname)}`;
-        window.open(targeturl, "_blank");
+    onClickOpenInNewWindow = (targeturl: string) => {
+        if(targeturl === undefined || targeturl === null || targeturl === "") {
+            alert("Target environment URL is not defined for this application. please contact hosting coordinator to get the URL for this application");
+        }
+        else 
+            window.open(targeturl, "_blank");
     }
 
     render() {
@@ -52,7 +58,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
                                 <b>Application URL:</b> {this.props.applicationname}
                             </div>
                         </Stack>
-                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={this.onClickOpenInNewWindow}><OpenInNewWindowIcon size={20} color="#175CD3" /></StackItem>
+                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={() => this.onClickOpenInNewWindow(this.props.environment_dev_url || "")}><OpenInNewWindowIcon size={20} color="#175CD3" /></StackItem>
                     </Stack>
                     <div style={{ width: 1, backgroundColor: "#D1D1D1",  margin: "0 16px", alignSelf: "stretch" }} />
                     <Stack horizontal verticalAlign="center" styles={{ root: { width: "100%", height: "100%" } }} horizontalAlign="space-between">
@@ -65,7 +71,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
                                 <b>Application URL:</b> {this.props.applicationname}
                             </div>
                         </Stack>
-                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={this.onClickOpenInNewWindow}><OpenInNewWindowIcon size={20} color="#53389E" /></StackItem>
+                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={() => this.onClickOpenInNewWindow(this.props.environment_uat_url || "")}><OpenInNewWindowIcon size={20} color="#53389E" /></StackItem>
                     </Stack>
                     <div style={{ width: 1, backgroundColor: "#D1D1D1",  margin: "0 16px", alignSelf: "stretch" }} />
                     <Stack horizontal verticalAlign="center" styles={{ root: { width: "100%", height: "100%" } }} horizontalAlign="space-between">
@@ -78,7 +84,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
                                 <b>Application URL:</b> {this.props.applicationname}
                             </div>
                         </Stack>
-                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={this.onClickOpenInNewWindow}><OpenInNewWindowIcon size={20} color="#0E7433" /></StackItem>
+                        <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={() => this.onClickOpenInNewWindow(this.props.environment_prod_url || "")}><OpenInNewWindowIcon size={20} color="#0E7433" /></StackItem>
                     </Stack>
                 </Stack>
             );
@@ -95,7 +101,7 @@ class EnvironmentTile extends React.Component<EnvironmentTileProps, EnvironmentT
                             <b>Application URL:</b> {this.props.applicationname}
                         </div>
                     </Stack>
-                    <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={this.onClickOpenInNewWindow}><OpenInNewWindowIcon size={20} color={this.props.color} /></StackItem>
+                    <StackItem style={{ marginLeft: "auto", paddingRight: 10 }} onClick={() => this.onClickOpenInNewWindow(this.props.environment_url || "")}><OpenInNewWindowIcon size={20} color={this.props.color} /></StackItem>
                 </Stack>
             );
         }
