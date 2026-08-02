@@ -9,10 +9,10 @@ interface EnvironmentTileProps {
     environmentname: string;
     applicationname: string;
     color: string;
-    environment_url?: string;
-    environment_dev_url?: string;
-    environment_uat_url?: string;
-    environment_prod_url?: string;
+    environment_url?: string | null;
+    environment_dev_url?: string | null;
+    environment_uat_url?: string | null;
+    environment_prod_url?: string | null;
 }
 interface EnvironmentTileState {
 }
