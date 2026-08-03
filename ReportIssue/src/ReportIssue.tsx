@@ -164,6 +164,17 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   }}
                 ></DatePicker>
               }
+              else if(field?.type == "lookup"){
+                return <Lookup
+                          entityType="cr549_person"
+                          allowMultiSelect={false}
+                          onRecordSelect={(items) => {
+                            if(items.length > 0){
+                              this.setState({currentrecord: {...this.state.currentrecord!, newvalue: items[0].text ?? ""}})
+                            }
+                          }}
+                      />
+              }
               else 
                 return <TextField multiline={this.state.currentrecord?.multiline} autoAdjustHeight rows={1} value = {this.state.currentrecord?.newvalue} onChange={(evt,value) => {this.setState({currentrecord: {...this.state.currentrecord!, newvalue: value ?? ""}})}}/>
             }
