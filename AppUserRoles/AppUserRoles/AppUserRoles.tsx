@@ -512,6 +512,33 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         })
         
     }
+    onReportDataDiscrepancy(){
+        var obj = this;
+        var data = {
+            appname: obj.props.context.parameters.applicationname.raw ?? "",
+            recordid: (obj.props.context as any).page.entityId,
+            tabname: "assignedpeople",
+            section: "assignedpeople"
+        }
+        var pageInput = {
+            pageType: "webresource",
+            webresourceName: "crm2_/reportissue/index.html",
+            data: JSON.stringify(data)
+        };
+        var navigationOptions = {
+            target: 2,          
+            width: {
+                value: 800,
+                unit: "px"
+            },
+            height: {
+                value: 900,
+                unit: "px"
+            },
+            position: 1         
+        };
+        (this.props.context.navigation as any).navigateTo(pageInput,navigationOptions).then(function(resp: any){},function(err: any){});
+    }
     showAlertMessage(messagetype: CMSAlertType, message: string){
         // var obj = this;
         // this.setState({ 
@@ -650,6 +677,20 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                             />
                             <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
+                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#0D2499", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
+                                styles={ { 
+                                    root: {
+                                        height: 36,
+                                        padding: "0 20px",
+                                    },
+                                    label: {
+                                        fontSize: 15,
+                                        lineHeight: 36,
+                                    },
+                                }}
+                                disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
+                            />
+                            <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Data Discrepancy" onClick={this.onReportDataDiscrepancy.bind(this)} 
                                 style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#0D2499", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
                                 styles={ { 
                                     root: {
