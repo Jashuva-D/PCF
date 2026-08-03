@@ -517,6 +517,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         var data = {
             appname: obj.props.context.parameters.applicationname.raw ?? "",
             recordid: (obj.props.context as any).page.entityId,
+            appuserroleid: obj.state.selectedrecordids[0],
             tabname: "assignedpeople",
             section: "assignedpeople"
         }
@@ -690,8 +691,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                                 disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
                             />
-                            <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Data Discrepancy" onClick={this.onReportDataDiscrepancy.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#0D2499", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
+                            <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Issue" onClick={this.onReportDataDiscrepancy.bind(this)} 
+                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 1 ) ? "#0D2499" : "#F2F2F2", color: (this.state.selectedrecordids.length == 1) ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -702,7 +703,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                         lineHeight: 36,
                                     },
                                 }}
-                                disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
+                                disabled={this.state.selectedrecordids.length !== 1}
                             />
                         </Stack>
                     </Stack>
