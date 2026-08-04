@@ -95,7 +95,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     else 
                       currentdata = this.state.applicationdata;
                     
-                    alert(JSON.stringify(currentdata));
+                    
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline, currentvalue: "", newvalue: "" } as DataField;
                     
                     if(currentrecord.fieldname?.includes(".")){
@@ -278,7 +278,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     );
 
     (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid,"?$expand=cr549_project_num($select=cr549_hostingprojectid,cr549_hostingprojectnumber,cr549_projectname,cr549_projectnameshort,cr549_projectnumber)").then((app : any) => {
-      console.log(JSON.stringify(app));
       obj.setState({ applicationdata: app });
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
@@ -299,7 +298,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
     if(this.props.tabname && this.props.tabname == "assignedpeople" && this.props.appuserroleid){
       (parent as any).Xrm.WebApi.retrieveRecord("cr549_appuserrole", this.props.appuserroleid, "?$expand=cr549_person($select=cr549_email_address,cr549_direct_phone,cr549_email_address_2)").then((appuserrole : any) => {
-        alert(JSON.stringify(appuserrole));
+        
         obj.setState({appuserroledata : appuserrole});
       },function(err: any){ alert("error"+err?.message)});
     }
