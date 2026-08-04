@@ -9,7 +9,7 @@ const params = new URLSearchParams(window.location.search);
 const data = JSON.parse(params.get("data") || "{}");
 
 initializeIcons();
-
+alert(JSON.stringify(data));
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ReportIssue 
