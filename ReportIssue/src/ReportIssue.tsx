@@ -185,7 +185,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               }
               else if(field?.type == "lookup"){
                 return <Lookup
-                          entityType="cr549_person"
+                          entityType={field?.key == "cr549_role" ? "cr549_role" : "cr549_person"}
                           allowMultiSelect={false}
                           onRecordSelect={(items) => {
                             if(items.length > 0){
