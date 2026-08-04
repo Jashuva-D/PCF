@@ -519,7 +519,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             recordid: (obj.props.context as any).page.entityId,
             appuserroleid: obj.state.selectedrecordids[0],
             tabname: "assignedpeople",
-            section: "assignedpeople"
+            sectionname: "assignedpeople"
         }
         var pageInput = {
             pageType: "webresource",
