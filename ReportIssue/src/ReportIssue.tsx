@@ -277,7 +277,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       }
     );
 
-    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid,"?$expand=cr549_projectnumber($select=cr549_name,cr549_number)").then((app : any) => {
+    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid,"?$expand=cr549_project_num($select=cr549_hostingprojectid,cr549_hostingprojectnumber,cr549_projectname,cr549_projectnameshort,cr549_projectnumber)").then((app : any) => {
       console.log(JSON.stringify(app));
       obj.setState({ applicationdata: app });
        if(!app["_cr549_hostingcoordinator_value"]) return;
@@ -301,7 +301,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       (parent as any).Xrm.WebApi.retrieveRecord("cr549_applicationuserrole", this.props.appuserroleid, "?$expand=cr549_person($select=cr549_email_address,cr549_direct_phone,cr549_email_address_2)").then((appuserrole : any) => {
         alert(JSON.stringify(appuserrole));
         obj.setState({appuserroledata : appuserrole});
-      },function(err: any){ alert(err)});
+      },function(err: any){ alert("error"+err?.message)});
     }
   }
 
