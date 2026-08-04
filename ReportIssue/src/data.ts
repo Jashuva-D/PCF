@@ -87,11 +87,11 @@ export const TabOptions: TabOption[] = [
                 fields: [
                     { key: "cr549_project_num", text: "Project", multiline: true, type: "string" }, 
                     { key: "cr549_cms_funding_group", text: "Funding Source Organization",  type: "dropdown", values: ["AMG", "CCSQ", "CM", "CMCS", "CMMI", "CPI", "EADG", "ESSG", "ISPG", "IUSG", "MITG", "OBRHI", "OC", "OEDA", "OFM", "OHI", "OMH", "OSORA", "OSPR"] },
-                    { key: "cr549_project_num_projectname", text: "Project Name", type: "string", multiline: true},
-                    { key: "cr549_project_num_projectname_short", text: "Project Name (Short)",  type: "string"},
-                    { key: "cr549_project_num_projectname_projectnumber", text: "Project Number",  type: "string"},
-                    { key: "cr549_project_num_hosting_projectid", text: "Hosting Project Id",  type: "string"},
-                    { key: "cr549_project_num_hosting_projectnumber", text: "Hosting Project Number",  type: "string"}
+                    { key: "cr549_project_num.cr549_projectname", text: "Project Name", type: "string", multiline: true},
+                    { key: "cr549_project_num.cr549_projectnameshort", text: "Project Name (Short)",  type: "string"},
+                    { key: "cr549_project_num.cr549_projectnumber", text: "Project Number",  type: "string"},
+                    { key: "cr549_project_num.cr549_hostingprojectid", text: "Hosting Project Id",  type: "string"},
+                    { key: "cr549_project_num.cr549_hostingprojectnumber", text: "Hosting Project Number",  type: "string"}
                 ] 
             },
             { 
