@@ -11,6 +11,7 @@ interface ReportIssueProps {
   recordid?: string;
   tabname?: string;
   sectionname?: string;
+  appuserroleid?: string;
 }
 
 interface ReportIssueState {
@@ -35,6 +36,7 @@ interface ReportIssueState {
     datacolumns : IColumn[];
     currentrecord: DataField | null;
     submitted: boolean;
+    appuserroledata?: any
 }
 
 
@@ -86,16 +88,32 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                   selectedKey={this.state.currentrecord?.fieldname}
                   onChange={(evt, option) => {
                     if(!option) return;
+                    
+                    var currentdata = {} as any;
+                    if(this.props.tabname == "assignedpeople")
+                      currentdata = this.state.appuserroledata;
+                    else 
+                      currentdata = this.state.applicationdata;
+                    
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline, currentvalue: "", newvalue: "" } as DataField;
-                    if(this.state.applicationdata && (Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0 || Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value`).length != 0)){
-                      if(Object.keys(this.state.applicationdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
-                        currentrecord.currentvalue = this.state.applicationdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
+                    
+                    if(currentrecord.fieldname?.includes(".")){
+                      var fieldnames = currentrecord.fieldname.split(".");
+                      if(currentdata && Object.keys(currentdata).filter(x => x == fieldnames[0]).length != 0){
+                        currentrecord.currentvalue = currentdata[fieldnames[0]][fieldnames[1]] ?? "";
+                      }
+                      else
+                        currentrecord.currentvalue == "";
+                    }
+                    else if(Object.keys(currentdata).filter(x => x == currentrecord.fieldname).length != 0 || Object.keys(currentdata).filter(x => x == `_${currentrecord.fieldname}_value`).length != 0){
+                      if(Object.keys(currentdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
+                        currentrecord.currentvalue = currentdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
                       }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`).length != 0){
-                        currentrecord.currentvalue = this.state.applicationdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
+                        currentrecord.currentvalue = currentdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
                       }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0){
-                        currentrecord.currentvalue = this.state.applicationdata[currentrecord.fieldname] ?? "";
+                        currentrecord.currentvalue = currentdata[currentrecord.fieldname] ?? "";
                       }
                       else{
                         currentrecord.currentvalue = "";
@@ -255,14 +273,15 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       }
     ,function (error : any) {
         console.log(error.message);
-    });
+      }
+    );
 
-    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid).then((app : any) => {
+    (parent as any).Xrm.WebApi.retrieveRecord("cr549_application", this.props.recordid,"?$expand=cr549_projectnumber($select=cr549_name,cr549_number)").then((app : any) => {
       console.log(JSON.stringify(app));
+      obj.setState({ applicationdata: app });
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
           obj.setState({ 
-            applicationdata: app,
             hostingcoordinator: {
               name: coordinator.cr549_name,
               email: coordinator.cr549_email_address,
@@ -274,7 +293,14 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         });
       },function (error : any) {
         console.log(error.message);
-    })
+      }
+    );
+
+    if(this.props.tabname && this.props.tabname == "assignedpeople" && this.props.appuserroleid){
+      (parent as any).Xrm.WebApi.retrieveRecord("cr549_applicationuserrole", this.props.appuserroleid, "?$select=cr549_name,_cr549_person_value&$expand=cr549_person($select=cr549_name,cr549_email_address)").then((appuserrole : any) => {
+        this.setState({appuserroledata : appuserrole});
+      });
+    }
   }
 
   private onFieldChanged = (_: any, option?: any) => {

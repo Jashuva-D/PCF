@@ -171,7 +171,15 @@ export const TabOptions: TabOption[] = [
         key: "assignedpeople",
         text: "Assigned People",
         sections: [
-            { key: "other", text: "Other or N/A", fields: [{ key: "otherdetails", text: "Other Details", type: "string"}] }
+            { 
+                key: "assignedpeople", 
+                text: "Assigned People", 
+                fields: [
+                    { key: "cr549_person.cr549_direct_phone", text: "Phone Number", type: "string" },
+                    { key: "cr549_person.cr549_email_address", text: "Email Address", type: "string" },
+                    { key: "cr549_person.cr549_email_address_2", text: "Alternate Email", type: "string" }
+                ] 
+            }
         ]
     },
     {
