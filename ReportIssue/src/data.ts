@@ -99,10 +99,10 @@ export const TabOptions: TabOption[] = [
                 text: "FISMA", 
                 fields: [
                     { key: "cr549_cfactsfismasystem", text: "CFACTS FISMA System", type: "string", multiline: true }, 
-                    { key: "cr549_cfactsfismasystem_cmsfismaacronym", text: "CMS FISAM Acronym",  type: "string" },
-                    { key: "cr549_cfactsfismasystem_name", text: "Name", type: "string", multiline: true},
-                    { key: "cr549_cfactsfismasystem_cmsfismasecuritycategorization", text: "CMS FISMA Security Categorization",  type: "string"},
-                    { key: "cr549_cfactsfismasystem_cmsfismauuid", text: "CMS FISMA UUID", type: "string", multiline: true}
+                    { key: "cr549_cfactsfismasystem.cr549_fisma_acronym", text: "CMS FISAM Acronym",  type: "string" },
+                    { key: "cr549_cfactsfismasystem.cr549_name", text: "Name", type: "string", multiline: true},
+                    { key: "cr549_cfactsfismasystem.cr549_impact_rating", text: "CMS FISMA Security Categorization",  type: "string"},
+                    { key: "cr549_cfactsfismasystem.cr549_fisma_uuid", text: "CMS FISMA UUID", type: "string", multiline: true}
                 ] 
             },
             {
