@@ -297,8 +297,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     );
 
     if(this.props.tabname && this.props.tabname == "assignedpeople" && this.props.appuserroleid){
-      (parent as any).Xrm.WebApi.retrieveRecord("cr549_appuserrole", this.props.appuserroleid, "?$expand=cr549_person($select=cr549_email_address,cr549_direct_phone,cr549_email_address_2)").then((appuserrole : any) => {
-        
+      (parent as any).Xrm.WebApi.retrieveRecord("cr549_appuserrole", this.props.appuserroleid, "?$select=_cr549_person_value,_cr549_role_value&$expand=cr549_person($select=cr549_email_address,cr549_direct_phone,cr549_email_address_2)").then((appuserrole : any) => {
         obj.setState({appuserroledata : appuserrole});
       },function(err: any){ alert("error"+err?.message)});
     }
