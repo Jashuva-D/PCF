@@ -37,7 +37,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         else if(this.props.entityType == "cr549_role"){
             (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
                 resp.entities.forEach((ent : any) => {
-                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_name"] } as IPersonaProps);
+                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
                     });
                     obj.setState({ allitems: recs });
             },function(err: any){
