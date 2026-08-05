@@ -71,6 +71,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       selectedField: section?.fields?.[0]?.key ?? "",
       currentrecord: currentrecord,
       datafields: [currentrecord],
+      appuserroledata : null,
       datacolumns: [
         {
           key: "fieldname",
@@ -419,7 +420,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <div className="textarea-wrap">
                 <TextField
                   defaultValue=""
-                  value={this.state.appuserroledata["_cr549_person_value@OData.Community.Display.V1.FormattedValue"]}
+                  value={this.state.appuserroledata != null ? this.state.appuserroledata["_cr549_person_value@OData.Community.Display.V1.FormattedValue"] ?? "" : ""}
                   disabled
                 />
               </div>
