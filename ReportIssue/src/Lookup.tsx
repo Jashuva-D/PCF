@@ -34,6 +34,16 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                     console.log("Error occured while fetching the query");
                 })
         }
+        else if(this.props.entityType == "cr549_role"){
+            (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
+                resp.entities.forEach((ent : any) => {
+                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_name"] } as IPersonaProps);
+                    });
+                    obj.setState({ allitems: recs });
+            },function(err: any){
+                console.log("Error occured while fetching the query");
+            })
+        }
     }
     async loadRecords(entityType: string, query: string | null): Promise<any[]>{
         var recs : any[] = [];
@@ -55,7 +65,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         if (filterText == null || filterText.trim() == "") {
             return this.state.allitems;
         }
-        if (filterText?.length < 3) {
+        if (this.props.entityType == "cr549_role" || filterText?.length < 3) {
             return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
         }
         else {
