@@ -457,7 +457,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                         });
                       }
                     }}
-                    style={{ borderRadius: 6, backgroundColor: this.state.datafields.length >= fieldOptions.length || (this.state.currentrecord != undefined && this.state.currentrecord != null) ? "#F2F2F2" : "#0D2499" , color: this.state.datafields.length >= fieldOptions.length ? "#5A5A5A" : "white" }}
+                    style={{ borderRadius: 6, backgroundColor: this.state.datafields.length >= fieldOptions.length || (this.state.currentrecord != undefined && this.state.currentrecord != null) ? "#F2F2F2" : "#0D2499" , color: this.state.datafields.length >= fieldOptions.length || (this.state.currentrecord != undefined && this.state.currentrecord != null) ? "#5A5A5A" : "white" }}
                     disabled = {this.state.datafields.length >= fieldOptions.length || (this.state.currentrecord != undefined && this.state.currentrecord != null)}
                   />
                   </div>
