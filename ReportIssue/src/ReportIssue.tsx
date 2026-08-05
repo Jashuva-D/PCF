@@ -95,6 +95,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                     else 
                       currentdata = this.state.applicationdata;
                     
+                    alert(JSON.stringify(currentdata));
                     
                     var currentrecord = { ...this.state.currentrecord!, fieldname: option.key ?? "", multiline: (option as any).multiline, currentvalue: "", newvalue: "" } as DataField;
                     
