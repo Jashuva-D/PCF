@@ -108,18 +108,25 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                         currentrecord.currentvalue == "";
                     }
                     else if(Object.keys(currentdata).filter(x => x == currentrecord.fieldname).length != 0 || Object.keys(currentdata).filter(x => x == `_${currentrecord.fieldname}_value`).length != 0){
-                      if(Object.keys(currentdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
-                        currentrecord.currentvalue = currentdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
-                      }
-                      else if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`).length != 0){
+                      if(Object.keys(this.state.applicationdata).filter(x => x == `_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`).length != 0){
+                        alert("inside first: "+currentdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`]);
                         currentrecord.currentvalue = currentdata[`_${currentrecord.fieldname}_value@OData.Community.Display.V1.FormattedValue`];
                       }
+                      else if(Object.keys(currentdata).filter(x => x == `${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`).length != 0){
+                        alert("inside second: "+currentdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`]);
+                        currentrecord.currentvalue = currentdata[`${currentrecord.fieldname}@OData.Community.Display.V1.FormattedValue`];
+                      }
                       else if(Object.keys(this.state.applicationdata).filter(x => x == currentrecord.fieldname).length != 0){
+                        alert("insided 3rd"+currentdata[currentrecord.fieldname]);
                         currentrecord.currentvalue = currentdata[currentrecord.fieldname] ?? "";
                       }
                       else{
+                        alert('inside 4')
                         currentrecord.currentvalue = "";
                       }
+                    }
+                    else {
+                      alert("last");
                     }
                     this.setState({currentrecord: currentrecord})
                   }}
