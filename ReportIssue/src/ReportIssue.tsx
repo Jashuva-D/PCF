@@ -406,14 +406,24 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 disabled
             />
             </div>
-            <div>
+            {this.props.tabname != "assignedpeople" && <div>
               <RequiredLabel>Section with Issue</RequiredLabel>
               <Dropdown
                 options={sectionOptions}
                 selectedKey={this.state.selectedSection}
                 disabled
               />
-            </div>
+            </div>}
+            {this.props.tabname == "assignedpeople" && <div>
+              <RequiredLabel>Person with Issue</RequiredLabel>
+              <div className="textarea-wrap">
+                <TextField
+                  defaultValue=""
+                  value={this.state.appuserroledata["_cr549_person_value@OData.Community.Display.V1.FormattedValue"]}
+                  disabled
+                />
+              </div>
+            </div>}
             <div className="full-width">
               <RequiredLabel>Issue Title</RequiredLabel>
               <div className="textarea-wrap">
