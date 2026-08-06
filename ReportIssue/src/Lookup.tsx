@@ -107,7 +107,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                     placeholder: "Type at least 3 characters to search..." 
                 }}
                 pickerCalloutProps={{
-                    calloutWidth: 320
+                    calloutWidth: 100
                 }}
             />
         );
