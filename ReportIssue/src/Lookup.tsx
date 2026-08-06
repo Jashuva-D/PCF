@@ -21,29 +21,29 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         };
     }
     componentDidMount() {
-        var obj = this;
-        var recs : IPersonaProps[] = [];
+        // var obj = this;
+        // var recs : IPersonaProps[] = [];
         
-        if(this.props.entityType == "cr549_person"){
-            (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp: any){
-                    resp.entities.forEach((ent : any) => {
-                        recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
-                    });
-                    obj.setState({ allitems: recs });
-                },function(err : any){
-                    console.log("Error occured while fetching the query");
-                })
-        }
-        else if(this.props.entityType == "cr549_role"){
-            (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
-                resp.entities.forEach((ent : any) => {
-                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
-                    });
-                    obj.setState({ allitems: recs });
-            },function(err: any){
-                console.log("Error occured while fetching the query");
-            })
-        }
+        // if(this.props.entityType == "cr549_person"){
+        //     (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp: any){
+        //             resp.entities.forEach((ent : any) => {
+        //                 recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+        //             });
+        //             obj.setState({ allitems: recs });
+        //         },function(err : any){
+        //             console.log("Error occured while fetching the query");
+        //         })
+        // }
+        // else if(this.props.entityType == "cr549_role"){
+        //     (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
+        //         resp.entities.forEach((ent : any) => {
+        //                 recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
+        //             });
+        //             obj.setState({ allitems: recs });
+        //     },function(err: any){
+        //         console.log("Error occured while fetching the query");
+        //     })
+        // }
     }
     async loadRecords(entityType: string, query: string | null): Promise<any[]>{
         var recs : any[] = [];
@@ -88,8 +88,8 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         const allitems = [...this.state.allitems];
         const header = this.props.entityType == "cr549_person" ? "People" : "Roles";
         return (    
-            <div style={{width: 170}}>
-                <NormalPeoplePicker
+            
+                <NormalPeoplePicker className="lookupPicker"
                     onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
                     onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                     pickerSuggestionsProps={{
@@ -104,7 +104,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                         this.props.onRecordSelect(items ?? []);
                     }}
                     inputProps={{ 
-                        style: { backgroundColor: 'white', width: "100%" },
+                        style: { backgroundColor: 'white' },
                         placeholder: "Type at least 3 characters to search..." 
                     }}
                     pickerCalloutProps={{
@@ -117,7 +117,6 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                         }
                     }}
                 />
-            </div>
         );
     }   
 
