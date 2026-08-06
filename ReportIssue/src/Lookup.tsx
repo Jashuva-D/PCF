@@ -103,15 +103,16 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                     this.props.onRecordSelect(items ?? []);
                 }}
                 inputProps={{ 
-                    style: { backgroundColor: 'white', width: 100 },
+                    style: { backgroundColor: 'white', width: "100%" },
                     placeholder: "Type at least 3 characters to search..." 
                 }}
                 pickerCalloutProps={{
-                    calloutWidth: 100
+                    calloutWidth: 320
                 }}
                 styles={{
                     root : {
-                        width: 100
+                        minWidth: 170,
+                        maxWidth: 170
                     }
                 }}
             />
