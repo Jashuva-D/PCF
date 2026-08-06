@@ -109,6 +109,11 @@ class Lookup extends React.Component<LookupProps, LookupState> {
                 pickerCalloutProps={{
                     calloutWidth: 100
                 }}
+                styles={{
+                    root : {
+                        width: 100
+                    }
+                }}
             />
         );
     }   
