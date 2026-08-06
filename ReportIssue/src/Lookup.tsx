@@ -88,34 +88,36 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         const allitems = [...this.state.allitems];
         const header = this.props.entityType == "cr549_person" ? "People" : "Roles";
         return (    
-            <NormalPeoplePicker
-                onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
-                onResolveSuggestions={this.onResolveSuggestions.bind(this)}
-                pickerSuggestionsProps={{
-                    loadingText: "Loading...",
-                    suggestionsHeaderText: header,
-                    noResultsFoundText: "search for more than 3 characters to find more results",
-                }}
-                selectedItems={[...this.state.selectedRecords]}
-                itemLimit={this.props.allowMultiSelect ? undefined : 1}
-                onChange={(items) => {
-                    this.setState({selectedRecords: items ?? []})
-                    this.props.onRecordSelect(items ?? []);
-                }}
-                inputProps={{ 
-                    style: { backgroundColor: 'white', width: "100%" },
-                    placeholder: "Type at least 3 characters to search..." 
-                }}
-                pickerCalloutProps={{
-                    calloutWidth: 320
-                }}
-                styles={{
-                    root : {
-                        minWidth: 170,
-                        maxWidth: 170
-                    }
-                }}
-            />
+            <div style={{width: 170}}>
+                <NormalPeoplePicker
+                    onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
+                    onResolveSuggestions={this.onResolveSuggestions.bind(this)}
+                    pickerSuggestionsProps={{
+                        loadingText: "Loading...",
+                        suggestionsHeaderText: header,
+                        noResultsFoundText: "search for more than 3 characters to find more results",
+                    }}
+                    selectedItems={[...this.state.selectedRecords]}
+                    itemLimit={this.props.allowMultiSelect ? undefined : 1}
+                    onChange={(items) => {
+                        this.setState({selectedRecords: items ?? []})
+                        this.props.onRecordSelect(items ?? []);
+                    }}
+                    inputProps={{ 
+                        style: { backgroundColor: 'white', width: "100%" },
+                        placeholder: "Type at least 3 characters to search..." 
+                    }}
+                    pickerCalloutProps={{
+                        calloutWidth: 320
+                    }}
+                    styles={{
+                        root : {
+                            minWidth: 170,
+                            maxWidth: 170
+                        }
+                    }}
+                />
+            </div>
         );
     }   
 
