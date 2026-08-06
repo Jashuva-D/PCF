@@ -174,3 +174,10 @@
 .appuserroles .ms-DetailsRow-cell {
   min-height: 24px;
 }
+
+.ms-BasePicker-text {
+    width: 250px;
+}
+.ms-BasePicker-input {
+    width: 200px;
+}
