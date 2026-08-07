@@ -185,7 +185,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               }
               else if(field?.type == "lookup"){
                 return <Lookup
-                          key={(field?.key != null && field?.key != "") ? field?.key : "lookupcontrol"}
+                          key={(field?.key != null && field?.key != "" && field?.key != undefined) ? field?.key : "lookupcontrol"}
                           entityType={field?.key == "cr549_role" ? "cr549_role" : "cr549_person"}
                           allowMultiSelect={false}
                           applystyles={true}
