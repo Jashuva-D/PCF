@@ -18,6 +18,6 @@ createRoot(document.getElementById('root')!).render(
       tabname={data.tabname ?? ""} 
       sectionname={data.sectionname ?? ""} 
       appuserroleid={data.appuserroleid ?? ""} 
-    />
+    /> 
   </StrictMode>,
 )

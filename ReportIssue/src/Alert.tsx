@@ -58,7 +58,7 @@ const classNames = mergeStyleSets({
     color: "#107C10",
   },
   infoText: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#323130",
   },
   siteName: {
@@ -71,8 +71,9 @@ const classNames = mergeStyleSets({
     margin: "5px 0",
   },
   emailRow: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#605E5C",
+    fontWeight: 600
   },
   mailIcon: {
     fontSize: 24,
