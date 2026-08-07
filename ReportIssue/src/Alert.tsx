@@ -36,7 +36,7 @@ const classNames = mergeStyleSets({
   submittedText: {
     fontSize: 15,
     fontWeight: 700,
-    color: "#004E8C",
+    color: "#0D2499",
   },
   infoPanel: {
     backgroundColor: "#F1FAF1",
@@ -68,20 +68,21 @@ const classNames = mergeStyleSets({
   divider: {
     border: "none",
     borderTop: "1px solid #EDEBE9",
-    margin: "24px 0",
+    margin: "5px 0",
   },
   emailRow: {
     fontSize: 14,
     color: "#605E5C",
   },
   mailIcon: {
-    fontSize: 18,
-    color: "#004E8C",
+    fontSize: 24,
+    color: "#0D2499",
   },
   ctaButton: {
-    backgroundColor: "#004E8C",
-    borderColor: "#004E8C",
-    borderRadius: 6
+    backgroundColor: "#0D2499",
+    borderColor: "#0D2499",
+    borderRadius: 6,
+    alignItems: "center"
   },
 });
 
@@ -145,26 +146,23 @@ export default function Alert({
       </Stack>
 
       {/* Confirmation email + CTA */}
-      <Stack
-        horizontal
-        horizontalAlign="space-between"
-        verticalAlign="center"
-        tokens={{ childrenGap: 16 }}
-        wrap
-      >
+      <Stack className={classNames.divider} />
         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
           <Icon iconName="Mail" className={classNames.mailIcon} />
           <Text className={classNames.emailRow}>
             A confirmation has been sent to you via Email and Teams.
           </Text>
         </Stack>
-        <PrimaryButton
-          className={classNames.ctaButton}
-          onClick={onGoToApplication}
-          iconProps={{ iconName: "Home" }}
-          text="Go to Application"
-        />
-      </Stack>
+        <Stack horizontalAlign = "end" verticalAlign="end" horizontal>
+          <PrimaryButton
+            className={classNames.ctaButton}
+            onClick={onGoToApplication}
+            iconProps={{ iconName: "Home" }}
+            text="Go to Application"
+            style={{alignItems: "center"}}
+          />
+        </Stack>
+      
     </Stack>
     </Stack>
   </Stack>
