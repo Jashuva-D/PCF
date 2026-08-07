@@ -20,14 +20,11 @@ class Lookup extends React.Component<LookupProps, LookupState> {
             selectedRecords: [],
             allitems: []
         };
-        alert('constructor'+this.props.entityType);
     }
     componentDidMount() {
         var obj = this;
         var recs : IPersonaProps[] = [];
 
-        alert('component did mount'+this.props.entityType);
-        
         if(this.props.entityType == "cr549_person"){
             (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp: any){
                     resp.entities.forEach((ent : any) => {
