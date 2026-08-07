@@ -21,29 +21,29 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         };
     }
     componentDidMount() {
-        // var obj = this;
-        // var recs : IPersonaProps[] = [];
+        var obj = this;
+        var recs : IPersonaProps[] = [];
         
-        // if(this.props.entityType == "cr549_person"){
-        //     (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp: any){
-        //             resp.entities.forEach((ent : any) => {
-        //                 recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
-        //             });
-        //             obj.setState({ allitems: recs });
-        //         },function(err : any){
-        //             console.log("Error occured while fetching the query");
-        //         })
-        // }
-        // else if(this.props.entityType == "cr549_role"){
-        //     (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
-        //         resp.entities.forEach((ent : any) => {
-        //                 recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
-        //             });
-        //             obj.setState({ allitems: recs });
-        //     },function(err: any){
-        //         console.log("Error occured while fetching the query");
-        //     })
-        // }
+        if(this.props.entityType == "cr549_person"){
+            (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp: any){
+                    resp.entities.forEach((ent : any) => {
+                        recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                    });
+                    obj.setState({ allitems: recs });
+                },function(err : any){
+                    console.log("Error occured while fetching the query");
+                })
+        }
+        else if(this.props.entityType == "cr549_role"){
+            (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_role").then(function(resp: any){
+                resp.entities.forEach((ent : any) => {
+                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"] } as IPersonaProps);
+                    });
+                    obj.setState({ allitems: recs });
+            },function(err: any){
+                console.log("Error occured while fetching the query");
+            })
+        }
     }
     async loadRecords(entityType: string, query: string | null): Promise<any[]>{
         var recs : any[] = [];
