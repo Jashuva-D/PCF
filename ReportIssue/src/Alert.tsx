@@ -21,6 +21,8 @@ const classNames = mergeStyleSets({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    boxShadow: "0 0 0 10px #DFF6DD",
+    backgroundColor: "#DFF6DD",
   },
   successIcon: {
     fontSize: 14,
