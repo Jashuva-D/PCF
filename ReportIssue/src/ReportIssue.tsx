@@ -185,7 +185,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               }
               else if(field?.type == "lookup"){
                 return <Lookup
-                          key={Date.now().toString()}
+                          key={(field?.key != null && field?.key != "") ? field?.key : "lookupcontrol"}
                           entityType={field?.key == "cr549_role" ? "cr549_role" : "cr549_person"}
                           allowMultiSelect={false}
                           applystyles={true}
@@ -506,7 +506,6 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               <Label>Delegate To</Label>
               <TooltipHost content={"Select a delegate if the Hosting Coordinator is unavailable."}>
                 <Lookup 
-                    key={Date.now().toString()}
                     entityType="cr549_person" 
                     allowMultiSelect={false} 
                     applystyles={false}
