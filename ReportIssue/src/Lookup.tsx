@@ -6,6 +6,7 @@ interface LookupProps {
     entityType: string;
     allowMultiSelect?: boolean;
     onRecordSelect: (items : any[]) => void;
+    applystyles: boolean
 }
 interface LookupState {
     selectedRecords: IPersonaProps[]
@@ -89,7 +90,7 @@ class Lookup extends React.Component<LookupProps, LookupState> {
         const header = this.props.entityType == "cr549_person" ? "People" : "Roles";
         return (    
             
-                <NormalPeoplePicker className="lookupPicker"
+                <NormalPeoplePicker className={this.props.applystyles ? "lookupPicker" : ""}
                     onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
                     onResolveSuggestions={this.onResolveSuggestions.bind(this)}
                     pickerSuggestionsProps={{

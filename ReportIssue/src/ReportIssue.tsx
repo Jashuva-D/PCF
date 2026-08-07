@@ -187,6 +187,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 return <Lookup
                           entityType={field?.key == "cr549_role" ? "cr549_role" : "cr549_person"}
                           allowMultiSelect={false}
+                          applystyles={true}
                           onRecordSelect={(items) => {
                             if(items.length > 0){
                               this.setState({currentrecord: {...this.state.currentrecord!, newvalue: items[0].text ?? ""}})
@@ -506,6 +507,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                 <Lookup 
                     entityType="cr549_person" 
                     allowMultiSelect={false} 
+                    applystyles={false}
                     onRecordSelect={(items) => {
                     if(items.length > 0){
                       this.setState({

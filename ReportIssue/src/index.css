@@ -176,14 +176,14 @@
 }
 
 .lookupPicker {
-    width: 100px;
+    width: 170px;
 }
 
 .lookupPicker .ms-BasePicker-text {
-    width: 100px !important;
-    min-width: 100px !important;
+    width: 170px !important;
+    min-width: 170px !important;
 }
 
 .lookupPicker .ms-BasePicker-input {
-    width: 80px !important;
+    width: 130px !important;
 }
