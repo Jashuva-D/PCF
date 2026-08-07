@@ -12,12 +12,13 @@ initializeIcons();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ReportIssue 
+    {/* <ReportIssue 
       appname={data.appname ?? ""} 
       recordid={data.recordid ?? ""} 
       tabname={data.tabname ?? ""} 
       sectionname={data.sectionname ?? ""} 
       appuserroleid={data.appuserroleid ?? ""} 
-    /> 
+    />  */}
+    <Alert />
   </StrictMode>,
 )

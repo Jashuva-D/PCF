@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, Text, PrimaryButton, Icon, mergeStyleSets } from "@fluentui/react";
+import { Stack, Text, PrimaryButton, Icon, mergeStyleSets, FontSizes } from "@fluentui/react";
 
 export interface AlertProps {
   onGoToApplication?: () => void;
@@ -54,7 +54,7 @@ const classNames = mergeStyleSets({
     justifyContent: "center",
   },
   infoIcon: {
-    fontSize: 18,
+    fontSize: 24,
     color: "#107C10",
   },
   infoText: {
@@ -83,7 +83,8 @@ const classNames = mergeStyleSets({
     backgroundColor: "#0D2499",
     borderColor: "#0D2499",
     borderRadius: 6,
-    alignItems: "center"
+    alignItems: "center",
+    
   },
 });
 
@@ -156,17 +157,42 @@ export default function Alert({
         </Stack>
         <Stack horizontalAlign = "end" verticalAlign="end" horizontal>
           <PrimaryButton
-            className={classNames.ctaButton}
-            onClick={onGoToApplication}
-            iconProps={{ iconName: "Home" }}
-            text="Go to Application"
-            style={{alignItems: "center"}}
+              iconProps={{iconName: "home"}}
+              text="Go to Application"
+              onClick={onGoToApplication}
+              styles={{
+                  icon: {
+                    fontSize: 20
+                  },
+                  textContainer: {
+                    fontSize: 16
+                  },
+                  root: {
+                      backgroundColor: "#0D2499",
+                      borderColor: "#0D2499",
+                      borderRadius: 6,
+                  },
+                  rootHovered: {
+                      backgroundColor: "#5f74e1",
+                      borderColor: "#5f74e1",
+                  },
+                  rootPressed: {
+                      backgroundColor: "#0A1B73",
+                      borderColor: "#0A1B73",
+                  },
+                  rootFocused: {
+                      backgroundColor: "#0D2499",
+                      borderColor: "#0D2499",
+                  },
+              }}
+              style= {{ padding: 10}}
           />
         </Stack>
-      
     </Stack>
     </Stack>
   </Stack>
     
   );
 }
+
+//5f74e1
