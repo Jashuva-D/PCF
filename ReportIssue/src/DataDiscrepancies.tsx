@@ -43,6 +43,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                 tabname={this.props.tabname ?? ""} 
                 sectionname={this.props.sectionname ?? ""} 
                 appuserroleid={this.props.appuserroleid ?? ""} 
+                onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
             />}
         </>
     }

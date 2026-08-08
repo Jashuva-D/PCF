@@ -12,6 +12,7 @@ interface ReportIssueProps {
   tabname?: string;
   sectionname?: string;
   appuserroleid?: string;
+  onClose : () => void
 }
 
 interface ReportIssueState {
@@ -378,7 +379,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var tab = TabOptions.find(x => x.key == this.state.selectedTab);
     var section = tab?.sections.find(x => x.key == this.state.selectedSection);
 
-    if(this.state.submitted) return <Stack verticalFill verticalAlign="center" horizontalAlign="center" styles={{ root: {height: "100%"}}}><Alert onGoToApplication={() => window.close()} siteName={this.props.appname ?? ""}></Alert></Stack>
+    if(this.state.submitted) 
+      return <Stack verticalFill verticalAlign="center" horizontalAlign="center" styles={{ root: {height: "100%"}}}>
+        <Alert onGoToApplication={() => this.props.onClose()} siteName={this.props.appname ?? ""}></Alert>
+      </Stack>
     else return (
       <div className="report-page">
         <div className="report-header">
@@ -545,7 +549,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             text="Cancel"
             className="cancel-button"
             style={{borderRadius: 6}}
-            onClick={() => window.close()}
+            onClick={this.props.onClose}
           />
           <PrimaryButton
             text="Submit Issue"
