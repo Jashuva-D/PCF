@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReportIssue from './ReportIssue';
 import DiscrepanciesList from './DiscrepanciesList';
-import {DefaultButton, PrimaryButton, Stack, StackItem} from "@fluentui/react";
+import {DefaultButton, PrimaryButton, Stack, StackItem, Text} from "@fluentui/react";
 
 interface DataDiscrepnaciesProps {
     appname?: string | null,
@@ -45,7 +45,8 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             appuserroleid={this.props.appuserroleid ?? ""} 
             onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
         />}
-        <Stack verticalAlign='end' horizontalAlign='end'>
+        
+        <Stack verticalAlign='end' horizontalAlign='end' style={{paddingTop: 10}}>
             <DefaultButton
                 text="Close"
                 style={{ borderRadius: 6}}
