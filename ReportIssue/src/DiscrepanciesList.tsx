@@ -84,7 +84,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 currentvalue: "1115 PMDA",
                 newvalue: "0000 PMDA",
                 status: "New",
-                reportedon: new Date(),
+                reportedon: new Date().toLocaleDateString(),
                 reportedby: "Anuradha I"
             });
         }

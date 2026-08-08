@@ -24,10 +24,6 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             displaylist: true
         }
     }
-    componentDidMount(): void {
-        
-    }
-
     render(): React.ReactNode {
         return <>
         <Stack horizontalAlign='end' verticalAlign='end'>
