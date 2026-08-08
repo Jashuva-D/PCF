@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReportIssue from './ReportIssue';
 import DiscrepanciesList from './DiscrepanciesList';
-import {PrimaryButton, Stack, StackItem} from "@fluentui/react";
+import {DefaultButton, PrimaryButton, Stack, StackItem} from "@fluentui/react";
 
 interface DataDiscrepnaciesProps {
     appname?: string | null,
@@ -26,7 +26,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
     }
     render(): React.ReactNode {
         return <>
-        <Stack horizontalAlign='end' verticalAlign='end'>
+        <Stack verticalAlign='end'>
             <PrimaryButton
                 text="Add New"
                 iconProps={{ iconName: "add" }}
@@ -35,16 +35,23 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                 onClick={() => { this.setState({openreportissue: true, displaylist: false})}}
             />
         </Stack>
-            { this.state.displaylist && <DiscrepanciesList></DiscrepanciesList> }
-            { this.state.openreportissue && 
-            <ReportIssue 
-                appname={this.props.appname ?? ""} 
-                recordid={this.props.recordid ?? ""} 
-                tabname={this.props.tabname ?? ""} 
-                sectionname={this.props.sectionname ?? ""} 
-                appuserroleid={this.props.appuserroleid ?? ""} 
-                onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
-            />}
+        { this.state.displaylist && <DiscrepanciesList></DiscrepanciesList> }
+        { this.state.openreportissue && 
+        <ReportIssue 
+            appname={this.props.appname ?? ""} 
+            recordid={this.props.recordid ?? ""} 
+            tabname={this.props.tabname ?? ""} 
+            sectionname={this.props.sectionname ?? ""} 
+            appuserroleid={this.props.appuserroleid ?? ""} 
+            onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
+        />}
+        <Stack verticalAlign='end'>
+            <DefaultButton
+                text="Close"
+                style={{ borderRadius: 6}}
+                onClick={() => { window.close()}}
+            />
+        </Stack>
         </>
     }
 }
