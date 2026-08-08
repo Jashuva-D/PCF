@@ -4,11 +4,11 @@ import DiscrepanciesList from './DiscrepanciesList';
 import {PrimaryButton, Stack, StackItem} from "@fluentui/react";
 
 interface DataDiscrepnaciesProps {
-    appname: string,
-    recordid: string,
-    tabname: string,
-    sectionname: string,
-    appuserroleid: string
+    appname?: string | null,
+    recordid?: string | null,
+    tabname?: string | null,
+    sectionname?: string | null,
+    appuserroleid?: string | null
 }
 interface DataDiscrepanciesState {
     openreportissue: boolean
@@ -18,6 +18,7 @@ interface DataDiscrepanciesState {
 class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDiscrepanciesState>{
     constructor(props: DataDiscrepnaciesProps){
         super(props);
+        console.log("constructor");
     }
 
     render(): React.ReactNode {
@@ -45,3 +46,5 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
 }
 
 export default DataDescripancies;
+
+//test
