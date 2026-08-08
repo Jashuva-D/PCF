@@ -19,6 +19,10 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
     constructor(props: DataDiscrepnaciesProps){
         super(props);
         console.log("constructor");
+        this.state = {
+            openreportissue: false,
+            displaylist: true
+        }
     }
 
     render(): React.ReactNode {
@@ -29,7 +33,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                 iconProps={{ iconName: "Send" }}
                 className="submit-button"
                 style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white"}}
-                onClick={() => { this.setState({openreportissue: true})}}
+                onClick={() => { this.setState({openreportissue: true, displaylist: false})}}
             />
         </Stack>
             { this.state.displaylist && <DiscrepanciesList></DiscrepanciesList> }
