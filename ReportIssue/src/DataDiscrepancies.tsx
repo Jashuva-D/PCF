@@ -26,7 +26,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
     }
     render(): React.ReactNode {
         return <>
-        <Stack verticalAlign='end'>
+        <Stack verticalAlign='end' horizontalAlign="end">
             <PrimaryButton
                 text="Add New"
                 iconProps={{ iconName: "add" }}
@@ -45,7 +45,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             appuserroleid={this.props.appuserroleid ?? ""} 
             onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
         />}
-        <Stack verticalAlign='end'>
+        <Stack verticalAlign='end' horizontalAlign='end'>
             <DefaultButton
                 text="Close"
                 style={{ borderRadius: 6}}
