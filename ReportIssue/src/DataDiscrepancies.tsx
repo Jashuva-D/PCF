@@ -47,10 +47,10 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
         />}
         
-        <Stack verticalAlign='end' horizontalAlign='end' style={{paddingTop: 10, marginTop: "auto"}}>
+        <Stack verticalAlign='end' horizontalAlign='end' style={{paddingTop: 10, marginTop: "auto"}} styles={{root: { marginTop: "auto"}}}>
             <DefaultButton
                 text="Close"
-                style={{ borderRadius: 6}}
+                style={{ borderRadius: 6, paddingLeft: 20, paddingRight: 20}}
                 onClick={() => { window.close()}}
             />
         </Stack>
