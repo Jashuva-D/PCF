@@ -35,7 +35,7 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
         var navigationOptions = {
             target: 2,          
             width: {
-                value: 800,
+                value: 1200,
                 unit: "px"
             },
             height: {
