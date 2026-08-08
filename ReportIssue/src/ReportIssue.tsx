@@ -385,7 +385,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       </Stack>
     else return (
       <div className="report-page">
-        <div className="report-header">
+        {/* <div className="report-header">
           <div className="report-header-icon">
             <FlagIcon />
           </div>
@@ -399,7 +399,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               Help us improve BaseCamp by reporting incorrect or outdated application information.
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="report-card">
           <div className="section-title">Issue Details</div>

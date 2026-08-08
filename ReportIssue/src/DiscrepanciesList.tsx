@@ -101,7 +101,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const paginatedRecords = this.state.items.slice(startIndex, endIndex);
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
         return <>
-            <DetailsList
+            <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
             />

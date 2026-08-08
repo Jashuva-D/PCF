@@ -1,11 +1,8 @@
 import * as React from "react";
 import ReportIssue from "./ReportIssue";
 import DiscrepanciesList from "./DiscrepanciesList";
-import {
-    DefaultButton,
-    PrimaryButton,
-    Stack
-} from "@fluentui/react";
+import {DefaultButton, PrimaryButton, Stack, StackItem } from "@fluentui/react";
+import { FlagIcon } from "./icons";
 
 interface DataDiscrepnaciesProps {
     appname?: string | null;
@@ -32,33 +29,41 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
 
     render(): React.ReactNode {
         return (
-            <Stack styles={{ root: { minHeight: "100vh", display: "flex",   flexDirection: "column" }}}>
-                <PrimaryButton
-                    text="Add New"
-                    iconProps={{ iconName: "add" }}
-                    className="submit-button"
-                    style={{
-                        borderRadius: 6,
-                        backgroundColor: this.state.openreportissue
-                            ? "#F2F2F2"
-                            : "#0D2499",
-                        color: this.state.openreportissue
-                            ? "#5A5A5A"
-                            : "white"
-                    }}
-                    disabled={this.state.openreportissue}
-                    onClick={() => {
-                        this.setState({
-                            openreportissue: true,
-                            displaylist: false
-                        });
-                    }}
-                />
-
-                {this.state.displaylist && (
-                    <DiscrepanciesList />
-                )}
-
+            <Stack styles={{ root: { minHeight: "95vh", display: "flex",   flexDirection: "column" }}}>
+                <Stack horizontal horizontalAlign="space-between">
+                    <StackItem>
+                        <div className="report-header">
+                            <div className="report-header-icon">
+                                <FlagIcon />
+                            </div>
+                            <div>
+                                <h1 className="report-title">
+                                    Application: {this.props.appname}
+                                </h1>
+                                <div className="report-subtitle">
+                                    Help us improve BaseCamp by reporting incorrect or outdated application information.
+                                </div>
+                            </div>
+                        </div>
+                    </StackItem>
+                    <StackItem align="center" style={{paddingRight: 10}}>
+                        <PrimaryButton
+                            text="Add New"
+                            iconProps={{ iconName: "add" }}
+                            style={{ alignItems: "end",padding:10, borderRadius: 6, backgroundColor: this.state.openreportissue ? "#F2F2F2" : "#0D2499", color: this.state.openreportissue ? "#5A5A5A" : "white" }}
+                            disabled={this.state.openreportissue}
+                            onClick={() => {
+                                this.setState({
+                                    openreportissue: true,
+                                    displaylist: false
+                                });
+                            }}
+                        />
+                    </StackItem>
+                </Stack>
+                
+                
+                {this.state.displaylist && (<DiscrepanciesList />)}
                 {this.state.openreportissue && (
                     <ReportIssue
                         appname={this.props.appname ?? ""}
@@ -78,12 +83,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                 <Stack
                     horizontal
                     horizontalAlign="end"
-                    styles={{
-                        root: {
-                            marginTop: "auto",
-                            paddingTop: 10
-                        }
-                    }}
+                    styles={{ root: { marginTop: "auto",  paddingTop: 10  } }}
                 >
                     <DefaultButton
                         text="Close"

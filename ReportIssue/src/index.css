@@ -116,7 +116,6 @@
   font-size: 11px;
   color: #616161;
 }
-
 .upload-link {
   border: 0;
   padding: 0;
@@ -126,30 +125,25 @@
   font-weight: 600;
   cursor: pointer;
 }
-
 .report-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 14px;
 }
-
 .cancel-button {
   min-width: 94px;
 }
-
 .submit-button {
   min-width: 150px;
   background-color: #0D2499;
   border-color: #0D2499;
 }
-
 @media (max-width: 768px) {
   .form-grid {
     grid-template-columns: 1fr;
   }
 }
-
 .appuserroles .ms-DetailsHeader-cell {
     background-color: #E7E9F5;
     color: black
@@ -174,16 +168,35 @@
 .appuserroles .ms-DetailsRow-cell {
   min-height: 24px;
 }
-
 .lookupPicker {
     width: 170px;
 }
-
 .lookupPicker .ms-BasePicker-text {
     width: 170px !important;
     min-width: 170px !important;
 }
-
 .lookupPicker .ms-BasePicker-input {
     width: 130px !important;
+}
+.discrepancies .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.discrepancies .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.discrepancies .ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+}
+ .discrepancies .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.discrepancies .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}
+.discrepancies {
+  margin-top: 0;
 }
