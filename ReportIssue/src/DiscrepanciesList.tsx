@@ -103,7 +103,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         return <>
             <DetailsList
                 columns={this.state.columns}
-                items={this.state.items}
+                items={paginatedRecords}
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center">

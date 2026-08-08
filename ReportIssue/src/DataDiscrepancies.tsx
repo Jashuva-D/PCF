@@ -31,7 +31,8 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                 text="Add New"
                 iconProps={{ iconName: "add" }}
                 className="submit-button"
-                style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white"}}
+                style={{ borderRadius: 6, backgroundColor: this.state.openreportissue ? "#F2F2F2" : "#0D2499" , color: this.state.openreportissue ? "#5A5A5A" : "white" }}
+                disabled = {this.state.openreportissue}
                 onClick={() => { this.setState({openreportissue: true, displaylist: false})}}
             />
         </Stack>
@@ -46,7 +47,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             onClose={() => {this.setState({openreportissue: false, displaylist: true})}}
         />}
         
-        <Stack verticalAlign='end' horizontalAlign='end' style={{paddingTop: 10}}>
+        <Stack verticalAlign='end' horizontalAlign='end' style={{paddingTop: 10, marginTop: "auto"}}>
             <DefaultButton
                 text="Close"
                 style={{ borderRadius: 6}}
