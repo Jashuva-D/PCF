@@ -1,0 +1,47 @@
+import * as React from 'react';
+import ReportIssue from './ReportIssue';
+import DiscrepanciesList from './DiscrepanciesList';
+import {PrimaryButton, Stack, StackItem} from "@fluentui/react";
+
+interface DataDiscrepnaciesProps {
+    appname: string,
+    recordid: string,
+    tabname: string,
+    sectionname: string,
+    appuserroleid: string
+}
+interface DataDiscrepanciesState {
+    openreportissue: boolean
+    displaylist: boolean
+}
+
+class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDiscrepanciesState>{
+    constructor(props: DataDiscrepnaciesProps){
+        super(props);
+    }
+
+    render(): React.ReactNode {
+        return <>
+        <Stack horizontalAlign='end' verticalAlign='end'>
+            <PrimaryButton
+                text="Submit Issue"
+                iconProps={{ iconName: "Send" }}
+                className="submit-button"
+                style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white"}}
+                onClick={() => { this.setState({openreportissue: true})}}
+            />
+        </Stack>
+            { this.state.displaylist && <DiscrepanciesList></DiscrepanciesList> }
+            { this.state.openreportissue && 
+            <ReportIssue 
+                appname={this.props.appname ?? ""} 
+                recordid={this.props.recordid ?? ""} 
+                tabname={this.props.tabname ?? ""} 
+                sectionname={this.props.sectionname ?? ""} 
+                appuserroleid={this.props.appuserroleid ?? ""} 
+            />}
+        </>
+    }
+}
+
+export default DataDescripancies;
