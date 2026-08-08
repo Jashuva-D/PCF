@@ -7,7 +7,6 @@ interface DiscrepanciesListProps{
 interface DiscrepanciesState {
     columns: IColumn[]
     items: any[]
-
 }
 
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
@@ -70,7 +69,12 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: []
         }
     }
-    CreateFakeData(){
+    componentDidMount(): void {
+        this.setState({
+            items: this.CreateFakeData()
+        })
+    }
+    CreateFakeData(): any[]{
         var fakedata = [];
         for(var i=0; i<10; i++){
             fakedata.push({
@@ -83,7 +87,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 reportedon: new Date(),
                 reportedby: "Anuradha I"
             });
-        }   
+        }
+        return fakedata; 
     }
 
     render(): React.ReactNode {

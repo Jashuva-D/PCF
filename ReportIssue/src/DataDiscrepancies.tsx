@@ -24,13 +24,16 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
             displaylist: true
         }
     }
+    componentDidMount(): void {
+        
+    }
 
     render(): React.ReactNode {
         return <>
         <Stack horizontalAlign='end' verticalAlign='end'>
             <PrimaryButton
-                text="Submit Issue"
-                iconProps={{ iconName: "Send" }}
+                text="Add New"
+                iconProps={{ iconName: "add" }}
                 className="submit-button"
                 style={{ borderRadius: 6, backgroundColor: "#0D2499", color: "white"}}
                 onClick={() => { this.setState({openreportissue: true, displaylist: false})}}
