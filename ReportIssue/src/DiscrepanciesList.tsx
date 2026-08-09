@@ -1,6 +1,6 @@
 import * as React from "react";
 import { DetailsList,IColumn, Stack, Text, DefaultButton } from "@fluentui/react";
-import IssueDetailsDialog from "./ViewDetails";
+import IssueDetailsDialog from "./IssueDetails";
 
 interface DiscrepanciesListProps{
 
@@ -129,7 +129,21 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     </Stack>
                 </Stack>
             </div>
-            <IssueDetailsDialog isOpen={this.state.openDetails} issue={{issuetitle: "Test", issuedescription: "test", fields:[{fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"}]}} onClose={() => {this.setState({openDetails: false})}}/>
+            <IssueDetailsDialog 
+                isOpen={this.state.openDetails} 
+                issue={{
+                    issuetitle: "1115 PMDA - General - Details - Data Discrepancy", 
+                    issuedescription: "Testing the issue report with view details feature on click of a row",
+                    reportedon: new Date().toLocaleDateString(),
+                    reportedby: {name : "Anuradha I", email: "anuradha.inampudi@cms.hhs.gov"},
+                    assignedto: {name: "Pinal Jariwala", email: "pinal.jariwala@cms.hhs.gov"},
+                    delegatedto: {name: "Swati Albal", email: "swati.albal@cms.hhs.gov"},
+                    fields:[
+                        {fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"},
+                        {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
+                    ]}}
+                onClose={() => {this.setState({openDetails: false})}}
+            />
         </>
     }
 }

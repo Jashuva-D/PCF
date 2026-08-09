@@ -10,22 +10,19 @@ export interface IssueFieldChange {
 export interface IssueDetails {
     issuetitle: string;
     issuedescription: string;
-
+    reportedon: string,
     reportedby?: {
         name: string;
         email?: string;
     };
-
     assignedto?: {
         name: string;
         email?: string;
     };
-
     delegatedto?: {
         name: string;
         email?: string;
     };
-
     fields: IssueFieldChange[];
 }
 
@@ -44,7 +41,7 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
             name: "Field Name",
             fieldName: "fieldname",
             minWidth: 150,
-            maxWidth: 220,
+            maxWidth: 200,
             isResizable: true
         },
         {
@@ -68,13 +65,7 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
         }
     ];
 
-    private renderPerson(
-        title: string,
-        person?: {
-            name: string;
-            email?: string;
-        }
-    ) {
+    private renderPerson(title: string, person?: { name: string; email?: string; }) {
         return (
             <Stack className="person-container">
                 <Label className="detail-label"> {title} </Label>
@@ -85,12 +76,7 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                         size={PersonaSize.size40}
                         showSecondaryText={!!person.email}
                     />
-                ) : (
-                    <Text className="empty-value">
-                        Not assigned
-                    </Text>
-                )}
-
+                ) : (<Text className="empty-value"> Not assigned </Text>)}
             </Stack>
         );
     }
@@ -106,32 +92,27 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                 dialogContentProps={{
                     type: DialogType.largeHeader,
                     title: "Issue Details",
-                    subText: "Review the reported discrepancy details."
                 }}
                 modalProps={{
                     isBlocking: false,
                     className: "issue-details-dialog"
                 }}
-                minWidth={750}
+                minWidth={800}
                 maxWidth={900}
             >
-
-                <div className="issue-details-content">
+                <div>
                     <Stack className="section">
                         <Label className="detail-label"> ISSUE TITLE </Label>
-                        <Text className="issue-title"> {issue.issuetitle} </Text>
+                        <Text> {issue.issuetitle} </Text>
                     </Stack>
                     <Stack className="section">
                         <Label className="detail-label"> ISSUE DESCRIPTION </Label>
                         <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
                     </Stack>
-                    <Separator />
+                    <Separator style={{padding: 5}}/>
                     <Stack horizontal wrap tokens={{ childrenGap: 30  }}  className="people-section" >
                         <Stack className="person-column">
-                            {this.renderPerson(
-                                "REPORTED BY",
-                                issue.reportedby
-                            )}
+                            {this.renderPerson("REPORTED BY", issue.reportedby)}
                         </Stack>
                         <Stack className="person-column">
                             {this.renderPerson("ASSIGNED TO", issue.assignedto )}
@@ -165,31 +146,6 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                             }
                         }}
                     />
-                    {onResolve && (
-                        <PrimaryButton
-                            text="Resolve Issue"
-                            iconProps={{
-                                iconName: "CheckMark"
-                            }}
-                            onClick={() => onResolve(issue)}
-                            styles={{
-                                root: {
-                                    backgroundColor: "#0D2499",
-                                    borderColor: "#0D2499",
-                                    borderRadius: 6,
-                                    minWidth: 130
-                                },
-                                rootHovered: {
-                                    backgroundColor: "#1636C4",
-                                    borderColor: "#1636C4"
-                                },
-                                rootPressed: {
-                                    backgroundColor: "#0A1B73",
-                                    borderColor: "#0A1B73"
-                                }
-                            }}
-                        />
-                    )}
                 </DialogFooter>
             </Dialog>
         );

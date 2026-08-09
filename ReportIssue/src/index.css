@@ -206,32 +206,22 @@
     overflow-y: auto;
     padding-right: 4px;
 }
-
 .section {
-    margin-bottom: 22px;
+    margin-bottom: 0px;
 }
-
 .detail-label {
     font-size: 12px;
     font-weight: 600;
     color: #0D2499;
     margin-bottom: 8px;
 }
-
-.issue-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1F1F1F;
-}
-
 .issue-description {
     font-size: 14px;
     line-height: 21px;
     color: #323130;
 }
-
 .people-section {
-    padding: 22px 0;
+    padding: 10px 0;
 }
 
 .person-column {
