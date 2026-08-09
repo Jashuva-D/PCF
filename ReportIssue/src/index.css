@@ -169,14 +169,14 @@
   min-height: 24px;
 }
 .lookupPicker {
-    width: 170px;
+    width: 210px;
 }
 .lookupPicker .ms-BasePicker-text {
-    width: 170px !important;
-    min-width: 170px !important;
+    width: 210px !important;
+    min-width: 210px !important;
 }
 .lookupPicker .ms-BasePicker-input {
-    width: 130px !important;
+    width: 170px !important;
 }
 .discrepancies .ms-DetailsHeader-cell {
     background-color: #E7E9F5;
