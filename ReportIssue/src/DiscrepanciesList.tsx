@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DetailsList,IColumn, Stack, Text, DefaultButton } from "@fluentui/react";
+import IssueDetailsDialog from "./ViewDetails";
 
 interface DiscrepanciesListProps{
 
@@ -8,7 +9,8 @@ interface DiscrepanciesState {
     columns: IColumn[]
     items: any[]
     currentPage: number
-    pageSize: number
+    pageSize: number,
+    openDetails: boolean
 }
 
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
@@ -70,7 +72,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             columns : cols,
             items: [],
             currentPage: 1,
-            pageSize: 5
+            pageSize: 5,
+            openDetails: false
         }
     }
     componentDidMount(): void {
@@ -104,27 +107,29 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
+                onItemInvoked={()=> {this.setState({openDetails: true})}}
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
-            <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-                <Text>&nbsp;</Text>
-                <Text>{`${this.state.items.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.items.length)} of ${this.state.items.length} applications`}</Text>
-                <Stack horizontal tokens={{ childrenGap: 10 }}>
-                    <DefaultButton
-                        text={"<"}
-                        onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
-                        disabled={this.state.currentPage === 1 || totalPages === 0}
-                        styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
-                    />
-                    <DefaultButton
-                        text={">"}
-                        onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
-                        disabled={this.state.currentPage === totalPages || totalPages === 0}
-                        styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
-                    />
+                <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
+                    <Text>&nbsp;</Text>
+                    <Text>{`${this.state.items.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.items.length)} of ${this.state.items.length} applications`}</Text>
+                    <Stack horizontal tokens={{ childrenGap: 10 }}>
+                        <DefaultButton
+                            text={"<"}
+                            onClick={() => this.setState({ currentPage: this.state.currentPage - 1 })}
+                            disabled={this.state.currentPage === 1 || totalPages === 0}
+                            styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                        />
+                        <DefaultButton
+                            text={">"}
+                            onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
+                            disabled={this.state.currentPage === totalPages || totalPages === 0}
+                            styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
+                        />
+                    </Stack>
                 </Stack>
-            </Stack>
-        </div>
+            </div>
+            <IssueDetailsDialog isOpen={this.state.openDetails} issue={{issuetitle: "Test", issuedescription: "test", fields:[{fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"}]}} onClose={() => {this.setState({openDetails: false})}}/>
         </>
     }
 }

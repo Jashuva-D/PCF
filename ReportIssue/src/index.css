@@ -200,3 +200,78 @@
 .discrepancies {
   margin-top: 0;
 }
+
+.issue-details-content {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.detail-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0D2499;
+    margin-bottom: 8px;
+}
+
+.issue-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1F1F1F;
+}
+
+.issue-description {
+    font-size: 14px;
+    line-height: 21px;
+    color: #323130;
+}
+
+.people-section {
+    padding: 22px 0;
+}
+
+.person-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.person-container {
+    min-width: 200px;
+}
+
+.empty-value {
+    color: #605E5C;
+    font-size: 14px;
+}
+
+.field-changes-table {
+    border: 1px solid #D1D1D1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.field-changes-table .ms-DetailsHeader {
+    background-color: #F5F5F5;
+}
+
+.field-changes-table .ms-DetailsHeader-cell {
+    font-weight: 600;
+    color: #323130;
+}
+
+.field-changes-table .ms-DetailsRow {
+    border-bottom: 1px solid #EDEBE9;
+}
+
+.field-changes-table .ms-DetailsRow-cell {
+    font-size: 14px;
+}
+
+.new-value {
+    color: #107C10;
+    font-weight: 600;
+}

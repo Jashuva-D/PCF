@@ -80,11 +80,8 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                     />
                 )}
 
-                <Stack
-                    horizontal
-                    horizontalAlign="end"
-                    styles={{ root: { marginTop: "auto",  paddingTop: 10  } }}
-                >
+                {!this.state.openreportissue && 
+                <Stack horizontal horizontalAlign="end" styles={{ root: { marginTop: "auto",  paddingTop: 10  } }}>
                     <DefaultButton
                         text="Close"
                         style={{
@@ -97,7 +94,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         }}
                     />
                 </Stack>
-
+                }
             </Stack>
         );
     }
