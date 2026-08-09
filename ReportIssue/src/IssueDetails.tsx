@@ -110,7 +110,7 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                     isBlocking: false,
                     className: "issuedetails-dialog"
                 }}
-                minWidth={700}
+                minWidth={800}
                 maxWidth={700}
             >
                 <div>
