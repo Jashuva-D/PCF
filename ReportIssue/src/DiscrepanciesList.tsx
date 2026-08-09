@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 
 interface DiscrepanciesListProps{
@@ -20,13 +20,17 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         var cols = [
             {
                 key: "issueid",
-                name: "Issue Title",
+                name: "Issue ID",
                 fieldName: "issueid",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    var obj = this;
+                    return <Link onClick={() => {obj.setState({openDetails: true})}}>item["issueid"]</Link>
+                }
             },
             {
                 key: "fieldname",
-                name: "Issue Title",
+                name: "Field Name",
                 fieldName: "fieldname",
                 minWidth: 100
             },
@@ -52,12 +56,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "status",
                 name: "Status",
                 fieldName: "status",
-                minWidth: 100
-            },
-            {
-                key: "reportedby",
-                name: "Reported By",
-                fieldName: "reportedby",
                 minWidth: 100
             },
             {

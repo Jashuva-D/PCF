@@ -487,6 +487,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       columns={[...this.state.datacolumns]}
                       selectionMode={SelectionMode.none} 
                       styles={{
+                        root: {
+                          width: "98%"
+                        },
                         contentWrapper: {
                           backgroundColor: "white",
                         },
