@@ -180,7 +180,8 @@
 }
 .discrepancies .ms-DetailsHeader-cell {
     background-color: #E7E9F5;
-    color: black
+    color: black;
+    padding-top: 0;
 }
 .discrepancies .ms-DetailsHeader-cell:hover {
   background-color: #B7BEE1;

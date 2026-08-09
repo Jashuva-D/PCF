@@ -108,6 +108,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 columns={this.state.columns}
                 items={paginatedRecords}
                 onItemInvoked={()=> {this.setState({openDetails: true})}}
+                styles={{
+                    headerWrapper: {
+                        paddingTop: 0
+                    }
+                }}
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
