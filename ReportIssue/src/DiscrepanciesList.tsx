@@ -25,19 +25,13 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 minWidth: 100,
                 onRender: (item: any) => {
                     var obj = this;
-                    return <Link onClick={() => {obj.setState({openDetails: true})}}>item["issueid"]</Link>
+                    return <Link onClick={() => {obj.setState({openDetails: true})}}>{item["issueid"]}</Link>
                 }
             },
             {
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
-                minWidth: 100
-            },
-            {
-                key: "issuetitle",
-                name: "Issue Title",
-                fieldName: "issuetitle",
                 minWidth: 100
             },
             {
