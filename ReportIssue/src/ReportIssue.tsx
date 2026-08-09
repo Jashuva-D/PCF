@@ -405,22 +405,22 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           <div className="section-title">Issue Details</div>
 
           <div className="form-grid">
-            <div>
+            {/* <div>
               <RequiredLabel>Tab with Issue</RequiredLabel>
               <Dropdown
                 options={TabOptions}
                 selectedKey={this.state.selectedTab}
                 disabled
             />
-            </div>
-            {this.props.tabname != "assignedpeople" && <div>
+            </div> */}
+            {/* {this.props.tabname != "assignedpeople" && <div>
               <RequiredLabel>Section with Issue</RequiredLabel>
               <Dropdown
                 options={sectionOptions}
                 selectedKey={this.state.selectedSection}
                 disabled
               />
-            </div>}
+            </div>} */}
             {this.props.tabname == "assignedpeople" && <div>
               <RequiredLabel>Person with Issue</RequiredLabel>
               <div className="textarea-wrap">
@@ -456,7 +456,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
               </div>
             </div>
           </div>
-          <div className="form-grid">
+          <div>
             <div>
               <Stack>
                 <Stack horizontalAlign="space-between" horizontal>
