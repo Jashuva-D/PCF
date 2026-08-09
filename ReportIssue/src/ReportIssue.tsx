@@ -78,7 +78,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 220,
+          minWidth: 260,
           onRender: (item: any) => {
             if(item.newrecord){
               var fields = TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields ?? [];
@@ -135,7 +135,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "currentvalue",
           name: "Current Value",
           fieldName: "CurrentValue",
-          minWidth: 170,
+          minWidth: 210,
           onRender: (item: any) => {
             if(item.newrecord){
               var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "------" : this.state.currentrecord?.currentvalue; 
@@ -164,7 +164,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "newvalue",
           name: "New Value",
           fieldName: "NewValue",
-          minWidth: 170,
+          minWidth: 210,
           onRender: (item: any) => {
             if(item.newrecord){
               var field = TabOptions.find(x => x.key == this.state.selectedTab)?.sections?.find(x => x.key == this.state.selectedSection)?.fields?.find(x => x.key == this.state.currentrecord?.fieldname);
