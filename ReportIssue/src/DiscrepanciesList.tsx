@@ -72,7 +72,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             columns : cols,
             items: [],
             currentPage: 1,
-            pageSize: 5,
+            pageSize: 10,
             openDetails: false
         }
     }
@@ -111,7 +111,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
-                    <Text>&nbsp;</Text>
+                    {/* <Text>&nbsp;</Text> */}
                     <Text>{`${this.state.items.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.items.length)} of ${this.state.items.length} applications`}</Text>
                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                         <DefaultButton
@@ -120,6 +120,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             disabled={this.state.currentPage === 1 || totalPages === 0}
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
+                        <Text style={{paddingTop: 5}}>Page: {this.state.currentPage.toString()}</Text>
                         <DefaultButton
                             text={">"}
                             onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
@@ -127,6 +128,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
+                    <Text>&nbsp;</Text>
                 </Stack>
             </div>
             <IssueDetailsDialog 

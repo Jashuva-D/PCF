@@ -1,8 +1,9 @@
 import * as React from "react";
 import ReportIssue from "./ReportIssue";
 import DiscrepanciesList from "./DiscrepanciesList";
-import {DefaultButton, PrimaryButton, Stack, StackItem } from "@fluentui/react";
+import {DefaultButton, PrimaryButton, Stack, StackItem,Label,Text, Separator } from "@fluentui/react";
 import { FlagIcon } from "./icons";
+import { TabOptions } from "./data";
 
 interface DataDiscrepnaciesProps {
     appname?: string | null;
@@ -28,6 +29,8 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
     }
 
     render(): React.ReactNode {
+        const selectedtab = TabOptions.filter(x => x.key == this.props.tabname).length > 0 ? TabOptions.filter(x => x.key == this.props.tabname)[0] : null;
+        const selectedsection = selectedtab?.sections?.filter(x => x.key == this.props.sectionname!)?.length! > 0 ? selectedtab?.sections?.filter(x => x.key == this.props.sectionname)[0] : null;
         return (
             <Stack styles={{ root: { minHeight: "95vh", display: "flex",   flexDirection: "column" }}}>
                 <Stack horizontal horizontalAlign="space-between">
@@ -37,12 +40,13 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                                 <FlagIcon />
                             </div>
                             <div>
-                                <h1 className="report-title">
-                                    Application: {this.props.appname}
-                                </h1>
-                                <div className="report-subtitle">
-                                    Help us improve BaseCamp by reporting incorrect or outdated application information.
-                                </div>
+                                <h1 className="report-title"> Application: {this.props.appname} </h1>
+                                <Stack horizontal style={{paddingTop: 5}} tokens={{childrenGap: 10}}>
+                                    <Stack horizontal tokens={{childrenGap: 10}}><Text>Tab:</Text><Text>{selectedtab?.text ?? "Not Defined"}</Text></Stack>
+                                    <StackItem> <Separator vertical /></StackItem>
+                                    <Stack horizontal tokens={{childrenGap: 10}}><Text>Section:</Text><Text>{selectedsection?.text ?? "Not Defined"}</Text></Stack>
+                                </Stack>
+                                {/* <div className="report-subtitle"> Help us improve BaseCamp by reporting incorrect or outdated application information.</div> */}
                             </div>
                         </div>
                     </StackItem>

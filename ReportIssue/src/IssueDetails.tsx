@@ -115,28 +115,28 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
             >
                 <div>
                     <Stack style={{padding: 5}}>
-                        <Label style={{padding:0}} className="detail-label"> ISSUE TITLE </Label>
+                        <Label style={{padding:0}} className="detail-label"> Issue Title </Label>
                         <Text> {issue.issuetitle} </Text>
                     </Stack>
                     <Stack style={{padding: 5}}>
-                        <Label style={{padding:0}} className="detail-label"> ISSUE DESCRIPTION </Label>
+                        <Label style={{padding:0}} className="detail-label"> Issue Description </Label>
                         <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
                     </Stack>
                     <Separator/>
                     <Stack horizontal wrap tokens={{ childrenGap: 30  }}  className="people-section" >
                         <Stack className="person-column">
-                            {this.renderPerson("REPORTED BY", issue.reportedby)}
+                            {this.renderPerson("Reported By", issue.reportedby)}
                         </Stack>
                         <Stack className="person-column">
-                            {this.renderPerson("ASSIGNED TO", issue.assignedto )}
+                            {this.renderPerson("Assigned To", issue.assignedto )}
                         </Stack>
                         <Stack className="person-column">
-                            {this.renderPerson("DELEGATED TO", issue.delegatedto )}
+                            {this.renderPerson("Delegated To", issue.delegatedto )}
                         </Stack>
                     </Stack>
                     <Separator style={{paddingBottom: 0, marginBottom: 0}}/>
                     <Stack className="section">
-                        <Label className="detail-label"> FIELD CHANGES </Label>
+                        <Label className="detail-label"> Field Changes </Label>
                         <div className="field-changes-table">
                             <DetailsList
                                 items={issue.fields}
