@@ -78,7 +78,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 260,
+          minWidth: 250,
           onRender: (item: any) => {
             if(item.newrecord){
               var fields = TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields ?? [];
