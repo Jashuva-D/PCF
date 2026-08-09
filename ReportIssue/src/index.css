@@ -206,14 +206,12 @@
     overflow-y: auto;
     padding-right: 4px;
 }
-.section {
-    margin-bottom: 0px;
-}
+
 .detail-label {
     font-size: 12px;
     font-weight: 600;
     color: #0D2499;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
 }
 .issue-description {
     font-size: 14px;
@@ -245,11 +243,12 @@
 }
 
 .field-changes-table .ms-DetailsHeader {
-    background-color: #F5F5F5;
+    background-color: #E7E9F5;
+    padding-top: 0;
 }
 
 .field-changes-table .ms-DetailsHeader-cell {
-    font-weight: 600;
+    font-weight: 200;
     color: #323130;
 }
 
@@ -264,4 +263,8 @@
 .new-value {
     color: #107C10;
     font-weight: 600;
+}
+
+.issuedetails-dialog {
+  color: #0D2499
 }

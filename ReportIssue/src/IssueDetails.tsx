@@ -92,24 +92,37 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                 dialogContentProps={{
                     type: DialogType.largeHeader,
                     title: "Issue Details",
+                    styles: {
+                        title: {
+                            color: "#0D2499"
+                        },
+                        content: {
+                            borderTop: "4px solid #0D2499"
+                        },
+                    }
+                }}
+                styles={{
+                    main: {
+                        borderColor: "#0D2499"
+                    }
                 }}
                 modalProps={{
                     isBlocking: false,
-                    className: "issue-details-dialog"
+                    className: "issuedetails-dialog"
                 }}
                 minWidth={800}
                 maxWidth={900}
             >
                 <div>
-                    <Stack className="section">
-                        <Label className="detail-label"> ISSUE TITLE </Label>
+                    <Stack style={{padding: 5}}>
+                        <Label style={{padding:0}} className="detail-label"> ISSUE TITLE </Label>
                         <Text> {issue.issuetitle} </Text>
                     </Stack>
-                    <Stack className="section">
-                        <Label className="detail-label"> ISSUE DESCRIPTION </Label>
+                    <Stack style={{padding: 5}}>
+                        <Label style={{padding:0}} className="detail-label"> ISSUE DESCRIPTION </Label>
                         <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
                     </Stack>
-                    <Separator style={{padding: 5}}/>
+                    <Separator/>
                     <Stack horizontal wrap tokens={{ childrenGap: 30  }}  className="people-section" >
                         <Stack className="person-column">
                             {this.renderPerson("REPORTED BY", issue.reportedby)}
@@ -121,7 +134,7 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                             {this.renderPerson("DELEGATED TO", issue.delegatedto )}
                         </Stack>
                     </Stack>
-                    <Separator />
+                    <Separator style={{paddingBottom: 0, marginBottom: 0}}/>
                     <Stack className="section">
                         <Label className="detail-label"> FIELD CHANGES </Label>
                         <div className="field-changes-table">
@@ -131,6 +144,11 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                                 selectionMode={0}
                                 compact
                                 isHeaderVisible={true}
+                                styles={{
+                                    headerWrapper: {
+                                        paddingTop: 0
+                                    }
+                                }}
                             />
                         </div>
                     </Stack>
