@@ -42,9 +42,9 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                             <div>
                                 <h1 className="report-title"> Application: {this.props.appname} </h1>
                                 <Stack horizontal style={{paddingTop: 5}} tokens={{childrenGap: 10}}>
-                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 600}}>Tab:</Text><Text>{selectedtab?.text ?? "Not Defined"}</Text></Stack>
-                                    <StackItem> <Separator vertical style={{fontWeight: 600}}/></StackItem>
-                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 600}}>Section:</Text><Text>{selectedsection?.text ?? "Not Defined"}</Text></Stack>
+                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 800}}>Tab:</Text><Text>{selectedtab?.text ?? "Not Defined"}</Text></Stack>
+                                    <StackItem> <Separator vertical style={{fontWeight: 800}}/></StackItem>
+                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 800}}>Section:</Text><Text>{selectedsection?.text ?? "Not Defined"}</Text></Stack>
                                 </Stack>
                                 {/* <div className="report-subtitle"> Help us improve BaseCamp by reporting incorrect or outdated application information.</div> */}
                             </div>

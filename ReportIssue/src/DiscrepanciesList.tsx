@@ -34,7 +34,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 minWidth: 100,
                 onRender: (item: any) => {
                     var obj = this;
-                    return <Link onClick={() => {obj.setState({openDetails: true})}}>{item["issueid"]}</Link>
+                    return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
                 }
             },
             {
@@ -43,7 +43,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "fieldname",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text>{item["fieldname"]}</Text>
+                    return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
                 }
             },
             {
@@ -52,7 +52,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "currentvalue",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text>{item["currentvalue"]}</Text>
+                    return <Text style={{fontWeight: 400}}>{item["currentvalue"]}</Text>
                 }
             },
             {
@@ -61,7 +61,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "newvalue",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text>{item["newvalue"]}</Text>
+                    return <Text style={{color: "#107C10", fontWeight: 600}}>{item["newvalue"]}</Text>
                 }
             },
             {
@@ -70,7 +70,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "status",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text>{item["status"]}</Text>
+                    return <Text style={{color: "#107C10", fontWeight: 600}}>{item["status"]}</Text>
                 }
             },
             {
@@ -79,13 +79,13 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "reportedon",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text>{item["reportedon"]}</Text>
+                    return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
                 }
             },
             {
                 key: "actions",
                 name: "Actions",
-                minWidth: 120,
+                minWidth: 60,
                 onRender: (item: any) => {
                     var buttons = [
                         {
@@ -142,6 +142,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             //     }}
                             // />)
                         
+                          
                           <IconButton
                             // iconProps={{
                             //     iconName: "MoreVertical"
@@ -158,8 +159,15 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     backgroundColor: "#F3F3F3"
                                 },
                                 icon: {
-                                    fontSize: 14
-                                }
+                                    fontSize: 24
+                                },
+                                menuIcon: {
+                                    fontSize: 16,
+                                    text: "Select",
+                                    color: "#0D2499",
+                                    fontWeight: 600
+                                },
+                                
                             }}
                             menuProps={{items: buttons}}
                                 
