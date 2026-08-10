@@ -178,6 +178,7 @@
 .lookupPicker .ms-BasePicker-input {
     width: 170px !important;
 }
+
 .discrepancies .ms-DetailsHeader-cell {
     background-color: #E7E9F5;
     color: black;
@@ -200,6 +201,8 @@
 }
 .discrepancies {
   margin-top: 0;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .issue-details-content {

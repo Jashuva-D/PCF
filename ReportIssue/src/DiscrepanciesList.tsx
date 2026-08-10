@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps,IconButton, IContextualMenuProps, SelectionMode } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 
@@ -74,35 +74,60 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 onRender: (item: any) => {
                     var buttons = [
                         {
+                            key: "resolve",
                             text: "Resolve",
                             iconProps: {iconName: "CheckMark"},
                             onClick: this.onResolveClick.bind(this,item)
                         },
                         {
+                            key: "delegate",
                             text: "Delegate",
                             iconProps: {iconName: "People"},
                             onClick: this.onDelegateClick.bind(this,item)
                         },
                         {
+                            key: "cancel",
                             text: "Cancel",
                             iconProps: { iconName: "Cancel"},
                             onClick: this.onCacelClick.bind(this,item)
                         }
-                    ] as ICommandBarItemProps[];
+                    ] as any
                     return <>
                         <Stack horizontalAlign="start" verticalAlign="start" style={{padding: 0}}>
-                        <CommandBar 
+                        <IconButton
+                            // iconProps={{
+                            //     iconName: "MoreVertical"
+                            // }}
+                            title="Actions"
+                            ariaLabel="Actions"
+                            styles={{
+                                root: {
+                                    width: 32,
+                                    height: 20,
+                                    backgroundColor: "transparent"
+                                },
+                                rootHovered: {
+                                    backgroundColor: "#F3F3F3"
+                                },
+                                icon: {
+                                    fontSize: 14
+                                }
+                            }}
+                            menuProps={{items: buttons}}
+                                
+                        />
+                        {/* <CommandBar 
                             items={[]}
                             overflowItems={buttons}
                             overflowButtonProps={{
                                     iconProps: {
-                                        iconName: "MoreVertical"
+                                        iconName: "MoreVertical",
+                                        style: { fontSize: 10 }
                                     }
                                 }
                             }
                             styles={{
                                 root: {
-                                    backgroundColor: "transparent",
                                     selectors: {
                                         ":hover": {
                                             backgroundColor: "#F3F3F3"
@@ -121,7 +146,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                 margin: 0
                             }}
                             
-                        /> 
+                        />  */}
                         </Stack>
                     </>
                 }
@@ -216,6 +241,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
+                selectionMode={SelectionMode.none}
                 onItemInvoked={()=> {this.setState({openDetails: true})}}
                 styles={{
                     headerWrapper: {
@@ -226,7 +252,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                     {/* <Text>&nbsp;</Text> */}
-                    <Text>{`${this.state.items.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.items.length)} of ${this.state.items.length} applications`}</Text>
+                    <Text>{`${this.state.items.length > 0 ? startIndex + 1 : 0} - ${Math.min(startIndex + this.state.pageSize, this.state.items.length)} of ${this.state.items.length} discrepancies`}</Text>
                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                         <DefaultButton
                             text={"<"}
