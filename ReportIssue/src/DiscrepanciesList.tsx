@@ -41,7 +41,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
-                minWidth: 100,
+                minWidth: 200,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
                 }
