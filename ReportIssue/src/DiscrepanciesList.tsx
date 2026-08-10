@@ -1,7 +1,7 @@
 import * as React from "react";
 import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
-import { ICommandBarProps } from "@fluentui/react/lib-commonjs/CommandBar";
+import CMSDialog from "./CMSDialog";
 
 interface DiscrepanciesListProps{
 
@@ -11,7 +11,15 @@ interface DiscrepanciesState {
     items: any[]
     currentPage: number
     pageSize: number,
-    openDetails: boolean
+    openDetails: boolean,
+    cmsdialog: boolean,
+    dialogTitle?: string;
+    dialogSubtext?: string;
+    dialogConfirmButtonLabel?: string;
+    dialogCancelButtonLabel?: string;
+    dialogConfirmCallback?: () => void;
+    dialogCancelCallback?: () => void;
+    dialogDismissCallback?: () => void;
 }
 
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
@@ -67,19 +75,22 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var buttons = [
                         {
                             text: "Resolve",
-                            iconProps: {iconName: "CheckMark"}
+                            iconProps: {iconName: "CheckMark"},
+                            onClick: this.onResolveClick.bind(this,item)
                         },
                         {
                             text: "Delegate",
-                            iconProps: {iconName: "People"}
+                            iconProps: {iconName: "People"},
+                            onClick: this.onDelegateClick.bind(this,item)
                         },
                         {
                             text: "Cancel",
-                            iconProps: { iconName: "Cancel"}
+                            iconProps: { iconName: "Cancel"},
+                            onClick: this.onCacelClick.bind(this,item)
                         }
                     ] as ICommandBarItemProps[];
                     return <>
-
+                        <Stack horizontalAlign="start" verticalAlign="start" style={{padding: 0}}>
                         <CommandBar 
                             items={[]}
                             overflowItems={buttons}
@@ -96,7 +107,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                         ":hover": {
                                             backgroundColor: "#F3F3F3"
                                         }
-                                    }
+                                    },
                                 },
                                 primarySet: {
                                     backgroundColor: "transparent"
@@ -104,10 +115,14 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                 secondarySet: {
                                     backgroundColor: "transparent"
                                 }
-                                
+                            }}
+                            style={{
+                                padding: 0,
+                                margin: 0
                             }}
                             
                         /> 
+                        </Stack>
                     </>
                 }
             }
@@ -118,7 +133,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: [],
             currentPage: 1,
             pageSize: 10,
-            openDetails: false
+            openDetails: false,
+            cmsdialog: false,
         }
     }
     componentDidMount(): void {
@@ -141,6 +157,54 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             });
         }
         return fakedata; 
+    }
+    onResolveClick(item: any) {
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm Resolve",
+            dialogSubtext: "please confirm to resolve the discrepancy",
+            dialogConfirmButtonLabel: "Resolve",
+            dialogCancelButtonLabel: "Cancel",
+            dialogConfirmCallback: () => {
+                alert(`resolved ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onCacelClick(item: any) {
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm to Cancel",
+            dialogSubtext: "please confirm to cancel the discrepancy",
+            dialogConfirmButtonLabel: "Confirm",
+            dialogCancelButtonLabel: "Cancel",
+            dialogConfirmCallback: () => {
+                alert(`cancelled ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onDelegateClick(item: any) {
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm to Delegate to BaseCamp",
+            dialogSubtext: "please confirm to delegate the discrepancy to BaseCamp team",
+            dialogConfirmButtonLabel: "Delegate",
+            dialogCancelButtonLabel: "Cancel",
+            dialogConfirmCallback: () => {
+                alert(`resolved ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
     }
 
     render(): React.ReactNode {
@@ -195,6 +259,23 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
                     ]}}
                 onClose={() => {this.setState({openDetails: false})}}
+            />
+            <CMSDialog
+                isOpen={this.state.cmsdialog!}
+                title={this.state.dialogTitle}
+                subText={this.state.dialogSubtext}
+                confirmButtonText={this.state.dialogConfirmButtonLabel}
+                cancelButtonText={this.state.dialogCancelButtonLabel}
+                onDismiss={() => {
+                    this.setState({ cmsdialog: false });
+                }}
+                onConfirm={() => {
+                    this.setState({ cmsdialog: false });
+                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                }}
+                onCancel={() => {
+                    this.setState({ cmsdialog: false });
+                }}
             />
         </>
     }
