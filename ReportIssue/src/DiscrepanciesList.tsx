@@ -41,36 +41,51 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    return <Text>{item["fieldname"]}</Text>
+                }
             },
             {
                 key: "currentvalue",
                 name: "Current Value",
                 fieldName: "currentvalue",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    return <Text>{item["currentvalue"]}</Text>
+                }
             },
             {
                 key: "newvalue",
                 name: "New Value",
                 fieldName: "newvalue",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    return <Text>{item["newvalue"]}</Text>
+                }
             },
             {
                 key: "status",
                 name: "Status",
                 fieldName: "status",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    return <Text>{item["status"]}</Text>
+                }
             },
             {
                 key: "reportedon",
                 name: "Reported On",
                 fieldName: "reportedon",
-                minWidth: 100
+                minWidth: 100,
+                onRender: (item: any) => {
+                    return <Text>{item["reportedon"]}</Text>
+                }
             },
             {
                 key: "actions",
                 name: "Actions",
-                minWidth: 50,
+                minWidth: 120,
                 onRender: (item: any) => {
                     var buttons = [
                         {
@@ -92,9 +107,42 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             onClick: this.onCacelClick.bind(this,item)
                         }
                     ] as any
-                    return <>
-                        <Stack horizontalAlign="start" verticalAlign="start" style={{padding: 0}}>
-                        <IconButton
+                    return(
+                        
+                            // <DefaultButton
+                            //     text="Select"
+                            //     menuProps={{
+                            //         items: buttons
+                            //     }}
+                            //     styles={{
+                            //         root: {
+                            //             minWidth: 90,
+                            //             height: 10,
+                            //             padding: "0 5px",
+                            //             border: "1px solid #D1D1D1",
+                            //             borderRadius: 4,
+                            //             backgroundColor: "white",
+                            //             color: "#323130",
+                            //         },
+                            //         rootHovered: {
+                            //             backgroundColor: "#F3F3F3",
+                            //             borderColor: "#A19F9D",
+                            //         },
+                            //         rootPressed: {
+                            //             backgroundColor: "#EDEBE9",
+                            //         },
+                            //         label: {
+                            //             fontSize: 12,
+                            //             fontWeight: 400,
+                            //         },
+                            //         menuIcon: {
+                            //             fontSize: 12,
+                            //             color: "#323130",
+                            //         },
+                            //     }}
+                            // />)
+                        
+                          <IconButton
                             // iconProps={{
                             //     iconName: "MoreVertical"
                             // }}
@@ -115,7 +163,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             }}
                             menuProps={{items: buttons}}
                                 
-                        />
+                        />  )
                         {/* <CommandBar 
                             items={[]}
                             overflowItems={buttons}
@@ -147,8 +195,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             }}
                             
                         />  */}
-                        </Stack>
-                    </>
+                       
+                        
                 }
             }
         ] as IColumn[];
@@ -268,7 +316,14 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
-                    <Text>&nbsp;</Text>
+                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px solid #F3C9C9", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
+                        <Text styles={{ root: { fontSize: 11, fontWeight: 800, color: "#323130" } }}>Action:</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#107C10" } }}>Resolve</Text>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11 } }}>|</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#0D2499" } }}>Transfer to BaseCamp</Text>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11 } }}>|</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#D13438" } }}>Cancel</Text>
+                    </Stack>
                 </Stack>
             </div>
             <IssueDetailsDialog 
