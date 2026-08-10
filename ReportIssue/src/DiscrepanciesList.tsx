@@ -1,6 +1,7 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
+import { ICommandBarProps } from "@fluentui/react/lib-commonjs/CommandBar";
 
 interface DiscrepanciesListProps{
 
@@ -57,6 +58,58 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported On",
                 fieldName: "reportedon",
                 minWidth: 100
+            },
+            {
+                key: "actions",
+                name: "Actions",
+                minWidth: 50,
+                onRender: (item: any) => {
+                    var buttons = [
+                        {
+                            text: "Resolve",
+                            iconProps: {iconName: "CheckMark"}
+                        },
+                        {
+                            text: "Delegate",
+                            iconProps: {iconName: "People"}
+                        },
+                        {
+                            text: "Cancel",
+                            iconProps: { iconName: "Cancel"}
+                        }
+                    ] as ICommandBarItemProps[];
+                    return <>
+
+                        <CommandBar 
+                            items={[]}
+                            overflowItems={buttons}
+                            overflowButtonProps={{
+                                    iconProps: {
+                                        iconName: "MoreVertical"
+                                    }
+                                }
+                            }
+                            styles={{
+                                root: {
+                                    backgroundColor: "transparent",
+                                    selectors: {
+                                        ":hover": {
+                                            backgroundColor: "#F3F3F3"
+                                        }
+                                    }
+                                },
+                                primarySet: {
+                                    backgroundColor: "transparent"
+                                },
+                                secondarySet: {
+                                    backgroundColor: "transparent"
+                                }
+                                
+                            }}
+                            
+                        /> 
+                    </>
+                }
             }
         ] as IColumn[];
 
