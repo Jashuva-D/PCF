@@ -27,8 +27,8 @@ interface DiscrepanciesState {
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
     constructor(props: DiscrepanciesListProps){
         super(props);
-        //var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
-        var enableaction = true;
+        var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
+        //var enableaction = true;
         var cols = [
             {
                 key: "issueid",
