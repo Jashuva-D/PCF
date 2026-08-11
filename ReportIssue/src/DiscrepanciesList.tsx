@@ -18,6 +18,7 @@ interface DiscrepanciesState {
     dialogConfirmButtonLabel?: string;
     dialogCancelButtonLabel?: string;
     confirmButtonColor?: string;
+    dialogSubTextElement? : React.ReactElement;
     dialogConfirmCallback?: () => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
@@ -83,7 +84,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     if(item["status"] == "Unable to Resolve") { textcolor = "#FDE7E5"; bgcolor= "#C42B1C";}
                     if(item["status"] == "Cancelled") { textcolor = "#EDEDED"; bgcolor= "#605E5C"; }
                     
-
                     return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["status"]}</Text></Stack>;
                 }
             },
@@ -101,6 +101,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Actions",
                 minWidth: 60,
                 onRender: (item: any) => {
+                    var validstatusforaction = true;
+                    if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
                     var buttons = [
                         {
                             key: "resolve",
@@ -241,7 +243,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             // iconProps={{
                             //     iconName: "MoreVertical"
                             // }}
-                            disabled={!enableaction}
+                            disabled={!(enableaction && validstatusforaction)}
                             title="Actions"
                             ariaLabel="Actions"
                             styles={{
@@ -358,6 +360,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm Cancellation",
             dialogSubtext: "Are you sure you want to cancel this discrepancy? \n Once confirmed, the status will be updated to Cancelled",
+            //dialogSubTextElement: <Text>Are you sure you want to cancel this discrepancy? <br></br> Once confirmed, the status will be updated to <Text style={{color: "#D13438", fontWeight: 600}}>Cancelled</Text></Text>,
             dialogConfirmButtonLabel: "Cancel Discrepancy",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
@@ -455,6 +458,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 confirmButtonText={this.state.dialogConfirmButtonLabel}
                 cancelButtonText={this.state.dialogCancelButtonLabel}
                 confirmbuttoncolor={this.state.confirmButtonColor ?? ""}
+                subTextElement={null}
                 onDismiss={() => {
                     this.setState({ cmsdialog: false });
                 }}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DefaultButton, Dialog, Icon, PrimaryButton, Link, Stack, StackItem, Label } from "@fluentui/react";   
+import { DefaultButton, Dialog, Icon, PrimaryButton, Link, Stack, StackItem, Label, Text } from "@fluentui/react";   
 
 interface CMSDialogProps {
     isOpen: boolean;
@@ -9,6 +9,7 @@ interface CMSDialogProps {
     title: string | null | undefined;
     subText: string | null | undefined;
     confirmbuttoncolor: string | null;
+    subTextElement: React.ReactElement | null;
     onDismiss: () => void | undefined;
     onConfirm: () => void | undefined;
     onCancel: () => void | undefined;
@@ -28,12 +29,13 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
             <Dialog
                 hidden={!this.props.isOpen}
                 onDismiss={this.props.onDismiss}
+                
                 dialogContentProps={{
                     title: <div style={{ display: "inline-flex", alignItems: "center"}}><Icon iconName={this.props.iserror == true ? "Error" : "Info"} style={{ color: this.props.iserror == true ? "red" : "#0D2499", fontSize: 24, paddingRight: 6}} />{this.props.title} </div>,
                     subText: this.props.subText!,
                     styles: {
                         subText: { whiteSpace: "pre-line" }
-                    }
+                    },
                 }}
                 modalProps={{
                     isBlocking: true,
@@ -42,8 +44,11 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                     }
                 }}
                 minWidth={400}
+                
             >   
+                {/* {this.props.subTextElement && <>{this.props.subTextElement}<br></br><br></br></>} */}
                 <Stack horizontal tokens={{childrenGap: 10}}>
+                    
                     <PrimaryButton 
                         text={this.props.confirmButtonText || "OK"} 
                         onClick={this.props.onConfirm}
