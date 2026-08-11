@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps,IconButton, IContextualMenuProps, SelectionMode } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, CommandBar, ICommandBarItemProps,IconButton, IContextualMenuProps, SelectionMode, Icon } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 
@@ -17,6 +17,7 @@ interface DiscrepanciesState {
     dialogSubtext?: string;
     dialogConfirmButtonLabel?: string;
     dialogCancelButtonLabel?: string;
+    confirmButtonColor?: string;
     dialogConfirmCallback?: () => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
@@ -25,7 +26,8 @@ interface DiscrepanciesState {
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
     constructor(props: DiscrepanciesListProps){
         super(props);
-
+        //var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
+        var enableaction = true;
         var cols = [
             {
                 key: "issueid",
@@ -70,7 +72,19 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "status",
                 minWidth: 100,
                 onRender: (item: any) => {
-                    return <Text style={{color: "#107C10", fontWeight: 600}}>{item["status"]}</Text>
+                    var textcolor = "#107C10";
+                    var bgcolor = "0D47A1";
+
+                    if(item["status"] == "In Progress") { textcolor = "#E5EFFF"; bgcolor= "#0D47A1";}
+                    if(item["status"] == "New") { textcolor = "#E7F6EA"; bgcolor= "#107C10";}
+                    if(item["status"] == "In Review") { textcolor = "#F0E7FA"; bgcolor= "#6B2FA0";}
+                    if(item["status"] == "Resolved") { textcolor = "#DFF3E4"; bgcolor= "#0E7433";}
+                    if(item["status"] == "Transferred to BaseCamp") { textcolor = "#F1E4F7"; bgcolor= "#7F2A9E";}
+                    if(item["status"] == "Unable to Resolve") { textcolor = "#FDE7E5"; bgcolor= "#C42B1C";}
+                    if(item["status"] == "Cancelled") { textcolor = "#EDEDED"; bgcolor= "#605E5C"; }
+                    
+
+                    return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["status"]}</Text></Stack>;
                 }
             },
             {
@@ -91,20 +105,100 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         {
                             key: "resolve",
                             text: "Resolve",
-                            iconProps: {iconName: "CheckMark"},
-                            onClick: this.onResolveClick.bind(this,item)
+                            iconProps: { iconName: "checkMark"},
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #107C10",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#107C10",
+                                        backgroundColor: "#E8F5E8",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="people"
+                                        styles={{
+                                            root: {
+                                                color: "#107C10"
+                                            }
+                                        }}
+                                        style={{color: "#107C10"}}
+                                    />
+                                </span>
+                            ),
+                            onClick: this.onResolveClick.bind(this, item)
                         },
                         {
                             key: "delegate",
-                            text: "Delegate",
-                            iconProps: {iconName: "People"},
+                            text: "Transfer to BaseCamp",
+                            iconProps: {
+                                iconName: "people",
+                            },
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #0D2499",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#0D2499",
+                                        backgroundColor: "#E8ECFF",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="people"
+                                        styles={{
+                                            root: {
+                                                color: "#0D2499"
+                                            }
+                                        }}
+                                        style={{color: "#0D2499"}}
+                                    />
+                                </span>
+                            ),
                             onClick: this.onDelegateClick.bind(this,item)
                         },
                         {
                             key: "cancel",
                             text: "Cancel",
-                            iconProps: { iconName: "Cancel"},
-                            onClick: this.onCacelClick.bind(this,item)
+                            iconProps: {iconName: "cancel"},
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #D13438",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#D13438",
+                                        backgroundColor: "#FDE8E9",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="people"
+                                        styles={{
+                                            root: {
+                                                color: "#D13438"
+                                            }
+                                        }}
+                                        style={{color: "#D13438"}}
+                                    />
+                                </span>
+                            ),
+                            onClick: this.onCacelClick.bind(this,item),
                         }
                     ] as any
                     return(
@@ -147,6 +241,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             // iconProps={{
                             //     iconName: "MoreVertical"
                             // }}
+                            disabled={!enableaction}
                             title="Actions"
                             ariaLabel="Actions"
                             styles={{
@@ -168,10 +263,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     fontWeight: 600
                                 },
                                 
+                                
                             }}
                             menuProps={{items: buttons}}
-                                
-                        />  )
+                            
+                        />)
                         {/* <CommandBar 
                             items={[]}
                             overflowItems={buttons}
@@ -232,7 +328,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 issuetitle: "1115 PMDA - General - Details",
                 currentvalue: "1115 PMDA",
                 newvalue: "0000 PMDA",
-                status: "New",
+                status: i % 5 === 0 ? "Cancelled" : i % 4 === 0 ? "Transferred to BaseCamp" : i % 3 === 0 ? "Resolved" : i % 2 === 0 ? "In Progress" : "New",
                 reportedon: new Date().toLocaleDateString(),
                 reportedby: "Anuradha I"
             });
@@ -244,9 +340,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         this.setState({
             cmsdialog: true,
             dialogTitle: "Confirm Resolve",
-            dialogSubtext: "please confirm to resolve the discrepancy",
+            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved",
             dialogConfirmButtonLabel: "Resolve",
-            dialogCancelButtonLabel: "Cancel",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
                 alert(`resolved ${item['issueid']}`);
             },
@@ -259,10 +356,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         var obj = this;
         this.setState({
             cmsdialog: true,
-            dialogTitle: "Confirm to Cancel",
-            dialogSubtext: "please confirm to cancel the discrepancy",
-            dialogConfirmButtonLabel: "Confirm",
-            dialogCancelButtonLabel: "Cancel",
+            dialogTitle: "Confirm Cancellation",
+            dialogSubtext: "Are you sure you want to cancel this discrepancy? \n Once confirmed, the status will be updated to Cancelled",
+            dialogConfirmButtonLabel: "Cancel Discrepancy",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#D13438",
             dialogConfirmCallback: () => {
                 alert(`cancelled ${item['issueid']}`);
             },
@@ -275,10 +373,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         var obj = this;
         this.setState({
             cmsdialog: true,
-            dialogTitle: "Confirm to Delegate to BaseCamp",
-            dialogSubtext: "please confirm to delegate the discrepancy to BaseCamp team",
-            dialogConfirmButtonLabel: "Delegate",
-            dialogCancelButtonLabel: "Cancel",
+            dialogTitle: "Confirm Transfer to BaseCamp",
+            dialogSubtext: "Are you sure you want to transfer this to BaseCamp team? \n Once confirmed, the BaseCamp team will be notified to review and resolve the issue",
+            dialogConfirmButtonLabel: "Transfer",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
                 alert(`resolved ${item['issueid']}`);
             },
@@ -324,13 +423,13 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
-                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px solid #F3C9C9", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
-                        <Text styles={{ root: { fontSize: 11, fontWeight: 800, color: "#323130" } }}>Action:</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#107C10" } }}>Resolve</Text>
-                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11 } }}>|</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#0D2499" } }}>Transfer to BaseCamp</Text>
-                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11 } }}>|</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#D13438" } }}>Cancel</Text>
+                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
+                        <Text styles={{ root: { fontSize: 14, fontWeight: 800, color: "#323130" } }}>Actions:</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#107C10", fontWeight: 600 } }}>Resolve</Text>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 600 } }}>|</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#0D2499", fontWeight: 600 } }}>Transfer to BaseCamp</Text>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 600 } }}>|</Text>
+                        <Text styles={{ root: { fontSize: 11, color: "#D13438", fontWeight: 600 } }}>Cancel</Text>
                     </Stack>
                 </Stack>
             </div>
@@ -355,6 +454,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 subText={this.state.dialogSubtext}
                 confirmButtonText={this.state.dialogConfirmButtonLabel}
                 cancelButtonText={this.state.dialogCancelButtonLabel}
+                confirmbuttoncolor={this.state.confirmButtonColor ?? ""}
                 onDismiss={() => {
                     this.setState({ cmsdialog: false });
                 }}

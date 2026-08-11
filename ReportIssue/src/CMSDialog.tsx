@@ -8,9 +8,11 @@ interface CMSDialogProps {
     cancelButtonText?: string;
     title: string | null | undefined;
     subText: string | null | undefined;
+    confirmbuttoncolor: string | null;
     onDismiss: () => void | undefined;
     onConfirm: () => void | undefined;
     onCancel: () => void | undefined;
+
 }
 interface CMSDialogState {
 
@@ -45,7 +47,7 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                     <PrimaryButton 
                         text={this.props.confirmButtonText || "OK"} 
                         onClick={this.props.onConfirm}
-                        style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
+                        style={{ borderRadius: 6, backgroundColor: this.props.confirmbuttoncolor ?? "#0D2499", borderColor: this.props.confirmbuttoncolor ?? "#0D2499" }} 
                     />
                     <DefaultButton 
                         text={this.props.cancelButtonText || "Cancel"} 
