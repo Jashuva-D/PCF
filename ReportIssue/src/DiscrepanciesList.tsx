@@ -76,13 +76,13 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var textcolor = "#107C10";
                     var bgcolor = "0D47A1";
 
-                    if(item["status"] == "In Progress") { textcolor = "#E5EFFF"; bgcolor= "#0D47A1";}
-                    if(item["status"] == "New") { textcolor = "#E7F6EA"; bgcolor= "#107C10";}
-                    if(item["status"] == "In Review") { textcolor = "#F0E7FA"; bgcolor= "#6B2FA0";}
-                    if(item["status"] == "Resolved") { textcolor = "#DFF3E4"; bgcolor= "#0E7433";}
-                    if(item["status"] == "Transferred to BaseCamp") { textcolor = "#F1E4F7"; bgcolor= "#7F2A9E";}
-                    if(item["status"] == "Unable to Resolve") { textcolor = "#FDE7E5"; bgcolor= "#C42B1C";}
-                    if(item["status"] == "Cancelled") { textcolor = "#EDEDED"; bgcolor= "#605E5C"; }
+                    if(item["status"] == "In Progress") { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
+                    if(item["status"] == "New") { bgcolor = "#E7F6EA"; textcolor= "#107C10";}
+                    if(item["status"] == "In Review") { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
+                    if(item["status"] == "Resolved") { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
+                    if(item["status"] == "Transferred to BaseCamp") { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
+                    if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
+                    if(item["status"] == "Cancelled") { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
                     
                     return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["status"]}</Text></Stack>;
                 }
