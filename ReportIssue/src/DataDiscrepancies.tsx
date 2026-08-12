@@ -40,17 +40,22 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                                 <FlagIcon />
                             </div>
                             <div>
-                                <h1 className="report-title"> Application: {this.props.appname} </h1>
-                                <Stack horizontal style={{paddingTop: 5}} tokens={{childrenGap: 10}}>
-                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 800}}>Tab:</Text><Text>{selectedtab?.text ?? "Not Defined"}</Text></Stack>
-                                    <StackItem> <Separator vertical style={{fontWeight: 800}}/></StackItem>
-                                    <Stack horizontal tokens={{childrenGap: 10}}><Text style={{fontWeight: 800}}>Section:</Text><Text>{selectedsection?.text ?? "Not Defined"}</Text></Stack>
+                                <h1 className="report-title">Application: {this.props.appname}</h1>
+                                <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }} styles={{ root: { paddingTop: 0 } }}>
+                                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }} style={{paddingTop: 5}}>
+                                        <Text style={{ fontWeight: 800 }}>Tab:</Text>
+                                        <Text>{selectedtab?.text ?? "Not Defined"}</Text>
+                                    </Stack>
+                                    <Text styles={{ root: { color: "#A19F9D", fontSize: 20, fontWeight: 600, lineHeight: "20px" } }}>|</Text>
+                                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 10 }} style={{paddingTop: 5}}>
+                                        <Text style={{ fontWeight: 800 }}>Section:</Text>
+                                        <Text>{selectedsection?.text ?? "Not Defined"}</Text>
+                                    </Stack>
                                 </Stack>
-                                {/* <div className="report-subtitle"> Help us improve BaseCamp by reporting incorrect or outdated application information.</div> */}
                             </div>
                         </div>
                     </StackItem>
-                    <StackItem align="center" style={{paddingRight: 10}} >
+                    {!this.state.openreportissue && <StackItem align="center" style={{paddingRight: 10}} >
                         <PrimaryButton
                             text="Add New"
                             iconProps={{ iconName: "add" }}
@@ -63,7 +68,21 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                                 });
                             }}
                         />
-                    </StackItem>
+                    </StackItem>}
+                    {this.state.openreportissue && <StackItem align="center" style={{paddingRight: 10}} >
+                        <PrimaryButton
+                            text="Go Back"
+                            iconProps={{ iconName: "add" }}
+                            style={{ alignItems: "end",padding:10, borderRadius: 6, backgroundColor: this.state.openreportissue ? "#F2F2F2" : "#0D2499", color: this.state.openreportissue ? "#5A5A5A" : "white" }}
+                            disabled={this.state.openreportissue}
+                            onClick={() => {
+                                this.setState({
+                                    openreportissue: false,
+                                    displaylist: true
+                                });
+                            }}
+                        />
+                    </StackItem>}
                 </Stack>
                 {this.state.displaylist && (<DiscrepanciesList />)}
                 {this.state.openreportissue && (
