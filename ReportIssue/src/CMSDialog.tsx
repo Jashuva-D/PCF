@@ -40,10 +40,10 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                 modalProps={{
                     isBlocking: true,
                     styles: { 
-                        main: { maxWidth: 600 },
+                        main: { maxWidth: 600, width: 600 },
                     }
                 }}
-                minWidth={400}
+                //minWidth={400}
                 
             >   
                 {/* {this.props.subTextElement && <>{this.props.subTextElement}<br></br><br></br></>} */}

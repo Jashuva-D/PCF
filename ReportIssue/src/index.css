@@ -272,3 +272,7 @@
 .issuedetails-dialog {
   color: #0D2499
 }
+html {
+    scrollbar-gutter: stable;
+}
+                    
