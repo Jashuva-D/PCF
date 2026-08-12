@@ -170,7 +170,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         },
                         {
                             key: "resolve",
-                            text: "Resolve",
+                            text: "Resolved by HC",
                             iconProps: { iconName: "checkMark"},
                             onRenderIcon: () => (
                                 <span
@@ -188,7 +188,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     }}
                                 >
                                     <Icon
-                                        iconName="people"
+                                        iconName="checkMark"
                                         styles={{
                                             root: {
                                                 color: "#107C10"
@@ -198,7 +198,39 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     />
                                 </span>
                             ),
-                            onClick: this.onResolveClick.bind(this, item)
+                            onClick: this.onResolvedByHCClick.bind(this, item)
+                        },
+                        {
+                            key: "resolve",
+                            text: "Resolved by BaseCamp",
+                            iconProps: { iconName: "checkMark"},
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #107C10",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#107C10",
+                                        backgroundColor: "#E8F5E8",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="checkMark"
+                                        styles={{
+                                            root: {
+                                                color: "#107C10"
+                                            }
+                                        }}
+                                        style={{color: "#107C10"}}
+                                    />
+                                </span>
+                            ),
+                            onClick: this.onResolvedByBaseCampClick.bind(this, item)
                         },
                         {
                             key: "delegate",
@@ -401,12 +433,29 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         }
         return fakedata; 
     }
-    onResolveClick(item: any) {
+    onResolvedByHCClick(item: any) {
         var obj = this;
         this.setState({
             cmsdialog: true,
             dialogTitle: "Confirm Resolve",
-            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved",
+            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved by HC",
+            dialogConfirmButtonLabel: "Resolve",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
+            dialogConfirmCallback: () => {
+                alert(`resolved ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onResolvedByBaseCampClick(item: any) {
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm Resolve",
+            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved by BaseCamp",
             dialogConfirmButtonLabel: "Resolve",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
