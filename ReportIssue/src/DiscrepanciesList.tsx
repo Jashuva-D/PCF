@@ -27,8 +27,8 @@ interface DiscrepanciesState {
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
     constructor(props: DiscrepanciesListProps){
         super(props);
-        var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
-        //var enableaction = true;
+        //var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
+        var enableaction = true;
         var cols = [
             {
                 key: "issueid",
@@ -104,6 +104,70 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var validstatusforaction = true;
                     if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
                     var buttons = [
+                        {
+                            key: "hcinprogress",
+                            text: "HC - In Progress",
+                            iconProps: { iconName: "sync"},
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #7F2A9E",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#7F2A9E",
+                                        backgroundColor: "#F1E4F7",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="sync"
+                                        styles={{
+                                            root: {
+                                                color: "#7F2A9E"
+                                            }
+                                        }}
+                                        style={{color: "#7F2A9E"}}
+                                    />
+                                </span>
+                            ),
+                            onClick: this.onHCInprogressClick.bind(this, item)
+                        },
+                        {
+                            key: "bcinprogress",
+                            text: "BaseCamp - In Progress",
+                            iconProps: { iconName: "sync"},
+                            onRenderIcon: () => (
+                                <span
+                                    style={{
+                                        width: "18px",
+                                        height: "18px",
+                                        border: "1px solid #7F2A9E",
+                                        borderRadius: "50%",
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "#7F2A9E",
+                                        backgroundColor: "#F1E4F7",
+                                        padding: 2
+                                    }}
+                                >
+                                    <Icon
+                                        iconName="sync"
+                                        styles={{
+                                            root: {
+                                                color: "#7F2A9E"
+                                            }
+                                        }}
+                                        style={{color: "#7F2A9E"}}
+                                    />
+                                </span>
+                            ),
+                            onClick: this.onBaseCampInprogressClick.bind(this, item)
+                        },
                         {
                             key: "resolve",
                             text: "Resolve",
@@ -378,6 +442,40 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm Transfer to BaseCamp",
             dialogSubtext: "Are you sure you want to transfer this to BaseCamp team? \n Once confirmed, the BaseCamp team will be notified to review and resolve the issue",
+            dialogConfirmButtonLabel: "Transfer",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
+            dialogConfirmCallback: () => {
+                alert(`resolved ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onHCInprogressClick(item: any){
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm HC - In Progress",
+            dialogSubtext: "Are you sure you want to change the status to HC-In Progress. \n Once confirmed, the status will be changed to HC-In Progress",
+            dialogConfirmButtonLabel: "Transfer",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
+            dialogConfirmCallback: () => {
+                alert(`resolved ${item['issueid']}`);
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onBaseCampInprogressClick(item: any){
+        var obj = this;
+        this.setState({
+            cmsdialog: true,
+            dialogTitle: "Confirm BaseCamp - In Progress",
+            dialogSubtext: "Are you sure you want to change the status to BaseCamp-In Progress. \n Once confirmed, the status will be changed to BaseCamp-In Progress",
             dialogConfirmButtonLabel: "Transfer",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
