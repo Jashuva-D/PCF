@@ -366,8 +366,23 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     alert(JSON.stringify(discrepancy));
 
     var discrepancyid = await (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancy", discrepancy).then(function success(result: any) { return result.id; },function(error: any) { alert(error?.message); });
-
     alert(discrepancyid);
+
+    await Promise.all(this.state.datafields.filter(x => x.newrecord == false).map(eachrecord => {
+      var discrepancyfield = {} as any;
+      discrepancyfield["crm2_DataDiscrepancy@odata.bind"] = `/crm2_datadiscrepancies(d2f65254-1b94-f111-ab0f-001dd804c0ba)`; 
+      discrepancyfield.crm2_fieldname = "test"; 
+      discrepancyfield.crm2_currentvalue = "test"; 
+      discrepancyfield.crm2_newvalue = "test"; 
+
+      return (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancyfield",discrepancyfield);
+    })).then(function(resp: any){
+      alert('success');
+    },function(err: any){
+        alert(err?.message);
+    });
+
+    obj.setState({submitted: true});
 
     // var request = {
     //   entityname: "cr549_application",
