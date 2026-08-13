@@ -288,7 +288,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             var person = results.entities[0];
             obj.setState({
               reportedby: {
-                recordid: person.id,
+                recordid: person.cr549_personid,
                 name: person.cr549_name,
                 email: person.cr549_email_address
               }
@@ -314,7 +314,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             hostingcoordinator: {
               name: coordinator.cr549_name,
               email: coordinator.cr549_email_address,
-              recordid: coordinator.id
+              recordid: coordinator.cr549_personid
             } 
           });
         },function (error : any) {
