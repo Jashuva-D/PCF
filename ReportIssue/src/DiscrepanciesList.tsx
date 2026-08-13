@@ -31,11 +31,22 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         var enableaction = true;
         var cols = [
             {
+                key: "fieldid",
+                name: "Field ID",
+                fieldName: "fieldid",
+                minWidth: 40,
+                maxWidth: 40,
+                onRender: (item: any) => {
+                    var obj = this;
+                    return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["fieldid"]}</Link>
+                }
+            },
+            {
                 key: "issueid",
                 name: "Issue ID",
                 fieldName: "issueid",
-                minWidth: 60,
-                maxWidth: 60,
+                minWidth: 40,
+                maxWidth: 40,
                 onRender: (item: any) => {
                     var obj = this;
                     return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
@@ -45,7 +56,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
-                minWidth: 200,
+                minWidth: 180,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
                 }
@@ -475,7 +486,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
                 console.log(results);
                 var discrepancies = [];
@@ -500,9 +511,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     }
 
                     var eachdisc = {
-                        issueid: `IS-100${i.toString()}`,
+                        fieldid: result.crm2_name,
+                        issueid: result["crm2_DataDiscrepancy"]["crm2_name"],
                         fieldname: result.crm2_fieldname,
-                        issuetitle: "1115 PMDA - General - Details",
+                        issuetitle: result["crm2_DataDiscrepancy"]["crm2_issuetitle"],
                         currentvalue: result.crm2_currentvalue ?? "",
                         newvalue: result.crm2_newvalue ?? "",
                         status: result["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
