@@ -34,19 +34,19 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldid",
                 name: "Field ID",
                 fieldName: "fieldid",
-                minWidth: 40,
-                maxWidth: 40,
+                minWidth: 50,
+                maxWidth: 50,
                 onRender: (item: any) => {
                     var obj = this;
-                    return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["fieldid"]}</Link>
+                    return <Text style={{fontWeight: 400}}>{item["fieldid"]}</Text>
                 }
             },
             {
                 key: "issueid",
                 name: "Issue ID",
                 fieldName: "issueid",
-                minWidth: 40,
-                maxWidth: 40,
+                minWidth: 50,
+                maxWidth: 50,
                 onRender: (item: any) => {
                     var obj = this;
                     return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
@@ -56,7 +56,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
-                minWidth: 180,
+                minWidth: 160,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
                 }
@@ -111,7 +111,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             {
                 key: "actions",
                 name: "Actions",
-                minWidth: 60,
+                minWidth: 40,
                 onRender: (item: any) => {
                     var validstatusforaction = true;
                     if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
