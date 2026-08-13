@@ -56,6 +56,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldname",
                 name: "Field Name",
                 fieldName: "fieldname",
+                isResizable: true,
                 minWidth: 160,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
@@ -113,46 +114,47 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             {
                 key: "actions",
                 name: "Actions",
-                minWidth: 40,
+                minWidth: 50,
+                isResizable: true,
                 onRender: (item: any) => {
                     var validstatusforaction = true;
                     if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
                     var buttons = [
-                        {
-                            key: "hcinprogress",
-                            text: "HC - In Progress",
-                            iconProps: { iconName: "sync"},
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #7F2A9E",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#7F2A9E",
-                                        backgroundColor: "#F1E4F7",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="sync"
-                                        styles={{
-                                            root: {
-                                                color: "#7F2A9E"
-                                            }
-                                        }}
-                                        style={{color: "#7F2A9E"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onHCInprogressClick.bind(this, item)
-                        },
+                        // {
+                        //     key: "hcinprogress",
+                        //     text: "HC - In Progress",
+                        //     iconProps: { iconName: "sync"},
+                        //     onRenderIcon: () => (
+                        //         <span
+                        //             style={{
+                        //                 width: "18px",
+                        //                 height: "18px",
+                        //                 border: "1px solid #7F2A9E",
+                        //                 borderRadius: "50%",
+                        //                 display: "inline-flex",
+                        //                 alignItems: "center",
+                        //                 justifyContent: "center",
+                        //                 color: "#7F2A9E",
+                        //                 backgroundColor: "#F1E4F7",
+                        //                 padding: 2
+                        //             }}
+                        //         >
+                        //             <Icon
+                        //                 iconName="sync"
+                        //                 styles={{
+                        //                     root: {
+                        //                         color: "#7F2A9E"
+                        //                     }
+                        //                 }}
+                        //                 style={{color: "#7F2A9E"}}
+                        //             />
+                        //         </span>
+                        //     ),
+                        //     onClick: this.onHCInprogressClick.bind(this, item)
+                        // },
                         {
                             key: "bcinprogress",
-                            text: "BaseCamp - In Progress",
+                            text: "In Progress",
                             iconProps: { iconName: "sync"},
                             onRenderIcon: () => (
                                 <span
@@ -184,7 +186,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         },
                         {
                             key: "resolve",
-                            text: "Resolved by HC",
+                            text: "Resolve",
                             iconProps: { iconName: "checkMark"},
                             onRenderIcon: () => (
                                 <span
@@ -214,41 +216,41 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             ),
                             onClick: this.onResolvedByHCClick.bind(this, item)
                         },
-                        {
-                            key: "resolve",
-                            text: "Resolved by BaseCamp",
-                            iconProps: { iconName: "checkMark"},
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #107C10",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#107C10",
-                                        backgroundColor: "#E8F5E8",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="checkMark"
-                                        styles={{
-                                            root: {
-                                                color: "#107C10"
-                                            }
-                                        }}
-                                        style={{color: "#107C10"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onResolvedByBaseCampClick.bind(this, item)
-                        },
+                        // {
+                        //     key: "resolve",
+                        //     text: "Resolved by BaseCamp",
+                        //     iconProps: { iconName: "checkMark"},
+                        //     onRenderIcon: () => (
+                        //         <span
+                        //             style={{
+                        //                 width: "18px",
+                        //                 height: "18px",
+                        //                 border: "1px solid #107C10",
+                        //                 borderRadius: "50%",
+                        //                 display: "inline-flex",
+                        //                 alignItems: "center",
+                        //                 justifyContent: "center",
+                        //                 color: "#107C10",
+                        //                 backgroundColor: "#E8F5E8",
+                        //                 padding: 2
+                        //             }}
+                        //         >
+                        //             <Icon
+                        //                 iconName="checkMark"
+                        //                 styles={{
+                        //                     root: {
+                        //                         color: "#107C10"
+                        //                     }
+                        //                 }}
+                        //                 style={{color: "#107C10"}}
+                        //             />
+                        //         </span>
+                        //     ),
+                        //     onClick: this.onResolvedByBaseCampClick.bind(this, item)
+                        // },
                         {
                             key: "delegate",
-                            text: "Transfer to BaseCamp",
+                            text: "Transfer to BaseCamp Team",
                             iconProps: {
                                 iconName: "people",
                             },
@@ -554,7 +556,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         this.setState({
             cmsdialog: true,
             dialogTitle: "Confirm Resolve",
-            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved by HC",
+            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved",
             dialogConfirmButtonLabel: "Resolve",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",

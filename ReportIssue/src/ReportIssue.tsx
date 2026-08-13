@@ -371,7 +371,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     await Promise.all(this.state.datafields.filter(x => x.newrecord == false).map(eachrecord => {
       var discrepancyfield = {} as any;
       discrepancyfield["crm2_DataDiscrepancy@odata.bind"] = `/crm2_datadiscrepancies(d2f65254-1b94-f111-ab0f-001dd804c0ba)`; 
-      discrepancyfield.crm2_fieldname = eachrecord.fieldname, 
+      discrepancyfield.crm2_fieldname = eachrecord.fieldlabel, 
       discrepancyfield.crm2_currentvalue = eachrecord.currentvalue,
       discrepancyfield.crm2_newvalue = eachrecord.newvalue 
 
