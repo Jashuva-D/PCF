@@ -27,12 +27,17 @@ interface ReportIssueState {
       name : string | null,
       email : string | null,
       recordid : string | null
-    }
+    };
     delegateuser? : {
       name : string | null,
       email : string | null,
       recordid : string | null
-    }
+    };
+    reportedby? : {
+      name : string | null,
+      email : string | null,
+      recordid : string | null
+    };
     datafields : DataField[];
     datacolumns : IColumn[];
     currentrecord: DataField | null;
@@ -275,6 +280,24 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     var userid = (parent as any).Xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
         obj.setState({ useremail: user.internalemailaddress });
+        
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person", `?$select=cr549_email_address,cr549_direct_phone&$filter=cr549_email_address eq '${user.internalemailaddress}'`).then(
+          function success(results: any) {
+            if(results.entities == 0) throw new Error(`Person record not found with email ${user.internalemailaddress}`)
+            var person = results.entities[0];
+            obj.setState({
+              reportedby: {
+                recordid: person.id,
+                name: person.cr549_name,
+                email: person.cr549_email_address
+              }
+            })
+          },
+          function(error: any) {
+            console.log(error.message);
+          }
+        );
+        
       }
     ,function (error : any) {
         console.log(error.message);
@@ -315,57 +338,77 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     });
   };
 
-  OnSubmitIssue() {
+  async OnSubmitIssue() {
     var obj = this;
 
     const selectedTabData = TabOptions.find(x => x.key === this.props.tabname);
     const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.props.sectionname);
     const selectedfields = this.state.datafields.filter(x => x.newrecord == false).map(function(x){ return {fieldname : x.fieldlabel, currentvalue: x.currentvalue, newvalue: x.newvalue}});
+    
+    var discrepancy = {} as any;
+    discrepancy["crm2_application@odata.bind"] = `/cr549_applications(${this.props.recordid})`; // Lookup
+    discrepancy.crm2_issuetitle = obj.state.issueTitle;
+    discrepancy.crm2_issuedescription = obj.state.issueDescription;
+    if(obj.state.reportedby != undefined && obj.state.reportedby != null)
+      discrepancy["crm2_ReportedBy@odata.bind"] = `/cr549_persons(${obj.state.reportedby.recordid})`; 
+    if(obj.state.hostingcoordinator != undefined && obj.state.hostingcoordinator != null)
+      discrepancy["crm2_AssignedTo@odata.bind"] = `/cr549_persons(${obj.state.hostingcoordinator.recordid})`;
+    if(obj.state.delegateuser != undefined && obj.state.delegateuser != null)
+      discrepancy["crm2_DelegateTo@odata.bind"] = `/cr549_persons(${obj.state.delegateuser?.recordid})`;
+    
+    discrepancy.crm2_status = 289940000; 
+    discrepancy.crm2_priority = 289940001; 
+    discrepancy.crm2_tab = selectedTabData?.text;
+    discrepancy.crm2_section = selectedSectionData?.text;
 
-    var request = {
-      entityname: "cr549_application",
-      recordid: obj.props.recordid,
-      recordname: obj.props.appname,
-      tab: selectedTabData?.text,
-      section: selectedSectionData?.text,
-      fields: JSON.stringify(selectedfields),
-      title: obj.state.issueTitle,
-      description: obj.state.issueDescription,
-      assignedto_email: obj.state.hostingcoordinator?.email,
-      delegateto_email: obj.state.delegateuser?.email,
-      reportedby_email: obj.state.useremail,
+    var discrepancyid = await (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancy", discrepancy).then(function success(result: any) { return result.id; },function(error: any) { alert(error?.message); });
 
-      getMetadata: function () {
-        return {
-          boundParameter: null,
-          parameterTypes: {
-            entityname: { typeName: "Edm.String", structuralProperty: 1 },
-            recordid: { typeName: "Edm.String", structuralProperty: 1 },
-            recordname: { typeName: "Edm.String", structuralProperty: 1 },
-            tab: { typeName: "Edm.String", structuralProperty: 1 },
-            section: { typeName: "Edm.String", structuralProperty: 1 },
-            fields: { typeName: "Edm.String", structuralProperty: 1 },
-            title: { typeName: "Edm.String", structuralProperty: 1 },
-            description: { typeName: "Edm.String", structuralProperty: 1 },
-            assignedto_email: { typeName: "Edm.String", structuralProperty: 1 },
-            delegateto_email: { typeName: "Edm.String", structuralProperty: 1 },
-            reportedby_email: { typeName: "Edm.String", structuralProperty: 1 }
-          },
-          operationType: 0, operationName: "crm2_ReportIssueCreateIssue"
-        };
-      }
-    };
+    alert(discrepancyid);
 
-    (parent as any).Xrm.WebApi.execute(request).then(
-      function success(response: any) {
-        if (response.ok) { 
-          console.log("Success"); 
-          obj.setState({submitted: true})
-        }
-      }
-    ).catch(function (error: any) {
-      console.log(error.message);
-    });
+    // var request = {
+    //   entityname: "cr549_application",
+    //   recordid: obj.props.recordid,
+    //   recordname: obj.props.appname,
+    //   tab: selectedTabData?.text,
+    //   section: selectedSectionData?.text,
+    //   fields: JSON.stringify(selectedfields),
+    //   title: obj.state.issueTitle,
+    //   description: obj.state.issueDescription,
+    //   assignedto_email: obj.state.hostingcoordinator?.email,
+    //   delegateto_email: obj.state.delegateuser?.email,
+    //   reportedby_email: obj.state.useremail,
+
+    //   getMetadata: function () {
+    //     return {
+    //       boundParameter: null,
+    //       parameterTypes: {
+    //         entityname: { typeName: "Edm.String", structuralProperty: 1 },
+    //         recordid: { typeName: "Edm.String", structuralProperty: 1 },
+    //         recordname: { typeName: "Edm.String", structuralProperty: 1 },
+    //         tab: { typeName: "Edm.String", structuralProperty: 1 },
+    //         section: { typeName: "Edm.String", structuralProperty: 1 },
+    //         fields: { typeName: "Edm.String", structuralProperty: 1 },
+    //         title: { typeName: "Edm.String", structuralProperty: 1 },
+    //         description: { typeName: "Edm.String", structuralProperty: 1 },
+    //         assignedto_email: { typeName: "Edm.String", structuralProperty: 1 },
+    //         delegateto_email: { typeName: "Edm.String", structuralProperty: 1 },
+    //         reportedby_email: { typeName: "Edm.String", structuralProperty: 1 }
+    //       },
+    //       operationType: 0, operationName: "crm2_ReportIssueCreateIssue"
+    //     };
+    //   }
+    // };
+
+    // (parent as any).Xrm.WebApi.execute(request).then(
+    //   function success(response: any) {
+    //     if (response.ok) { 
+    //       console.log("Success"); 
+    //       obj.setState({submitted: true})
+    //     }
+    //   }
+    // ).catch(function (error: any) {
+    //   console.log(error.message);
+    // });
   }
 
   render() {
