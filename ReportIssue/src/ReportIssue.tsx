@@ -361,6 +361,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     discrepancy.crm2_tab = selectedTabData?.text;
     discrepancy.crm2_section = selectedSectionData?.text;
 
+    alert(JSON.stringify(discrepancy));
+
     var discrepancyid = await (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancy", discrepancy).then(function success(result: any) { return result.id; },function(error: any) { alert(error?.message); });
 
     alert(discrepancyid);
