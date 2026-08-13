@@ -283,7 +283,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_email_address,cr549_direct_phone&$filter=cr549_email_address eq '${user.internalemailaddress}'`).then(
           function success(results: any) {
-            alert("Reported By - \n"+JSON.stringify(results));
+            //alert("Reported By - \n"+JSON.stringify(results));
             if(results.entities == 0) throw new Error(`Person record not found with email ${user.internalemailaddress}`)
             var person = results.entities[0];
             obj.setState({
@@ -309,7 +309,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       obj.setState({ applicationdata: app });
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
-          alert("COORDINATOR - \n"+JSON.stringify(coordinator));
+          //alert("COORDINATOR - \n"+JSON.stringify(coordinator));
           obj.setState({ 
             hostingcoordinator: {
               name: coordinator.cr549_name,
@@ -363,21 +363,21 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     discrepancy.crm2_tab = selectedTabData?.text;
     discrepancy.crm2_section = selectedSectionData?.text;
 
-    alert(JSON.stringify(discrepancy));
+    //alert(JSON.stringify(discrepancy));
 
     var discrepancyid = await (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancy", discrepancy).then(function success(result: any) { return result.id; },function(error: any) { alert(error?.message); });
-    alert(discrepancyid);
+    //alert(discrepancyid);
 
     await Promise.all(this.state.datafields.filter(x => x.newrecord == false).map(eachrecord => {
       var discrepancyfield = {} as any;
       discrepancyfield["crm2_DataDiscrepancy@odata.bind"] = `/crm2_datadiscrepancies(d2f65254-1b94-f111-ab0f-001dd804c0ba)`; 
-      discrepancyfield.crm2_fieldname = "test"; 
-      discrepancyfield.crm2_currentvalue = "test"; 
-      discrepancyfield.crm2_newvalue = "test"; 
+      discrepancyfield.crm2_fieldname = eachrecord.fieldname, 
+      discrepancyfield.crm2_currentvalue = eachrecord.currentvalue,
+      discrepancyfield.crm2_newvalue = eachrecord.newvalue 
 
       return (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancyfield",discrepancyfield);
     })).then(function(resp: any){
-      alert('success');
+      //alert('success');
     },function(err: any){
         alert(err?.message);
     });

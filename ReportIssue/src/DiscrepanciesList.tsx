@@ -34,8 +34,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "fieldid",
                 name: "Field ID",
                 fieldName: "fieldid",
-                minWidth: 50,
-                maxWidth: 50,
+                minWidth: 60,
+                maxWidth: 60,
                 onRender: (item: any) => {
                     var obj = this;
                     return <Text style={{fontWeight: 400}}>{item["fieldid"]}</Text>
@@ -66,6 +66,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Current Value",
                 fieldName: "currentvalue",
                 minWidth: 100,
+                isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["currentvalue"]}</Text>
                 }
@@ -75,6 +76,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "New Value",
                 fieldName: "newvalue",
                 minWidth: 100,
+                isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{color: "#107C10", fontWeight: 600}}>{item["newvalue"]}</Text>
                 }
@@ -83,7 +85,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "status",
                 name: "Status",
                 fieldName: "status",
-                minWidth: 100,
+                minWidth: 80,
                 onRender: (item: any) => {
                     var textcolor = "#107C10";
                     var bgcolor = "0D47A1";
@@ -103,7 +105,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "reportedon",
                 name: "Reported On",
                 fieldName: "reportedon",
-                minWidth: 100,
+                minWidth: 80,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
                 }
@@ -557,7 +559,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                alert(`resolved ${item['issueid']}`);
+                //alert(`resolved ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
@@ -574,7 +576,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                alert(`resolved ${item['issueid']}`);
+                //alert(`resolved ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
@@ -592,7 +594,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
             dialogConfirmCallback: () => {
-                alert(`cancelled ${item['issueid']}`);
+                //alert(`cancelled ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
@@ -609,7 +611,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                alert(`resolved ${item['issueid']}`);
+                //alert(`resolved ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
@@ -626,7 +628,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                alert(`resolved ${item['issueid']}`);
+                //alert(`resolved ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
@@ -643,7 +645,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                alert(`resolved ${item['issueid']}`);
+                //alert(`resolved ${item['issueid']}`);
             },
             dialogCancelCallback: () => {
                 
