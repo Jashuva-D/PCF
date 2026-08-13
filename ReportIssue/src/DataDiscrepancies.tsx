@@ -72,9 +72,8 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                     {this.state.openreportissue && <StackItem align="center" style={{paddingRight: 10}} >
                         <PrimaryButton
                             text="Go Back"
-                            iconProps={{ iconName: "add" }}
+                            iconProps={{iconName: "chevronleftmed"}}
                             style={{ alignItems: "end",padding:10, borderRadius: 6, backgroundColor: this.state.openreportissue ? "#F2F2F2" : "#0D2499", color: this.state.openreportissue ? "#5A5A5A" : "white" }}
-                            disabled={this.state.openreportissue}
                             onClick={() => {
                                 this.setState({
                                     openreportissue: false,

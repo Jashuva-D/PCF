@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 
@@ -100,7 +100,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             {
                 key: "actions",
                 name: "Actions",
-                minWidth: 100,
+                minWidth: 60,
                 onRender: (item: any) => {
                     var validstatusforaction = true;
                     if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
@@ -310,51 +310,51 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     { key: "cancel", text: "Cancel", data: { iconName: "Cancel", color: "#D13438", bgColor: "#FDE8E9" } }
 ];
                     return(
-                        <Dropdown
-    placeholder="Select"
-    options={options}
-    onRenderOption={(option) => (
-        <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-            <span
-                style={{
-                    width: 18,
-                    height: 18,
-                    border: `1px solid ${option?.data?.color}`,
-                    borderRadius: "50%",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: option?.data?.color,
-                    backgroundColor: option?.data?.bgColor,
-                    padding: 2
-                }}
-            >
-                <Icon iconName={option?.data?.iconName} />
-            </span>
-            <span>{option?.text}</span>
-        </Stack>
-    )}
-    styles={{
-        root: { width: 100,borderRadius: 6 },
-        dropdown: { minHeight: 24, height: 24, borderRadius: 6 },
-        title: { minHeight: 24, height: 24, padding: "0 8px", fontSize: 13, lineHeight: "22px", borderRadius: 6 }
-    }}
-    calloutProps={{
-        directionalHint: 12,
-        styles: {
-            calloutMain: {
-                minWidth: 200,
-                borderRadius: 6
-            }
-        }
-    }}
-/>
+//                         <Dropdown
+//     placeholder="Select"
+//     options={options}
+//     onRenderOption={(option) => (
+//         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
+//             <span
+//                 style={{
+//                     width: 18,
+//                     height: 18,
+//                     border: `1px solid ${option?.data?.color}`,
+//                     borderRadius: "50%",
+//                     display: "inline-flex",
+//                     alignItems: "center",
+//                     justifyContent: "center",
+//                     color: option?.data?.color,
+//                     backgroundColor: option?.data?.bgColor,
+//                     padding: 2
+//                 }}
+//             >
+//                 <Icon iconName={option?.data?.iconName} />
+//             </span>
+//             <span>{option?.text}</span>
+//         </Stack>
+//     )}
+//     styles={{
+//         root: { width: 100,borderRadius: 6 },
+//         dropdown: { minHeight: 24, height: 24, borderRadius: 6 },
+//         title: { minHeight: 24, height: 24, padding: "0 8px", fontSize: 13, lineHeight: "22px", borderRadius: 6 }
+//     }}
+//     calloutProps={{
+//         directionalHint: 12,
+//         styles: {
+//             calloutMain: {
+//                 minWidth: 200,
+//                 borderRadius: 6
+//             }
+//         }
+//     }}
+// />
                         //     options={options}
                         //     onRenderOption={(option) => <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}><span style={{ width: 18, height: 18, border: `1px solid ${option?.data?.color}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: option?.data?.color, backgroundColor: option?.data?.bgColor, padding: 2 }}><Icon iconName={option?.data?.iconName} /></span><span>{option?.text}</span></Stack>}
                         //     styles={{ root: { width: 180 }, dropdown: { minHeight: 20, borderRadius:6 }, title: { minHeight: 20, padding: "0 8px", fontSize: 13 } }}
                         //     style={{borderRadius: 6}}
                         // />)
-                    )
+                    //)
                             // <DefaultButton
                             //     text="Select"
                             //     menuProps={{
@@ -389,37 +389,37 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             // />)
                         
                           
-                        // <IconButton
-                        //     // iconProps={{
-                        //     //     iconName: "MoreVertical"
-                        //     // }}
-                        //     disabled={!(enableaction && validstatusforaction)}
-                        //     title="Actions"
-                        //     ariaLabel="Actions"
-                        //     styles={{
-                        //         root: {
-                        //             width: 32,
-                        //             height: 20,
-                        //             backgroundColor: "transparent"
-                        //         },
-                        //         rootHovered: {
-                        //             backgroundColor: "#F3F3F3"
-                        //         },
-                        //         icon: {
-                        //             fontSize: 24
-                        //         },
-                        //         menuIcon: {
-                        //             fontSize: 16,
-                        //             text: "Select",
-                        //             color: "#0D2499",
-                        //             fontWeight: 600
-                        //         },
+                        <IconButton
+                            // iconProps={{
+                            //     iconName: "MoreVertical"
+                            // }}
+                            disabled={!(enableaction && validstatusforaction)}
+                            title="Actions"
+                            ariaLabel="Actions"
+                            styles={{
+                                root: {
+                                    width: 32,
+                                    height: 20,
+                                    backgroundColor: "transparent"
+                                },
+                                rootHovered: {
+                                    backgroundColor: "#F3F3F3"
+                                },
+                                icon: {
+                                    fontSize: 24
+                                },
+                                menuIcon: {
+                                    fontSize: 16,
+                                    text: "Select",
+                                    color: "#0D2499",
+                                    fontWeight: 600
+                                },
                                 
                                 
-                        //     }}
-                        //     menuProps={{items: buttons}}
+                            }}
+                            menuProps={{items: buttons}}
                             
-                        // />
+                        />)
                         //<DefaultButton text="Select" menuProps={{ items: buttons }} styles={{ root: { minHeight: 20, height: 20, padding: "0 8px", borderRadius: 6 }, label: { fontSize: 13 } }} />)
                     
                         //<Dropdown placeholder="Select" options={options} onChange={this.onResolvedByBaseCampClick.bind(this)} styles={{ root: { width: 100 }, dropdown: { minHeight: 28, height: 28, borderRadius: 6 }, title: { minHeight: 28, height: 28, padding: "0 8px", fontSize: 13 } }} />)
