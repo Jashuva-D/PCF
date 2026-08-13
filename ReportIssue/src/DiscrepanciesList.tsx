@@ -4,7 +4,7 @@ import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 
 interface DiscrepanciesListProps{
-
+    applicationid: string
 }
 interface DiscrepanciesState {
     columns: IColumn[]
@@ -472,7 +472,36 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     componentDidMount(): void {
         this.setState({
             items: this.CreateFakeData()
-        })
+        });
+        
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+            function success(results : any) {
+                console.log(results);
+                for (var i = 0; i < results.entities.length; i++) {
+                    var result = results.entities[i];
+                    
+                    var crm2_datadiscrepancyfieldid = result["crm2_datadiscrepancyfieldid"]; // Guid
+                    var createdon = result["createdon"]; // Date Time
+                    var createdon_formatted = result["createdon@OData.Community.Display.V1.FormattedValue"];
+                    var crm2_currentvalue = result["crm2_currentvalue"]; // Multiline Text
+                    var crm2_datadiscrepancy = result["_crm2_datadiscrepancy_value"]; // Lookup
+                    var crm2_datadiscrepancy_formatted = result["_crm2_datadiscrepancy_value@OData.Community.Display.V1.FormattedValue"];
+                    var crm2_datadiscrepancy_lookuplogicalname = result["_crm2_datadiscrepancy_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
+                    var crm2_fieldname = result["crm2_fieldname"]; // Text
+                    var crm2_newvalue = result["crm2_newvalue"]; // Multiline Text
+                    var crm2_status = result["crm2_status"]; // Choice
+                    var crm2_status_formatted = result["crm2_status@OData.Community.Display.V1.FormattedValue"];
+                    
+                    // Many To One Relationships
+                    if (result.hasOwnProperty("crm2_DataDiscrepancy") && result["crm2_DataDiscrepancy"] !== null) {
+                        var crm2_DataDiscrepancy_crm2_name = result["crm2_DataDiscrepancy"]["crm2_name"]; // Text
+                    }
+                }
+            },
+            function(error: any) {
+                console.log(error.message);
+            }
+        );
     }
     CreateFakeData(): any[]{
         var fakedata = [];

@@ -173,7 +173,7 @@
 }
 .lookupPicker .ms-BasePicker-text {
     width: 20px !important;
-    min-width: 20px !important;
+    min-width: 200px !important;
 }
 .lookupPicker .ms-BasePicker-input {
     width: 160px !important;
@@ -201,7 +201,7 @@
 }
 .discrepancies {
   margin-top: 0;
-  max-height: 600px;
+  max-height: 550px;
   overflow-y: auto;
 }
 

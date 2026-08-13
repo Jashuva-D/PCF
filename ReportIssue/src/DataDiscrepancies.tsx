@@ -83,7 +83,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         />
                     </StackItem>}
                 </Stack>
-                {this.state.displaylist && (<DiscrepanciesList />)}
+                {this.state.displaylist && (<DiscrepanciesList applicationid={this.props.recordid!}/>)}
                 {this.state.openreportissue && (
                     <ReportIssue
                         appname={this.props.appname ?? ""}
