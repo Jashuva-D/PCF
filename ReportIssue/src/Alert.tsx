@@ -158,7 +158,7 @@ export default function Alert({
         <Stack horizontalAlign = "end" verticalAlign="end" horizontal>
           <PrimaryButton
               iconProps={{iconName: "home"}}
-              text="Go to Application"
+              text="Go to Summary"
               onClick={onGoToApplication}
               styles={{
                   icon: {

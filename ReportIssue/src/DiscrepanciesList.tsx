@@ -565,7 +565,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm HC - In Progress",
             dialogSubtext: "Are you sure you want to change the status to HC-In Progress. \n Once confirmed, the status will be changed to HC-In Progress",
-            dialogConfirmButtonLabel: "Transfer",
+            dialogConfirmButtonLabel: "Confirm",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
@@ -582,7 +582,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm BaseCamp - In Progress",
             dialogSubtext: "Are you sure you want to change the status to BaseCamp-In Progress. \n Once confirmed, the status will be changed to BaseCamp-In Progress",
-            dialogConfirmButtonLabel: "Transfer",
+            dialogConfirmButtonLabel: "Confirm",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
