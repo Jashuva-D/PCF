@@ -281,8 +281,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     (parent as any).Xrm.WebApi.retrieveRecord("systemuser", userid, "?$select=fullname,internalemailaddress").then((user : any) => {
         obj.setState({ useremail: user.internalemailaddress });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person", `?$select=cr549_email_address,cr549_direct_phone&$filter=cr549_email_address eq '${user.internalemailaddress}'`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_email_address,cr549_direct_phone&$filter=cr549_email_address eq '${user.internalemailaddress}'`).then(
           function success(results: any) {
+            alert("Reported By - \n"+JSON.stringify(results));
             if(results.entities == 0) throw new Error(`Person record not found with email ${user.internalemailaddress}`)
             var person = results.entities[0];
             obj.setState({
@@ -308,6 +309,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
       obj.setState({ applicationdata: app });
        if(!app["_cr549_hostingcoordinator_value"]) return;
         (parent as any).Xrm.WebApi.retrieveRecord("cr549_person",app["_cr549_hostingcoordinator_value"],"?$select=cr549_name,cr549_email_address").then((coordinator : any) => {
+          alert("COORDINATOR - \n"+JSON.stringify(coordinator));
           obj.setState({ 
             hostingcoordinator: {
               name: coordinator.cr549_name,
