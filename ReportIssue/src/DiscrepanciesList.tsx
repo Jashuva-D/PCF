@@ -470,6 +470,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         }
     }
     componentDidMount(): void {
+        var obj = this;
         this.setState({
             items: this.CreateFakeData()
         });
@@ -477,6 +478,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
                 console.log(results);
+                var discrepancies = [];
                 for (var i = 0; i < results.entities.length; i++) {
                     var result = results.entities[i];
                     
@@ -496,6 +498,20 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     if (result.hasOwnProperty("crm2_DataDiscrepancy") && result["crm2_DataDiscrepancy"] !== null) {
                         var crm2_DataDiscrepancy_crm2_name = result["crm2_DataDiscrepancy"]["crm2_name"]; // Text
                     }
+
+                    var eachdisc = {
+                        issueid: `IS-100${i.toString()}`,
+                        fieldname: result.crm2_fieldname,
+                        issuetitle: "1115 PMDA - General - Details",
+                        currentvalue: result.crm2_currentvalue ?? "",
+                        newvalue: result.crm2_newvalue ?? "",
+                        status: result["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+                        reportedon: result["createdon@OData.Community.Display.V1.FormattedValue"],
+                        reportedby: "Anuradha I"
+                    }
+                    discrepancies.push(eachdisc);
+
+                    obj.setState({items: discrepancies});
                 }
             },
             function(error: any) {
