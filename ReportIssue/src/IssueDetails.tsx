@@ -97,8 +97,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             function success(result: any) {
 
                 var issuedetails = {
-                    issuetitle : result.issuetitle,
-                    issuedescription: result.issuedescription,
+                    issuetitle : result.crm2_issuetitle,
+                    issuedescription: result.crm2_issuedescription,
                     reportedon: result.createdon,
                     fields: []
                 } as IssueDetails
