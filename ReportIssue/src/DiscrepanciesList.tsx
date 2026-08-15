@@ -124,38 +124,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var validstatusforaction = true;
                     if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
                     var buttons = [
-                        // {
-                        //     key: "hcinprogress",
-                        //     text: "HC - In Progress",
-                        //     iconProps: { iconName: "sync"},
-                        //     onRenderIcon: () => (
-                        //         <span
-                        //             style={{
-                        //                 width: "18px",
-                        //                 height: "18px",
-                        //                 border: "1px solid #7F2A9E",
-                        //                 borderRadius: "50%",
-                        //                 display: "inline-flex",
-                        //                 alignItems: "center",
-                        //                 justifyContent: "center",
-                        //                 color: "#7F2A9E",
-                        //                 backgroundColor: "#F1E4F7",
-                        //                 padding: 2
-                        //             }}
-                        //         >
-                        //             <Icon
-                        //                 iconName="sync"
-                        //                 styles={{
-                        //                     root: {
-                        //                         color: "#7F2A9E"
-                        //                     }
-                        //                 }}
-                        //                 style={{color: "#7F2A9E"}}
-                        //             />
-                        //         </span>
-                        //     ),
-                        //     onClick: this.onHCInprogressClick.bind(this, item)
-                        // },
                         {
                             key: "bcinprogress",
                             text: "In Progress",
@@ -186,7 +154,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     />
                                 </span>
                             ),
-                            onClick: this.onBaseCampInprogressClick.bind(this, item)
+                            onClick: this.onInProgressClick.bind(this, item)
                         },
                         {
                             key: "resolve",
@@ -218,40 +186,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     />
                                 </span>
                             ),
-                            onClick: this.onResolvedByHCClick.bind(this, item)
+                            onClick: this.onResolvedClick.bind(this, item)
                         },
-                        // {
-                        //     key: "resolve",
-                        //     text: "Resolved by BaseCamp",
-                        //     iconProps: { iconName: "checkMark"},
-                        //     onRenderIcon: () => (
-                        //         <span
-                        //             style={{
-                        //                 width: "18px",
-                        //                 height: "18px",
-                        //                 border: "1px solid #107C10",
-                        //                 borderRadius: "50%",
-                        //                 display: "inline-flex",
-                        //                 alignItems: "center",
-                        //                 justifyContent: "center",
-                        //                 color: "#107C10",
-                        //                 backgroundColor: "#E8F5E8",
-                        //                 padding: 2
-                        //             }}
-                        //         >
-                        //             <Icon
-                        //                 iconName="checkMark"
-                        //                 styles={{
-                        //                     root: {
-                        //                         color: "#107C10"
-                        //                     }
-                        //                 }}
-                        //                 style={{color: "#107C10"}}
-                        //             />
-                        //         </span>
-                        //     ),
-                        //     onClick: this.onResolvedByBaseCampClick.bind(this, item)
-                        // },
                         {
                             key: "delegate",
                             text: "Transfer to BaseCamp Team",
@@ -539,24 +475,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         }
         return fakedata; 
     }
-    onResolvedByHCClick(item: any) {
-        var obj = this;
-        this.setState({
-            cmsdialog: true,
-            dialogTitle: "Confirm Resolve",
-            dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved",
-            dialogConfirmButtonLabel: "Resolve",
-            dialogCancelButtonLabel: "Go Back",
-            confirmButtonColor: "#0D2499",
-            dialogConfirmCallback: () => {
-                //alert(`resolved ${item['issueid']}`);
-            },
-            dialogCancelCallback: () => {
-                
-            }
-        })
-    }
-    onResolvedByBaseCampClick(item: any) {
+    
+    onResolvedClick(item: any) {
         var obj = this;
         this.setState({
             cmsdialog: true,
@@ -566,7 +486,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                //alert(`resolved ${item['issueid']}`);
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
+                    obj.setState({cmsdialog: false})
+                },function(err: any){
+                    alert("error occured"+err?.message)
+                })
             },
             dialogCancelCallback: () => {
                 
@@ -584,7 +508,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
             dialogConfirmCallback: () => {
-                //alert(`cancelled ${item['issueid']}`);
+               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
+                    obj.setState({cmsdialog: false})
+                },function(err: any){
+                    alert("error occured"+err?.message)
+                })
             },
             dialogCancelCallback: () => {
                 
@@ -601,31 +529,19 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                //alert(`resolved ${item['issueid']}`);
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
+                    obj.setState({cmsdialog: false})
+                },function(err: any){
+                    alert("error occured"+err?.message)
+                })
             },
             dialogCancelCallback: () => {
                 
             }
         })
     }
-    onHCInprogressClick(item: any){
-        var obj = this;
-        this.setState({
-            cmsdialog: true,
-            dialogTitle: "Confirm HC - In Progress",
-            dialogSubtext: "Are you sure you want to change the status to HC-In Progress. \n Once confirmed, the status will be changed to HC-In Progress",
-            dialogConfirmButtonLabel: "Confirm",
-            dialogCancelButtonLabel: "Go Back",
-            confirmButtonColor: "#0D2499",
-            dialogConfirmCallback: () => {
-                //alert(`resolved ${item['issueid']}`);
-            },
-            dialogCancelCallback: () => {
-                
-            }
-        })
-    }
-    onBaseCampInprogressClick(item: any){
+    
+    onInProgressClick(item: any){
         var obj = this;
         this.setState({
             cmsdialog: true,
@@ -635,7 +551,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                //alert(`resolved ${item['issueid']}`);
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
+                    obj.setState({cmsdialog: false})
+                },function(err: any){
+                    alert("error occured"+err?.message)
+                })
             },
             dialogCancelCallback: () => {
                 
@@ -718,7 +638,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     this.setState({ cmsdialog: false });
                 }}
                 onConfirm={() => {
-                    this.setState({ cmsdialog: false });
+                    //this.setState({ cmsdialog: false });
                     this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
                 }}
                 onCancel={() => {
