@@ -2,9 +2,12 @@ import * as React from "react";
 import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
+import { TabOptions } from "./data";
 
 interface DiscrepanciesListProps{
     applicationid: string
+    tabname: string,
+    sectionname: string
 }
 interface DiscrepanciesState {
     columns: IColumn[]
@@ -490,39 +493,23 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
-                console.log(results);
                 var discrepancies = [];
-                for (var i = 0; i < results.entities.length; i++) {
-                    var result = results.entities[i];
-                    
-                    var crm2_datadiscrepancyfieldid = result["crm2_datadiscrepancyfieldid"]; // Guid
-                    var createdon = result["createdon"]; // Date Time
-                    var createdon_formatted = result["createdon@OData.Community.Display.V1.FormattedValue"];
-                    var crm2_currentvalue = result["crm2_currentvalue"]; // Multiline Text
-                    var crm2_datadiscrepancy = result["_crm2_datadiscrepancy_value"]; // Lookup
-                    var crm2_datadiscrepancy_formatted = result["_crm2_datadiscrepancy_value@OData.Community.Display.V1.FormattedValue"];
-                    var crm2_datadiscrepancy_lookuplogicalname = result["_crm2_datadiscrepancy_value@Microsoft.Dynamics.CRM.lookuplogicalname"];
-                    var crm2_fieldname = result["crm2_fieldname"]; // Text
-                    var crm2_newvalue = result["crm2_newvalue"]; // Multiline Text
-                    var crm2_status = result["crm2_status"]; // Choice
-                    var crm2_status_formatted = result["crm2_status@OData.Community.Display.V1.FormattedValue"];
-                    
-                    // Many To One Relationships
-                    if (result.hasOwnProperty("crm2_DataDiscrepancy") && result["crm2_DataDiscrepancy"] !== null) {
-                        var crm2_DataDiscrepancy_crm2_name = result["crm2_DataDiscrepancy"]["crm2_name"]; // Text
-                    }
-
+                var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
+                var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
+                var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
+                for (var i = 0; i < records.length; i++) {
+                    var eachreacord = results.entities[i];
                     var eachdisc = {
-                        fieldid: result.crm2_name,
-                        issueid: result["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: result.crm2_fieldname,
-                        issuetitle: result["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: result.crm2_currentvalue ?? "",
-                        newvalue: result.crm2_newvalue ?? "",
-                        status: result["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: result["createdon@OData.Community.Display.V1.FormattedValue"],
+                        fieldid: eachreacord.crm2_name,
+                        issueid: eachreacord["crm2_DataDiscrepancy"]["crm2_name"],
+                        fieldname: eachreacord.crm2_fieldname,
+                        issuetitle: eachreacord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+                        currentvalue: eachreacord.crm2_currentvalue ?? "",
+                        newvalue: eachreacord.crm2_newvalue ?? "",
+                        status: eachreacord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+                        reportedon: eachreacord["createdon@OData.Community.Display.V1.FormattedValue"],
                         reportedby: "Anuradha I"
                     }
                     discrepancies.push(eachdisc);
