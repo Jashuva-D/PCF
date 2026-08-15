@@ -650,7 +650,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                                 disabled={!haseditrole}
                             />
-                            {/* <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => this.setState({ openQuickCreatePanel: true })} 
+                            <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => this.setState({ openQuickCreatePanel: true })} 
                                 style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#0D2499" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
@@ -663,7 +663,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     },
                                 }}
                                 disabled={!haseditrole}
-                            /> */}
+                            />
                             <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
                                 style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
                                 styles={ { 
