@@ -501,7 +501,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
                 var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
                 for (var i = 0; i < records.length; i++) {
-                    var eachrecord = results.entities[i];
+                    var eachrecord = records[i];
                     var eachdisc = {
                         fieldid: eachrecord.crm2_name,
                         issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
