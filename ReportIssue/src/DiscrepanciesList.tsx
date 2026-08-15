@@ -93,15 +93,15 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 minWidth: 80,
                 onRender: (item: any) => {
                     var textcolor = "#107C10";
-                    var bgcolor = "0D47A1";
+                    var bgcolor = "#0D47A1";
 
-                    if(item["status"] == "In Progress") { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
-                    if(item["status"] == "New") { bgcolor = "#E7F6EA"; textcolor= "#107C10";}
-                    if(item["status"] == "In Review") { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
-                    if(item["status"] == "Resolved") { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
-                    if(item["status"] == "Transferred to BaseCamp") { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
-                    if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
-                    if(item["status"] == "Cancelled") { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
+                    if(item["status_value"] == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
+                    if(item["status_value"] == 289940000 ) { bgcolor = "#E7F6EA"; textcolor= "#107C10";}
+                    if(item["status_value"] == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
+                    if(item["status_value"] == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
+                    //if(item["status_value"] == 289940003) { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
+                    //if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
+                    if(item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
                     
                     return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status"]}</Text></TooltipHost></Stack>;
                 }
@@ -426,9 +426,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     }
     componentDidMount(): void {
         var obj = this;
-        this.setState({
-            items: this.CreateFakeData()
-        });
+        // this.setState({
+        //     items: this.CreateFakeData()
+        // });
         
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
@@ -445,6 +445,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
                         currentvalue: eachrecord.crm2_currentvalue ?? "",
                         newvalue: eachrecord.crm2_newvalue ?? "",
+                        status_value: eachrecord.crm2_status,
                         status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
                         reportedon: eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
                         reportedby: "Anuradha I",
@@ -488,6 +489,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
+                    obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -510,6 +512,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             confirmButtonColor: "#D13438",
             dialogConfirmCallback: () => {
                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
+                    obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -531,6 +534,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
+                    obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -553,7 +557,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
-                    obj.setState({cmsdialog: false})
+                    obj.componentDidMount.bind(obj)();
+                    obj.setState({cmsdialog: false});
+                    
                 },function(err: any){
                     alert("error occured"+err?.message)
                 })
