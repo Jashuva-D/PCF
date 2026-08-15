@@ -526,9 +526,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         reportedby: "Anuradha I"
                     }
                     discrepancies.push(eachdisc);
-
-                    obj.setState({items: discrepancies});
                 }
+                obj.setState({items: discrepancies});
             },
             function(error: any) {
                 console.log(error.message);
