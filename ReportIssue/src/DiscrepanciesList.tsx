@@ -430,7 +430,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
                 var discrepancies = [];
                 var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
@@ -448,7 +448,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
                         reportedon: eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
                         reportedby: "Anuradha I",
-                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"]
+                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
+                        datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
                     }
                     discrepancies.push(eachdisc);
                 }
@@ -486,7 +487,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -508,7 +509,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
             dialogConfirmCallback: () => {
-               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
+               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -529,7 +530,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
@@ -551,7 +552,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: () => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["crm2_datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
                     obj.setState({cmsdialog: false})
                 },function(err: any){
                     alert("error occured"+err?.message)
