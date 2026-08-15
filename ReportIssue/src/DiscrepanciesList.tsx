@@ -15,6 +15,7 @@ interface DiscrepanciesState {
     currentPage: number
     pageSize: number,
     openDetails: boolean,
+    issuerecordidToOpen?: string,
     cmsdialog: boolean,
     dialogTitle?: string;
     dialogSubtext?: string;
@@ -52,7 +53,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 maxWidth: 50,
                 onRender: (item: any) => {
                     var obj = this;
-                    return <Link onClick={() => {obj.setState({openDetails: true})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
+                    return <Link onClick={() => {obj.setState({openDetails: true,issuerecordidToOpen: item.issuerecordid})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
                 }
             },
             {
@@ -493,24 +494,25 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield", `?$select=crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
                 var discrepancies = [];
                 var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
                 var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
                 var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
                 for (var i = 0; i < records.length; i++) {
-                    var eachreacord = results.entities[i];
+                    var eachrecord = results.entities[i];
                     var eachdisc = {
-                        fieldid: eachreacord.crm2_name,
-                        issueid: eachreacord["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: eachreacord.crm2_fieldname,
-                        issuetitle: eachreacord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: eachreacord.crm2_currentvalue ?? "",
-                        newvalue: eachreacord.crm2_newvalue ?? "",
-                        status: eachreacord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: eachreacord["createdon@OData.Community.Display.V1.FormattedValue"],
-                        reportedby: "Anuradha I"
+                        fieldid: eachrecord.crm2_name,
+                        issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
+                        fieldname: eachrecord.crm2_fieldname,
+                        issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+                        currentvalue: eachrecord.crm2_currentvalue ?? "",
+                        newvalue: eachrecord.crm2_newvalue ?? "",
+                        status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+                        reportedon: eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+                        reportedby: "Anuradha I",
+                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"]
                     }
                     discrepancies.push(eachdisc);
                 }
@@ -687,21 +689,23 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     </Stack>
                 </Stack>
             </div>
+            {this.state.openDetails && 
             <IssueDetailsDialog 
-                isOpen={this.state.openDetails} 
-                issue={{
-                    issuetitle: "1115 PMDA - General - Details - Data Discrepancy", 
-                    issuedescription: "Testing the issue report with view details feature on click of a row",
-                    reportedon: new Date().toLocaleDateString(),
-                    reportedby: {name : "Anuradha I", email: "anuradha.inampudi@cms.hhs.gov"},
-                    assignedto: {name: "Pinal Jariwala", email: "pinal.jariwala@cms.hhs.gov"},
-                    delegatedto: {name: "Swati Albal", email: "swati.albal@cms.hhs.gov"},
-                    fields:[
-                        {fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"},
-                        {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
-                    ]}}
+                isOpen={this.state.openDetails}
+                issuerecordid={this.state.issuerecordidToOpen!}
+                // issue={{
+                //     issuetitle: "1115 PMDA - General - Details - Data Discrepancy", 
+                //     issuedescription: "Testing the issue report with view details feature on click of a row",
+                //     reportedon: new Date().toLocaleDateString(),
+                //     reportedby: {name : "Anuradha I", email: "anuradha.inampudi@cms.hhs.gov"},
+                //     assignedto: {name: "Pinal Jariwala", email: "pinal.jariwala@cms.hhs.gov"},
+                //     delegatedto: {name: "Swati Albal", email: "swati.albal@cms.hhs.gov"},
+                //     fields:[
+                //         {fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"},
+                //         {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
+                //     ]}}
                 onClose={() => {this.setState({openDetails: false})}}
-            />
+            />}
             <CMSDialog
                 isOpen={this.state.cmsdialog!}
                 title={this.state.dialogTitle}

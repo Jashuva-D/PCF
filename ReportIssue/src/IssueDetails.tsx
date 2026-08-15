@@ -29,11 +29,15 @@ export interface IssueDetails {
 interface IssueDetailsDialogProps {
     isOpen: boolean;
     issue?: IssueDetails | null;
+    issuerecordid: string,
     onClose: () => void;
     onResolve?: (issue: IssueDetails) => void;
 }
+interface IssueDetailsDialogState{
+    issue: IssueDetails | null;
+}
 
-export default class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps> {
+class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
 
     private columns: IColumn[] = [
         {
@@ -63,7 +67,14 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
                 </span>
             )
         }
-    ];
+    ];;
+
+    constructor(props: IssueDetailsDialogProps){
+        super(props);
+        this.state = {
+            issue : null
+        }
+    }
 
     private renderPerson(title: string, person?: { name: string; email?: string; }) {
         return (
@@ -80,9 +91,59 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
             </Stack>
         );
     }
+    componentDidMount(): void {
+        var obj = this;
+        (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_currentvalue,crm2_fieldname,crm2_newvalue),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
+            function success(result: any) {
+
+                var issuedetails = {
+                    issuetitle : result.issuetitle,
+                    issuedescription: result.issuedescription,
+                    reportedon: result.createdon,
+                    fields: []
+                } as IssueDetails
+                if (result.hasOwnProperty("crm2_AssignedTo") && result["crm2_AssignedTo"] !== null) {
+                    var assignedto = {
+                        name: result["crm2_AssignedTo"]["cr549_name"],
+                        email: result["crm2_AssignedTo"]["cr549_email_address"]
+                    }
+                    issuedetails.assignedto = assignedto;
+                }
+                if (result.hasOwnProperty("crm2_DelegateTo") && result["crm2_DelegateTo"] !== null) {
+                    var delegateto = {
+                        name: result["crm2_DelegateTo"]["cr549_name"],
+                        email: result["crm2_DelegateTo"]["cr549_email_address"]
+                    }
+                    issuedetails.delegatedto = delegateto;
+                }
+                if (result.hasOwnProperty("crm2_ReportedBy") && result["crm2_ReportedBy"] !== null) {
+                    var reportedby = {
+                        name: result["crm2_ReportedBy"]["cr549_name"],
+                        email: result["crm2_ReportedBy"]["cr549_email_address"]
+                    }
+                    issuedetails.reportedby = reportedby;
+                }
+
+                for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
+                    var field = {
+                        fieldname: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_fieldname"],
+                        currentvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_currentvalue"],
+                        newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"]
+                    }
+                    issuedetails.fields.push(field);
+                }
+                obj.setState({issue: issuedetails})
+                
+            },
+            function(error: any) {
+                console.log(error.message);
+            }
+        );
+    }
 
     render() {
-        const {isOpen, issue, onClose, onResolve } = this.props;
+        const {isOpen,  onClose, onResolve } = this.props;
+        const {issue} = this.state;
         if (!issue) return null;
 
         return (
@@ -169,3 +230,5 @@ export default class IssueDetailsDialog extends React.Component<IssueDetailsDial
         );
     }
 }
+
+export default IssueDetailsDialog;
