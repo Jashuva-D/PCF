@@ -203,6 +203,7 @@
   margin-top: 0;
   max-height: 550px;
   overflow-y: auto;
+  border: 1
 }
 
 .issue-details-content {

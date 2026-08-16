@@ -55,12 +55,12 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                             </div>
                         </div>
                     </StackItem>
-                    <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6, height: 60, width: 400}}>
+                    {/* <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6, height: 60, width: 300}}>
                         <Stack horizontal horizontalAlign="center" verticalAlign="center" style={{padding: 10}} tokens={{childrenGap: 10}}>
                         <Icon iconName="info" color="#0D2499" style={{color: "#0D2499", fontSize: 24, }}></Icon>
                         <Text >This view shows all data discrepancies for the selected application, tab and section</Text>
                         </Stack>
-                    </StackItem>
+                    </StackItem> */}
                     {!this.state.openreportissue && <StackItem align="center" style={{paddingRight: 10}} >
                         <PrimaryButton
                             text="Add New"
@@ -89,13 +89,20 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         />
                     </StackItem>}
                 </Stack>
-                <Separator></Separator>
+                <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6}}>
+                        <Stack horizontal horizontalAlign="center" verticalAlign="center" style={{padding: 5}} tokens={{childrenGap: 10}}>
+                            <Icon iconName="info" color="#0D2499" style={{color: "#0D2499", fontSize: 24, }}></Icon>
+                            <Text >This view shows all data discrepancies for the selected application, tab and section</Text>
+                        </Stack>
+                </StackItem>
+                {/* <Separator></Separator> */}
                 {this.state.displaylist && (
-                    <DiscrepanciesList 
+                    <StackItem style={{border: "1px solid #EDEBE9", marginTop: 5, paddingBottom: 5}}><DiscrepanciesList 
                         applicationid={this.props.recordid!}
                         tabname={this.props.tabname!}
                         sectionname={this.props.sectionname!}
                     />
+                    </StackItem>
                 )}
                 {this.state.openreportissue && (
                     <ReportIssue

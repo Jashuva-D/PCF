@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
@@ -430,36 +430,36 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
-            function success(results : any) {
-                var discrepancies = [];
-                var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
-                var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
-                var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
-                for (var i = 0; i < records.length; i++) {
-                    var eachrecord = records[i];
-                    var eachdisc = {
-                        fieldid: eachrecord.crm2_name,
-                        issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: eachrecord.crm2_fieldname,
-                        issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: eachrecord.crm2_currentvalue ?? "",
-                        newvalue: eachrecord.crm2_newvalue ?? "",
-                        status_value: eachrecord.crm2_status,
-                        status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
-                        reportedby: "Anuradha I",
-                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
-                        datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
-                    }
-                    discrepancies.push(eachdisc);
-                }
-                obj.setState({items: discrepancies});
-            },
-            function(error: any) {
-                console.log(error.message);
-            }
-        );
+        // (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        //     function success(results : any) {
+        //         var discrepancies = [];
+        //         var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
+        //         var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
+        //         var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
+        //         for (var i = 0; i < records.length; i++) {
+        //             var eachrecord = records[i];
+        //             var eachdisc = {
+        //                 fieldid: eachrecord.crm2_name,
+        //                 issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
+        //                 fieldname: eachrecord.crm2_fieldname,
+        //                 issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+        //                 currentvalue: eachrecord.crm2_currentvalue ?? "",
+        //                 newvalue: eachrecord.crm2_newvalue ?? "",
+        //                 status_value: eachrecord.crm2_status,
+        //                 status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+        //                 reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+        //                 reportedby: "Anuradha I",
+        //                 issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
+        //                 datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
+        //             }
+        //             discrepancies.push(eachdisc);
+        //         }
+        //         obj.setState({items: discrepancies});
+        //     },
+        //     function(error: any) {
+        //         console.log(error.message);
+        //     }
+        // );
     }
     CreateFakeData(): any[]{
         var fakedata = [];
@@ -575,8 +575,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const endIndex = startIndex + this.state.pageSize;
         const paginatedRecords = this.state.items.slice(startIndex, endIndex);
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
-        return <>
-            <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499"}}>Data Discrepancies</Label><Text style={{backgroundColor: "#E6E9FF", padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
+        return <Stack>
+            <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499", fontSize: 16, fontWeight: 700}}>Data Discrepancies</Label><Text style={{backgroundColor: "#E6E9FF", padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
@@ -587,7 +587,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         paddingTop: 0
                     },
                     
+                    
                 }}
+                
                 
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
@@ -609,7 +611,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
-                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
+                    {/* <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
                         <Text styles={{ root: { fontSize: 18, fontWeight: 600, color: "#323130" } }}>Actions:</Text>
                         <TooltipHost content={"Start working on the discrepancy"}><Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
@@ -618,9 +620,23 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         <TooltipHost content={"Escalate the discrepancy to the BaseCamp team for further review"}><Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
                         <TooltipHost content={"Close the discrepancy without resolution"}><Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text></TooltipHost>
-                    </Stack>
+                    </Stack> */}
                 </Stack>
             </div>
+            <StackItem style={{backgroundColor: "#F0F2FF", marginTop: 10, padding: 10}}>
+                <Stack tokens={{childrenGap: 10}}>
+                <StackItem><Text styles={{ root: { fontSize: 16, fontWeight: 700, color: "#323130" } }}>Action Legend: </Text><Text>Use the actions below to manage the selected discrepancy</Text></StackItem>
+                <StackItem>
+                <Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text><Text> - Start working on the discrepancy</Text>
+                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                <Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text><Text> - Mark the discrepancy as Resolved</Text>
+                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                <Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text><Text> - Escalate the discrepancy to the BaseCamp team for further review</Text>
+                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                <Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text><Text> - Close the discrepancy without resolution</Text>
+                </StackItem>
+                </Stack>
+            </StackItem>
             {this.state.openDetails && 
             <IssueDetailsDialog 
                 isOpen={this.state.openDetails}
@@ -657,7 +673,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     this.setState({ cmsdialog: false });
                 }}
             />
-        </>
+        </Stack>
     }
 }
 

@@ -465,7 +465,7 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
         </div> */}
 
         <div className="report-card">
-          <div className="section-title">Issue Details</div>
+          <div className="section-title">Report Discrepancy</div>
 
           <div className="form-grid">
             {/* <div>
