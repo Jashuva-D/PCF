@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
@@ -96,7 +96,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var bgcolor = "#0D47A1";
 
                     if(item["status_value"] == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
-                    if(item["status_value"] == 289940000 ) { bgcolor = "#E7F6EA"; textcolor= "#107C10";}
+                    if(item["status_value"] == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}
                     if(item["status_value"] == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
                     if(item["status_value"] == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
                     //if(item["status_value"] == 289940003) { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
@@ -117,7 +117,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             },
             {
                 key: "actions",
-                name: "Actions",
+                name: "Action",
                 minWidth: 50,
                 isResizable: true,
                 onRender: (item: any) => {
@@ -190,7 +190,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         },
                         {
                             key: "delegate",
-                            text: "Transfer to BaseCamp Team",
+                            text: "Transfer to BaseCamp Support",
                             iconProps: {
                                 iconName: "people",
                             },
@@ -242,7 +242,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                     }}
                                 >
                                     <Icon
-                                        iconName="people"
+                                        iconName="cancel"
                                         styles={{
                                             root: {
                                                 color: "#D13438"
@@ -426,9 +426,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     }
     componentDidMount(): void {
         var obj = this;
-        // this.setState({
-        //     items: this.CreateFakeData()
-        // });
+        this.setState({
+            items: this.CreateFakeData()
+        });
         
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
@@ -447,7 +447,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         newvalue: eachrecord.crm2_newvalue ?? "",
                         status_value: eachrecord.crm2_status,
                         status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
                         reportedby: "Anuradha I",
                         issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
                         datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
@@ -576,6 +576,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const paginatedRecords = this.state.items.slice(startIndex, endIndex);
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
         return <>
+            <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499"}}>Data Discrepancies</Label><Text style={{backgroundColor: "#E6E9FF", padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
@@ -584,8 +585,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 styles={{
                     headerWrapper: {
                         paddingTop: 0
-                    }
+                    },
+                    
                 }}
+                
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
@@ -598,7 +601,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             disabled={this.state.currentPage === 1 || totalPages === 0}
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
-                        <Text style={{paddingTop: 5}}>Page: {this.state.currentPage.toString()}</Text>
+                        <Text style={{paddingTop: 5, fontWeight: 600}}>Page: {this.state.currentPage.toString()} or {totalPages}</Text>
                         <DefaultButton
                             text={">"}
                             onClick={() => this.setState({ currentPage: this.state.currentPage + 1 })}
@@ -607,12 +610,14 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         />
                     </Stack>
                     <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
-                        <Text styles={{ root: { fontSize: 14, fontWeight: 800, color: "#323130" } }}>Actions:</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#107C10", fontWeight: 600 } }}>Resolve</Text>
-                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 600 } }}>|</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#0D2499", fontWeight: 600 } }}>Transfer to BaseCamp</Text>
-                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 600 } }}>|</Text>
-                        <Text styles={{ root: { fontSize: 11, color: "#D13438", fontWeight: 600 } }}>Cancel</Text>
+                        <Text styles={{ root: { fontSize: 18, fontWeight: 600, color: "#323130" } }}>Actions:</Text>
+                        <TooltipHost content={"Start working on the discrepancy"}><Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text></TooltipHost>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
+                        <TooltipHost content={"Mark the discrepancy as Resolved"}><Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text></TooltipHost>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
+                        <TooltipHost content={"Escalate the discrepancy to the BaseCamp team for further review"}><Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text></TooltipHost>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
+                        <TooltipHost content={"Close the discrepancy without resolution"}><Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text></TooltipHost>
                     </Stack>
                 </Stack>
             </div>

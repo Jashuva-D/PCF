@@ -1,7 +1,7 @@
 import * as React from "react";
 import ReportIssue from "./ReportIssue";
 import DiscrepanciesList from "./DiscrepanciesList";
-import {DefaultButton, PrimaryButton, Stack, StackItem,Label,Text, Separator } from "@fluentui/react";
+import {DefaultButton, PrimaryButton, Stack, StackItem,Label,Text, Separator, Icon } from "@fluentui/react";
 import { FlagIcon } from "./icons";
 import { TabOptions } from "./data";
 
@@ -55,6 +55,12 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                             </div>
                         </div>
                     </StackItem>
+                    <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6, height: 60, width: 400}}>
+                        <Stack horizontal horizontalAlign="center" verticalAlign="center" style={{padding: 10}} tokens={{childrenGap: 10}}>
+                        <Icon iconName="info" color="#0D2499" style={{color: "#0D2499", fontSize: 24, }}></Icon>
+                        <Text >This view shows all data discrepancies for the selected application, tab and section</Text>
+                        </Stack>
+                    </StackItem>
                     {!this.state.openreportissue && <StackItem align="center" style={{paddingRight: 10}} >
                         <PrimaryButton
                             text="Add New"
@@ -83,6 +89,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         />
                     </StackItem>}
                 </Stack>
+                <Separator></Separator>
                 {this.state.displaylist && (
                     <DiscrepanciesList 
                         applicationid={this.props.recordid!}
