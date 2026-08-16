@@ -4,6 +4,7 @@ import Applications from "./Applications";
 import PowerBIReport from "./PowerBiReport";
 import {Stack, StackItem} from "@fluentui/react";
 import {PowerVaultHero} from "./BaseCampLogo";
+import { ApplicationSummaryCards } from "./Items";
 import { CMSMyAppsIcon, CMSHCTADDashBoardIcon, CMSExecutiveDashboardIcon, CMSAuditingDashboardIcon } from "./Icons";
 
 interface HomePageProps {
@@ -41,7 +42,10 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
     }
     render() {
         return <>
-            <PowerVaultHero/>
+            <Stack style={{marginTop: 10, marginBottom: 10}} tokens={{childrenGap: 10}}>
+                <PowerVaultHero/>
+                <ApplicationSummaryCards />
+            </Stack>
             <Stack tokens={{childrenGap: 10}}>
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Notifications /></StackItem>
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Applications /></StackItem>
