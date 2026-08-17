@@ -96,53 +96,359 @@ const iconstyles = {
   }
 export const PowerVaultIcon: React.FC = () => {
   return (
-        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <linearGradient id="shieldRight" x1="290" y1="100" x2="420" y2="420" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="#07528B"/>
-                <stop offset="0.55" stop-color="#03416D"/>
-                <stop offset="1" stop-color="#01395E"/>
-            </linearGradient>
+      <svg
+          width="512"
+          height="512"
+          viewBox="0 0 512 512"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+      >
+          <defs>
 
-            <linearGradient id="outlineGradient" x1="90" y1="80" x2="440" y2="460" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#073C73"/>
-                <stop offset="1" stop-color="#012C4D"/>
-            </linearGradient>
-
-            <linearGradient id="dialLeft" x1="155" y1="165" x2="300" y2="350" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#158AFF"/>
-                <stop offset="1" stop-color="#0868D4"/>
-            </linearGradient>
-
-            <linearGradient id="dialRight" x1="290" y1="180" x2="380" y2="350" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#21D5EE"/>
-                <stop offset="1" stop-color="#08BBDC"/>
-            </linearGradient>
+              <linearGradient id="shieldLeft" x1="100" y1="95" x2="300" y2="440"
+                  gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#1687F8" />
+                  <stop offset="0.55" stop-color="#0869D8" />
+                  <stop offset="1" stop-color="#0753B6" />
+              </linearGradient>
 
 
-            <linearGradient id="sparkGradient" x1="370" y1="56" x2="445" y2="175" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#56F1FF"/>
-                <stop offset="0.55" stop-color="#11D9EF"/>
-                <stop offset="1" stop-color="#02A8D6"/>
-            </linearGradient>
-
-            
-            <linearGradient id="whiteGradient" x1="200" y1="180" x2="320" y2="350" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#FFFFFF"/>
-                <stop offset="1" stop-color="#F3F7FC"/>
-            </linearGradient>
-
-            
-            <radialGradient id="centerGradient">
-                <stop offset="0" stop-color="#FFFFFF"/>
-                <stop offset="0.75" stop-color="#FCFCFC"/>
-                <stop offset="1" stop-color="#E6EDF5"/>
-            </radialGradient>
+              <linearGradient id="shieldRight" x1="290" y1="100" x2="420" y2="420"
+                  gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#07528B" />
+                  <stop offset="0.55" stop-color="#03416D" />
+                  <stop offset="1" stop-color="#01395E" />
+              </linearGradient>
 
 
-            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#001E3A" flood-opacity="0.25"/>
-            </filter>
-        </svg>
+              <linearGradient id="outlineGradient" x1="90" y1="80" x2="440" y2="460"
+                  gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#073C73" />
+                  <stop offset="1" stop-color="#012C4D" />
+              </linearGradient>
+
+
+              <linearGradient id="dialLeft" x1="155" y1="165" x2="300" y2="350"
+                  gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#158AFF" />
+                  <stop offset="1" stop-color="#0868D4" />
+              </linearGradient>
+
+              <linearGradient id="dialRight" x1="290" y1="180" x2="380" y2="350"
+                  gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#21D5EE" />
+                  <stop offset="1" stop-color="#08BBDC" />
+              </linearGradient>
+
+
+              <linearGradient id="sparkGradient" x1="370" y1="56" x2="445" y2="175"
+                  gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#56F1FF" />
+                  <stop offset="0.55" stop-color="#11D9EF" />
+                  <stop offset="1" stop-color="#02A8D6" />
+              </linearGradient>
+
+
+              <linearGradient id="whiteGradient" x1="200" y1="180" x2="320" y2="350"
+                  gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FFFFFF" />
+                  <stop offset="1" stop-color="#F3F7FC" />
+              </linearGradient>
+
+
+              <radialGradient id="centerGradient">
+                  <stop offset="0" stop-color="#FFFFFF" />
+                  <stop offset="0.75" stop-color="#FCFCFC" />
+                  <stop offset="1" stop-color="#E6EDF5" />
+              </radialGradient>
+
+
+              <filter id="softShadow"
+                  x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow
+                      dx="0"
+                      dy="4"
+                      stdDeviation="4"
+                      flood-color="#001E3A"
+                      flood-opacity="0.25"
+                  />
+              </filter>
+          </defs>
+
+
+
+          <path
+              d="
+      M252 57
+      L407 131
+      V264
+      C407 359 350 427 252 470
+      C154 427 97 359 97 264
+      V131
+      L252 57Z
+    "
+              fill="url(#outlineGradient)"
+          />
+
+
+          <path
+              d="
+      M252 76
+      L387 140
+      V261
+      C387 345 338 404 252 445
+      C166 404 117 345 117 261
+      V140
+      L252 76Z
+    "
+              fill="#FFFFFF"
+          />
+
+
+          <path
+              d="
+      M252 93
+      L252 426
+      C177 389 135 337 135 260
+      V151
+      L252 93Z
+    "
+              fill="url(#shieldLeft)"
+          />
+
+
+          <path
+              d="
+      M252 93
+      L369 151
+      V260
+      C369 337 327 389 252 426
+      V93Z
+    "
+              fill="url(#shieldRight)"
+          />
+
+
+          <circle
+              cx="252"
+              cy="262"
+              r="105"
+              fill="#FFFFFF"
+          />
+
+
+          <path
+              d="
+      M252 176
+      A86 86 0 0 0 252 348
+      Z
+    "
+              fill="url(#dialLeft)"
+          />
+
+
+          <path
+              d="
+      M252 176
+      A86 86 0 0 1 252 348
+      Z
+    "
+              fill="url(#dialRight)"
+          />
+
+
+          <rect
+              x="247"
+              y="176"
+              width="10"
+              height="172"
+              fill="#FFFFFF"
+          />
+
+          <rect
+              x="166"
+              y="257"
+              width="172"
+              height="10"
+              fill="#FFFFFF"
+          />
+
+
+          <circle
+              cx="252"
+              cy="262"
+              r="43"
+              fill="#063866"
+              filter="url(#softShadow)"
+          />
+
+          <circle
+              cx="252"
+              cy="262"
+              r="35"
+              fill="#073E72"
+          />
+
+
+          <rect
+              x="241"
+              y="196"
+              width="22"
+              height="52"
+              rx="10"
+              fill="url(#whiteGradient)"
+              stroke="#063866"
+              stroke-width="7"
+          />
+
+
+          <rect
+              x="241"
+              y="276"
+              width="22"
+              height="52"
+              rx="10"
+              fill="url(#whiteGradient)"
+              stroke="#063866"
+              stroke-width="7"
+          />
+
+
+          <rect
+              x="186"
+              y="251"
+              width="53"
+              height="22"
+              rx="10"
+              fill="url(#whiteGradient)"
+              stroke="#063866"
+              stroke-width="7"
+          />
+
+
+          <rect
+              x="265"
+              y="251"
+              width="53"
+              height="22"
+              rx="10"
+              fill="url(#whiteGradient)"
+              stroke="#063866"
+              stroke-width="7"
+          />
+
+
+          <circle
+              cx="252"
+              cy="262"
+              r="24"
+              fill="url(#centerGradient)"
+          />
+
+
+
+          <path
+              d="
+      M96 195
+      H127
+      C135 195 141 201 141 209
+      V224
+      C141 232 135 238 127 238
+      H96
+      Z
+    "
+              fill="#063866"
+          />
+
+          <path
+              d="
+      M96 203
+      H124
+      C128 203 132 207 132 211
+      V222
+      C132 226 128 230 124 230
+      H96
+      Z
+    "
+              fill="#FFFFFF"
+          />
+
+          <path
+              d="
+      M97 289
+      H128
+      C136 289 142 295 142 303
+      V318
+      C142 326 136 332 128 332
+      H104
+      C101 325 99 318 97 311
+      Z
+    "
+              fill="#063866"
+          />
+
+          <path
+              d="
+      M101 297
+      H125
+      C129 297 133 301 133 305
+      V316
+      C133 320 129 324 125 324
+      H108
+      C105 315 103 306 101 297
+      Z
+    "
+              fill="#FFFFFF"
+          />
+
+
+          <path
+              d="
+      M376 43
+      C386 101 397 121 455 132
+      C397 143 386 163 376 221
+      C366 163 355 143 297 132
+      C355 121 366 101 376 43Z
+    "
+              fill="#063866"
+          />
+
+
+          <path
+              d="
+      M376 56
+      C384 105 394 124 442 132
+      C394 140 384 159 376 208
+      C368 159 358 140 310 132
+      C358 124 368 105 376 56Z
+    "
+              fill="#FFFFFF"
+          />
+
+          <path
+              d="
+      M376 69
+      C382 108 390 126 429 132
+      C390 138 382 156 376 195
+      C370 156 362 138 323 132
+      C362 126 370 108 376 69Z
+    "
+              fill="url(#sparkGradient)"
+          />
+
+
+          <path
+              d="
+      M376 88
+      C380 113 385 128 410 132
+      C385 136 380 151 376 176
+      C372 151 367 136 342 132
+      C367 128 372 113 376 88Z
+    "
+              fill="#FFFFFF"
+          />
+
+      </svg>
   );
 };
 
