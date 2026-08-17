@@ -97,83 +97,77 @@ const iconstyles = {
 export const PowerVaultIcon: React.FC = () => {
   return (
       <svg
-          width="512"
-          height="512"
+          width="86"
+          height="86"
           viewBox="0 0 512 512"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
       >
-          <defs>
+          
 
-              <linearGradient id="shieldLeft" x1="100" y1="95" x2="300" y2="440"
-                  gradientUnits="userSpaceOnUse">
-                  <stop offset="0" stop-color="#1687F8" />
-                  <stop offset="0.55" stop-color="#0869D8" />
-                  <stop offset="1" stop-color="#0753B6" />
-              </linearGradient>
+<defs>
 
-
-              <linearGradient id="shieldRight" x1="290" y1="100" x2="420" y2="420"
-                  gradientUnits="userSpaceOnUse">
-                  <stop offset="0" stop-color="#07528B" />
-                  <stop offset="0.55" stop-color="#03416D" />
-                  <stop offset="1" stop-color="#01395E" />
-              </linearGradient>
-
-
-              <linearGradient id="outlineGradient" x1="90" y1="80" x2="440" y2="460"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#073C73" />
-                  <stop offset="1" stop-color="#012C4D" />
-              </linearGradient>
+  <linearGradient
+    id="sparkCyanGradient"
+    x1="376"
+    y1="65"
+    x2="376"
+    y2="200"
+    gradientUnits="userSpaceOnUse"
+  >
+    <stop offset="0" stop-color="#29E9FF"/>
+    <stop offset="0.45" stop-color="#08CFEF"/>
+    <stop offset="1" stop-color="#00A9D8"/>
+  </linearGradient>
+</defs>
 
 
-              <linearGradient id="dialLeft" x1="155" y1="165" x2="300" y2="350"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#158AFF" />
-                  <stop offset="1" stop-color="#0868D4" />
-              </linearGradient>
-
-              <linearGradient id="dialRight" x1="290" y1="180" x2="380" y2="350"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#21D5EE" />
-                  <stop offset="1" stop-color="#08BBDC" />
-              </linearGradient>
-
-
-              <linearGradient id="sparkGradient" x1="370" y1="56" x2="445" y2="175"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#56F1FF" />
-                  <stop offset="0.55" stop-color="#11D9EF" />
-                  <stop offset="1" stop-color="#02A8D6" />
-              </linearGradient>
+<path
+  d="
+    M376 43
+    C386 101 397 121 455 132
+    C397 143 386 163 376 221
+    C366 163 355 143 297 132
+    C355 121 366 101 376 43Z
+  "
+  fill="#063866"
+/>
 
 
-              <linearGradient id="whiteGradient" x1="200" y1="180" x2="320" y2="350"
-                  gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#FFFFFF" />
-                  <stop offset="1" stop-color="#F3F7FC" />
-              </linearGradient>
+<path
+  d="
+    M376 54
+    C385 103 395 122 444 132
+    C395 142 385 161 376 210
+    C367 161 357 142 308 132
+    C357 122 367 103 376 54Z
+  "
+  fill="#FFFFFF"
+/>
 
 
-              <radialGradient id="centerGradient">
-                  <stop offset="0" stop-color="#FFFFFF" />
-                  <stop offset="0.75" stop-color="#FCFCFC" />
-                  <stop offset="1" stop-color="#E6EDF5" />
-              </radialGradient>
+<path
+  d="
+    M376 64
+    C383 106 392 124 434 132
+    C392 140 383 158 376 200
+    C369 158 360 140 318 132
+    C360 124 369 106 376 64Z
+  "
+  fill="url(#sparkCyanGradient)"
+/>
 
 
-              <filter id="softShadow"
-                  x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow
-                      dx="0"
-                      dy="4"
-                      stdDeviation="4"
-                      flood-color="#001E3A"
-                      flood-opacity="0.25"
-                  />
-              </filter>
-          </defs>
+<path
+  d="
+    M376 79
+    C381 111 388 127 420 132
+    C388 137 381 153 376 185
+    C371 153 364 137 332 132
+    C364 127 371 111 376 79Z
+  "
+  fill="#FFFFFF"
+/>
 
 
 
