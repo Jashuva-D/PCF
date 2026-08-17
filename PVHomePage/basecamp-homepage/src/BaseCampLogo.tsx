@@ -24,7 +24,7 @@ const styles = mergeStyleSets({
 
     // Matches your screenshot:
     // square left side, rounded right side
-    borderRadius: "0 14px 14px 0",
+    borderRadius: "14px 14px 14px 14px",
   },
 
   content: {

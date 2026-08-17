@@ -6,6 +6,9 @@ import HomePage from './HomePage.tsx';
 import Notifications from './Notifications.tsx';
 import ReleaseBanner from './ReleaseBanner.tsx';
 import PowerBIReport from './PowerBiReport.tsx';
+import { PowerVaultHero } from './BaseCampLogo.tsx';
+import {Stack} from '@fluentui/react';
+
 
 async function renderHomePage() {
 
@@ -108,4 +111,11 @@ renderHomePage();
 //         </StrictMode>,
 //       )
 //
+
+// createRoot(document.getElementById('root')!).render(
+//   <Stack style={{marginTop: 10, marginBottom: 10}} tokens={{childrenGap: 10}}>
+//       <PowerVaultHero/>
+//   </Stack>
+// )
+
 
