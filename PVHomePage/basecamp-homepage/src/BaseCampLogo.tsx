@@ -95,9 +95,8 @@ const contentTokens: IStackTokens = {
 
 export const PowerVaultHero: React.FC = () => {
   const handleAddNewIntake = (): void => {
-    console.log("Add New Intake clicked");
-
-    // Add navigation / dialog logic here
+    //(parent as any).Xrm.Navigation.openUrl("https://powervault.powerappsportals.us/Intake-Form/");
+    window.open("https://powervault.powerappsportals.us/Intake-Form/", "_blank");
   };
 
   return (
