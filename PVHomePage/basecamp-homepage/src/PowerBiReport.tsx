@@ -41,7 +41,7 @@ class PowerBIReport extends Component<PowerBIReportProps, PowerBIReportState> {
             <Stack horizontal verticalAlign='center'>
                 {this.props.reporticon}
                 <Stack tokens={{ childrenGap: 2 }} style={{ paddingLeft: 10 }}>
-                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#0D2499" }}>{this.props.title}</Label>
+                    <Label style={{ fontWeight: "bold", fontSize: 16, color: "#01395E" }}>{this.props.title}</Label>
                     <Text style={{ color: "#6A7A99", fontWeight: "semibold" }}>{this.props.subtitle}</Text>
                 </Stack>
             </Stack>
