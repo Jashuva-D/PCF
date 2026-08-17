@@ -96,124 +96,53 @@ const iconstyles = {
   }
 export const PowerVaultIcon: React.FC = () => {
   return (
-    <svg
-      style={iconstyles}
-      viewBox="0 0 256 256"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="PowerVault"
-    >
-      <defs>
-        <linearGradient
-          id="shieldGradient"
-          x1="52"
-          y1="46"
-          x2="190"
-          y2="212"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#1686FF" />
-          <stop offset="0.55" stopColor="#0868E8" />
-          <stop offset="1" stopColor="#073B8E" />
-        </linearGradient>
+        <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <linearGradient id="shieldRight" x1="290" y1="100" x2="420" y2="420" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#07528B"/>
+                <stop offset="0.55" stop-color="#03416D"/>
+                <stop offset="1" stop-color="#01395E"/>
+            </linearGradient>
 
-        <linearGradient
-          id="dialGradient"
-          x1="78"
-          y1="89"
-          x2="171"
-          y2="173"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0" stopColor="#1D7DFF" />
-          <stop offset="1" stopColor="#19D8E8" />
-        </linearGradient>
-      </defs>
+            <linearGradient id="outlineGradient" x1="90" y1="80" x2="440" y2="460" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#073C73"/>
+                <stop offset="1" stop-color="#012C4D"/>
+            </linearGradient>
 
-      {/* Shield */}
-      <path
-        d="
-          M128 20
-          L211 58
-          V119
-          C211 177 178 215 128 238
-          C78 215 45 177 45 119
-          V58
-          L128 20Z
-        "
-        fill="url(#shieldGradient)"
-        stroke="#FFFFFF"
-        strokeWidth="7"
-        strokeLinejoin="round"
-      />
+            <linearGradient id="dialLeft" x1="155" y1="165" x2="300" y2="350" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#158AFF"/>
+                <stop offset="1" stop-color="#0868D4"/>
+            </linearGradient>
 
-      {/* Vault Dial */}
-      <circle
-        cx="127"
-        cy="129"
-        r="58"
-        fill="url(#dialGradient)"
-        stroke="#FFFFFF"
-        strokeWidth="8"
-      />
+            <linearGradient id="dialRight" x1="290" y1="180" x2="380" y2="350" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#21D5EE"/>
+                <stop offset="1" stop-color="#08BBDC"/>
+            </linearGradient>
 
-      {/* Center */}
-      <circle
-        cx="127"
-        cy="129"
-        r="20"
-        fill="#0D4CA8"
-        stroke="#FFFFFF"
-        strokeWidth="5"
-      />
 
-      <circle
-        cx="127"
-        cy="129"
-        r="9"
-        fill="#FFFFFF"
-      />
+            <linearGradient id="sparkGradient" x1="370" y1="56" x2="445" y2="175" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#56F1FF"/>
+                <stop offset="0.55" stop-color="#11D9EF"/>
+                <stop offset="1" stop-color="#02A8D6"/>
+            </linearGradient>
 
-      {/* Dial Spokes */}
-      <path
-        d="
-          M127 91 V111
-          M127 147 V167
-          M89 129 H109
-          M145 129 H165
-        "
-        stroke="#FFFFFF"
-        strokeWidth="8"
-        strokeLinecap="round"
-      />
+            
+            <linearGradient id="whiteGradient" x1="200" y1="180" x2="320" y2="350" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFFFFF"/>
+                <stop offset="1" stop-color="#F3F7FC"/>
+            </linearGradient>
 
-      {/* Sparkle */}
-      <path
-        d="
-          M197 25
-          C201 46 205 56 217 65
-          C205 69 201 78 197 99
-          C193 78 188 69 176 65
-          C188 56 193 46 197 25Z
-        "
-        fill="#13D6F0"
-        stroke="#FFFFFF"
-        strokeWidth="3"
-      />
+            
+            <radialGradient id="centerGradient">
+                <stop offset="0" stop-color="#FFFFFF"/>
+                <stop offset="0.75" stop-color="#FCFCFC"/>
+                <stop offset="1" stop-color="#E6EDF5"/>
+            </radialGradient>
 
-      {/* Inner Sparkle */}
-      <path
-        d="
-          M197 40
-          C199 53 202 59 209 65
-          C202 68 199 75 197 88
-          C195 75 192 68 185 65
-          C192 59 195 53 197 40Z
-        "
-        fill="#FFFFFF"
-      />
-    </svg>
+
+            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#001E3A" flood-opacity="0.25"/>
+            </filter>
+        </svg>
   );
 };
 
