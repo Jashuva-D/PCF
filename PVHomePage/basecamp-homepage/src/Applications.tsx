@@ -73,7 +73,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.modifiedon){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["modifiedon@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                            return <Text>{item["modifiedon@OData.Community.Display.V1.FormattedValue"]}</Text>;
                         }
                         return null;
                     }
