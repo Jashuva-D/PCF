@@ -30,10 +30,10 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'pv_id', name: 'Application', fieldName: 'pv_id', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        return <Stack verticalAlign='center' horizontalAlign='start'><Link onClick={() => this.openRecord("pv_apps",item.key)} style={{fontSize: 14}}>{item.pv_id}</Link></Stack>;
+                        return <Stack verticalAlign='center' horizontalAlign='start'><Link onClick={() => this.openRecord("pv_apps",item.key)} style={{fontSize: 14, fontWeight: 600, color: "#01395E"}}>{item.pv_id}</Link></Stack>;
                     }
                 },
-                { key: 'pv_businessownerofficecenter', name: 'Business Owner Group', fieldName: 'pv_businessownerofficecenter@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                { key: 'pv_businessownerofficecenter', name: 'Owner Group', fieldName: 'pv_businessownerofficecenter@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.pv_businessownerofficecenter){
@@ -42,7 +42,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_hostingplatform', name: 'Hosting Delivery Model', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                { key: 'pv_hostingplatform', name: 'Hosting Platform', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.cr549_hosting_delivery_platform_name){
@@ -50,7 +50,16 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         }
                         return null;
                     }
-                 },
+                },
+                { key: 'pv_hostingplatform', name: 'Stage', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
+                    onColumnClick: this.onColumnClick.bind(this),
+                    onRender: (item: any) => {
+                        if(item.cr549_hosting_delivery_platform_name){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{"TBD"}</Text></Stack>;
+                        }
+                        return null;
+                    }
+                },
                 { key: 'pv_technicaladvisor', name: 'Technical Advisor', fieldName: '_pv_technicaladvisor_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
@@ -59,12 +68,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         }
                         return null;
                     }
-
                 },
                 { key: 'modifiedon', name: 'Last Updated', fieldName: 'modifiedon@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.cr549_hosting_delivery_platform_name){
+                        if(item.modifiedon){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["modifiedon@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
