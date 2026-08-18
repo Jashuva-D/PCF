@@ -47,10 +47,10 @@ const styles = mergeStyleSets({
 
   title: {
     display: "block",
-    color: "#6B6B6B",
+    color: "#01395E",
     fontSize: "12px",
     lineHeight: "16px",
-    fontWeight: 400,
+    fontWeight: 800,
   },
 
   value: {
@@ -113,36 +113,74 @@ const SummaryCard: React.FC<SummaryCardProps> = ({
   );
 };
 
-export const ApplicationSummaryCards: React.FC = () => {
-  return (
-    <div className={styles.container}>
-      <SummaryCard
-        title="Total applications"
-        value={24}
-        subtitle="+2 this month"
-        dotColor="#12B8DD"
-      />
+interface ApplicationSummaryCardProps {
 
-      <SummaryCard
-        title="Need attention"
-        value={3}
-        subtitle="Owner or stage update"
-        dotColor="#9A6A0B"
-      />
+}
+interface ApplicationSummaryCardState {
+    apps_total: number,
+    apps_thismonth: number,
+    apps_needattention: number,
+    apps_onboarding: number,
+    apps_golive: number
+}
 
-      <SummaryCard
-        title="In onboarding"
-        value={6}
-        subtitle="4 on track"
-        dotColor="#0078D4"
-      />
 
-      <SummaryCard
-        title="Go-Live applications"
-        value={1}
-        subtitle="Currently in Go-Live"
-        dotColor="#107C10"
-      />
-    </div>
-  );
+export class ApplicationSummaryCards extends React.Component<ApplicationSummaryCardProps,ApplicationSummaryCardState> {
+    constructor(props: ApplicationSummaryCardProps){
+        super(props);
+        this.state = {
+            apps_total: 0,
+            apps_thismonth: 0,
+            apps_needattention: 0,
+            apps_onboarding: 0,
+            apps_golive: 0
+        }
+    }
+    componentDidMount(): void {
+        var obj = this;
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("pv_apps").then(function(resp: any){
+            debugger;
+            obj.setState({
+                apps_total: resp.entities.length,
+                apps_thismonth: resp.entities.filter((x: any) => { const date = new Date(x.createdon); return date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear();}).length,
+                apps_golive: resp.entities.filter((x: any) => { x.pv_applicationlivestatus == true})
+            })
+        },function(err: any){debugger;})
+    }
+
+    render(): React.ReactNode {
+       
+        return (
+            <div className={styles.container}>
+            <SummaryCard
+                title="Total applications"
+                value={this.state.apps_total}
+                subtitle= {`+${this.state.apps_thismonth.toString()} this month`}
+                dotColor="#12B8DD"
+            />
+
+            <SummaryCard
+                title="Need attention"
+                value={this.state.apps_needattention}
+                subtitle="Owner or stage update"
+                dotColor="#9A6A0B"
+            />
+
+            <SummaryCard
+                title="In onboarding"
+                value={this.state.apps_onboarding}
+                subtitle="4 on track"
+                dotColor="#0078D4"
+            />
+
+            <SummaryCard
+                title="Go-Live applications"
+                value={this.state.apps_golive}
+                subtitle=""
+                dotColor="#107C10"
+            />
+            </div>
+        );
+    }
+  
 };
