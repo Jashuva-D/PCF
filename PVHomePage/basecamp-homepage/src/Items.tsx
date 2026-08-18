@@ -50,7 +50,7 @@ const styles = mergeStyleSets({
     color: "#01395E",
     fontSize: "12px",
     lineHeight: "16px",
-    fontWeight: 800,
+    fontWeight: 600,
   },
 
   value: {
@@ -143,7 +143,7 @@ export class ApplicationSummaryCards extends React.Component<ApplicationSummaryC
             obj.setState({
                 apps_total: resp.entities.length,
                 apps_thismonth: resp.entities.filter((x: any) => { const date = new Date(x.createdon); return date.getMonth() === new Date().getMonth() && date.getFullYear() === new Date().getFullYear();}).length,
-                apps_golive: resp.entities.filter((x: any) => { x.pv_applicationlivestatus == true})
+                apps_golive: resp.entities.filter((x: any) => { x.pv_applicationlivestatus == true}).length
             })
         },function(err: any){debugger;})
     }
@@ -153,28 +153,28 @@ export class ApplicationSummaryCards extends React.Component<ApplicationSummaryC
         return (
             <div className={styles.container}>
             <SummaryCard
-                title="Total applications"
+                title="Total Applications"
                 value={this.state.apps_total}
                 subtitle= {`+${this.state.apps_thismonth.toString()} this month`}
                 dotColor="#12B8DD"
             />
 
             <SummaryCard
-                title="Need attention"
+                title="Need Attention"
                 value={this.state.apps_needattention}
                 subtitle="Owner or stage update"
                 dotColor="#9A6A0B"
             />
 
             <SummaryCard
-                title="In onboarding"
+                title="In Onboarding"
                 value={this.state.apps_onboarding}
                 subtitle="4 on track"
                 dotColor="#0078D4"
             />
 
             <SummaryCard
-                title="Go-Live applications"
+                title="Go-Live Applications"
                 value={this.state.apps_golive}
                 subtitle=""
                 dotColor="#107C10"

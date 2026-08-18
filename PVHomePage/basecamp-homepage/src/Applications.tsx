@@ -240,7 +240,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         <CMSMyAppsIcon size={32} />
                         <Stack tokens={{childrenGap: 2}} style={{paddingLeft: 10}}>
                             <Label style={{fontWeight: "bold", fontSize: 16, color: "#01395E"}}>My Applications</Label>
-                            <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>View and manage your applications and their key details.</Text>
+                            <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>Ownership, platform, delivery stage, and governance posture.</Text>
                         </Stack>
                     </Stack>
                     <StackItem align="center">

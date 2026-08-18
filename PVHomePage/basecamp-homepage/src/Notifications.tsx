@@ -143,7 +143,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                     <CMSNotifications size={32} color={"#0D2499"}/>
                     <Stack tokens={{ childrenGap: 2 }} grow>
                         <Label style={{ fontWeight: "bold", fontSize: 16, color: "#01395E" }}>My Notifications</Label>
-                        <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>Stay updated with important alerts and messages.</Text>
+                        <Text style={{color: "#6A7A99", fontWeight: "semibold"}}>Stay ahead of governance and support updates.</Text>
                     </Stack>
                 </Stack>
                     {hasCommunicationsTeamRole &&
