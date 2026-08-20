@@ -114,6 +114,8 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         <attribute name="pv_businessownerofficecenter"/>
                         <attribute name="pv_hostingplatform"/>
                         <attribute name="pv_technicaladvisor"/>
+                        <attribute name="pv_pointofcontact" />
+                        <attribute name="pv_financialanalyst" />
                         <attribute name="modifiedon"/>
                         <order attribute="pv_id" descending="false"/>
                         </entity>
