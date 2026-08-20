@@ -45,7 +45,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'pv_hostingplatform', name: 'Hosting Platform', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.cr549_hosting_delivery_platform_name){
+                        if(item.pv_hostingplatform){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["pv_hostingplatform@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
@@ -54,7 +54,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'pv_hostingplatform', name: 'Stage', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.cr549_hosting_delivery_platform_name){
+                        if(item.pv_hostingplatform){
                             return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{"TBD"}</Text></Stack>;
                         }
                         return null;
@@ -63,7 +63,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                 { key: 'pv_technicaladvisor', name: 'Technical Advisor', fieldName: '_pv_technicaladvisor_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item._cr549_technicaladvisor_value){
+                        if(item._pv_technicaladvisor_value){
                             return <Stack verticalAlign="center" horizontalAlign='center'><Link onClick={() => this.openRecord("pv_person",item._pv_technicaladvisor_value)} style={{fontSize: 14}}>{item['_pv_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
