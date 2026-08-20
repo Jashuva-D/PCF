@@ -64,7 +64,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._pv_technicaladvisor_value){
-                            return <Stack verticalAlign="center" horizontalAlign='center'><Link onClick={() => this.openRecord("pv_person",item._pv_technicaladvisor_value)} style={{fontSize: 14}}>{item['_pv_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
+                            return <Stack verticalAlign="center" style={{paddingLeft: "8px"}}><Link onClick={() => this.openRecord("pv_person",item._pv_technicaladvisor_value)} style={{fontSize: 14}}>{item['_pv_technicaladvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
@@ -73,7 +73,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._pv_pointofcontact_value){
-                            return <Stack verticalAlign="center" horizontalAlign='center'><Link onClick={() => this.openRecord("pv_person",item._pv_pointofcontact_value)} style={{fontSize: 14}}>{item['_pv_pointofcontact_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
+                            return <Stack verticalAlign="center" style={{paddingLeft: "8px"}}><Link onClick={() => this.openRecord("pv_person",item._pv_pointofcontact_value)} style={{fontSize: 14}}>{item['_pv_pointofcontact_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
@@ -82,7 +82,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._pv_financialadvisor_value){
-                            return <Stack verticalAlign="center" horizontalAlign='center'><Link onClick={() => this.openRecord("pv_person",item._pv_financialadvisor_value)} style={{fontSize: 14}}>{item['_pv_financialadvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
+                            return <Stack verticalAlign="center" style={{paddingLeft: "8px"}}><Link onClick={() => this.openRecord("pv_person",item._pv_financialadvisor_value)} style={{fontSize: 14}}>{item['_pv_financialadvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
