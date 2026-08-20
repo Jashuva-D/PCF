@@ -78,11 +78,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_financialadvisor', name: 'Financial Advisor', fieldName: '_pv_financialadvisor_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
+                { key: 'pv_financialanalyst', name: 'Financial Analyst', fieldName: '_pv_financialanalyst_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item._pv_financialadvisor_value){
-                            return <Stack verticalAlign="center" style={{paddingLeft: "8px"}}><Link onClick={() => this.openRecord("pv_person",item._pv_financialadvisor_value)} style={{fontSize: 14}}>{item['_pv_financialadvisor_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
+                        if(item._pv_financialanalyst_value){
+                            return <Stack verticalAlign="center" style={{paddingLeft: "8px"}}><Link onClick={() => this.openRecord("pv_person",item._pv_financialanalyst_value)} style={{fontSize: 14}}>{item['_pv_financialanalyst_value@OData.Community.Display.V1.FormattedValue']}</Link></Stack>
                         }
                         return null;
                     }
