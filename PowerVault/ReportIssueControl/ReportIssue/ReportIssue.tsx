@@ -27,7 +27,7 @@ class ReportIssueButton extends React.Component<ReportIssueProps, ReportIssueSta
             styles={{
                 root: {
                     background: this.props.bgcolor ?? "rgb(243,243, 243)",
-                    borderLeft: "4px solid #0D2499",
+                    borderLeft: "4px solid #01395E",
                     padding: "6px 6px",
                     borderRadius: 6,
                     marginBottom: 12
