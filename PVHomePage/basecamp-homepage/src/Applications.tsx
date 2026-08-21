@@ -119,6 +119,22 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         <attribute name="pv_hostingdeliverymodel" />
                         <attribute name="modifiedon"/>
                         <order attribute="pv_id" descending="false"/>
+                        <link-entity name="pv_appuserrole" from="cr549_app" to="pv_applicationid" link-type="inner" alias="ai">
+                        <link-entity name="pv_person" from="cr549_personid" to="pv_person" link-type="inner" alias="aj">
+                        <filter type="and">
+                        <condition attribute="pv_email_address" operator="eq" value="${email}"/>
+                        </filter>
+                        </link-entity>
+                        <link-entity name="pv_role" from="pv_roleid" to="pv_role" link-type="inner" alias="aq">
+                        <filter type="and">
+                        <filter type="or">
+                        <condition attribute="pv_id" operator="eq" value="13"/>
+                        <condition attribute="pv_id" operator="eq" value="15"/>
+                        <condition attribute="pv_id" operator="eq" value="21"/>
+                        </filter>
+                        </filter>
+                        </link-entity>
+                        </link-entity>
                         </entity>
                         </fetch>`;
             (parent as any).Xrm.WebApi.retrieveMultipleRecords("pv_apps", "?fetchXml=" + encodeURIComponent(fetchXml)).then((result : any) => {
