@@ -42,11 +42,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_hostingplatform', name: 'Hosting Platform', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 150, isResizable: true, 
+                { key: 'pv_hostingdeliverymodel', name: 'Hosting Delivery Model', fieldName: 'pv_hostingdeliverymodel@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 150, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.pv_hostingplatform){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["pv_hostingplatform@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
+                        if(item.pv_hostingdeliverymodel){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["pv_hostingdeliverymodel@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
@@ -69,7 +69,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_pointofcontact', name: 'Point of Contact', fieldName: '_pv_pointofcontact_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
+                { key: 'pv_pointofcontact', name: 'Project Operations Coordinator', fieldName: '_pv_pointofcontact_value@OData.Community.Display.V1.FormattedValue',currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true,
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item._pv_pointofcontact_value){
