@@ -465,7 +465,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 Promise.all(selectedrecords.map(async x => {
                     try {
                         var appuserrolerecord = await this.props.context.webAPI.retrieveRecord("cr549_appuserrole", x, "?$select=cr549_id,_cr549_role_value,_cr549_person_value").then(function (resp) { return resp; }, function (err) { throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
-                        var rolerecord = await this.props.context.webAPI.retrieveRecord("cr549_role", appuserrolerecord["_cr549_role_value"], "?$select=cr549_id").then(function (resp) { return resp; }, function (err) { return null; });
+                        var rolerecord = null;
+                        if(appuserrolerecord["_cr549_role_value"])
+                            rolerecord = await this.props.context.webAPI.retrieveRecord("cr549_role", appuserrolerecord["_cr549_role_value"], "?$select=cr549_id").then(function (resp) { return resp; }, function (err) { return null; });
                         var deleteResult = await obj.props.context.webAPI.deleteRecord("cr549_appuserrole", x).then(function (resp) {
                             return true
                         }, function (err) {
