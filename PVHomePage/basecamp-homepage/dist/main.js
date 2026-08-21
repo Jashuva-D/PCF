@@ -109,8 +109,8 @@ Error generating stack: `+e.message+`
                         <attribute name="pv_hostingdeliverymodel" />
                         <attribute name="modifiedon"/>
                         <order attribute="pv_id" descending="false"/>
-                        <link-entity name="pv_appuserrole" from="cr549_app" to="pv_applicationid" link-type="inner" alias="ai">
-                        <link-entity name="pv_person" from="cr549_personid" to="pv_person" link-type="inner" alias="aj">
+                        <link-entity name="pv_appuserrole" from="pv_app" to="pv_applicationid" link-type="inner" alias="ai">
+                        <link-entity name="pv_person" from="pv_personid" to="pv_person" link-type="inner" alias="aj">
                         <filter type="and">
                         <condition attribute="pv_email_address" operator="eq" value="${t}"/>
                         </filter>
