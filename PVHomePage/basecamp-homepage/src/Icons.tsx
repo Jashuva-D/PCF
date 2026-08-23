@@ -96,405 +96,260 @@ const iconstyles = {
   }
 export const PowerVaultIcon: React.FC = () => {
   return (
-      <svg
-  viewBox="75 25 400 465"
-  width="100%"
-  height="100%"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
-  preserveAspectRatio="xMidYMid meet"
->
+      <svg xmlns="http://www.w3.org/2000/svg"
+     width="1024"
+     height="1024"
+     viewBox="0 0 1024 1024">
+
   <defs>
-
-    <linearGradient
-      id="shieldLeft"
-      x1="100"
-      y1="90"
-      x2="265"
-      y2="440"
-      gradientUnits="userSpaceOnUse"
-    >
-      <stop offset="0" stop-color="#147CE5"/>
-      <stop offset="0.5" stop-color="#0867D3"/>
-      <stop offset="1" stop-color="#0753B6"/>
+    <linearGradient id="outerDark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#084A83"/>
+      <stop offset="55%" stop-color="#064477"/>
+      <stop offset="100%" stop-color="#032D55"/>
     </linearGradient>
-
-    <linearGradient
-      id="shieldRight"
-      x1="260"
-      y1="100"
-      x2="405"
-      y2="430"
-      gradientUnits="userSpaceOnUse"
-    >
-      <stop offset="0" stop-color="#064A80"/>
-      <stop offset="0.55" stop-color="#023C67"/>
-      <stop offset="1" stop-color="#013357"/>
+    <linearGradient id="shieldLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A55A5"/>
+      <stop offset="55%" stop-color="#0876D9"/>
+      <stop offset="100%" stop-color="#0867BC"/>
     </linearGradient>
-
-    <linearGradient
-      id="vaultLeft"
-      x1="150"
-      y1="180"
-      x2="260"
-      y2="355"
-      gradientUnits="userSpaceOnUse"
-    >
-      <stop offset="0" stop-color="#1686F4"/>
-      <stop offset="0.55" stop-color="#0869DA"/>
-      <stop offset="1" stop-color="#0754BD"/>
+    <linearGradient id="shieldRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#064477"/>
+      <stop offset="55%" stop-color="#074A82"/>
+      <stop offset="100%" stop-color="#032D55"/>
     </linearGradient>
-
-    <linearGradient
-      id="vaultRight"
-      x1="255"
-      y1="175"
-      x2="355"
-      y2="355"
-      gradientUnits="userSpaceOnUse"
-    >
-      <stop offset="0" stop-color="#21D7EF"/>
-      <stop offset="0.55" stop-color="#12CBE8"/>
-      <stop offset="1" stop-color="#08B8DB"/>
+    <linearGradient id="wheelLeft" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C5DB6"/>
+      <stop offset="100%" stop-color="#078BE0"/>
     </linearGradient>
-
-    <radialGradient
-      id="hubGradient"
-      cx="0"
-      cy="0"
-      r="1"
-      gradientUnits="userSpaceOnUse"
-      gradientTransform="translate(247 250) rotate(55) scale(75)"
-    >
-      <stop offset="0" stop-color="#07518B"/>
-      <stop offset="0.55" stop-color="#043F70"/>
-      <stop offset="1" stop-color="#012F54"/>
-    </radialGradient>
-
-    <radialGradient id="whiteCenter">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="0.8" stop-color="#FCFCFC"/>
-      <stop offset="1" stop-color="#EDF1F5"/>
-    </radialGradient>
-
-    <linearGradient
-      id="sparkCyan"
-      x1="376"
-      y1="55"
-      x2="376"
-      y2="205"
-      gradientUnits="userSpaceOnUse"
-    >
-      <stop offset="0" stop-color="#35EDFF"/>
-      <stop offset="0.45" stop-color="#0BD7F0"/>
-      <stop offset="1" stop-color="#00A9D6"/>
+    <linearGradient id="wheelRight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#10B8E2"/>
+      <stop offset="100%" stop-color="#19D4E7"/>
     </linearGradient>
-
+    <linearGradient id="sparkCyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1EE0F6"/>
+      <stop offset="100%" stop-color="#009FD3"/>
+    </linearGradient>
+    <linearGradient id="sparkBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0878D6"/>
+      <stop offset="100%" stop-color="#063967"/>
+    </linearGradient>
   </defs>
-
-  
   <path
     d="
-      M250 57
-      L408 131
-      V264
-      C408 358 350 428 250 471
-      C150 428 92 358 92 264
-      V131
-      L250 57Z
-    "
-    fill="#063866"
+      M512 132
+      L822 268
+      L822 515
+      C822 715 712 830 512 912
+      C312 830 202 715 202 515
+      L202 268
+      Z"
+    fill="url(#outerDark)"
   />
-
-  
   <path
     d="
-      M250 78
-      L388 143
-      V261
-      C388 345 338 405 250 446
-      C162 405 112 345 112 261
-      V143
-      L250 78Z
-    "
-    fill="#FFFFFF"
-  />
-
- 
-  <path
-    d="
-      M250 95
-      V426
-      C175 390 132 337 132 261
-      V153
-      L250 95Z
-    "
+      M512 181
+      L512 841
+      C340 769 246 674 246 507
+      L246 298
+      L512 181
+      Z"
     fill="url(#shieldLeft)"
   />
-
-  
   <path
     d="
-      M250 95
-      L368 153
-      V261
-      C368 337 325 390 250 426
-      V95Z
-    "
+      M512 181
+      L778 298
+      L778 507
+      C778 674 684 769 512 841
+      L512 181
+      Z"
     fill="url(#shieldRight)"
   />
-
-  
+  <path
+    d="
+      M512 181
+      L778 298
+      L778 507
+      C778 674 684 769 512 841
+      C340 769 246 674 246 507
+      L246 298
+      Z"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="28"
+    stroke-linejoin="round"
+  />
+  <g
+    fill="#FFFFFF"
+    stroke="#063A69"
+    stroke-width="14"
+    stroke-linejoin="round">
+    <path
+      d="
+        M202 384
+        H261
+        Q277 384 277 400
+        V445
+        Q277 461 261 461
+        H202
+        Z"
+    />
+    <path
+      d="
+        M202 573
+        H265
+        Q281 573 281 589
+        V635
+        Q281 651 265 651
+        H202
+        Z"
+    />
+  </g>
   <circle
-    cx="250"
-    cy="262"
-    r="106"
+    cx="512"
+    cy="515"
+    r="201"
     fill="#FFFFFF"
   />
-
-  
-  <path
-    d="
-      M250 176
-      A86 86 0 0 0 250 348
-      Z
-    "
-    fill="url(#vaultLeft)"
-  />
-
- 
-  <path
-    d="
-      M250 176
-      A86 86 0 0 1 250 348
-      Z
-    "
-    fill="url(#vaultRight)"
-  />
-
-  
-  <rect
-    x="245"
-    y="176"
-    width="10"
-    height="172"
-    fill="#FFFFFF"
-  />
-
-  <rect
-    x="164"
-    y="257"
-    width="172"
-    height="10"
-    fill="#FFFFFF"
-  />
-
-  
-  <rect
-    x="238"
-    y="190"
-    width="24"
-    height="58"
-    rx="11"
-    fill="#FFFFFF"
-    stroke="#063866"
-    stroke-width="7"
-  />
-
-  
-  <rect
-    x="238"
-    y="276"
-    width="24"
-    height="58"
-    rx="11"
-    fill="#FFFFFF"
-    stroke="#063866"
-    stroke-width="7"
-  />
-
-  
-  <rect
-    x="176"
-    y="250"
-    width="64"
-    height="24"
-    rx="11"
-    fill="#FFFFFF"
-    stroke="#063866"
-    stroke-width="7"
-  />
-
-  
-  <rect
-    x="260"
-    y="250"
-    width="64"
-    height="24"
-    rx="11"
-    fill="#FFFFFF"
-    stroke="#063866"
-    stroke-width="7"
-  />
-
- 
   <circle
-    cx="250"
-    cy="262"
-    r="43"
-    fill="url(#hubGradient)"
+    cx="512"
+    cy="515"
+    r="166"
+    fill="url(#wheelLeft)"
   />
-
-  
-  <rect
-    x="241"
-    y="219"
-    width="18"
-    height="35"
-    fill="#FFFFFF"
+  <path
+    d="
+      M512 349
+      A166 166 0 0 1 512 681
+      L512 349
+      Z"
+    fill="url(#wheelRight)"
   />
-
- 
-  <rect
-    x="241"
-    y="270"
-    width="18"
-    height="35"
-    fill="#FFFFFF"
-  />
-
-  
-  <rect
-    x="207"
-    y="253"
-    width="39"
-    height="18"
-    fill="#FFFFFF"
-  />
-
-  
-  <rect
-    x="254"
-    y="253"
-    width="39"
-    height="18"
-    fill="#FFFFFF"
-  />
-
-  
+  <g fill="#FFFFFF">
+    <rect
+      x="506"
+      y="349"
+      width="12"
+      height="48"
+    />
+    <rect
+      x="506"
+      y="633"
+      width="12"
+      height="48"
+    />
+    <rect
+      x="346"
+      y="509"
+      width="48"
+      height="12"
+    />
+    <rect
+      x="630"
+      y="509"
+      width="48"
+      height="12"
+    />
+  </g>
   <circle
-    cx="250"
-    cy="262"
-    r="25"
-    fill="url(#whiteCenter)"
+    cx="512"
+    cy="515"
+    r="67"
+    fill="#063A69"
   />
-
- 
-  <path
-    d="
-      M92 193
-      H125
-      C134 193 141 200 141 209
-      V225
-      C141 234 134 241 125 241
-      H92Z
-    "
-    fill="#063866"
-  />
-
-  <path
-    d="
-      M92 202
-      H122
-      C127 202 132 207 132 212
-      V222
-      C132 227 127 232 122 232
-      H92Z
-    "
+  <g
+    fill="#FFFFFF"
+    stroke="#063A69"
+    stroke-width="12"
+    stroke-linejoin="round">
+    <rect
+      x="494"
+      y="391"
+      width="36"
+      height="73"
+      rx="12"
+    />
+    <rect
+      x="494"
+      y="566"
+      width="36"
+      height="73"
+      rx="12"
+    />
+    <rect
+      x="388"
+      y="497"
+      width="76"
+      height="36"
+      rx="12"
+    />
+    <rect
+      x="560"
+      y="497"
+      width="76"
+      height="36"
+      rx="12"
+    />
+  </g>
+  <circle
+    cx="512"
+    cy="515"
+    r="38"
     fill="#FFFFFF"
   />
-
- 
   <path
     d="
-      M96 290
-      H126
-      C135 290 142 297 142 306
-      V319
-      C142 328 135 335 126 335
-      H104
-      C100 323 98 307 96 290Z
-    "
-    fill="#063866"
+      M754 88
+      C769 187 795 238 929 271
+      C795 295 770 344 754 457
+      C738 344 713 295 577 271
+      C713 238 738 187 754 88
+      Z"
+    fill="#063A69"
   />
-
   <path
     d="
-      M102 299
-      H123
-      C128 299 133 304 133 309
-      V316
-      C133 321 128 326 123 326
-      H109
-      C106 317 104 308 102 299Z
-    "
+      M754 128
+      C767 205 787 244 892 271
+      C787 292 767 331 754 418
+      C741 331 721 292 615 271
+      C721 244 741 205 754 128
+      Z"
     fill="#FFFFFF"
   />
-
- 
   <path
     d="
-      M376 42
-      C386 100 397 121 455 132
-      C397 143 386 164 376 222
-      C366 164 355 143 297 132
-      C355 121 366 100 376 42Z
-    "
-    fill="#063866"
-  />
-
-  
-  <path
-    d="
-      M376 54
-      C385 103 395 122 444 132
-      C395 142 385 161 376 210
-      C367 161 357 142 308 132
-      C357 122 367 103 376 54Z
-    "
-    fill="#FFFFFF"
-  />
-
-  
-  <path
-    d="
-      M376 65
-      C383 107 392 124 434 132
-      C392 140 383 157 376 199
-      C369 157 360 140 318 132
-      C360 124 369 107 376 65Z
-    "
+      M754 139
+      C766 213 787 248 884 271
+      C787 294 766 329 754 407
+      C742 329 721 294 624 271
+      C721 248 742 213 754 139
+      Z"
     fill="url(#sparkCyan)"
   />
-
-
   <path
     d="
-      M376 81
-      C381 111 387 127 418 132
-      C387 137 381 153 376 183
-      C371 153 365 137 334 132
-      C365 127 371 111 376 81Z
-    "
+      M754 153
+      C764 221 782 251 865 271
+      C782 291 764 321 754 392
+      C744 321 726 291 643 271
+      C726 251 744 221 754 153
+      Z"
+    fill="url(#sparkBlue)"
+    opacity="0.30"
+  />
+  <path
+    d="
+      M754 198
+      C759 234 767 255 811 271
+      C767 283 759 304 754 344
+      C749 304 741 283 697 271
+      C741 255 749 234 754 198
+      Z"
     fill="#FFFFFF"
   />
-
 </svg>
   );
 };
-
-
-
-//Stay organized with your applications and their important details.
 
 
