@@ -693,7 +693,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                                 disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
                             />
-                            <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Issue" onClick={this.onReportDataDiscrepancy.bind(this)} 
+                            {/* <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Issue" onClick={this.onReportDataDiscrepancy.bind(this)} 
                                 style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 1 ) ? "#0D2499" : "#F2F2F2", color: (this.state.selectedrecordids.length == 1) ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
@@ -706,7 +706,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     },
                                 }}
                                 disabled={this.state.selectedrecordids.length !== 1}
-                            />
+                            /> */}
                         </Stack>
                     </Stack>
                 </StackItem>
