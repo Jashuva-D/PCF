@@ -97,9 +97,10 @@ const iconstyles = {
 export const PowerVaultIcon: React.FC = () => {
   return (
   <svg xmlns="http://www.w3.org/2000/svg"
-     width="1024"
-     height="1024"
-     viewBox="0 0 1024 1024">
+     width="100%"
+     height="100%"
+     viewBox="150 60 800 880"
+     preserveAspectRatio="xMidYMid meet">
 
   <defs>
     <linearGradient id="outerDark" x1="0" y1="0" x2="1" y2="1">
@@ -141,253 +142,249 @@ export const PowerVaultIcon: React.FC = () => {
     </linearGradient>
   </defs>
 
-  <g transform="translate(154 154) scale(0.70)">
+  <path
+    d="
+      M512 132
+      L822 268
+      L822 515
+      C822 715 712 830 512 912
+      C312 830 202 715 202 515
+      L202 268
+      Z"
+    fill="url(#outerDark)"
+  />
+
+  <path
+    d="
+      M512 181
+      L512 841
+      C340 769 246 674 246 507
+      L246 298
+      L512 181
+      Z"
+    fill="url(#shieldLeft)"
+  />
+
+  <path
+    d="
+      M512 181
+      L778 298
+      L778 507
+      C778 674 684 769 512 841
+      L512 181
+      Z"
+    fill="url(#shieldRight)"
+  />
+
+  <path
+    d="
+      M512 181
+      L778 298
+      L778 507
+      C778 674 684 769 512 841
+      C340 769 246 674 246 507
+      L246 298
+      Z"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="28"
+    stroke-linejoin="round"
+  />
+
+  <g
+    fill="#FFFFFF"
+    stroke="#063A69"
+    stroke-width="14"
+    stroke-linejoin="round">
 
     <path
       d="
-        M512 132
-        L822 268
-        L822 515
-        C822 715 712 830 512 912
-        C312 830 202 715 202 515
-        L202 268
+        M202 384
+        H261
+        Q277 384 277 400
+        V445
+        Q277 461 261 461
+        H202
         Z"
-      fill="url(#outerDark)"
-    />
-
-    <path
-      d="
-        M512 181
-        L512 841
-        C340 769 246 674 246 507
-        L246 298
-        L512 181
-        Z"
-      fill="url(#shieldLeft)"
-    />
-
-    <path
-      d="
-        M512 181
-        L778 298
-        L778 507
-        C778 674 684 769 512 841
-        L512 181
-        Z"
-      fill="url(#shieldRight)"
-    />
-
-    <path
-      d="
-        M512 181
-        L778 298
-        L778 507
-        C778 674 684 769 512 841
-        C340 769 246 674 246 507
-        L246 298
-        Z"
-      fill="none"
-      stroke="#FFFFFF"
-      stroke-width="28"
-      stroke-linejoin="round"
-    />
-
-    <g
-      fill="#FFFFFF"
-      stroke="#063A69"
-      stroke-width="14"
-      stroke-linejoin="round">
-
-      <path
-        d="
-          M202 384
-          H261
-          Q277 384 277 400
-          V445
-          Q277 461 261 461
-          H202
-          Z"
-      />
-
-      <path
-        d="
-          M202 573
-          H265
-          Q281 573 281 589
-          V635
-          Q281 651 265 651
-          H202
-          Z"
-      />
-
-    </g>
-
-    <circle
-      cx="512"
-      cy="515"
-      r="201"
-      fill="#FFFFFF"
-    />
-
-    <circle
-      cx="512"
-      cy="515"
-      r="166"
-      fill="url(#wheelLeft)"
     />
 
     <path
       d="
-        M512 349
-        A166 166 0 0 1 512 681
-        L512 349
+        M202 573
+        H265
+        Q281 573 281 589
+        V635
+        Q281 651 265 651
+        H202
         Z"
-      fill="url(#wheelRight)"
-    />
-
-    <g fill="#FFFFFF">
-
-      <rect
-        x="506"
-        y="349"
-        width="12"
-        height="48"
-      />
-
-      <rect
-        x="506"
-        y="633"
-        width="12"
-        height="48"
-      />
-
-      <rect
-        x="346"
-        y="509"
-        width="48"
-        height="12"
-      />
-
-      <rect
-        x="630"
-        y="509"
-        width="48"
-        height="12"
-      />
-
-    </g>
-
-    <circle
-      cx="512"
-      cy="515"
-      r="67"
-      fill="#063A69"
-    />
-
-    <g
-      fill="#FFFFFF"
-      stroke="#063A69"
-      stroke-width="12"
-      stroke-linejoin="round">
-
-      <rect
-        x="494"
-        y="391"
-        width="36"
-        height="73"
-        rx="12"
-      />
-
-      <rect
-        x="494"
-        y="566"
-        width="36"
-        height="73"
-        rx="12"
-      />
-
-      <rect
-        x="388"
-        y="497"
-        width="76"
-        height="36"
-        rx="12"
-      />
-
-      <rect
-        x="560"
-        y="497"
-        width="76"
-        height="36"
-        rx="12"
-      />
-
-    </g>
-
-    <circle
-      cx="512"
-      cy="515"
-      r="38"
-      fill="#FFFFFF"
-    />
-
-    <path
-      d="
-        M754 88
-        C769 187 795 238 929 271
-        C795 295 770 344 754 457
-        C738 344 713 295 577 271
-        C713 238 738 187 754 88
-        Z"
-      fill="#063A69"
-    />
-
-    <path
-      d="
-        M754 128
-        C767 205 787 244 892 271
-        C787 292 767 331 754 418
-        C741 331 721 292 615 271
-        C721 244 741 205 754 128
-        Z"
-      fill="#FFFFFF"
-    />
-
-    <path
-      d="
-        M754 139
-        C766 213 787 248 884 271
-        C787 294 766 329 754 407
-        C742 329 721 294 624 271
-        C721 248 742 213 754 139
-        Z"
-      fill="url(#sparkCyan)"
-    />
-
-    <path
-      d="
-        M754 153
-        C764 221 782 251 865 271
-        C782 291 764 321 754 392
-        C744 321 726 291 643 271
-        C726 251 744 221 754 153
-        Z"
-      fill="url(#sparkBlue)"
-      opacity="0.30"
-    />
-
-    <path
-      d="
-        M754 198
-        C759 234 767 255 811 271
-        C767 283 759 304 754 344
-        C749 304 741 283 697 271
-        C741 255 749 234 754 198
-        Z"
-      fill="#FFFFFF"
     />
 
   </g>
+
+  <circle
+    cx="512"
+    cy="515"
+    r="201"
+    fill="#FFFFFF"
+  />
+
+  <circle
+    cx="512"
+    cy="515"
+    r="166"
+    fill="url(#wheelLeft)"
+  />
+
+  <path
+    d="
+      M512 349
+      A166 166 0 0 1 512 681
+      L512 349
+      Z"
+    fill="url(#wheelRight)"
+  />
+
+  <g fill="#FFFFFF">
+
+    <rect
+      x="506"
+      y="349"
+      width="12"
+      height="48"
+    />
+
+    <rect
+      x="506"
+      y="633"
+      width="12"
+      height="48"
+    />
+
+    <rect
+      x="346"
+      y="509"
+      width="48"
+      height="12"
+    />
+
+    <rect
+      x="630"
+      y="509"
+      width="48"
+      height="12"
+    />
+
+  </g>
+
+  <circle
+    cx="512"
+    cy="515"
+    r="67"
+    fill="#063A69"
+  />
+
+  <g
+    fill="#FFFFFF"
+    stroke="#063A69"
+    stroke-width="12"
+    stroke-linejoin="round">
+
+    <rect
+      x="494"
+      y="391"
+      width="36"
+      height="73"
+      rx="12"
+    />
+
+    <rect
+      x="494"
+      y="566"
+      width="36"
+      height="73"
+      rx="12"
+    />
+
+    <rect
+      x="388"
+      y="497"
+      width="76"
+      height="36"
+      rx="12"
+    />
+
+    <rect
+      x="560"
+      y="497"
+      width="76"
+      height="36"
+      rx="12"
+    />
+
+  </g>
+
+  <circle
+    cx="512"
+    cy="515"
+    r="38"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="
+      M754 88
+      C769 187 795 238 929 271
+      C795 295 770 344 754 457
+      C738 344 713 295 577 271
+      C713 238 738 187 754 88
+      Z"
+    fill="#063A69"
+  />
+
+  <path
+    d="
+      M754 128
+      C767 205 787 244 892 271
+      C787 292 767 331 754 418
+      C741 331 721 292 615 271
+      C721 244 741 205 754 128
+      Z"
+    fill="#FFFFFF"
+  />
+
+  <path
+    d="
+      M754 139
+      C766 213 787 248 884 271
+      C787 294 766 329 754 407
+      C742 329 721 294 624 271
+      C721 248 742 213 754 139
+      Z"
+    fill="url(#sparkCyan)"
+  />
+
+  <path
+    d="
+      M754 153
+      C764 221 782 251 865 271
+      C782 291 764 321 754 392
+      C744 321 726 291 643 271
+      C726 251 744 221 754 153
+      Z"
+    fill="url(#sparkBlue)"
+    opacity="0.30"
+  />
+
+  <path
+    d="
+      M754 198
+      C759 234 767 255 811 271
+      C767 283 759 304 754 344
+      C749 304 741 283 697 271
+      C741 255 749 234 754 198
+      Z"
+    fill="#FFFFFF"
+  />
 
 </svg>
   );
