@@ -96,11 +96,11 @@ const iconstyles = {
   }
 export const PowerVaultIcon: React.FC = () => {
   return (
-      <svg xmlns="http://www.w3.org/2000/svg"
-     width="1024"
-     height="1024"
-     viewBox="0 0 1024 1024">
-
+  <svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="75 25 400 465"
+    width="100%"
+    height="100%"
+  >
   <defs>
     <linearGradient id="outerDark" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#084A83"/>
