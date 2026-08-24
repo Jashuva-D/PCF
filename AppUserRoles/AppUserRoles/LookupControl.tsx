@@ -27,7 +27,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         var obj = this;
         var recs : IPersonaProps[] = [];
         if(this.props.entityType == "cr549_role"){
-            this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_role_name,cr549_id,cr549_roleid").then(
+            this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_role_name,cr549_id,cr549_roleid&$orderby=cr549_role_name asc").then(
                 (response) => {
                     response.entities.forEach((ent) => {
                         recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
