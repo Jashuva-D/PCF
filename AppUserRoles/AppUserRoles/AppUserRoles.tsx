@@ -126,20 +126,20 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />
                             }
-                            else if(columnname == "person_cr549_id"){
+                            else {
                                 return <Text aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>
                                     {this.state.editablerecord[columnname] ?? ""}
                                 </Text>;
                             }
-                            else {
-                                return <><TextField key={columnname} 
-                                    ariaLabel={c.displayName}
-                                    aria-labelledby={`header-${c.name}`}
-                                    defaultValue={this.state.editablerecord[columnname] ?? ""} 
-                                    value={this.state.editablerecord[columnname] ?? ""} 
-                                    onChange={(e, val) => this.onFieldChange(columnname, val)}
-                                /></>;
-                            }
+                            // else {
+                            //     return <><TextField key={columnname} 
+                            //         ariaLabel={c.displayName}
+                            //         aria-labelledby={`header-${c.name}`}
+                            //         defaultValue={this.state.editablerecord[columnname] ?? ""} 
+                            //         value={this.state.editablerecord[columnname] ?? ""} 
+                            //         onChange={(e, val) => this.onFieldChange(columnname, val)}
+                            //     /></>;
+                            // }
                         }
                         else {
                             if(columnname == "cr549_person"){
