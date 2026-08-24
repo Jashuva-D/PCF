@@ -51,7 +51,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 this.setState({
                     showDialog: true,
                     dialogTitle: "Existing Roles",
-                    dialogSubtext: `Below roles would be skipped as these roles are already associated to the selected user \n ${duplicateroles.map(x => x.name).join("\n")}`,
+                    dialogSubtext: `The roles listed below are already associated with the selected user and will be skipped. \n ${duplicateroles.map(x => x.name).join("\n")}`,
                     dialogConfirmButtonLabel: "Proceed",
                     dialogCancelButtonLabel: "Go Back",
                     dialogConfirmCallback: async () => {
