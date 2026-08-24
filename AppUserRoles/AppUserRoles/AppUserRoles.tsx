@@ -93,15 +93,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_");
 
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                            if(columnname == "person_cr549_service_desk_agent"){
-                                return <Dropdown
-                                    options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
-                                    defaultSelectedKey={this.state.editablerecord[`person_cr549_service_desk_agent_value`]}
-                                    selectedKey={this.state.editablerecord["person_cr549_service_desk_agent_value"]}
-                                    onChange={(event, value) => this.onFieldChange(columnname, value)}
-                                />;
-                            }
-                            else if(columnname == "cr549_role"){
+                            // if(columnname == "person_cr549_service_desk_agent"){
+                            //     return <Dropdown
+                            //         options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
+                            //         defaultSelectedKey={this.state.editablerecord[`person_cr549_service_desk_agent_value`]}
+                            //         selectedKey={this.state.editablerecord["person_cr549_service_desk_agent_value"]}
+                            //         onChange={(event, value) => this.onFieldChange(columnname, value)}
+                            //     />;
+                            // }
+                            if(columnname == "cr549_role"){
                                 return <LookupControl 
                                     context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} 
                                     onRecordSelect={(items) => {
