@@ -228,7 +228,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     onColumnClick(evt: React.MouseEvent<HTMLElement>, column: IColumn) {
         const columns = this.getColumns(column.fieldName ?? "");
-        const items = this.getSortedRecords();
+        const items = this.getSortedRecords(columns);
         if(this.state.filterApplied){   
             this.setState({columns: columns, fitlteredrecords: items ?? []});
         }
@@ -236,8 +236,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             this.setState({columns: columns, items: items ?? []});
         }
     }
-    getSortedRecords() {
-        var sortedcolumn = this.state.columns.find(x => x.isSorted);
+    getSortedRecords(columns: IColumn[]) {
+        var sortedcolumn = columns.find(x => x.isSorted);
         if (sortedcolumn) {
             var items = this.state.filterApplied ? [...this.state.fitlteredrecords] : [...this.state.items];
 
