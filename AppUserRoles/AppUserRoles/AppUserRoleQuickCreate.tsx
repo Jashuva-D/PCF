@@ -44,29 +44,19 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                 console.log("Error while fetching existing roles for the person");
             });
 
+            var duplicateroles = this.state.roles.filter(role => existingroles?.filter((x: any) => x["_cr549_role_value"] == role.id).length != 0);
             var targetroles = this.state.roles.filter(role => existingroles?.filter((x: any) => x["_cr549_role_value"] == role.id).length == 0);
             
-            var promises : Promise<any>[] = [];
-            targetroles.forEach(function(role){
-                var data = {
-                    "cr549_person@odata.bind": `/cr549_persons(${obj.state.person!.id})`,
-                    "cr549_role@odata.bind": `/cr549_roles(${role.id})`,
-                    "cr549_app@odata.bind": `/cr549_applications(${obj.props.appid})`
-                };
-                promises.push(obj.props.context.webAPI.createRecord("cr549_appuserrole", data));
-            }, this);
-            Promise.all(promises).then(() => {
-                obj.props.onComplete();
-            }).catch((error) => {
-                obj.setState({
+            if(duplicateroles.length > 0){
+                this.setState({
                     showDialog: true,
-                    dialogTitle: "Error creating App User Role",
-                    dialogSubtext: error?.message || "An unexpected error occurred while creating App User Role.",
-                    dialogIsError: true,
-                    dialogConfirmButtonLabel: "OK",
-                    dialogCancelButtonLabel: "Cancel",
-                    dialogConfirmCallback: () => {
+                    dialogTitle: "Existing Roles",
+                    dialogSubtext: `Below roles would be skipped as these roles are already associated to the selected user \n ${duplicateroles.map(x => x.name).join("\n")}`,
+                    dialogConfirmButtonLabel: "Proceed",
+                    dialogCancelButtonLabel: "Go Back",
+                    dialogConfirmCallback: async () => {
                         obj.setState({ showDialog: false });
+                        CreateRecords.bind(obj)();
                     },
                     dialogCancelCallback: () => {
                         obj.setState({ showDialog: false });
@@ -74,8 +64,45 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                     dialogDismissCallback: () => {
                         obj.setState({ showDialog: false });
                     }
+                })
+            } else {
+                CreateRecords.bind(obj)();
+            }
+            
+
+            function CreateRecords(){
+                var promises : Promise<any>[] = [];
+                targetroles.forEach(function(role){
+                    var data = {
+                        "cr549_person@odata.bind": `/cr549_persons(${obj.state.person!.id})`,
+                        "cr549_role@odata.bind": `/cr549_roles(${role.id})`,
+                        "cr549_app@odata.bind": `/cr549_applications(${obj.props.appid})`
+                    };
+                    promises.push(obj.props.context.webAPI.createRecord("cr549_appuserrole", data));
+                }, obj);
+                Promise.all(promises).then(() => {
+                    obj.props.onComplete();
+                }).catch((error) => {
+                    obj.setState({
+                        showDialog: true,
+                        dialogTitle: "Error creating App User Role",
+                        dialogSubtext: error?.message || "An unexpected error occurred while creating App User Role.",
+                        dialogIsError: true,
+                        dialogConfirmButtonLabel: "OK",
+                        dialogCancelButtonLabel: "Cancel",
+                        dialogConfirmCallback: () => {
+                            obj.setState({ showDialog: false });
+                        },
+                        dialogCancelCallback: () => {
+                            obj.setState({ showDialog: false });
+                        },
+                        dialogDismissCallback: () => {
+                            obj.setState({ showDialog: false });
+                        }
+                    });
                 });
-            });
+            }
+            
         }
     }
     onCancel() {
