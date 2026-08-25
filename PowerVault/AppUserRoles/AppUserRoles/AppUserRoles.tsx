@@ -71,8 +71,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         var currentsortedcolumn = this.state?.columns ? this.state.columns?.find(x => x.isSorted) : null;
         var cols : IColumn[] = [];
         this.props.context.parameters.sampleDataSet.columns.forEach((c) => {
-                if(c.name == "cr549_id") return;
-                var colname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_")
+                if(c.name == "pv_id") return;
+                var colname = c.name.replace("a_b319352c3f9bf1118076001dd803d0e9.","person_")
                 cols.push({
                     key: c.name,
                     name: c.displayName,
@@ -90,18 +90,10 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         </div>
                     ),
                     onRender: (item: any) => {
-                        let columnname = c.name.replace("a_0bbe2879d1e8f0118544001dd8096c2b.","person_");
+                        let columnname = c.name.replace("a_b319352c3f9bf1118076001dd803d0e9.","person_");
 
                         if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                            // if(columnname == "person_cr549_service_desk_agent"){
-                            //     return <Dropdown
-                            //         options={[{key: "0", text: "Primary"}, {key: "1", text: "Secondary"}]}
-                            //         defaultSelectedKey={this.state.editablerecord[`person_cr549_service_desk_agent_value`]}
-                            //         selectedKey={this.state.editablerecord["person_cr549_service_desk_agent_value"]}
-                            //         onChange={(event, value) => this.onFieldChange(columnname, value)}
-                            //     />;
-                            // }
-                            if(columnname == "cr549_role"){
+                            if(columnname == "pv_role"){
                                 return <LookupControl 
                                     context={this.props.context} entityType="cr549_role" recordId={item[`${columnname}_value`]?.id?.guid ?? null} 
                                     onRecordSelect={(items) => {
@@ -113,7 +105,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />;
                             }
-                            else if(columnname == "cr549_person"){
+                            else if(columnname == "pv_person"){
                                 //return <Text>{this.state.editablerecord[columnname] ?? ""}</Text>;
                                 return <LookupControl 
                                     context={this.props.context} entityType="cr549_person" recordId={item[`${columnname}_value`]?.id?.guid ?? null}
@@ -131,34 +123,25 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     {this.state.editablerecord[columnname] ?? ""}
                                 </Text>;
                             }
-                            // else {
-                            //     return <><TextField key={columnname} 
-                            //         ariaLabel={c.displayName}
-                            //         aria-labelledby={`header-${c.name}`}
-                            //         defaultValue={this.state.editablerecord[columnname] ?? ""} 
-                            //         value={this.state.editablerecord[columnname] ?? ""} 
-                            //         onChange={(e, val) => this.onFieldChange(columnname, val)}
-                            //     /></>;
-                            // }
                         }
                         else {
-                            if(columnname == "cr549_person"){
+                            if(columnname == "pv_person"){
                                 return <Link onClick={() => {
                                     this.props.context.navigation.openForm({
-                                        entityName: "cr549_person",
-                                        entityId: item["cr549_person_value"]?.id?.guid
+                                        entityName: "pv_person",
+                                        entityId: item["pv_person_value"]?.id?.guid
                                     })
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
-                            else if(columnname == "cr549_role"){
+                            else if(columnname == "pv_role"){
                                 return <Link onClick={() => {
                                     this.props.context.navigation.openForm({
-                                        entityName: "cr549_role",
-                                        entityId: item["cr549_role_value"]?.id?.guid
+                                        entityName: "pv_role",
+                                        entityId: item["pv_role_value"]?.id?.guid
                                     })
                                 }}>{item[columnname] ?? ""}</Link>;
                             }
-                            else if(columnname == "person_cr549_email_address" || columnname == "person_cr549_email_address_2"){
+                            else if(columnname == "person_pv_email_address" || columnname == "person_pv_email_address_2"){
                                 return <Link href={`mailto:${item[columnname+'_value']}`} aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>{item[columnname]}</Link>
                             }
                             else {
