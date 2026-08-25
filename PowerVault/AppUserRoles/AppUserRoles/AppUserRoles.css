@@ -1,0 +1,58 @@
+ /* .ms-DetailsRow .is-checked .ms-Check-circle {
+  background-color: #0D2499;
+  border-radius: 50%;
+}
+
+.ms-DetailsHeader .is-checked .ms-Check-circle {
+  background-color: #0D2499;
+  border-radius: 50%; 
+  border-color: #0D2499;
+}  */
+
+.appuserroles .ms-DetailsHeader-cell {
+    background-color: #E7E9F5;
+    color: black
+}
+.appuserroles .ms-DetailsHeader-cell:hover {
+  background-color: #B7BEE1;
+  color: black;
+}
+.ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
+  color: black; 
+} 
+ .appuserroles .ms-DetailsRow {
+  background-color: white;
+  border-color: #F2F2F2;
+}
+.appuserroles .ms-DetailsRow:hover {
+  background-color: #F2F2F2;
+  border-color: #D8D8D8;
+}
+/* .appuserroles .ms-DetailsRow-cell {
+  padding: 0;
+} */
+
+.appuserroles-quickcreate-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.appuserroles-quickcreate-label-cell {
+  width: 70px;
+  padding: 0 12px 12px 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.appuserroles-quickcreate-control-cell {
+  padding: 0 0 12px 0;
+  vertical-align: middle;
+}
+
+.appuserroles-quickcreate-control-cell .ms-PeoplePicker {
+  width: 100%;
+}
+
+.appuserroles-quickcreate-control-cell .ms-BasePicker-text {
+  width: 100%;
+}

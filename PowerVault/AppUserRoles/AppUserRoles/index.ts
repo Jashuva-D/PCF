@@ -1,0 +1,81 @@
+import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+type DataSet = ComponentFramework.PropertyTypes.DataSet;
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import AppUserRolesComponent from "./AppUserRoles";
+import CMSAlert from "./CMSAlert";
+import { CMSAlertType } from "./Constants";
+import AppUserRoleQuickCreate from "./AppUserRoleQuickCreate";
+
+export class AppUserRoles implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+    private _container: HTMLDivElement;
+    private selectedrecordids: string[];
+    private root1: ReactDOM.Root;;
+    constructor() {
+        // Empty
+    }
+
+    /**
+     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
+     * Data-set values are not initialized here, use updateView.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
+     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
+     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
+     * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
+     */
+    public init(
+        context: ComponentFramework.Context<IInputs>,
+        notifyOutputChanged: () => void,
+        state: ComponentFramework.Dictionary,
+        container: HTMLDivElement
+    ): void {
+        //this._container = container;
+        var child1 = container.appendChild(document.createElement("div"));
+        var child2 = container.appendChild(document.createElement("div"));
+        this._container = child2 as HTMLDivElement;
+
+        this.root1 = ReactDOM.createRoot(child1);
+        this.selectedrecordids = [];
+    }
+    /**
+     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+     */
+    public updateView(context: ComponentFramework.Context<IInputs>): void {
+        this.selectedrecordids = [];
+        var root = ReactDOM.createRoot(this._container);
+        root.render(React.createElement(AppUserRolesComponent, { context: context, showalert: this.AlertMessage.bind(this)}));
+        //root.render(React.createElement(AppUserRoleQuickCreate, { context: context, onClose: () => console.log("closed" )}));
+    }
+    /**
+     * It is called by the framework prior to a control receiving new data.
+     * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
+     */
+    public getOutputs(): IOutputs {
+        return {};
+    }
+
+    /**
+     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+     * i.e. cancelling any pending remote calls, removing listeners, etc.
+     */
+    public destroy(): void {
+        // Add code to cleanup control if necessary
+    }
+    public AlertMessage(message: string, type: CMSAlertType) {
+        this.root1.render(React.createElement(CMSAlert, { message: message, type: type }));
+        setTimeout(() => {
+            this.root1.render(React.createElement("div"));
+        }, 10000);
+    }
+    AddSelectedRecordId(id: string){
+        this.selectedrecordids.filter(x => x == id).length == 0 && this.selectedrecordids.push(id);
+    }
+    RemoveSelectedRecordId(id: string){
+        this.selectedrecordids = this.selectedrecordids.filter(x => x != id);
+    }
+    getSelectedRecordIds() : string[] {
+        return this.selectedrecordids;
+    }
+}
