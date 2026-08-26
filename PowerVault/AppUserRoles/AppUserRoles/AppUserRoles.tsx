@@ -270,51 +270,51 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
                 return false;
             });
-            if(!appuserroleupdate) return;
+            // if(!appuserroleupdate) return;
 
-            var person = {
-                "pv_direct_phone": this.state.editablerecord["person_pv_direct_phone"],
-                "pv_email_address": this.state.editablerecord["person_pv_email_address"],
-                "pv_email_address_2": this.state.editablerecord["person_pv_email_address_2"],
-                "pv_service_desk_agent": this.state.editablerecord["person_pv_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_pv_service_desk_agent_value"] == "0" ? false : true
-            }
-            var personupdate =await obj.props.context.webAPI.updateRecord("pv_person", personid, person).then(function (resp) {
-                return true;
-            }, function (error) {
-                obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
-                return false;
-            });
+            // var person = {
+            //     "pv_direct_phone": this.state.editablerecord["person_pv_direct_phone"],
+            //     "pv_email_address": this.state.editablerecord["person_pv_email_address"],
+            //     "pv_email_address_2": this.state.editablerecord["person_pv_email_address_2"],
+            //     //"pv_service_desk_agent": this.state.editablerecord["person_pv_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_pv_service_desk_agent_value"] == "0" ? false : true
+            // }
+            // var personupdate =await obj.props.context.webAPI.updateRecord("pv_person", personid, person).then(function (resp) {
+            //     return true;
+            // }, function (error) {
+            //     obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
+            //     return false;
+            // });
 
-            if(appuserroleupdate && personupdate){
-                var currentapprecord = await this.props.context.webAPI.retrieveRecord("pv_apps", (obj.props.context as any).page.entityId, "?$select=pv_id").then(function(resp){ return resp; }, function(err){ throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
-                var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){return resp;},function(err){throw new Error("Unable to fetch current user record");});
-                var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("pv_person", `?$filter=pv_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=pv_id`).then(function(resp){ return resp.entities.length > 0 ? resp.entities[0] : null; },function(err){ throw new Error("Unable to fetch current person record"); });
-                var rolerecord = await this.props.context.webAPI.retrieveRecord("pv_role", roleid,"?$select=pv_id").then(function(resp){return resp;}, function(err){ throw new Error("Unable to fetch role record"); });
+            // if(appuserroleupdate && personupdate){
+            //     var currentapprecord = await this.props.context.webAPI.retrieveRecord("pv_apps", (obj.props.context as any).page.entityId, "?$select=pv_id").then(function(resp){ return resp; }, function(err){ throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
+            //     var currentuserrecord = await this.props.context.webAPI.retrieveRecord("systemuser",this.props.context.userSettings.userId,"?$select=internalemailaddress").then(function(resp){return resp;},function(err){throw new Error("Unable to fetch current user record");});
+            //     var currentpersonrecord = await this.props.context.webAPI.retrieveMultipleRecords("pv_person", `?$filter=pv_email_address eq '${currentuserrecord["internalemailaddress"]}'&$select=pv_id`).then(function(resp){ return resp.entities.length > 0 ? resp.entities[0] : null; },function(err){ throw new Error("Unable to fetch current person record"); });
+            //     var rolerecord = await this.props.context.webAPI.retrieveRecord("pv_role", roleid,"?$select=pv_id").then(function(resp){return resp;}, function(err){ throw new Error("Unable to fetch role record"); });
 
-                await obj.props.context.webAPI.updateRecord("pv_apps", (obj.props.context as any).page.entityId, { 
-                    "pv_date_modified": new Date(),
-                    "pv_modified_by": currentpersonrecord ? currentpersonrecord["pv_id"] : null,
-                    "pv_modified_method": "Manual"
-                }).then(function(resp){ return true;},function(err){
-                    throw new Error('Error occured while updating the application record, details: ' + err.message);
-                });
-                obj.props.context.webAPI.createRecord("pv_personupdatexwalk", {
-                    "pv_name": `${currentapprecord ? currentapprecord["pv_id"] ?? '' : ''}_${currentpersonrecord ? currentpersonrecord["pv_id"] ?? '' : ''}`,
-                    "pv_pers_change_type": "updated",
-                    "pv_pers_update_method": "manual",
-                    "pv_pers_updated_by": currentpersonrecord ? currentpersonrecord["pv_id"] : null,
-                    "pv_pers_updated_date": new Date(),
-                    "pv_pers_id_crmdb@odata.bind": `/pv_persons(${personid})`,
-                    "pv_role_id": rolerecord["pv_id"],
-                    "pv_short_app_name@odata.bind": `/pv_appses(${(obj.props.context as any).page.entityId})`
-                }).then(function(resp){
-                    obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
-                    obj.setState({ editablerecord: null });
-                    obj.props.context.parameters.sampleDataSet.refresh();
-                },function(err){
-                    obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
-                });
-            }
+            //     await obj.props.context.webAPI.updateRecord("pv_apps", (obj.props.context as any).page.entityId, { 
+            //         "pv_date_modified": new Date(),
+            //         "pv_modified_by": currentpersonrecord ? currentpersonrecord["pv_id"] : null,
+            //         "pv_modified_method": "Manual"
+            //     }).then(function(resp){ return true;},function(err){
+            //         throw new Error('Error occured while updating the application record, details: ' + err.message);
+            //     });
+            //     obj.props.context.webAPI.createRecord("pv_personupdatexwalk", {
+            //         "pv_name": `${currentapprecord ? currentapprecord["pv_id"] ?? '' : ''}_${currentpersonrecord ? currentpersonrecord["pv_id"] ?? '' : ''}`,
+            //         "pv_pers_change_type": "updated",
+            //         "pv_pers_update_method": "manual",
+            //         "pv_pers_updated_by": currentpersonrecord ? currentpersonrecord["pv_id"] : null,
+            //         "pv_pers_updated_date": new Date(),
+            //         "pv_pers_id_crmdb@odata.bind": `/pv_persons(${personid})`,
+            //         "pv_role_id": rolerecord["pv_id"],
+            //         "pv_short_app_name@odata.bind": `/pv_appses(${(obj.props.context as any).page.entityId})`
+            //     }).then(function(resp){
+            //         obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+            //         obj.setState({ editablerecord: null });
+            //         obj.props.context.parameters.sampleDataSet.refresh();
+            //     },function(err){
+            //         obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
+            //     });
+            // }
         }catch(error : any){
             obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
         }
