@@ -191,7 +191,6 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item : any) => {
                 return <Checkbox 
-                    
                     checked = {this.state.selectedrecordids.includes(item.key)} 
                     onChange={(evt, checked) => { 
                         if(checked) { this.setState({selectedrecordids: [...this.state.selectedrecordids, item.key]})} 
@@ -437,7 +436,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
         this.setState({
             showDialog: true,
             dialogTitle: "Confirm Deletion",
-            dialogSubtext: `Are you sure you want to delete the selected ${this._selection.getSelectedCount()} record(s)? This action cannot be undone.`,
+            dialogSubtext: `Are you sure you want to delete the selected ${this.state.selectedrecordids.length} record(s)? This action cannot be undone.`,
             dialogConfirmButtonLabel: "Delete",
             dialogCancelButtonLabel: "Cancel",
             dialogConfirmCallback: async () => {
