@@ -265,7 +265,9 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 "pv_Person@odata.bind" : personid == undefined ? null : `/pv_persons(${personid})`
             }
             var appuserroleupdate = await this.props.context.webAPI.updateRecord("pv_appuserrole", appuserroleid, appuserrole).then(function(resp){
-                return true;
+                obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+                obj.setState({ editablerecord: null });
+                obj.props.context.parameters.sampleDataSet.refresh();
             },function(err){
                 obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
                 return false;
