@@ -155,7 +155,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                     <LookupControl
                                         context={this.props.context}
                                         recordId={""}
-                                        entityType="cr549_person"
+                                        entityType="pv_person"
                                         onRecordSelect={(items) => {
                                             if (items && items.length > 0) {
                                                 const { id, text } = items[0];
@@ -177,7 +177,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                                     <LookupControl
                                         context={this.props.context}
                                         recordId={""}
-                                        entityType="cr549_role"
+                                        entityType="pv_role"
                                         onRecordSelect={(items) => {
                                             if (items && items.length > 0) {
                                                 const roles = items.map((item) => ({ id: item.id as string, name: item.text as string }));

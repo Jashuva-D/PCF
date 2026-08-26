@@ -26,11 +26,11 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     componentDidMount() {
         var obj = this;
         var recs : IPersonaProps[] = [];
-        if(this.props.entityType == "cr549_role"){
-            this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=cr549_role_name,cr549_id,cr549_roleid&$orderby=cr549_role_name asc").then(
+        if(this.props.entityType == "pv_role"){
+            this.props.context.webAPI.retrieveMultipleRecords(this.props.entityType, "?$select=pv_role_name,pv_id,pv_roleid&$orderby=pv_role_name asc").then(
                 (response) => {
                     response.entities.forEach((ent) => {
-                        recs.push({ id: ent["cr549_roleid"], text: ent["cr549_role_name"], secondaryText: ent["cr549_id"], showSecondaryText: false } as IPersonaProps);
+                        recs.push({ id: ent["pv_roleid"], text: ent["pv_role_name"], secondaryText: ent["pv_id"], showSecondaryText: false } as IPersonaProps);
                     });
                     var selectedrecords = (obj.props.recordId != null && obj.props.recordId != "") ? recs.filter(x => x.id == this.props.recordId) : [];
                     obj.setState({ allitems: recs, selectedRecords: selectedrecords });
@@ -40,11 +40,11 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 }
             );
         }
-        if(this.props.entityType == "cr549_person"){
+        if(this.props.entityType == "pv_person"){
             if(this.props.recordId != null && this.props.recordId != ""){
-                var query = "?$select=cr549_name,cr549_id,cr549_personid";
-                this.props.context.webAPI.retrieveRecord("cr549_person",this.props.recordId!,query).then(function(resp){
-                    recs.push({ id: resp["cr549_personid"], text: resp["cr549_name"], secondaryText: resp["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                var query = "?$select=pv_name,pv_id,pv_personid";
+                this.props.context.webAPI.retrieveRecord("pv_person",this.props.recordId!,query).then(function(resp){
+                    recs.push({ id: resp["pv_personid"], text: resp["pv_name"], secondaryText: resp["pv_id"], showSecondaryText: true } as IPersonaProps);
                     var selectedrecords = recs.filter(x => x.id == obj.props.recordId);
                     obj.setState({ allitems: recs, selectedRecords: selectedrecords });
                 },function(err){
@@ -52,9 +52,9 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 })
             }
             else {
-                this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid$$top=10&$orderby=cr549_name asc`).then(function(resp){
+                this.props.context.webAPI.retrieveMultipleRecords("pv_person",`?$select=pv_name,pv_id,pv_personid$$top=10&$orderby=pv_name asc`).then(function(resp){
                     resp.entities.forEach((ent) => {
-                        recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                        recs.push({ id: ent["pv_personid"], text: ent["pv_name"], secondaryText: ent["pv_id"], showSecondaryText: true } as IPersonaProps);
                     });
                     obj.setState({ allitems: recs });
                 },function(err){
@@ -68,7 +68,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
         while(query){
             await this.props.context.webAPI.retrieveMultipleRecords(entityType,query!).then(function(resp){
                 resp.entities.forEach((ent) => {
-                    recs.push({ id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps);
+                    recs.push({ id: ent["pv_personid"], text: ent["pv_name"], secondaryText: ent["pv_id"], showSecondaryText: true } as IPersonaProps);
                 });
                 query = resp.nextLink?.substring(resp.nextLink?.indexOf('?'));
             },function(err){
@@ -80,7 +80,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     }
     onResolveSuggestions = (filterText: string, currentPersonas?: IPersonaProps[]) => {
         
-        if(this.props.entityType == "cr549_role"){
+        if(this.props.entityType == "pv_role"){
             var items = [] as any[];
             if(filterText == null || filterText.trim() == ""){
                 items = this.state.allitems;
@@ -101,9 +101,9 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 return this.state.allitems.filter(item => item.text?.toLowerCase().includes(filterText.toLowerCase()));
             }
             else {
-                return this.props.context.webAPI.retrieveMultipleRecords("cr549_person",`?$select=cr549_name,cr549_id,cr549_personid&$filter=contains(cr549_name,'${filterText}') or contains(cr549_id,'${filterText}') or contains(cr549_email_address,'${filterText}')&$orderby=cr549_name asc`).then(function(resp){
+                return this.props.context.webAPI.retrieveMultipleRecords("pv_person",`?$select=pv_name,pv_id,pv_personid&$filter=contains(pv_name,'${filterText}') or contains(pv_id,'${filterText}') or contains(pv_email_address,'${filterText}')&$orderby=pv_name asc`).then(function(resp){
                     return resp.entities.map((ent) => {
-                        return { id: ent["cr549_personid"], text: ent["cr549_name"], secondaryText: ent["cr549_id"], showSecondaryText: true } as IPersonaProps;
+                        return { id: ent["pv_personid"], text: ent["pv_name"], secondaryText: ent["pv_id"], showSecondaryText: true } as IPersonaProps;
                     });
                 })
             }
@@ -119,7 +119,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
     }
     render() {
         const allitems = [...this.state.allitems];
-        const header = this.props.entityType == "cr549_person" ? "People" : "Roles";
+        const header = this.props.entityType == "pv_person" ? "People" : "Roles";
         return (    
             <NormalPeoplePicker
                 onEmptyResolveSuggestions={this.onEmptyResolveSuggestions.bind(this)}
@@ -137,7 +137,7 @@ class LookupControl extends React.Component<LookupControlProps, LookupControlSta
                 }}
                 inputProps={{ 
                     style: { backgroundColor: 'white', width: '100%' },
-                    placeholder: this.props.entityType == "cr549_person" ? "Search for a person..." : "Search for a role..."
+                    placeholder: this.props.entityType == "pv_person" ? "Search for a person..." : "Search for a role..."
                 }}
             />
         );
