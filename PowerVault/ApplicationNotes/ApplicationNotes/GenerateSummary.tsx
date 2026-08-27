@@ -28,15 +28,15 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
         this.setState({ generating: true });
 
         var request = {
-            entity: { entityType: "cr549_application", id: currentrecordid }, // entity
+            entity: { entityType: "pv_application", id: currentrecordid }, // entity
 
             getMetadata: function () {
                 return {
                     boundParameter: "entity",
                     parameterTypes: {
-                        entity: { typeName: "mscrm.cr549_application", structuralProperty: 5 }
+                        entity: { typeName: "mscrm.pv_apps", structuralProperty: 5 }
                     },
-                    operationType: 0, operationName: "crm2_GenerateAppNotesSummary"
+                    operationType: 0, operationName: "pv_GenerateAppNotesSummary"
                 };
             }
         };

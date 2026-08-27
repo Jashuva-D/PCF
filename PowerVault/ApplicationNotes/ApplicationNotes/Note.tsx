@@ -5,7 +5,6 @@ import Comment from "./Comment";
 import NoteForm from "./NoteForm";
 import { CMSAlertType, Interactiontypes, NoteTabs} from "./Constants";
 import CMSDialog from "./CMSDialog";
-import StatusChangeDialogue from "./StatusChangeDialogue";
 import DetailsTab from "./DetailsTab";
 
 interface NoteProps {
@@ -327,15 +326,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                         onCancel={() => {
                             this.setState({showDialog: false});
                             this.state.dialogCancelCallback && this.state.dialogCancelCallback();
-                        }}
-                    />
-                    <StatusChangeDialogue
-                        isOpen={this.state.showStatusChangeDialog}
-                        context={this.props.context}
-                        recordid={this.props.recordid!}
-                        onComplete={() => {
-                            this.setState({ showStatusChangeDialog: false });
-                            this.props.refresh();
                         }}
                     />
                 </Stack>

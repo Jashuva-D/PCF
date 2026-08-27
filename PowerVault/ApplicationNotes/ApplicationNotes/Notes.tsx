@@ -7,7 +7,6 @@ import Note from "./Note";
 import CommentWithScreenshot from "./ComponentWithScreenshot";
 import NoteForm from "./NoteForm";
 import GenerateSummary from "./GenerateSummary";
-import TestComponent from "./TestComponent";
 import { ClockIcon, SearchIcon } from "./icons";
 import CMSDialog from "./CMSDialog";
 import CMSAlert from "./CMSAlert";
