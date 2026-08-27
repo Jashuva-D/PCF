@@ -110,27 +110,27 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("cr549_applicationnotes", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=createdon desc`).then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("pv_applicationnote", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
                     recordid: x.activityid,
-                    comments: x.cr549_comment,
-                    actionitems: x.cr549_actionitem,
+                    comments: x.pv_comment,
+                    actionitems: x.pv_actionitem,
                     createdon: new Date(x.createdon),
                     createdby: x["_createdby_value@OData.Community.Display.V1.FormattedValue"] || x["_createdby_value"],
                     createdbyid: x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
                     topic: x.subject,
-                    topicowner: x.cr549_topicowner,
+                    topicowner: x.pv_topicowner,
                     statecode: x.statecode,
-                    interactiontype: x.cr549_interactiontype,
-                    submittoconfluence: x.cr549_sharewithconfluence,
-                    confluencepageid : x.cr549_confluenceurl,
-                    confluencespace : x.cr549_confluencespace,
-                    confluencepagetitle : x.cr549_confluencepagetitle,
-                    otherinteractiontype : x.cr549_otherinteractiontype
+                    interactiontype: x.pv_interactiontype,
+                    submittoconfluence: x.pv_sharewithconfluence,
+                    confluencepageid : x.pv_confluenceurl,
+                    confluencespace : x.pv_confluencespace,
+                    confluencepagetitle : x.pv_confluencepagetitle,
+                    otherinteractiontype : x.pv_otherinteractiontype
                 })
             })
             obj.setState({ notes: notes, newnote: false, loading: false });
@@ -186,45 +186,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         }}
                                         onRenderPrefix={() => (
                                              <span style={{borderRadius: 20}}><SearchIcon size={24} color="white"/> </span>
-                                            /* <IconButton
-                                                iconProps={{ iconName: "Search" }}
-                                                ariaLabel="Search"
-                                                styles={{
-                                                    root: {
-                                                        cursor: "pointer",
-                                                        border: "none",
-                                                        outline: "none",
-                                                        background: "transparent",
-                                                        backgroundColor: "transparent",
-                                                        boxShadow: "none",
-                                                    },
-                                                    rootHovered: {
-                                                        cursor: "pointer",
-                                                        background: "transparent",
-                                                        backgroundColor: "transparent",
-                                                    },
-                                                    rootFocused: {
-                                                        cursor: "pointer",
-                                                        background: "transparent",
-                                                        backgroundColor: "transparent",
-                                                        outline: "none",
-                                                        boxShadow: "none",
-                                                    },
-                                                    rootPressed: {
-                                                        cursor: "pointer",
-                                                        background: "transparent",
-                                                        backgroundColor: "transparent",
-                                                        outline: "none",
-                                                        boxShadow: "none",
-                                                    },
-                                                    icon: { color: "white" },
-                                                }}
-                                                onClick={this.onSearchClick.bind(this)}
-                                                onMouseDown={(e) => {
-                                                    e.preventDefault();
-                                                }}
-                                            /> */
-                                            
                                         )}
                                         onRenderSuffix={() =>
                                             this.state.searchText != "" ? (
@@ -273,10 +234,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                 </StackItem>
                             </Stack>
                         </StackItem>
-                        
-                        {/* { this.state.showalert && <StackItem>
-                            <MessageBar  messageBarType={this.state.alert?.messagetype}>{this.state.alert?.message}</MessageBar>
-                        </StackItem> } */}
                         { this.state.showalert && <StackItem>
                             <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />
                         </StackItem> }
@@ -356,29 +313,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     this.state.dialogCancelCallback && this.state.dialogCancelCallback();
                 }}
             />
-            {/* <PopupPortal open={true} onClose={() => {}}>
-                <div style={{ padding: 20 }}>
-                    <h2>Popup Content</h2>
-                    <p>This is a popup portal example.</p>
-                </div>
-                <ReactQuill
-                    theme="snow"
-                    value={"this.state.comment"}
-                    onChange={() => {}}
-                    //modules={this.modules}
-                    //formats={this.formats}
-                    placeholder="Start typing..."
-                    style={{
-                        borderRadius: 6,
-                        border: "1px #d1d1d1",
-                        overflow: "hidden", 
-                        overflowY: "auto",
-                        minHeight: "200px",
-                    }}
-                    rows={8}
-                    
-                />
-            </PopupPortal> */}
         </div>
         
     }
