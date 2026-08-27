@@ -170,55 +170,60 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     obj.setState({ displayprogress: true, progressmessage: "Submitting..." })
     if (this.props.recordid && this.props.recordid !== "") {
       const record = {
-        cr549_comment: this.state.comment,
-        cr549_actionitem: this.state.actionitems,
+        pv_comment: this.state.comment,
+        pv_actionitem: this.state.actionitems,
         subject: this.state.topic,
-        cr549_topicowner: this.state.topicowner,
-        cr549_interactiontype: this.state.interactiontype,
-        cr549_sharewithconfluence: this.state.submittoconfluence,
-        cr549_confluenceurl: this.state.confluencepageid,
-        cr549_confluencespace: this.state.confluencespace,
-        cr549_confluencepagetitle: this.state.confluencepagetitle,
-        cr549_otherinteractiontype: this.state.otherinteractiontype
+        pv_topicowner: this.state.topicowner,
+        pv_interactiontype: this.state.interactiontype,
+        pv_sharewithconfluence: this.state.submittoconfluence,
+        pv_confluenceurl: this.state.confluencepageid,
+        pv_confluencespace: this.state.confluencespace,
+        pv_confluencepagetitle: this.state.confluencepagetitle,
+        pv_otherinteractiontype: this.state.otherinteractiontype
       }
-      this.props.context?.webAPI.updateRecord("cr549_applicationnotes", this.props.recordid!, record).then(function (resp) {
-        if (obj.state.submittoconfluence) {
-          var request = {
-            entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
-            getMetadata: function () {
-              return {
-                boundParameter: "entity",
-                parameterTypes: {
-                  entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-                },
-                operationType: 0, operationName: "crm2_PushToConfluencePage"
-              };
-            }
-          };
+      this.props.context?.webAPI.updateRecord("pv_applicationnote", this.props.recordid!, record).then(function (resp) {
+        obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
+        obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        obj.setState({
+          displayprogress: false,
+        })
+        // if (obj.state.submittoconfluence) {
+        //   var request = {
+        //     entity: { entityType: "pv_applicationnotes", id: obj.props.recordid! },
+        //     getMetadata: function () {
+        //       return {
+        //         boundParameter: "entity",
+        //         parameterTypes: {
+        //           entity: { typeName: "mscrm.pv_applicationnote", structuralProperty: 5 }
+        //         },
+        //         operationType: 0, operationName: "crm2_PushToConfluencePage"
+        //       };
+        //     }
+        //   };
 
-          (obj.props.context.webAPI as any).execute(request).then(
-            function success(response: any) {
-              if (response.ok) {
-                console.log("Success");
-                obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
-                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
-                obj.setState({ displayprogress: false })
-              }
-            }
-          ).catch(function (error: any) {
-            obj.setState({ displayprogress: false })
-            obj.props.context.navigation.openErrorDialog({
-              message: error.message
-            })
-          });
-        }
-        else {
-          obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
-          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
-          obj.setState({
-            displayprogress: false,
-          })
-        }
+        //   (obj.props.context.webAPI as any).execute(request).then(
+        //     function success(response: any) {
+        //       if (response.ok) {
+        //         console.log("Success");
+        //         obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
+        //         obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        //         obj.setState({ displayprogress: false })
+        //       }
+        //     }
+        //   ).catch(function (error: any) {
+        //     obj.setState({ displayprogress: false })
+        //     obj.props.context.navigation.openErrorDialog({
+        //       message: error.message
+        //     })
+        //   });
+        // }
+        // else {
+        //   obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
+        //   obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        //   obj.setState({
+        //     displayprogress: false,
+        //   })
+        // }
       }, function (err: any) {
         obj.setState({ displayprogress: false })
         obj.props.context.navigation.openErrorDialog({
@@ -228,56 +233,61 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     }
     else {
       const record = {
-        cr549_comment: this.state.comment,
-        cr549_actionitem: this.state.actionitems,
-        "regardingobjectid_cr549_application_cr549_applicationnotes@odata.bind": `/cr549_applications(${(this.props.context as any).page.entityId})`,
+        pv_comment: this.state.comment,
+        pv_actionitem: this.state.actionitems,
+        "regardingobjectid_pv_apps_pv_applicationnote@odata.bind": `/pv_appses(${(this.props.context as any).page.entityId})`,
         subject: this.state.topic,
-        cr549_topicowner: this.state.topicowner,
-        cr549_interactiontype: this.state.interactiontype,
-        cr549_sharewithconfluence: this.state.submittoconfluence,
-        cr549_confluenceurl: this.state.confluencepageid,
-        cr549_confluencespace: this.state.confluencespace,
-        cr549_confluencepagetitle: this.state.confluencepagetitle,
-        cr549_otherinteractiontype: this.state.otherinteractiontype
+        pv_topicowner: this.state.topicowner,
+        pv_interactiontype: this.state.interactiontype,
+        pv_sharewithconfluence: this.state.submittoconfluence,
+        pv_confluenceurl: this.state.confluencepageid,
+        pv_confluencespace: this.state.confluencespace,
+        pv_confluencepagetitle: this.state.confluencepagetitle,
+        pv_otherinteractiontype: this.state.otherinteractiontype
       }
-      this.props.context?.webAPI.createRecord("cr549_applicationnotes", record).then(function (resp) {
-        if (obj.state.submittoconfluence) {
-          var request = {
-            entity: { entityType: "cr549_applicationnotes", id: resp.id },
-            getMetadata: function () {
-              return {
-                boundParameter: "entity",
-                parameterTypes: {
-                  entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-                },
-                operationType: 0, operationName: "crm2_PushToConfluencePage"
-              };
-            }
-          };
-
-          (obj.props.context.webAPI as any).execute(request).then(
-            function success(response: any) {
-              if (response.ok) {
-                console.log("Success");
-                obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-                obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
-                obj.setState({ displayprogress: false })
-              }
-            }
-          ).catch(function (error: any) {
-            obj.setState({ displayprogress: false })
-            obj.props.context.navigation.openErrorDialog({
-              message: error.message
-            })
-          });
-        }
-        else {
-          obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
-          obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
-          obj.setState({
+      this.props.context?.webAPI.createRecord("pv_applicationnote", record).then(function (resp) {
+        obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+        obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        obj.setState({
             displayprogress: false,
-          })
-        }
+        })
+        // if (obj.state.submittoconfluence) {
+        //   var request = {
+        //     entity: { entityType: "cr549_applicationnotes", id: resp.id },
+        //     getMetadata: function () {
+        //       return {
+        //         boundParameter: "entity",
+        //         parameterTypes: {
+        //           entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
+        //         },
+        //         operationType: 0, operationName: "crm2_PushToConfluencePage"
+        //       };
+        //     }
+        //   };
+
+        //   (obj.props.context.webAPI as any).execute(request).then(
+        //     function success(response: any) {
+        //       if (response.ok) {
+        //         console.log("Success");
+        //         obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+        //         obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        //         obj.setState({ displayprogress: false })
+        //       }
+        //     }
+        //   ).catch(function (error: any) {
+        //     obj.setState({ displayprogress: false })
+        //     obj.props.context.navigation.openErrorDialog({
+        //       message: error.message
+        //     })
+        //   });
+        // }
+        // else {
+        //   obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
+        //   obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
+        //   obj.setState({
+        //     displayprogress: false,
+        //   })
+        // }
         //obj.setState({displayprogress : false});
         //obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
         //obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype});

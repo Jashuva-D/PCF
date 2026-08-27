@@ -81,7 +81,7 @@ class Note extends React.Component<NoteProps,NoteState> {
     onDeleteClick(){
         var obj = this;
         if(obj.props.recordid && obj.props.recordid !== "") {
-            obj.props.context?.webAPI.deleteRecord("cr549_applicationnotes", obj.props.recordid!).then(function(resp){
+            obj.props.context?.webAPI.deleteRecord("pv_applicationnote", obj.props.recordid!).then(function(resp){
                 obj.props.deleteCallBack(obj.props.recordid);
             },function(err){
                 obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message });
@@ -93,71 +93,63 @@ class Note extends React.Component<NoteProps,NoteState> {
             editmode : false
         })
     }
-    editSubmit(record: any){ //recordid:string, content?:string, topic?: string, topicOwner? : string){
-        // this.setState({
-        //     editmode : false,
-        //     content : record.comments ?? "",
-        //     topic : record.topic ?? "",
-        //     topicowner : record.topicOwner ?? "",
-        //     interactiontype : record.interactiontype
-        // })
+    editSubmit(record: any){ 
         this.setState({
             editmode : false
         })
         this.props.refresh();
-        
     }
-    onSubmitToConfluence(){
-        var obj = this;
-        this.props.context.navigation.openConfirmDialog({
-            title: "Confirm Submit",
-            text : "Are you sure you want to submit to confluence ?",
-            confirmButtonLabel: "Submit",
-            cancelButtonLabel: "Cancel"
-        }).then(function(resp){
-            if(resp.confirmed){
-                var record = {
-                    cr549_sharewithconfluence : true,
-                    cr549_confluenceurl : obj.state.confluencepageid,
-                    cr549_confluencespace : obj.state.confluencespace,
-                    cr549_confluencepagetitle : obj.state.confluencepagetitle
-                }
-                obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
-                    // obj.setState({enablesubmittoconfluence : false});
-                    // obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
-                    var request = {
-                        entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
-                        getMetadata: function () {
-                        return {
-                            boundParameter: "entity",
-                            parameterTypes: {
-                            entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-                            },
-                            operationType: 0, operationName: "crm2_PushToConfluencePage"
-                        };
-                        }
-                    };
+    // onSubmitToConfluence(){
+    //     var obj = this;
+    //     this.props.context.navigation.openConfirmDialog({
+    //         title: "Confirm Submit",
+    //         text : "Are you sure you want to submit to confluence ?",
+    //         confirmButtonLabel: "Submit",
+    //         cancelButtonLabel: "Cancel"
+    //     }).then(function(resp){
+    //         if(resp.confirmed){
+    //             var record = {
+    //                 cr549_sharewithconfluence : true,
+    //                 cr549_confluenceurl : obj.state.confluencepageid,
+    //                 cr549_confluencespace : obj.state.confluencespace,
+    //                 cr549_confluencepagetitle : obj.state.confluencepagetitle
+    //             }
+    //             obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
+    //                 // obj.setState({enablesubmittoconfluence : false});
+    //                 // obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
+    //                 var request = {
+    //                     entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
+    //                     getMetadata: function () {
+    //                     return {
+    //                         boundParameter: "entity",
+    //                         parameterTypes: {
+    //                         entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
+    //                         },
+    //                         operationType: 0, operationName: "crm2_PushToConfluencePage"
+    //                     };
+    //                     }
+    //                 };
 
-                    (obj.props.context.webAPI as any).execute(request).then(
-                        function success(response : any) {
-                        if (response.ok) { 
-                            console.log("Success"); 
-                            obj.setState({enablesubmittoconfluence : false});
-                            obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
-                        }
-                        }
-                    ).catch(function (error : any) {
-                        obj.props.context.navigation.openErrorDialog({
-                            message: error.message
-                        });
-                    });
-                },function(err){
-                    obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
-                });
-            }
-        })
+    //                 (obj.props.context.webAPI as any).execute(request).then(
+    //                     function success(response : any) {
+    //                     if (response.ok) { 
+    //                         console.log("Success"); 
+    //                         obj.setState({enablesubmittoconfluence : false});
+    //                         obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
+    //                     }
+    //                     }
+    //                 ).catch(function (error : any) {
+    //                     obj.props.context.navigation.openErrorDialog({
+    //                         message: error.message
+    //                     });
+    //                 });
+    //             },function(err){
+    //                 obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
+    //             });
+    //         }
+    //     })
         
-    }
+    // }
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const content = this.state.editmode ? this.state.content : this.props.comment;
@@ -187,12 +179,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         ] as ICommandBarItemProps[];
 
         var overflowbuttons = [] as ICommandBarItemProps[];
-        // if(!this.state.displayDetails)
-        //     overflowbuttons.push({key: `${this.props.recordid}_expanddetails`, text: "Expand Details", ariaLabel: "Expand Details", iconProps:{iconName: "ChevronUnfold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        // else overflowbuttons.push({key: `${this.props.recordid}_collapsedetails`, text: "Collapse Details", ariaLabel: "Collapse Details", iconProps:{iconName: "ChevronFold10"}, onClick: () => {this.setState({displayDetails: !this.state.displayDetails})}});
-        overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", ariaLabel: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
-        //overflowbuttons.push({key: `${this.props.recordid}_updatestatus`, text: "Change Status", ariaLabel: "Change Status", iconProps:{iconName: "Accept"}, onClick: () => {this.setState({ showStatusChangeDialog: true })}});
-        
+        //overflowbuttons.push({key: `${this.props.recordid}_pushtoconfluence`, text: "Submit to Confluence", ariaLabel: "Submit to Confluence", iconProps:{iconName: "Upload"}, disabled: this.state.editmode, onClick: () => {this.setState({enablesubmittoconfluence : true, displayDetails : false})}});
         return <Stack tokens={{childrenGap: 3}} styles={{root: {border: "1px solid #d1d1d1", borderRadius: 6, padding: 5, backgroundColor: backgroundColor}}}>
                     <StackItem>
                         <Stack horizontal horizontalAlign="space-between">
@@ -226,7 +213,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
+                    {/* {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
                             <Stack tokens={{childrenGap : 10}}>
                                 <Stack horizontal tokens={{childrenGap : 10}}>
                                     <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
@@ -247,7 +234,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 </Stack>
                             </Stack>
                         </StackItem>
-                    }
+                    } */}
                     {!this.state.editmode && 
                         <><StackItem style={{paddingTop : 10}}>
                             <DefaultButton 
@@ -321,7 +308,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 confluencespace={this.props.confluencespace}
                                 showalert={this.props.showalert}
                             />
-
                         </StackItem>
                     }
                     <CMSDialog 
