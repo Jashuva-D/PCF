@@ -10,11 +10,11 @@
 }  */
 
 .appuserroles .ms-DetailsHeader-cell {
-    background-color: #E7E9F5;
+    background-color: #DCEAF2;
     color: black
 }
 .appuserroles .ms-DetailsHeader-cell:hover {
-  background-color: #DCEAF2;
+  background-color: #B8D4E2;
   color: black;
 }
 .ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
