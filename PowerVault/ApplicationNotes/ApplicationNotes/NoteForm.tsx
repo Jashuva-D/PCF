@@ -21,10 +21,6 @@ interface NoteFormProps {
   topicowner?: string,
   interactiontype?: number,
   otherinteractiontype?: string,
-  submittoconfluence?: boolean,
-  confluencepageid?: string,
-  confluencespace?: string,
-  confluencepagetitle?: string,
   actionitems?: string,
 
   showalert: (type: CMSAlertType, message: string) => void,
@@ -36,10 +32,6 @@ interface NoteFormState {
   topicowner?: string,
   interactiontype?: number,
   otherinteractiontype?: string,
-  submittoconfluence?: boolean,
-  confluencepageid?: string,
-  confluencespace?: string,
-  confluencepagetitle?: string,
   progressmessage: string,
   displayprogress: boolean,
   expand: boolean,
@@ -61,10 +53,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       topicowner: props.topicowner ?? "",
       interactiontype: props.interactiontype,
       otherinteractiontype: props.otherinteractiontype,
-      submittoconfluence: props.submittoconfluence,
-      confluencepageid: props.confluencepageid,
-      confluencepagetitle: props.confluencepagetitle,
-      confluencespace: props.confluencespace,
       progressmessage: "",
       displayprogress: false,
       expand: false,
@@ -297,26 +285,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   }}
                 />
               </StackItem>
-              {this.state.submittoconfluence &&
-                <StackItem grow>
-                  <TextField
-                    label="Confluence Page ID"
-                    style={{ whiteSpace: "nowrap" }}
-                    styles={{ fieldGroup: { borderRadius: 5 }, root: { minWidth: 150 } }}
-                    required={this.state.submittoconfluence}
-                    errorMessage={this.state.submittoconfluence && (this.state.confluencepageid == null || this.state.confluencepageid?.trim() == "") ? "This field is mandatory" : ""}
-                    value={this.state.confluencepageid}
-                    onChange={(evt, newvalue) => { this.setState({ confluencepageid: newvalue }) }}
-                  />
-                </StackItem>}
-              {this.state.submittoconfluence &&
-                <StackItem grow>
-                  <TextField label="Confluence Space" styles={{ fieldGroup: { borderRadius: 5 } }} value={this.state.confluencespace} onChange={(evt, newvalue) => { this.setState({ confluencespace: newvalue }) }}></TextField>
-                </StackItem>}
-              {this.state.submittoconfluence &&
-                <StackItem grow>
-                  <TextField label="Confluence Page Title" styles={{ fieldGroup: { borderRadius: 5 } }} style={{ width: 200 }} value={this.state.confluencepagetitle} onChange={(evt, newvalue) => { this.setState({ confluencepagetitle: newvalue }) }} />
-                </StackItem>}
             </Stack>
             {this.state.interactiontype && this.state.interactiontype === 6 && (
               <Stack horizontal tokens={{ childrenGap: 10 }} styles={{ root: { marginTop: 10 } }}>
@@ -359,10 +327,10 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                   style={{
                     borderRadius: 4,
                     border: 0,
-                    color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
-                    backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#01395E",
+                    color: (this.state.displayprogress) ? "#5A5A5A" : "white",
+                    backgroundColor: this.state.displayprogress ? "#F2F2F2" : "#01395E",
                   }}
-                  disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) || this.state.displayprogress}
+                  disabled={this.state.displayprogress}
                 />
               </StackItem>
               <StackItem>
