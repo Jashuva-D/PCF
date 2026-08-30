@@ -194,7 +194,7 @@ class AppUserRoleQuickCreate extends React.Component<AppUserRoleQuickCreateProps
                         </tbody>
                     </table>
                     <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 20 }}>
-                        <PrimaryButton text="Save & Close" disabled={this.state.disablesaveandclose} onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor:this.state.disablesaveandclose ? "#F2F2F2" :  "#0D2499"  , color: this.state.disablesaveandclose ? "#5A5A5A" : "white" }}/>
+                        <PrimaryButton text="Save & Close" disabled={this.state.disablesaveandclose} onClick={this.onSave.bind(this)} style={{ borderRadius: 6, backgroundColor:this.state.disablesaveandclose ? "#F2F2F2" :  "#01395E"  , color: this.state.disablesaveandclose ? "#5A5A5A" : "white" }}/>
                         <DefaultButton text="Cancel" disabled={this.state.disablesaveandclose} onClick={this.onCancel.bind(this)} style={{ borderRadius: 6 }}/>
                     </div>
                 </Stack>

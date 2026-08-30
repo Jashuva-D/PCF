@@ -19,7 +19,7 @@ class CMSAlert extends React.Component<CMSAlertProps, CMSAlertState> {
     render() {
         
         var bgcolor = this.props.type === CMSAlertType.Success ? "#F6FAF5" : this.props.type === CMSAlertType.Info ? "#E7E9F5 " : this.props.type === CMSAlertType.Warning ? "#FFFCE6" : "#FEF5F7";
-        var pipecolor = this.props.type === CMSAlertType.Success ? "#12890E" : this.props.type === CMSAlertType.Info ? "#0D2499" : this.props.type === CMSAlertType.Warning ? "#FFE400" : "#E31C3D";
+        var pipecolor = this.props.type === CMSAlertType.Success ? "#12890E" : this.props.type === CMSAlertType.Info ? "#01395E" : this.props.type === CMSAlertType.Warning ? "#FFE400" : "#E31C3D";
         return <Stack
             horizontal
             verticalAlign="center"

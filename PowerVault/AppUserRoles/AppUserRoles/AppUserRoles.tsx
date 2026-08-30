@@ -159,7 +159,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
             isResizable: true,
             onRender: (item: any) => {
                 if(this.state.editablerecord && this.state.editablerecord.id == item.id){
-                    return <Stack horizontal tokens={{childrenGap: 3}}><IconButton iconProps={{ iconName: "Save", style: { fontSize: 20 } }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#0D2499", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel", style: { fontSize: 20 } }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
+                    return <Stack horizontal tokens={{childrenGap: 3}}><IconButton iconProps={{ iconName: "Save", style: { fontSize: 20 } }} title="Save" onClick={this.onSaveClick.bind(this)} style={{fontSize: 20, color: "#01395E", cursor: "pointer"}}/> <IconButton iconProps={{ iconName: "Cancel", style: { fontSize: 20 } }} title="Cancel" onClick={this.onCancelClick.bind(this)} style={{color: "red", fontSize: 20, cursor: "pointer"}}/></Stack>
                 }
                 else {
                     return <IconButton iconProps={{ iconName: "Edit", style: { fontSize: 15, padding:0 } }} 
@@ -167,7 +167,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} 
                         style={{ 
                             padding:0, 
-                            color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", 
+                            color: (this.state.editablerecord == null && haseditrole) ? "#01395E" : "#A0A0A0", 
                             cursor: this.state.editablerecord == null ? "pointer" : "not-allowed",
                         }}
                         styles={{
@@ -180,7 +180,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         
                         
                     />
-                //return <Icon iconName= "Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{ padding:0, color: (this.state.editablerecord == null && haseditrole) ? "#0D2499" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/>
+                //return <Icon iconName= "Edit" title={this.state.editablerecord == null ? "Edit" : ""} onClick={(this.state.editablerecord != null || !haseditrole) ? undefined : this.onEditClick.bind(this, item)} style={{ padding:0, color: (this.state.editablerecord == null && haseditrole) ? "#01395E" : "#A0A0A0", cursor: this.state.editablerecord == null ? "pointer" : "not-allowed"}}/>
                 }
             }
         } as IColumn;
@@ -198,7 +198,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                     }}
                     theme={ createTheme({
                         palette: {
-                            themePrimary: "#0D2499",
+                            themePrimary: "#01395E",
                             themeDark: "#091a70",
                             themeDarker: "#06124d"
                         },
@@ -604,7 +604,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 styles={{
                                     fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1", height: 36 },
                                     field: { borderRadius: 6, height: 36, fontSize: 15, padding: 8 },
-                                    prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                                    prefix: { background: "#01395E", borderRadius: "6px 0 0 6px" },
                                     suffix: { background: "transparent" },
                                 }}
                                 onRenderPrefix={() => (
@@ -623,7 +623,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                         </StackItem>
                         <Stack horizontal tokens={{childrenGap: 10}} >
                             {/* <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={this.onNewAppUserRole.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#0D2499" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#01395E" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -637,7 +637,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 disabled={!haseditrole}
                             /> */}
                             <PrimaryButton iconProps={{ iconName: "Add" }} text="Add New" onClick={() => this.setState({ openQuickCreatePanel: true })} 
-                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#0D2499" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: haseditrole ?  "#01395E" : "#F2F2F2" , color: haseditrole ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -651,7 +651,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 disabled={!haseditrole}
                             />
                             <PrimaryButton iconProps={{ iconName: "Refresh" }} text="Refresh" onClick={this.onRefresh.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: "#01395E", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -664,7 +664,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 }}
                             />
                             <PrimaryButton iconProps={{ iconName: "Delete" }} text="Delete" onClick={this.onDelete.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#0D2499", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#F2F2F2" : "#01395E", color: (this.state.selectedrecordids.length == 0 || !haseditrole) ? "#5A5A5A" : "white", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,
@@ -678,7 +678,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                 disabled={this.state.selectedrecordids.length === 0 || !haseditrole}
                             />
                             {/* <PrimaryButton iconProps={{ iconName: "bug" }} text="Report Issue" onClick={this.onReportDataDiscrepancy.bind(this)} 
-                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 1 ) ? "#0D2499" : "#F2F2F2", color: (this.state.selectedrecordids.length == 1) ? "white" : "#5A5A5A", width: "100%" }}
+                                style={{ borderRadius: 6, backgroundColor: (this.state.selectedrecordids.length == 1 ) ? "#01395E" : "#F2F2F2", color: (this.state.selectedrecordids.length == 1) ? "white" : "#5A5A5A", width: "100%" }}
                                 styles={ { 
                                     root: {
                                         height: 36,

@@ -1,12 +1,12 @@
  /* .ms-DetailsRow .is-checked .ms-Check-circle {
-  background-color: #0D2499;
+  background-color: #01395E;
   border-radius: 50%;
 }
 
 .ms-DetailsHeader .is-checked .ms-Check-circle {
-  background-color: #0D2499;
+  background-color: #01395E;
   border-radius: 50%; 
-  border-color: #0D2499;
+  border-color: #01395E;
 }  */
 
 .appuserroles .ms-DetailsHeader-cell {
@@ -14,7 +14,7 @@
     color: black
 }
 .appuserroles .ms-DetailsHeader-cell:hover {
-  background-color: #B7BEE1;
+  background-color: #DCEAF2;
   color: black;
 }
 .ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
