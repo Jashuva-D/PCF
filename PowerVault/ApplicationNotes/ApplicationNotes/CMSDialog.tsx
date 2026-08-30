@@ -44,14 +44,14 @@ class CMSDialog extends React.Component<CMSDialogProps, CMSDialogState>{
                     <PrimaryButton 
                         text={this.props.confirmButtonText || "OK"} 
                         onClick={this.props.onConfirm}
-                        style={{ borderRadius: 6, backgroundColor: "#0D2499" }} 
+                        style={{ borderRadius: 6, backgroundColor: "#01395E" }} 
                     />
                     <DefaultButton 
                         text={this.props.cancelButtonText || "Cancel"} 
                         onClick={this.props.onCancel}
                         style={{ borderRadius: 6 }} 
                     />
-                    {/* <Link text={this.props.cancelButtonText || "Cancel"} underline={true} onClick={this.props.onCancel} style={{cursor: "pointer"}}> <Label style={{ color: "#0D2499", cursor: "pointer" }}>Cancel</Label></Link>*/}
+                    {/* <Link text={this.props.cancelButtonText || "Cancel"} underline={true} onClick={this.props.onCancel} style={{cursor: "pointer"}}> <Label style={{ color: "#01395E", cursor: "pointer" }}>Cancel</Label></Link>*/}
                 </Stack>
                 
                 

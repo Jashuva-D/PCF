@@ -175,7 +175,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         styles={{
                                             fieldGroup: { background: "transparent", borderRadius: 6, border: "1px solid #d1d1d1" , height: 36},
                                             field: { borderRadius: 6, height : 36, fontSize: 15, padding: 8 },
-                                            prefix: { background: "#0D2499", borderRadius: "6px 0 0 6px" },
+                                            prefix: { background: "#01395E", borderRadius: "6px 0 0 6px" },
                                             suffix: { background: "transparent" },
                                         }}
                                         onRenderPrefix={() => (
@@ -196,7 +196,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                     <Stack horizontal tokens={{ childrenGap: 10 }}>
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "Add" }} text="Add Note" onClick={this.onAddNoteClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: "#0D2499", width: "100%" }} 
+                                                style={{ borderRadius: 6, backgroundColor: "#01395E", width: "100%" }} 
                                                 styles={ { 
                                                     root: {
                                                         height: 36,
@@ -210,7 +210,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                         </StackItem>
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
-                                                style={{ borderRadius: 6, backgroundColor: (this.state.generateSummary) ? "#F2F2F2" : "#0D2499", color: (this.state.generateSummary) ? "#5A5A5A" : "white", width: "100%" }}
+                                                style={{ borderRadius: 6, backgroundColor: (this.state.generateSummary) ? "#F2F2F2" : "#01395E", color: (this.state.generateSummary) ? "#5A5A5A" : "white", width: "100%" }}
                                                 styles={ { 
                                                     root: {
                                                         height: 36,

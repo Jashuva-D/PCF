@@ -78,7 +78,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                     />
                 </StackItem>
                 <StackItem align="end">
-                    <PrimaryButton text="Close" style={{ borderRadius: 6, backgroundColor: "#0D2499" }} onClick={() => { this.setState({ displaySummary: false, summary: "" }); this.props.closeCallback();}} />
+                    <PrimaryButton text="Close" style={{ borderRadius: 6, backgroundColor: "#01395E" }} onClick={() => { this.setState({ displaySummary: false, summary: "" }); this.props.closeCallback();}} />
                 </StackItem>
             </>}
         </Stack>

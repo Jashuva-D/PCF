@@ -153,17 +153,17 @@ class Note extends React.Component<NoteProps,NoteState> {
                     {!this.state.editmode && 
                         <><StackItem style={{paddingTop : 10}}>
                             <DefaultButton 
-                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Details ? "3px solid #0D2499" : "none"}} 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Details ? "3px solid #01395E" : "none"}} 
                                 onClick={() => this.setState({currenttab: NoteTabs.Details})}>
                                     Details
                             </DefaultButton>
                             <DefaultButton 
-                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "3px solid #0D2499" : "none"}} 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.Comments ? "3px solid #01395E" : "none"}} 
                                 onClick={() => this.setState({currenttab: NoteTabs.Comments})}>
                                     Comments
                             </DefaultButton>
                             <DefaultButton 
-                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "3px solid #0D2499" : "none"}} 
+                                style={{border: 0, borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "3px solid #01395E" : "none"}} 
                                 onClick={() => this.setState({currenttab: NoteTabs.ActionItems})}>
                                     Action Items
                             </DefaultButton>

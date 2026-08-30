@@ -329,7 +329,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             <DefaultButton
               style={{
                 border: 0,
-                borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #0D2499" : "none"
+                borderBottom: this.state.currenttab === NoteTabs.Comments ? "2px solid #01395E" : "none"
               }}
               onClick={() => this.setState({ currenttab: NoteTabs.Comments })}>
               Comments
@@ -337,7 +337,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             <DefaultButton
               style={{
                 border: 0,
-                borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #0D2499" : "none"
+                borderBottom: this.state.currenttab === NoteTabs.ActionItems ? "2px solid #01395E" : "none"
               }}
               onClick={() => this.setState({ currenttab: NoteTabs.ActionItems })}>
               Action Items
@@ -360,7 +360,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
                     borderRadius: 4,
                     border: 0,
                     color: (this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) ? "#5A5A5A" : "white",
-                    backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#0D2499",
+                    backgroundColor: this.state.submittoconfluence && (!this.state.confluencepageid?.trim()) ? "#F2F2F2" : "#01395E",
                   }}
                   disabled={(this.state.submittoconfluence && (!this.state.confluencepageid?.trim())) || this.state.displayprogress}
                 />
