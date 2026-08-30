@@ -22,10 +22,6 @@ interface NoteProps {
     statecode : number,
     interactiontype? : number,
     otherinteractiontype? : string,
-    submittoconfluence? : boolean
-    confluencepageid? : string,
-    confluencespace? : string,
-    confluencepagetitle? : string
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
     showalert : (type: CMSAlertType, message: string) => void,
@@ -39,10 +35,6 @@ interface NoteState {
     displayDetails? : boolean,
     interactiontype? : number,
     otherinteractiontype? : string,
-    confluencepageid? : string,
-    confluencespace? : string,
-    confluencepagetitle? : string,
-    enablesubmittoconfluence : boolean,
     showStatusChangeDialog : boolean,
     showDialog?: boolean,
     dialogTitle?: string,
@@ -63,10 +55,6 @@ class Note extends React.Component<NoteProps,NoteState> {
             content : props.comment,
             actionitems : props.actionitems,
             displayDetails : false,
-            confluencepageid : props.confluencepageid,
-            confluencespace : props.confluencespace,
-            confluencepagetitle : props.confluencepagetitle,
-            enablesubmittoconfluence: false,
             showStatusChangeDialog : false,
             currenttab: NoteTabs.Comments
         }
@@ -74,13 +62,12 @@ class Note extends React.Component<NoteProps,NoteState> {
     onEditClick(){
         this.setState({
             editmode : true,
-            enablesubmittoconfluence : false
         })
     }
     onDeleteClick(){
         var obj = this;
         if(obj.props.recordid && obj.props.recordid !== "") {
-            obj.props.context?.webAPI.deleteRecord("pv_applicationnote", obj.props.recordid!).then(function(resp){
+            obj.props.context?.webAPI.deleteRecord("pv_note", obj.props.recordid!).then(function(resp){
                 obj.props.deleteCallBack(obj.props.recordid);
             },function(err){
                 obj.props.context.navigation.openErrorDialog({ message: "Error occured while deleting.", details: err.message });
@@ -98,57 +85,7 @@ class Note extends React.Component<NoteProps,NoteState> {
         })
         this.props.refresh();
     }
-    // onSubmitToConfluence(){
-    //     var obj = this;
-    //     this.props.context.navigation.openConfirmDialog({
-    //         title: "Confirm Submit",
-    //         text : "Are you sure you want to submit to confluence ?",
-    //         confirmButtonLabel: "Submit",
-    //         cancelButtonLabel: "Cancel"
-    //     }).then(function(resp){
-    //         if(resp.confirmed){
-    //             var record = {
-    //                 cr549_sharewithconfluence : true,
-    //                 cr549_confluenceurl : obj.state.confluencepageid,
-    //                 cr549_confluencespace : obj.state.confluencespace,
-    //                 cr549_confluencepagetitle : obj.state.confluencepagetitle
-    //             }
-    //             obj.props.context.webAPI.updateRecord("cr549_applicationnotes",obj.props.recordid!,record).then(function(resp){
-    //                 // obj.setState({enablesubmittoconfluence : false});
-    //                 // obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
-    //                 var request = {
-    //                     entity: { entityType: "cr549_applicationnotes", id: obj.props.recordid! },
-    //                     getMetadata: function () {
-    //                     return {
-    //                         boundParameter: "entity",
-    //                         parameterTypes: {
-    //                         entity: { typeName: "mscrm.cr549_applicationnotes", structuralProperty: 5 }
-    //                         },
-    //                         operationType: 0, operationName: "crm2_PushToConfluencePage"
-    //                     };
-    //                     }
-    //                 };
-
-    //                 (obj.props.context.webAPI as any).execute(request).then(
-    //                     function success(response : any) {
-    //                     if (response.ok) { 
-    //                         console.log("Success"); 
-    //                         obj.setState({enablesubmittoconfluence : false});
-    //                         obj.props.showalert(CMSAlertType.Success,"Submitting to confluence is completed successfully !");
-    //                     }
-    //                     }
-    //                 ).catch(function (error : any) {
-    //                     obj.props.context.navigation.openErrorDialog({
-    //                         message: error.message
-    //                     });
-    //                 });
-    //             },function(err){
-    //                 obj.props.showalert(CMSAlertType.Error,`Record update failed: ERROR: ${err.message}`);
-    //             });
-    //         }
-    //     })
-        
-    // }
+    
     render(): React.ReactNode {
         const {createdon,createdby,modifiedon, modifiedby, statecode, interactiontype} = this.props;
         const content = this.state.editmode ? this.state.content : this.props.comment;
@@ -212,28 +149,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                             </StackItem>
                         </Stack>
                     </StackItem>
-                    {/* {this.state.enablesubmittoconfluence && <StackItem style={{padding: 20}}>
-                            <Stack tokens={{childrenGap : 10}}>
-                                <Stack horizontal tokens={{childrenGap : 10}}>
-                                    <StackItem><TextField label="Confluence Page ID" value={this.state.confluencepageid} onChange={(evt, newvalue) => {this.setState({confluencepageid : newvalue})}}/></StackItem>
-                                    <StackItem><TextField label="Confluence Space" value={this.state.confluencespace} onChange={(evt,newvalue) => {this.setState({confluencespace : newvalue})}} /></StackItem>
-                                    <StackItem><TextField label="Confluence Page Title" value={this.state.confluencepagetitle} onChange={(evt, newvalue) => {this.setState({confluencepagetitle : newvalue})}}/></StackItem>
-                                </Stack>
-                                <Stack horizontal style={{alignItems : "end"}} tokens={{childrenGap: 10}}>
-                                    <DefaultButton 
-                                        text= "Submit"
-                                        style={{ borderRadius: 4, borderColor: "#0D2499", color: "#0D2499" }}
-                                        onClick={this.onSubmitToConfluence.bind(this)}
-                                    />
-                                    <DefaultButton 
-                                        text="Cancel"
-                                        style={{ borderRadius: 4,  backgroundColor: "rgb(243,243,243)"}}
-                                        onClick={() => {this.setState({enablesubmittoconfluence : false})}}
-                                    />
-                                </Stack>
-                            </Stack>
-                        </StackItem>
-                    } */}
+                    
                     {!this.state.editmode && 
                         <><StackItem style={{paddingTop : 10}}>
                             <DefaultButton 
@@ -263,10 +179,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     topicowner={this.props.topicowner}
                                     interactiontype={this.props.interactiontype}
                                     interactiondescription={this.props.otherinteractiontype}
-                                    submittoconfluence={this.props.submittoconfluence}
-                                    confluencepageid={this.props.confluencepageid}
-                                    confluencespace={this.props.confluencespace}
-                                    confluencepagetitle={this.props.confluencepagetitle}
                                 />
                             }
                             {this.state.currenttab === NoteTabs.Comments && 
@@ -301,10 +213,6 @@ class Note extends React.Component<NoteProps,NoteState> {
                                 topicowner={this.props.topicowner}
                                 interactiontype={this.props.interactiontype}
                                 otherinteractiontype={this.props.otherinteractiontype}
-                                submittoconfluence={this.props.submittoconfluence}
-                                confluencepageid={this.props.confluencepageid}
-                                confluencepagetitle={this.props.confluencepagetitle}
-                                confluencespace={this.props.confluencespace}
                                 showalert={this.props.showalert}
                             />
                         </StackItem>

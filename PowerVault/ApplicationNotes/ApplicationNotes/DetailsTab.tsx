@@ -8,10 +8,6 @@ interface DetailsTabProps {
     topicowner?: string;
     interactiontype? : number;
     interactiondescription? : string;
-    submittoconfluence? : boolean,
-    confluencepageid? : string,
-    confluencespace? : string,
-    confluencepagetitle? : string,
     createdby?: string;
     createdon?: Date;
     modifiedby?: string;
@@ -51,26 +47,7 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                     <Label style={{ color: "#808080" }}>Interaction Type</Label>
                     <Text>{this.props.interactiontype != null ? Interactiontypes.filter(x => x.key == this.props.interactiontype)[0].text : "\u00A0"}</Text>
                 </StackItem>
-                <StackItem>
-                    <Label style={{ color: "#808080" }}>Submitted to Confluence</Label>
-                    <Text>{this.props.submittoconfluence ? "Yes" : "No"}</Text>
-                </StackItem>
             </Stack>
-            {this.props.submittoconfluence &&
-                <Stack tokens={{ childrenGap: 10 }}>
-                    <StackItem>
-                        <Label style={{ color: "#808080" }}>Confluence Page ID</Label>
-                        <Text>{this.props.confluencepageid ?? "\u00A0"}</Text>
-                    </StackItem>
-                    <StackItem>
-                        <Label style={{ color: "#808080" }}>Confluence Space</Label>
-                        <Text>{this.props.confluencespace ?? "\u00A0"}</Text>
-                    </StackItem>
-                    <StackItem>
-                        <Label style={{ color: "#808080" }}>Confluence Page Title</Label>
-                        <Text>{this.props.confluencepagetitle ?? "\u00A0"}</Text>
-                    </StackItem>
-                </Stack>}
         </Stack>
     }
 }

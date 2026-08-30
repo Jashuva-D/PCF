@@ -109,7 +109,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("pv_applicationnote", `?$filter=_regardingobjectid_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`).then((resp) => {
+        this.props.context.webAPI.retrieveMultipleRecords("pv_note", `?$filter=_pv_application_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
@@ -121,15 +121,10 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     createdbyid: x["_createdby_value"],
                     modifiedon: new Date(x.modifiedon),
                     modifiedby: x["_modifiedby_value@OData.Community.Display.V1.FormattedValue"] || x["_modifiedby_value"],
-                    topic: x.subject,
+                    topic: x.pv_title,
                     topicowner: x.pv_topicowner,
                     statecode: x.statecode,
                     interactiontype: x.pv_interactiontype,
-                    submittoconfluence: x.pv_sharewithconfluence,
-                    confluencepageid : x.pv_confluenceurl,
-                    confluencespace : x.pv_confluencespace,
-                    confluencepagetitle : x.pv_confluencepagetitle,
-                    otherinteractiontype : x.pv_otherinteractiontype
                 })
             })
             obj.setState({ notes: notes, newnote: false, loading: false });
@@ -277,10 +272,6 @@ class Notes extends React.Component<NotesProps, NotesState> {
                             statecode={x.statecode}
                             interactiontype={x.interactiontype}
                             otherinteractiontype={x.otherinteractiontype}
-                            submittoconfluence={x.submittoconfluence}
-                            confluencepageid={x.confluencepageid}
-                            confluencespace={x.confluencespace}
-                            confluencepagetitle={x.confluencepagetitle}
                             deleteCallBack={this.deleteCallBack.bind(this)}
                             refresh = {this.Refresh.bind(this)}
                             showalert = {this.showAlertMessage.bind(this)}

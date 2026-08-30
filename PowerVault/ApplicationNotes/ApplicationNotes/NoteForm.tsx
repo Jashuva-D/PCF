@@ -172,16 +172,12 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       const record = {
         pv_comment: this.state.comment,
         pv_actionitem: this.state.actionitems,
-        subject: this.state.topic,
+        pv_title: this.state.topic,
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
-        pv_sharewithconfluence: this.state.submittoconfluence,
-        pv_confluenceurl: this.state.confluencepageid,
-        pv_confluencespace: this.state.confluencespace,
-        pv_confluencepagetitle: this.state.confluencepagetitle,
         pv_otherinteractiontype: this.state.otherinteractiontype
       }
-      this.props.context?.webAPI.updateRecord("pv_applicationnote", this.props.recordid!, record).then(function (resp) {
+      this.props.context?.webAPI.updateRecord("pv_note", this.props.recordid!, record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
         obj.props.submitCallBack && obj.props.submitCallBack({ recordid: obj.props.recordid!, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
         obj.setState({
@@ -198,17 +194,13 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       const record = {
         pv_comment: this.state.comment,
         pv_actionitem: this.state.actionitems,
-        "regardingobjectid_pv_apps_pv_applicationnote@odata.bind": `/pv_appses(${(this.props.context as any).page.entityId})`,
-        subject: this.state.topic,
+        "pv_Application@odata.bind": `/pv_appses(${(this.props.context as any).page.entityId})`,
+        pv_title: this.state.topic,
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
-        pv_sharewithconfluence: this.state.submittoconfluence,
-        pv_confluenceurl: this.state.confluencepageid,
-        pv_confluencespace: this.state.confluencespace,
-        pv_confluencepagetitle: this.state.confluencepagetitle,
         pv_otherinteractiontype: this.state.otherinteractiontype
       }
-      this.props.context?.webAPI.createRecord("pv_applicationnote", record).then(function (resp) {
+      this.props.context?.webAPI.createRecord("pv_note", record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
         obj.props.submitCallBack && obj.props.submitCallBack({ recordid: resp.id, comments: obj.state.comment, topic: obj.state.topic, topicowner: obj.state.topicowner, interactiontype: obj.state.interactiontype });
         obj.setState({
