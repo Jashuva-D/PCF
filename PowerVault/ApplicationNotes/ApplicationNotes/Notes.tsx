@@ -125,6 +125,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                     topicowner: x.pv_topicowner,
                     statecode: x.statecode,
                     interactiontype: x.pv_interactiontype,
+                    notetype: x.pv_notetype
                 })
             })
             obj.setState({ notes: notes, newnote: false, loading: false });

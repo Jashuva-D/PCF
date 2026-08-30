@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Interactiontypes, NoteTabs } from './Constants';
+import { Interactiontypes, NoteTabs, NoteTypes } from './Constants';
 import { Label, Stack, StackItem, Text } from '@fluentui/react';
 
 interface DetailsTabProps {
@@ -8,6 +8,7 @@ interface DetailsTabProps {
     topicowner?: string;
     interactiontype? : number;
     interactiondescription? : string;
+    notetype?: number,
     createdby?: string;
     createdon?: Date;
     modifiedby?: string;
@@ -46,6 +47,10 @@ class DetailsTab extends React.Component<DetailsTabProps> {
                 <StackItem>
                     <Label style={{ color: "#808080" }}>Interaction Type</Label>
                     <Text>{this.props.interactiontype != null ? Interactiontypes.filter(x => x.key == this.props.interactiontype)[0].text : "\u00A0"}</Text>
+                </StackItem>
+                <StackItem>
+                    <Label style={{ color: "#808080" }}>Note Type</Label>
+                    <Text>{this.props.notetype != null ? NoteTypes.filter(x => x.key == this.props.notetype)[0]?.text : "\u00A0"}</Text>
                 </StackItem>
             </Stack>
         </Stack>

@@ -21,6 +21,7 @@ interface NoteProps {
     topic? : string,
     statecode : number,
     interactiontype? : number,
+    notetype?: number
     otherinteractiontype? : string,
     refresh: () => void,
     deleteCallBack: (recordid?:string) => void,
@@ -179,6 +180,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                                     topicowner={this.props.topicowner}
                                     interactiontype={this.props.interactiontype}
                                     interactiondescription={this.props.otherinteractiontype}
+                                    notetype={this.props.notetype}
                                 />
                             }
                             {this.state.currenttab === NoteTabs.Comments && 

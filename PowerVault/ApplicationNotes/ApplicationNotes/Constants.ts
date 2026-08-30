@@ -15,6 +15,11 @@ export const Interactiontypes = [
     {key: 6, text: "Other"}
 ]
 
+export const NoteTypes = [
+    {key: 711980000, text: "Application Note"},
+    {key: 711980001, text: "Intake Note"}
+]
+
 export enum CMSAlertType {
     Success = "success",
     Info = "info",

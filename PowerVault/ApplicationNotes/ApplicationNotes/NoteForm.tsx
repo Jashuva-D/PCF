@@ -163,7 +163,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         pv_title: this.state.topic,
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
-        pv_otherinteractiontype: this.state.otherinteractiontype
+        pv_otherinteractiontype: this.state.otherinteractiontype,
+        pv_notetype: 711980000
       }
       this.props.context?.webAPI.updateRecord("pv_note", this.props.recordid!, record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
@@ -186,7 +187,8 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         pv_title: this.state.topic,
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
-        pv_otherinteractiontype: this.state.otherinteractiontype
+        pv_otherinteractiontype: this.state.otherinteractiontype,
+        pv_notetype: 711980000
       }
       this.props.context?.webAPI.createRecord("pv_note", record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
