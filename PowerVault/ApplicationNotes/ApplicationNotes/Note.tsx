@@ -9,6 +9,7 @@ import DetailsTab from "./DetailsTab";
 
 interface NoteProps {
     context: ComponentFramework.Context<any>,
+    parent_entityname: string,
     recordid?: string,
     comment?: string,
     actionitems?: string,
@@ -206,6 +207,7 @@ class Note extends React.Component<NoteProps,NoteState> {
                         <StackItem style={{padding: 10}}>
                             <NoteForm
                                 context={this.props.context}
+                                parent_entityname={this.props.parent_entityname}
                                 recordid={this.props.recordid}
                                 cancelCallBack={this.editCancel.bind(this)}
                                 submitCallBack={this.editSubmit.bind(this)}

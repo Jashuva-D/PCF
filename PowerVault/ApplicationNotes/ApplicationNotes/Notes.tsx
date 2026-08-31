@@ -19,6 +19,7 @@ import "react-quill/dist/quill.snow.css";
 
 interface NotesProps {
     context: ComponentFramework.Context<IInputs>,
+    parent_entityname: string
 }
 interface NotesState {
     notes: any[],
@@ -109,7 +110,12 @@ class Notes extends React.Component<NotesProps, NotesState> {
     }
     Refresh() {
         var obj = this;
-        this.props.context.webAPI.retrieveMultipleRecords("pv_note", `?$filter=_pv_application_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`).then((resp) => {
+        var query = `?$filter=_pv_application_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`;
+        if(this.props.parent_entityname == "pv_apps")
+            query = `?$filter=_pv_application_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`;
+        else if(this.props.parent_entityname == "pv_ppinterestform")
+            query = `?$filter=_pv_ppintakeform_value eq ${(this.props.context as any).page.entityId}&$orderby=modifiedon desc`;
+        this.props.context.webAPI.retrieveMultipleRecords("pv_note", query).then((resp) => {
             let notes = [] as any[]
             resp.entities.forEach(x => {
                 notes.push({
@@ -246,7 +252,8 @@ class Notes extends React.Component<NotesProps, NotesState> {
                 
                 {this.state.newnote == true && <StackItem>
                     <NoteForm 
-                        context={this.props.context} 
+                        context={this.props.context}
+                        parent_entityname={this.props.parent_entityname}
                         submitCallBack={this.onSubmitCallBack.bind(this)} 
                         cancelCallBack={() => this.setState({ newnote: false, enablesearch: true, generateSummary: false })} 
                         showalert={this.showAlertMessage.bind(this)}
@@ -260,6 +267,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                         <StackItem><Note
                             key={x.recordid}
                             context={this.props.context}
+                            parent_entityname={this.props.parent_entityname}
                             recordid={x.recordid}
                             createdon={x.createdon}
                             modifiedon={x.modifiedon}

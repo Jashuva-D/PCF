@@ -13,6 +13,7 @@ import { JSX } from "react";
 
 interface NoteFormProps {
   context: ComponentFramework.Context<IInputs>,
+  parent_entityname: string,
   cancelCallBack: () => void,
   submitCallBack: (record: any) => void,
   content?: string,
@@ -183,12 +184,18 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       const record = {
         pv_comment: this.state.comment,
         pv_actionitem: this.state.actionitems,
-        "pv_Application@odata.bind": `/pv_appses(${(this.props.context as any).page.entityId})`,
+        
         pv_title: this.state.topic,
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
         pv_otherinteractiontype: this.state.otherinteractiontype,
         pv_notetype: 711980000
+      } as any;
+      if(obj.props.parent_entityname == "pv_apps"){
+        record["pv_Application@odata.bind"] =  `/pv_appses(${(this.props.context as any).page.entityId})`;
+      }
+      else if(obj.props.parent_entityname == "pv_ppinterestform"){
+        record["pv_PPIntakeForm@odata.bind"] =  `/pv_ppinterestforms(${(this.props.context as any).page.entityId})`;
       }
       this.props.context?.webAPI.createRecord("pv_note", record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note created successfully.");

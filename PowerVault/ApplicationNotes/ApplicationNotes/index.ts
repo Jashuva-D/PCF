@@ -24,8 +24,9 @@ export class ApplicationNotes implements ComponentFramework.StandardControl<IInp
     }
 
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+        var parent_entityname = context.parameters.parent_entityname.raw ?? "";
         var root = ReactDOM.createRoot(this._container);
-        root.render(React.createElement(Notes, { context: context }));
+        root.render(React.createElement(Notes, { context: context, parent_entityname: parent_entityname}));
     }
 
     public getOutputs(): IOutputs {
