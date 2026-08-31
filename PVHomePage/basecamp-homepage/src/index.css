@@ -3,11 +3,11 @@
     margin-top: 0px;
 }
 .myapplications .ms-DetailsHeader-cell {
-    background-color: #e5ecef;
+    background-color: #DCEAF2;
     color: black
 }
 .myapplications .ms-DetailsHeader-cell:hover {
-  background-color: #f2f5f7;
+  background-color: #B8D4E2;
   color: black;
 }
 .ms-DetailsHeader-cell .ms-DetailsHeader-cellTitle .ms-Icon {
