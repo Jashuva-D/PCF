@@ -165,7 +165,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
         pv_otherinteractiontype: this.state.otherinteractiontype,
-        pv_notetype: 711980000
       }
       this.props.context?.webAPI.updateRecord("pv_note", this.props.recordid!, record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note updated successfully.");
@@ -189,13 +188,15 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         pv_topicowner: this.state.topicowner,
         pv_interactiontype: this.state.interactiontype,
         pv_otherinteractiontype: this.state.otherinteractiontype,
-        pv_notetype: 711980000
+        
       } as any;
       if(obj.props.parent_entityname == "pv_apps"){
         record["pv_Application@odata.bind"] =  `/pv_appses(${(this.props.context as any).page.entityId})`;
+        record["pv_notetype"] =  711980000
       }
       else if(obj.props.parent_entityname == "pv_ppinterestform"){
         record["pv_PPIntakeForm@odata.bind"] =  `/pv_ppinterestforms(${(this.props.context as any).page.entityId})`;
+        record["pv_notetype"] =  711980001
       }
       this.props.context?.webAPI.createRecord("pv_note", record).then(function (resp) {
         obj.props.showalert(CMSAlertType.Success, "Note created successfully.");
