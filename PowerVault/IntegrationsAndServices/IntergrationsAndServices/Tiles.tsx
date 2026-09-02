@@ -75,9 +75,16 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
                             
                             var currentrecordid = (this.props.context as any).page.entityId;
                             if(currentrecordid) {
-                                this.props.context.webAPI.updateRecord("pv_apps",currentrecordid,{ pv_integrationsservices: selected.map(x => x.key.toString()).join(",") }).then(function(resp){},function(err){ alert(err?.message); });
+                                var selectedids = selected.map(x => x.key.toString()).join(",");
+                                this.props.context.webAPI.updateRecord("pv_apps",currentrecordid,{ pv_integrationsservices: selectedids }).then(function(resp){
+                                    alert("Integrations and Services updated successfully.");
+                                },function(err){ 
+                                    alert(err?.message); 
+                                });
                             }
-                            this.props.onChange && this.props.onChange(selected.map(option => option.key));
+                            else {
+                                this.props.onChange && this.props.onChange(selected.map(option => option.key));
+                            }
                         }}
                     />
                 </StackItem>
