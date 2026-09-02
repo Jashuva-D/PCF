@@ -1,14 +1,5 @@
 import * as React from "react";
-import { Callout, Checkbox,
-    DefaultButton,
-    IconButton,
-    PrimaryButton,
-    SearchBox,
-    Stack,
-    Text,
-    DirectionalHint,
-    mergeStyleSets
-} from "@fluentui/react";
+import { Callout, Checkbox, DefaultButton, IconButton,PrimaryButton,SearchBox,Stack,Text,DirectionalHint,mergeStyleSets, createTheme } from "@fluentui/react";
 import { DataverseIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, CopilotIcon, OutlookIcon, JIRAIcon, ConfluenceIcon } from "./Icons";
 
 interface IIntegration {
@@ -62,7 +53,7 @@ class IntegrationSelector extends React.Component<
 
         editButton: {
             padding: "0 4px",
-            color: "#0F6CBD",
+            color: "#01395E",
             fontSize: "14px",
             fontWeight: 600,
             minWidth: "auto",
@@ -130,7 +121,19 @@ class IntegrationSelector extends React.Component<
                 ".ms-Checkbox-text": {
                     fontSize: "12px",
                     color: "#323130"
-                }
+                },
+                ".ms-Checkbox-checkbox.is-checked": {
+                    backgroundColor: "#01395E",
+                    borderColor: "#01395E"
+                },
+                "input:checked + .ms-Checkbox-checkbox": {
+            backgroundColor: "#01395E",
+            borderColor: "#01395E"
+        },
+
+        "input:checked + .ms-Checkbox-checkbox .ms-Checkbox-checkmark": {
+            color: "#FFFFFF"
+        }
             }
         },
 
@@ -265,7 +268,7 @@ class IntegrationSelector extends React.Component<
                         key={integration.key}
                         className={this.styles.checkbox}
                         label={integration.text}
-                        onRenderLabel={() => <Stack horizontal tokens={{ childrenGap: 5 }} style={{paddingLeft: 10}}>{integration.icon} <Text style={{alignItems: "center"}} >{integration.text}</Text></Stack>}
+                        onRenderLabel={() => <Stack horizontal tokens={{ childrenGap: 5 }} style={{paddingLeft: 5}}>{integration.icon} <Text style={{alignItems: "center"}} >{integration.text}</Text></Stack>}
                         checked={this.state.selectedIntegrations.includes(
                             integration.key
                         )}
@@ -278,6 +281,13 @@ class IntegrationSelector extends React.Component<
                                 checked
                             )
                         }
+                        theme={ createTheme({
+                        palette: {
+                            themePrimary: "#01395E",
+                            themeDark: "#091a70",
+                            themeDarker: "#06124d"
+                        },
+                    })}
                     />
                 ))}
             </div>
@@ -341,12 +351,13 @@ class IntegrationSelector extends React.Component<
                         className={this.styles.cancelButton}
                         text="Cancel"
                         onClick={this.closeSelector}
+                        style={{ borderRadius: 4 }}
                     />
-
                     <PrimaryButton
                         className={this.styles.applyButton}
                         text="Apply"
                         onClick={this.handleApply}
+                        style={{ borderRadius: 4, backgroundColor: "#01395E", color: "#FFFFFF" }}
                     />
                 </div>
             </Callout>
@@ -356,19 +367,15 @@ class IntegrationSelector extends React.Component<
     public render(): React.ReactNode {
         return (
             <>
-                <div
-                    ref={this.editButtonRef}
-                    className={this.styles.editContainer}
-                >
+                <div ref={this.editButtonRef} className={this.styles.editContainer}>
                     <DefaultButton
                         className={this.styles.editButton}
                         iconProps={{ iconName: "Edit" }}
                         text="Edit"
                         onClick={this.openSelector}
-                        style={{border: 0, }}
+                        style={{border: 0}}
                     />
                 </div>
-
                 {this.renderSelectionPanel()}
             </>
         );
