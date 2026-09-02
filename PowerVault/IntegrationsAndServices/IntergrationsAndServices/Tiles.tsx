@@ -4,18 +4,15 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { DataverseIcon, ClockIcon, SharePointIcon, ConfluenceIcon, JIRAIcon, PowerAutomateIcon, PowerBIIcon, CopilotIcon, TeamsIcon, OutlookIcon } from "./Icons";
 import { JSX, ReactElement } from "react";
 import IntegrationSelector from "./MultiSelection";
+import { IIntegrationAndServices, IntegrationsAndServices } from "./Constants";
 
-export interface IOptionTile {
-    key: number;
-    text: string;
-    icon?: ReactElement;
-}
 
 interface IOptionTilesProps {
     context: ComponentFramework.Context<IInputs,IOutputs>;
+    onChange?: (selected: number[]) => void;
 }
 interface IOptionTilesState {
-    options: IOptionTile[];
+    selectedoptions: IIntegrationAndServices[];
 }
 
 class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
@@ -23,101 +20,58 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
     constructor(props: IOptionTilesProps) {
         super(props);
         initializeIcons();
-        this.state = {
-            options: [
-            {
-                key: 1,
-                text: "Dataverse",
-                icon: <DataverseIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 2,
-                text: "SharePoint",
-                icon: <SharePointIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 3,
-                text: "Confluence",
-                icon: <ConfluenceIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 4,
-                text: "JIRA",
-                icon: <JIRAIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 5,
-                text: "Power Automate",
-                icon: <PowerAutomateIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 6,
-                text: "Power BI",
-                icon: <PowerBIIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 7,
-                text: "Copilot",
-                icon: <CopilotIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 8,
-                text: "Teams",
-                icon: <TeamsIcon size={20} color="#106EBE" />
-            },
-            {
-                key: 9,
-                text: "Outlook",
-                icon: <OutlookIcon size={20} color="#106EBE" />
-            }
+
+        var selectedoptions_raw = [711980000,711980001] //this.props.context.parameters.multioptions.raw || [];
+
+        var selectedoptions = [] as IIntegrationAndServices[];
+        if(selectedoptions_raw && selectedoptions_raw.length > 0) {
             
-        ]
-        };
+            for (var i = 0; i < selectedoptions_raw.length; i++) {
+                //alert(selectedoptions_raw[i]);
+                var option = IntegrationsAndServices.find(option => option.key === selectedoptions_raw[i]);
+                if(option) {
+                    selectedoptions.push(option);
+                }
+            }
+        }
+        this.state = { selectedoptions: selectedoptions };
     }
     public render(): React.ReactNode {
-        const { options } = this.state;
+        const { selectedoptions } = this.state;
 
         return (
             <Stack>
                 <Stack horizontal  wrap tokens={{ childrenGap: 6}}>
-                    {options.map((option) => (
-                        <Stack key={option.key} horizontal verticalAlign="center" tokens={{ childrenGap: 7}}
-                            styles={{
-                                root: {
-                                    height: 32,
-                                    padding: "0 10px",
-                                    border: "1px solid #E1E1E1",
-                                    borderRadius: 4,
-                                    backgroundColor: "#FFFFFF",
-                                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
-                                    boxSizing: "border-box"
-                                }
-                            }}
-                        >
-                            {option.icon}
-                            <Text styles={{ root: { fontSize: 12,fontWeight: 600, color: "#323130", whiteSpace: "nowrap" }}} >
-                                {option.text}
-                            </Text>
-                        </Stack>
-                    ))}
+                    {selectedoptions.map(function(option) {
+                        const customIcon = option.icon;
+                        return <Stack key={option.key} horizontal verticalAlign="center" tokens={{ childrenGap: 7}}
+                                styles={{
+                                    root: {
+                                        height: 32,
+                                        padding: "0 10px",
+                                        border: "1px solid #E1E1E1",
+                                        borderRadius: 4,
+                                        backgroundColor: "#FFFFFF",
+                                        boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+                                        boxSizing: "border-box"
+                                    }
+                                }}
+                            >
+                                {customIcon && React.createElement(customIcon, { size: 20 })}
+                                <Text styles={{ root: { fontSize: 12,fontWeight: 600, color: "#323130", whiteSpace: "nowrap" }}} >
+                                    {option.text}
+                                </Text>
+                            </Stack>
+                        })
+                    }
                 </Stack>
                 <Separator styles={{ root: { marginTop: 5 } }} />
                 <StackItem align="end">
                     <IntegrationSelector
-                        selectedIntegrations={[
-                            "dataverse",
-                            "powerapps",
-                            "powerpages",
-                            "copilotstudio",
-                            "powerbi",
-                            "sharepoint",
-                            "email",
-                            "aiservices",
-                            "jira",
-                            "confluence"
-                        ]}
+                        selectedIntegrations={this.state.selectedoptions}
                         onApply={(selected) => {
-                            console.log("Selected integrations:", selected);
+                            this.setState({ selectedoptions: selected });
+                            this.props.onChange && this.props.onChange(selected.map(option => option.key));
                         }}
                     />
                 </StackItem>

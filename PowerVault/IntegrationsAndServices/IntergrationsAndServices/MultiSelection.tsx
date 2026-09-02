@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Callout, Checkbox, DefaultButton, IconButton,PrimaryButton,SearchBox,Stack,Text,DirectionalHint,mergeStyleSets, createTheme } from "@fluentui/react";
 import { DataverseIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, CopilotIcon, OutlookIcon, JIRAIcon, ConfluenceIcon } from "./Icons";
+import { IIntegrationAndServices, IntegrationsAndServices } from "./Constants";
 
 interface IIntegration {
     key: string;
@@ -10,14 +11,14 @@ interface IIntegration {
 }
 
 interface IIntegrationSelectorProps {
-    selectedIntegrations?: string[];
-    onApply?: (selectedIntegrations: string[]) => void;
+    selectedIntegrations?: IIntegrationAndServices[];
+    onApply?: (selectedIntegrations: IIntegrationAndServices[]) => void;
 }
 
 interface IIntegrationSelectorState {
     isOpen: boolean;
     searchText: string;
-    selectedIntegrations: string[];
+    selectedIntegrations: IIntegrationAndServices[];
 }
 
 class IntegrationSelector extends React.Component<
@@ -26,25 +27,7 @@ class IntegrationSelector extends React.Component<
 > {
     private editButtonRef = React.createRef<HTMLDivElement>();
 
-    private integrations: IIntegration[] = [
-        // Microsoft Power Platform
-        { key: "dataverse", text: "Dataverse", group: "Microsoft Power Platform", icon: <DataverseIcon size={16} color="#106EBE" /> },
-        { key: "powerapps", text: "Power Apps / Power Platform", group: "Microsoft Power Platform", icon: <PowerAutomateIcon size={16} color="#106EBE" /> },
-        { key: "powerpages", text: "Power Pages", group: "Microsoft Power Platform", icon: <SharePointIcon size={16} color="#106EBE" /> },
-        { key: "powerautomate", text: "Power Automate", group: "Microsoft Power Platform", icon: <PowerAutomateIcon size={16} color="#106EBE" /> },
-        { key: "copilotstudio", text: "Copilot Studio", group: "Microsoft Power Platform", icon: <CopilotIcon size={16} color="#106EBE" /> },
-        { key: "powerbi", text: "Power BI", group: "Microsoft Power Platform", icon: <PowerBIIcon size={16} color="#106EBE" /> },
-
-        // Microsoft / Cloud Services
-        { key: "sharepoint", text: "SharePoint", group: "Microsoft / Cloud Services", icon: <SharePointIcon size={16} color="#106EBE" /> },
-        { key: "email", text: "Email", group: "Microsoft / Cloud Services", icon: <OutlookIcon size={16} color="#106EBE" /> },
-        { key: "aiservices", text: "AI Services", group: "Microsoft / Cloud Services", icon: <PowerAutomateIcon size={16} color="#106EBE" /> },
-        { key: "azure", text: "Azure Services", group: "Microsoft / Cloud Services", icon: <PowerAutomateIcon size={16} color="#106EBE" /> },
-
-        // External Integrations
-        { key: "jira", text: "JIRA", group: "External Integrations", icon: <JIRAIcon size={16} color="#106EBE" /> },
-        { key: "confluence", text: "Confluence", group: "External Integrations", icon: <ConfluenceIcon size={16} color="#106EBE" /> }
-    ];
+    private integrations: IIntegrationAndServices[] = IntegrationsAndServices;
 
     private styles = mergeStyleSets({
         editContainer: {
@@ -160,18 +143,7 @@ class IntegrationSelector extends React.Component<
         this.state = {
             isOpen: false,
             searchText: "",
-            selectedIntegrations: props.selectedIntegrations || [
-                "dataverse",
-                "powerapps",
-                "powerpages",
-                "copilotstudio",
-                "powerbi",
-                "sharepoint",
-                "email",
-                "aiservices",
-                "jira",
-                "confluence"
-            ]
+            selectedIntegrations: props.selectedIntegrations || []
         };
     }
 
@@ -199,18 +171,18 @@ class IntegrationSelector extends React.Component<
     };
 
     private handleCheckboxChange = (
-        integrationKey: string,
+        integrationKey: number,
         checked?: boolean
     ): void => {
         this.setState(prevState => {
             const selected = [...prevState.selectedIntegrations];
 
             if (checked) {
-                if (!selected.includes(integrationKey)) {
-                    selected.push(integrationKey);
+                if (!selected.find(int => int.key === integrationKey)) {
+                    selected.push(IntegrationsAndServices.find(int => int.key === integrationKey)!);
                 }
             } else {
-                const index = selected.indexOf(integrationKey);
+                const index = selected.findIndex(int => int.key === integrationKey);
 
                 if (index > -1) {
                     selected.splice(index, 1);
@@ -231,7 +203,7 @@ class IntegrationSelector extends React.Component<
         this.closeSelector();
     };
 
-    private getFilteredIntegrations = (): IIntegration[] => {
+    private getFilteredIntegrations = (): IIntegrationAndServices[] => {
         const searchText = this.state.searchText.trim().toLowerCase();
 
         if (!searchText) {
@@ -245,8 +217,9 @@ class IntegrationSelector extends React.Component<
 
     private renderGroup = (
         groupName: string,
-        integrations: IIntegration[]
+        integrations: IIntegrationAndServices[]
     ): React.ReactNode => {
+        var obj = this;
         const filteredIntegrations = integrations.filter(integration =>
             this.getFilteredIntegrations().some(
                 filtered => filtered.key === integration.key
@@ -263,33 +236,29 @@ class IntegrationSelector extends React.Component<
                     {groupName}
                 </Text>
 
-                {filteredIntegrations.map(integration => (
-                    <Checkbox
+                {filteredIntegrations.map(function(integration) {
+                    var customIcon = integration.icon;
+                    return <Checkbox
                         key={integration.key}
-                        className={this.styles.checkbox}
+                        className={obj.styles.checkbox}
                         label={integration.text}
-                        onRenderLabel={() => <Stack horizontal tokens={{ childrenGap: 5 }} style={{paddingLeft: 5}}>{integration.icon} <Text style={{alignItems: "center"}} >{integration.text}</Text></Stack>}
-                        checked={this.state.selectedIntegrations.includes(
-                            integration.key
-                        )}
-                        onChange={(
-                            _event,
-                            checked
-                        ) =>
-                            this.handleCheckboxChange(
+                        onRenderLabel={() => <Stack horizontal tokens={{ childrenGap: 5 }} style={{paddingLeft: 5}}> {customIcon && React.createElement(customIcon, { size: 16 })}  <Text style={{alignItems: "center"}} >{integration.text}</Text></Stack>}
+                        checked={obj.state.selectedIntegrations.filter( x=> x.key === integration.key).length > 0}
+                        onChange={(_event, checked ) =>
+                            obj.handleCheckboxChange(
                                 integration.key,
                                 checked
                             )
                         }
                         theme={ createTheme({
-                        palette: {
-                            themePrimary: "#01395E",
-                            themeDark: "#091a70",
-                            themeDarker: "#06124d"
-                        },
-                    })}
+                            palette: {
+                                themePrimary: "#01395E",
+                                themeDark: "#091a70",
+                                themeDarker: "#06124d"
+                            },
+                        })}
                     />
-                ))}
+    })}
             </div>
         );
     };
