@@ -21,7 +21,8 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
         super(props);
         initializeIcons();
 
-        var selectedoptions_raw = [711980000,711980001] //this.props.context.parameters.multioptions.raw || [];
+        //var selectedoptions_raw = [711980000,711980001] //this.props.context.parameters.multioptions.raw || [];
+        var selectedoptions_raw = this.props.context.parameters.multioptions.raw || [];
 
         var selectedoptions = [] as IIntegrationAndServices[];
         if(selectedoptions_raw && selectedoptions_raw.length > 0) {
@@ -71,6 +72,11 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
                         selectedIntegrations={this.state.selectedoptions}
                         onApply={(selected) => {
                             this.setState({ selectedoptions: selected });
+                            
+                            var currentrecordid = (this.props.context as any).page.entityId;
+                            if(currentrecordid) {
+                                this.props.context.webAPI.updateRecord("pv_apps",currentrecordid,{ pv_integrationsservices: selected.map(x => x.key.toString()).join(",") }).then(function(resp){},function(err){ alert(err?.message); });
+                            }
                             this.props.onChange && this.props.onChange(selected.map(option => option.key));
                         }}
                     />
