@@ -1,3 +1,4 @@
+import { sizeBoolean } from "@fluentui/react";
 import * as React from "react";
 
 export const ClockIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "black" }) => (
@@ -395,4 +396,91 @@ export const OneDriveIcon: React.FC<{ size?: number, color?: string }> = ({ size
         <path fillRule="nonzero" fill="url(#radial6)" d="M215.699219 569.496094C215.699219 569.496094 489.320312 570.035156 535.734375 570.035156C619.960938 570.035156 684 501.273438 684 421.03125C684 340.789062 618.671875 272.445312 535.734375 272.445312C452.792969 272.445312 405.027344 334.492188 369.152344 402.226562C327.117188 481.59375 273.488281 568.546875 215.699219 569.496094Z" />
         <path fillRule="nonzero" fill="url(#radial7)" d="M215.699219 569.496094C215.699219 569.496094 489.320312 570.035156 535.734375 570.035156C619.960938 570.035156 684 501.273438 684 421.03125C684 340.789062 618.671875 272.445312 535.734375 272.445312C452.792969 272.445312 405.027344 334.492188 369.152344 402.226562C327.117188 481.59375 273.488281 568.546875 215.699219 569.496094Z" />
     </svg>
-)
+);
+
+export const MSFormsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"> <defs> <radialGradient id="microsoftFormsA" cx="-636.407" cy="-241.425" r="14.223" gradientTransform="matrix(-18.3292 -29.852 26.9769 -16.5711 -4739.679 -22434.014)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#1a7f7c" /> <stop offset=".45" stopColor="#14717c" /> <stop offset=".8" stopColor="#08567b" /> </radialGradient> <radialGradient id="microsoftFormsB" cx="-659.117" cy="-242.353" r="14.223" gradientTransform="matrix(-11.9752 -11.2928 8.7268 -9.2542 -5570.842 -9435.164)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#06517b" /> <stop offset=".99" stopColor="#06517b" stopOpacity="0" /> </radialGradient> <linearGradient id="microsoftFormsC" x1="107.943" x2="511.707" y1="300.296" y2="67.172" gradientTransform="translate(0 -58)" gradientUnits="userSpaceOnUse"> <stop offset=".23" stopColor="#15b4d5" /> <stop offset="1" stopColor="#43e5ca" /> </linearGradient> <linearGradient id="microsoftFormsD" x1="195.774" x2="78.259" y1="229.049" y2="229.049" gradientTransform="translate(0 -58)" gradientUnits="userSpaceOnUse"> <stop offset=".18" stopColor="#29cbdc" stopOpacity="0" /> <stop offset="1" stopColor="#36dff1" /> </linearGradient> <linearGradient id="microsoftFormsE" x1="320.274" x2="420.841" y1="107.416" y2="252.681" gradientTransform="translate(0 -58)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#119fc5" /> <stop offset="1" stopColor="#22918b" /> </linearGradient> <linearGradient id="microsoftFormsF" x1="342.764" x2="397.619" y1="139.906" y2="219.133" gradientTransform="translate(0 -58)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#06517b" /> <stop offset="1" stopColor="#1a7f7c" /> </linearGradient> <linearGradient id="microsoftFormsG" x1="329.267" x2="411.546" y1="376.409" y2="495.255" gradientTransform="translate(0 -58)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#119fc5" /> <stop offset="1" stopColor="#20ac9d" /> </linearGradient> <radialGradient id="microsoftFormsH" cx="-566.015" cy="-256.303" r="14.223" gradientTransform="matrix(15.992 15.9975 -15.9948 15.9948 4961.083 13402.07)" gradientUnits="userSpaceOnUse"> <stop offset=".06" stopColor="#009bbc" /> <stop offset=".59" stopColor="#01657d" /> <stop offset=".94" stopColor="#014354" /> </radialGradient> <radialGradient id="microsoftFormsI" cx="-542.775" cy="-309.721" r="14.223" gradientTransform="matrix(0 11.2 -12.75 0 -3825.51 6457.4)" gradientUnits="userSpaceOnUse"> <stop offset=".57" stopColor="#1e8581" stopOpacity="0" /> <stop offset=".97" stopColor="#1ecbe6" /> </radialGradient> </defs> <path d="M78.3 312.9c0-62.8 50.9-113.8 113.8-113.8h312.8v270.2c0 23.6-19.1 42.7-42.7 42.7H164.1c-47.4 0-85.8-38.4-85.8-85.8z" fill="url(#microsoftFormsA)" /> <path d="M78.3 312.9c0-62.8 50.9-113.8 113.8-113.8h312.8v270.2c0 23.6-19.1 42.7-42.7 42.7H164.1c-47.4 0-85.8-38.4-85.8-85.8z" fill="url(#microsoftFormsB)" fillOpacity=".8" /> <path d="M78.3 85.8C78.3 38.4 116.7 0 164.1 0h294.2c25.7 0 46.5 20.8 46.5 46.5v162.9c0 25.7-20.8 46.5-46.5 46.5H164.1c-47.4 0-85.8 38.7-85.8 86.1z" fill="url(#microsoftFormsC)" /> <path d="M78.3 85.8C78.3 38.4 116.7 0 164.1 0h294.2c25.7 0 46.5 20.8 46.5 46.5v162.9c0 25.7-20.8 46.5-46.5 46.5H164.1c-47.4 0-85.8 38.7-85.8 86.1z" fill="url(#microsoftFormsD)" /> <path d="M369.8 199.1c43.2 0 78.2-35 78.2-78.2s-35-78.2-78.2-78.2-78.2 35-78.2 78.2 35 78.2 78.2 78.2" fill="url(#microsoftFormsE)" /> <path d="M369.8 163.6c23.6 0 42.7-19.1 42.7-42.7s-19.1-42.7-42.7-42.7-42.7 19.1-42.7 42.7 19.1 42.7 42.7 42.7" fill="url(#microsoftFormsF)" /> <path d="M422.1 312.9H317.4c-6.4 0-11.6 5.2-11.6 11.6v104.7c0 6.4 5.2 11.6 11.6 11.6h104.7c6.4 0 11.6-5.2 11.6-11.6V324.5c0-6.4-5.2-11.6-11.6-11.6" fill="url(#microsoftFormsG)" /> <path d="M53.4 241.8h135.1c25.5 0 46.2 20.7 46.2 46.2v135.1c0 25.5-20.7 46.2-46.2 46.2H53.4c-25.5 0-46.2-20.7-46.2-46.2V288c0-25.5 20.7-46.2 46.2-46.2" fill="url(#microsoftFormsH)" /> <path d="M53.4 241.8h135.1c25.5 0 46.2 20.7 46.2 46.2v135.1c0 25.5-20.7 46.2-46.2 46.2H53.4c-25.5 0-46.2-20.7-46.2-46.2V288c0-25.5 20.7-46.2 46.2-46.2" fill="url(#microsoftFormsI)" fillOpacity=".6" /> <path d="M158.5 314.8h-45.9v31.3h42.2v24.1h-42.2v50.3H83.3v-130h75.2z" fill="#fff" /> </svg>
+);
+
+export const AzureAIIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="azureAi0" gradientUnits="userSpaceOnUse" x1="18.242" x2="14.191" y1="16.837" y2=".616">
+                <stop stopColor="#712575" />
+                <stop offset=".09" stopColor="#9A2884" />
+                <stop offset=".18" stopColor="#BF2C92" />
+                <stop offset=".27" stopColor="#DA2E9C" />
+                <stop offset=".34" stopColor="#EB30A2" />
+                <stop offset=".4" stopColor="#F131A5" />
+                <stop offset=".5" stopColor="#EC30A3" />
+                <stop offset=".61" stopColor="#DF2F9E" />
+                <stop offset=".72" stopColor="#C92D96" />
+                <stop offset=".83" stopColor="#AA2A8A" />
+                <stop offset=".95" stopColor="#83267C" />
+                <stop offset="1" stopColor="#712575" />
+            </linearGradient>
+            <linearGradient id="azureAi1" gradientUnits="userSpaceOnUse" x1="19.782" x2="19.782" y1=".34" y2="23.222">
+                <stop stopColor="#DA7ED0" />
+                <stop offset=".08" stopColor="#B17BD5" />
+                <stop offset=".19" stopColor="#8778DB" />
+                <stop offset=".3" stopColor="#6276E1" />
+                <stop offset=".41" stopColor="#4574E5" />
+                <stop offset=".54" stopColor="#2E72E8" />
+                <stop offset=".67" stopColor="#1D71EB" />
+                <stop offset=".81" stopColor="#1471EC" />
+                <stop offset="1" stopColor="#1171ED" />
+            </linearGradient>
+            <linearGradient id="azureAi2" gradientUnits="userSpaceOnUse" x1="18.404" x2="3.236" y1=".859" y2="25.183">
+                <stop stopColor="#DA7ED0" />
+                <stop offset=".05" stopColor="#B77BD4" />
+                <stop offset=".11" stopColor="#9079DA" />
+                <stop offset=".18" stopColor="#6E77DF" />
+                <stop offset=".25" stopColor="#5175E3" />
+                <stop offset=".33" stopColor="#3973E7" />
+                <stop offset=".42" stopColor="#2772E9" />
+                <stop offset=".54" stopColor="#1A71EB" />
+                <stop offset=".68" stopColor="#1371EC" />
+                <stop offset="1" stopColor="#1171ED" />
+            </linearGradient>
+        </defs>
+        <path clipRule="evenodd" d="M16.233 0c.713 0 1.345.551 1.572 1.329.227.778 1.555 5.59 1.555 5.59v9.562h-4.813L14.645 0h1.588z" fill="url(#azureAi0)" fillRule="evenodd" />
+        <path d="M23.298 7.47c0-.34-.275-.6-.6-.6h-2.835a3.617 3.617 0 0 0-3.614 3.615v5.996h3.436a3.617 3.617 0 0 0 3.613-3.614V7.47z" fill="url(#azureAi1)" />
+        <path clipRule="evenodd" d="M16.233 0a.982.982 0 0 0-.989.989l-.097 18.198A4.814 4.814 0 0 1 10.334 24H1.6a.597.597 0 0 1-.567-.794l7-19.981A4.819 4.819 0 0 1 12.57 0h3.679-.016z" fill="url(#azureAi2)" fillRule="evenodd" />
+    </svg>
+);
+
+export const MSEntraIDIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> <path d="M108.1 399.1c11 6.9 29.4 14.5 48.8 14.5 17.7 0 34.1-5.1 47.7-13.9h.1l51.3-32.1v115.9c-8.1 0-16.3-2.2-23.4-6.7 0 .1-124.5-77.7-124.5-77.7" fill="#225086" /> <path d="M223.4 42.9 10 283.5c-16.5 18.6-12.2 46.7 9.2 60 0 0 79 49.4 88.9 55.6 11 6.9 29.4 14.5 48.8 14.5 17.7 0 34.1-5.1 47.7-13.9h.1l51.3-32.1L131.9 290 256 150V28.4c-12 0-24.1 4.9-32.6 14.5" fill="#6df" /> <path d="m131.9 290.1 1.4.9L256 367.7V150z" fill="#cbf8ff" /> <path d="M492.8 343.6c21.4-13.3 25.7-41.4 9.2-60l-140-158c-11.3-5.3-24-8.3-37.3-8.3-26.3 0-49.8 11.3-65.5 29.2l-3.1 3.5 124.1 140.1L256 367.7v115.9c8.2 0 16.3-2.2 23.4-6.7z" fill="#074793" /> <path d="M256 28.4V150l3.1-3.5c15.6-17.8 39.2-29.2 65.5-29.2 13.4 0 26.1 3 37.3 8.3l-73.4-82.7c-8.4-9.6-20.5-14.4-32.5-14.5" fill="#0294e4" /> <path d="M380.2 290.1 256 150.1v217.6z" fill="#96bcc2" /> </svg>
+);
+
+export const MicrosoftFoundryIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> <defs> <linearGradient id="microsoftFoundryA" x1="-642.424" x2="-642.424" y1="761.406" y2="779.484" gradientTransform="matrix(17.5556 0 0 -17.5556 11638.556 13708.777)" gradientUnits="userSpaceOnUse"> <stop offset=".02" stopColor="#201ba6" /> <stop offset=".64" stopColor="#2d29c7" /> <stop offset="1" stopColor="#201ba6" /> </linearGradient> <linearGradient id="microsoftFoundryB" x1="-638.919" x2="-638.919" y1="761.321" y2="772.631" gradientTransform="matrix(17.5556 0 0 -17.5556 11638.556 13708.777)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#3530c3" /> <stop offset=".5" stopColor="#6d71d1" /> <stop offset=".967" stopColor="#c0bff5" /> <stop offset="1" stopColor="#e3e4ff" /> </linearGradient> <linearGradient id="microsoftFoundryC" x1="-652.912" x2="-652.912" y1="751.715" y2="781.161" gradientTransform="matrix(17.5556 0 0 -17.5556 11638.556 13708.777)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#302ec9" /> <stop offset=".446" stopColor="#302ec9" /> <stop offset=".949" stopColor="#cacafb" /> <stop offset="1" stopColor="#7f7eaf" /> </linearGradient> </defs> <path d="M350.7 341.9c1.2 0 2.4-3.2 2.4-7.6V210.5c0-27.3 21.1-56.3 50.7-65.1-1.8-6-20.6-67.6-26-84.7-5.6-18-21.5-60.7-41.1-60.7h-.4c-1.5.3-2.9 1.7-4.3 4.1-10.2 18.7-14.8 96.5-14.8 154.8v72.4c8.8 31.1 29.2 102.9 30.8 107.3-.1.1 1.5 3.3 2.7 3.3" fill="url(#microsoftFoundryA)" /> <path d="M480.5 142.6h-57.8c-38.8 0-69.6 34.7-69.6 67.5v123.8c0 4.4-1.2 7.6-2.4 7.6s-2.8-3.2-2.8-3.2 2.4 6.8 5.6 6.8h63.4c19.7 0 79.2-19.6 79.2-80.7V160.2c0-13.2-7.6-17.6-15.6-17.6" fill="url(#microsoftFoundryB)" /> <path d="M42.8 512h172.1c75.1 0 102.2-65.1 102.2-121.8V159c0-66.7 6-159 19.6-159H233.5c-24.6 0-45.7 26.4-69.7 79.5S24.4 459.4 19.2 474.9C10.8 500 18.4 512 42.8 512" fill="url(#microsoftFoundryC)" /> </svg>
+);
+
+export const AzureIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> <defs> <linearGradient id="microsoftAzureA" x1="-1083.782" x2="-1184.48" y1="596.622" y2="894.112" gradientTransform="translate(1919.313 -881.688)scale(1.5625)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#114a8b" /> <stop offset="1" stopColor="#0669bc" /> </linearGradient> <linearGradient id="microsoftAzureB" x1="-1052.326" x2="-1075.619" y1="735.256" y2="743.132" gradientTransform="translate(1919.313 -881.688)scale(1.5625)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#000" stopOpacity=".3" /> <stop offset=".071" stopColor="#000" stopOpacity=".2" /> <stop offset=".321" stopColor="#000" stopOpacity=".1" /> <stop offset=".623" stopColor="#000" stopOpacity=".05" /> <stop offset="1" stopColor="#000" stopOpacity="0" /> </linearGradient> <linearGradient id="microsoftAzureC" x1="-1064.412" x2="-953.874" y1="587.674" y2="882.166" gradientTransform="translate(1919.313 -881.688)scale(1.5625)" gradientUnits="userSpaceOnUse"> <stop offset="0" stopColor="#3ccbf4" /> <stop offset="1" stopColor="#2892df" /> </linearGradient> </defs> <path d="M170.7 14.8h151.5l-157.3 466c-3.3 9.8-12.5 16.4-22.9 16.4H24.1C10.8 497.2 0 486.4 0 473.1c0-2.6.4-5.2 1.3-7.7L147.8 31.2c3.3-9.8 12.5-16.4 22.9-16.4" fill="url(#microsoftAzureA)" /> <path d="M390.8 327.3H150.6c-6.1 0-11.1 5-11.1 11.1 0 3.1 1.3 6 3.5 8.1l154.4 144.1c4.5 4.2 10.4 6.5 16.6 6.5h136z" fill="#0078d4" /> <path d="M170.7 14.8c-10.5 0-19.8 6.7-22.9 16.8L1.4 465c-4.5 12.5 2 26.3 14.5 30.8 2.6.9 5.4 1.4 8.2 1.4h121c9.2-1.6 16.8-8.1 19.8-16.9l29.2-86 104.2 97.2c4.4 3.6 9.8 5.6 15.5 5.7h135.5L390 327.3H216.7l106-312.5z" fill="url(#microsoftAzureB)" /> <path d="M364.2 31.2c-3.3-9.8-12.5-16.4-22.9-16.4H172.5c10.3 0 19.5 6.6 22.9 16.4l146.5 434.2c4.3 12.6-2.5 26.3-15.1 30.6-2.5.8-5.1 1.3-7.7 1.3H488c13.3 0 24.1-10.8 24.1-24.1 0-2.6-.4-5.2-1.3-7.7z" fill="url(#microsoftAzureC)" /> </svg>
+);
+
+export const SlackIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"> <path d="M107.9 323.6c0 29.7-24 53.8-53.8 53.8S.3 353.4.3 323.6c0-29.7 24-53.8 53.8-53.8h53.8zm26.9 0c0-29.7 24-53.8 53.8-53.8s53.8 24 53.8 53.8V458c0 29.7-24 53.8-53.8 53.8s-53.8-24-53.8-53.8z" fill="#e01e5a" /> <path d="M188.6 107.7c-29.7 0-53.8-24-53.8-53.8S158.8.1 188.6.1s53.8 24 53.8 53.8v53.8zm0 27.3c29.7 0 53.8 24 53.8 53.8s-24 53.8-53.8 53.8H53.8C24 242.6 0 218.5 0 188.8S24 135 53.8 135z" fill="#36c5f0" /> <path d="M404.1 188.8c0-29.7 24-53.8 53.8-53.8s53.8 24 53.8 53.8-24 53.8-53.8 53.8h-53.8zm-26.9 0c0 29.7-24 53.8-53.8 53.8-29.7 0-53.8-24-53.8-53.8V54c0-29.7 24-53.8 53.8-53.8s53.8 24 53.8 53.8z" fill="#2eb67d" /> <path d="M323.4 404.3c29.7 0 53.8 24 53.8 53.8 0 29.7-24 53.8-53.8 53.8-29.7 0-53.8-24-53.8-53.8v-53.8zm0-26.9c-29.7 0-53.8-24-53.8-53.8s24-53.8 53.8-53.8h134.8c29.7 0 53.8 24 53.8 53.8 0 29.7-24 53.8-53.8 53.8z" fill="#ecb22e" /> </svg>
+);
+
+export const PostmanIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#FF6C37"> <path d="M13.527.099C6.955-.744.942 3.9.099 10.473c-.843 6.572 3.8 12.584 10.373 13.428 6.573.843 12.587-3.801 13.428-10.374C24.744 6.955 20.101.943 13.527.099zm2.471 7.485a.855.855 0 0 0-.593.25l-4.453 4.453-.307-.307-.643-.643c4.389-4.376 5.18-4.418 5.996-3.753zm-4.863 4.861l4.44-4.44a.62.62 0 1 1 .847.903l-4.699 4.125-.588-.588zm.33.694l-1.1.238a.06.06 0 0 1-.067-.032.06.06 0 0 1 .01-.073l.645-.645.512.512zm-2.803-.459l1.172-1.172.879.878-1.979.426a.074.074 0 0 1-.085-.039.072.072 0 0 1 .013-.093zm-3.646 6.058a.076.076 0 0 1-.069-.083.077.077 0 0 1 .022-.046h.002l.946-.946 1.222 1.222-2.123-.147zm2.425-1.256a.228.228 0 0 0-.117.256l.203.865a.125.125 0 0 1-.211.117h-.003l-.934-.934-.294-.295 3.762-3.758 1.82-.393.874.874c-1.255 1.102-2.971 2.201-5.1 3.268zm5.279-3.428h-.002l-.839-.839 4.699-4.125a.952.952 0 0 0 .119-.127c-.148 1.345-2.029 3.245-3.977 5.091zm3.657-6.46l-.003-.002a1.822 1.822 0 0 1 2.459-2.684l-1.61 1.613a.119.119 0 0 0 0 .169l1.247 1.247a1.817 1.817 0 0 1-2.093-.343zm2.578 0a1.714 1.714 0 0 1-.271.218h-.001l-1.207-1.207 1.533-1.533c.661.72.637 1.832-.054 2.522zM18.855 6.05a.143.143 0 0 0-.053.157.416.416 0 0 1-.053.45.14.14 0 0 0 .023.197.141.141 0 0 0 .084.03.14.14 0 0 0 .106-.05.691.691 0 0 0-.751-.033z" /> </svg>
+);
+
+export const NoIntegrationsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width="120" height="86" viewBox="0 0 120 86" xmlns="http://www.w3.org/2000/svg">
+        <g fill="none" stroke="#01395E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="54" y1="38" x2="40" y2="25"/>
+        <line x1="66" y1="38" x2="81" y2="25"/>
+        <line x1="54" y1="49" x2="40" y2="63"/>
+        <line x1="66" y1="49" x2="81" y2="63"/>
+        <circle cx="60" cy="43" r="9"/>
+        <circle cx="34" cy="19" r="6"/>
+        <circle cx="87" cy="19" r="6"/>
+        <circle cx="34" cy="69" r="6"/>
+        <circle cx="87" cy="69" r="6"/>
+        </g>
+    </svg>
+);

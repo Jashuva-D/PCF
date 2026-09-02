@@ -3,15 +3,9 @@ import { Callout, Checkbox, DefaultButton, IconButton,PrimaryButton,SearchBox,St
 import { DataverseIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, CopilotIcon, OutlookIcon, JIRAIcon, ConfluenceIcon } from "./Icons";
 import { IIntegrationAndServices, IntegrationsAndServices } from "./Constants";
 
-interface IIntegration {
-    key: string;
-    text: string;
-    group: string;
-    icon?: React.ReactElement;
-}
-
 interface IIntegrationSelectorProps {
     selectedIntegrations?: IIntegrationAndServices[];
+    emptylist: boolean;
     onApply?: (selectedIntegrations: IIntegrationAndServices[]) => void;
 }
 
@@ -336,7 +330,7 @@ class IntegrationSelector extends React.Component<
     public render(): React.ReactNode {
         return (
             <>
-                <div ref={this.editButtonRef} className={this.styles.editContainer}>
+                { !this.props.emptylist && <div ref={this.editButtonRef} className={this.styles.editContainer}>
                     <DefaultButton
                         className={this.styles.editButton}
                         iconProps={{ iconName: "Edit" }}
@@ -344,7 +338,15 @@ class IntegrationSelector extends React.Component<
                         onClick={this.openSelector}
                         style={{border: 0}}
                     />
-                </div>
+                </div>}
+                {this.props.emptylist && <div ref={this.editButtonRef} className={this.styles.editContainer}>
+                    <DefaultButton
+                        iconProps={{ iconName: "add" }}
+                        text="Add Integrations & Services"
+                        onClick={this.openSelector}
+                        style={{border: 2, borderRadius: 4, borderColor: "#01395E", color: "#01395E", fontSize: 14, fontWeight: 600, minWidth: "auto", height: 32}}
+                    />
+                </div>}
                 {this.renderSelectionPanel()}
             </>
         );

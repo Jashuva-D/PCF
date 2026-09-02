@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Stack, Text, Icon, initializeIcons, StackItem, Separator } from "@fluentui/react";
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { DataverseIcon, ClockIcon, SharePointIcon, ConfluenceIcon, JIRAIcon, PowerAutomateIcon, PowerBIIcon, CopilotIcon, TeamsIcon, OutlookIcon } from "./Icons";
+import { DataverseIcon, ClockIcon, SharePointIcon, ConfluenceIcon, JIRAIcon, PowerAutomateIcon, PowerBIIcon, CopilotIcon, TeamsIcon, OutlookIcon, NoIntegrationsIcon } from "./Icons";
 import { JSX, ReactElement } from "react";
 import IntegrationSelector from "./MultiSelection";
 import { IIntegrationAndServices, IntegrationsAndServices } from "./Constants";
@@ -42,6 +42,28 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
 
         return (
             <Stack>
+                {this.state.selectedoptions.length == 0 && <Stack horizontalAlign="center" verticalAlign="center" style={{ alignContent: "center", alignItems: "center", justifyContent: "center", paddingTop: 20, paddingBottom: 20 }}>
+                    <NoIntegrationsIcon size={32}/> 
+                    <Text styles={{ root: { fontSize: 16, fontWeight: 600, color: "#323130", paddingBottom: 10 } }}>No integrations selected</Text> 
+                    <IntegrationSelector
+                        selectedIntegrations={this.state.selectedoptions}
+                        emptylist={true}
+                        onApply={(selected) => {
+                            this.setState({ selectedoptions: selected });
+                            var currentrecordid = (this.props.context as any).page.entityId;
+                            if(currentrecordid) {
+                                var selectedids = selected.map(x => x.key.toString()).join(",");
+                                this.props.context.webAPI.updateRecord("pv_apps",currentrecordid,{ pv_integrationsservices: selectedids }).then(function(resp){
+                                },function(err){ 
+                                    alert(err?.message); 
+                                });
+                            }
+                            else {
+                                this.props.onChange && this.props.onChange(selected.map(option => option.key));
+                            }
+                        }}
+                    />
+                </Stack>}
                 <Stack horizontal  wrap tokens={{ childrenGap: 6}}>
                     {selectedoptions.map(function(option) {
                         const customIcon = option.icon;
@@ -66,10 +88,13 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
                         })
                     }
                 </Stack>
+                
+                {this.state.selectedoptions.length > 0 && <>
                 <Separator styles={{ root: { marginTop: 5 } }} />
                 <StackItem align="end">
                     <IntegrationSelector
                         selectedIntegrations={this.state.selectedoptions}
+                        emptylist={false}
                         onApply={(selected) => {
                             this.setState({ selectedoptions: selected });
                             
@@ -77,7 +102,6 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
                             if(currentrecordid) {
                                 var selectedids = selected.map(x => x.key.toString()).join(",");
                                 this.props.context.webAPI.updateRecord("pv_apps",currentrecordid,{ pv_integrationsservices: selectedids }).then(function(resp){
-                                    alert("Integrations and Services updated successfully.");
                                 },function(err){ 
                                     alert(err?.message); 
                                 });
@@ -88,6 +112,7 @@ class OptionTiles extends React.Component<IOptionTilesProps,IOptionTilesState> {
                         }}
                     />
                 </StackItem>
+                </>}
             </Stack>
         );
     }

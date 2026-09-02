@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ConfluenceIcon, CopilotIcon, DataverseIcon, JIRAIcon, OutlookIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, TeamsIcon } from "./Icons";
+import { ConfluenceIcon, CopilotIcon, DataverseIcon, JIRAIcon, MSFormsIcon, OneDriveIcon, OutlookIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, TeamsIcon, AzureAIIcon, MSEntraIDIcon, MicrosoftFoundryIcon, AzureIcon, SlackIcon, PostmanIcon } from "./Icons";
 import { Icon } from "@fluentui/react/lib/components/Icon/Icon";
 
 export interface IIntegrationAndServices {
@@ -23,25 +23,24 @@ export const IntegrationsAndServices: IIntegrationAndServices[] = [
     { key: 711980001, text: "SharePoint", group: "Microsoft 365 / Collaboration", icon: SharePointIcon },
     { key: 711980013, text: "Teams", group: "Microsoft 365 / Collaboration", icon: TeamsIcon },
     { key: 711980002, text: "Outlook / Email", group: "Microsoft 365 / Collaboration", icon: OutlookIcon },
-    { key: 711980014, text: "OneDrive", group: "Microsoft 365 / Collaboration", icon: PowerAutomateIcon },
-    { key: 711980015, text: "Microsoft Forms", group: "Microsoft 365 / Collaboration", icon: PowerAutomateIcon },
+    { key: 711980014, text: "OneDrive", group: "Microsoft 365 / Collaboration", icon: OneDriveIcon },
+    { key: 711980015, text: "Microsoft Forms", group: "Microsoft 365 / Collaboration", icon: MSFormsIcon },
 
     // Azure & AI Services
-    { key: 711980007, text: "Azure AI Services", group: "Azure & AI Services", icon: PowerAutomateIcon },
-    { key: 711980016, text: "Microsoft Entra ID", group: "Azure & AI Services", icon: PowerAutomateIcon },
+    { key: 711980007, text: "Azure AI Services", group: "Azure & AI Services", icon: AzureAIIcon },
+    { key: 711980016, text: "Microsoft Entra ID", group: "Azure & AI Services", icon: MSEntraIDIcon },
 
     // Azure AI Services
-    { key: 711980024, text: "Azure OpenAI", group: "Azure AI Services", icon: PowerAutomateIcon },
-    { key: 711980022, text: "Microsoft Foundry", group: "Azure AI Services", icon: PowerAutomateIcon },
-    { key: 711980006, text: "Microsoft Graph API", group: "Azure AI Services", icon: PowerAutomateIcon },
-    { key: 711980023, text: "Microsoft Entra ID", group: "Azure AI Services", icon: PowerAutomateIcon },
+    { key: 711980024, text: "Azure OpenAI", group: "Azure AI Services", icon: AzureAIIcon },
+    { key: 711980022, text: "Microsoft Foundry", group: "Azure AI Services", icon: MicrosoftFoundryIcon },
+    { key: 711980006, text: "Microsoft Graph API", group: "Azure AI Services", icon: AzureIcon },
 
     // External Integrations
     { key: 711980003, text: "JIRA", group: "External Integrations", icon: JIRAIcon },
     { key: 711980004, text: "Confluence", group: "External Integrations", icon: ConfluenceIcon },
     { key: 711980017, text: "ServiceNow", group: "External Integrations", icon: PowerAutomateIcon },
-    { key: 711980018, text: "Slack", group: "External Integrations", icon: PowerAutomateIcon },
-    { key: 711980019, text: "Other REST APIs", group: "External Integrations", icon: PowerAutomateIcon },
+    { key: 711980018, text: "Slack", group: "External Integrations", icon: SlackIcon },
+    { key: 711980019, text: "Other REST APIs", group: "External Integrations", icon: PostmanIcon },
 
     // Data & Integration
     { key: 711980020, text: "Dataflows", group: "Data & Integration", icon: PowerAutomateIcon },
