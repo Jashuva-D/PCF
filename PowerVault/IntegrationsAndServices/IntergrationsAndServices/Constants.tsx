@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ConfluenceIcon, CopilotIcon, DataverseIcon, JIRAIcon, MSFormsIcon, OneDriveIcon, OutlookIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, TeamsIcon, AzureAIIcon, MSEntraIDIcon, MicrosoftFoundryIcon, AzureIcon, SlackIcon, PostmanIcon } from "./Icons";
+import { ConfluenceIcon, CopilotIcon, DataverseIcon, JIRAIcon, MSFormsIcon, OneDriveIcon, OutlookIcon, PowerAutomateIcon, PowerBIIcon, SharePointIcon, TeamsIcon, AzureAIIcon, MSEntraIDIcon, MicrosoftFoundryIcon, AzureIcon, SlackIcon, PostmanIcon, PowerAppsIcon, RestAPIIcon, DataFlowIcon } from "./Icons";
 import { Icon } from "@fluentui/react/lib/components/Icon/Icon";
 
 export interface IIntegrationAndServices {
@@ -16,7 +16,7 @@ export const IntegrationsAndServices: IIntegrationAndServices[] = [
     { key: 711980008, text: "Power Pages", group: "Microsoft Power Platform", icon: PowerAutomateIcon },
     { key: 711980009, text: "Power Automate", group: "Microsoft Power Platform", icon: PowerAutomateIcon },
     { key: 711980010, text: "Power BI", group: "Microsoft Power Platform", icon: PowerBIIcon },
-    { key: 711980011, text: "Power Apps", group: "Microsoft Power Platform", icon: PowerAutomateIcon },
+    { key: 711980011, text: "Power Apps", group: "Microsoft Power Platform", icon: PowerAppsIcon },
     { key: 711980012, text: "AI Builder", group: "Microsoft Power Platform", icon: PowerAutomateIcon },
 
     // Microsoft 365 / Collaboration
@@ -40,10 +40,10 @@ export const IntegrationsAndServices: IIntegrationAndServices[] = [
     { key: 711980004, text: "Confluence", group: "External Integrations", icon: ConfluenceIcon },
     { key: 711980017, text: "ServiceNow", group: "External Integrations", icon: PowerAutomateIcon },
     { key: 711980018, text: "Slack", group: "External Integrations", icon: SlackIcon },
-    { key: 711980019, text: "Other REST APIs", group: "External Integrations", icon: PostmanIcon },
+    { key: 711980019, text: "Other REST APIs", group: "External Integrations", icon: RestAPIIcon },
 
     // Data & Integration
-    { key: 711980020, text: "Dataflows", group: "Data & Integration", icon: PowerAutomateIcon },
+    { key: 711980020, text: "Dataflows", group: "Data & Integration", icon: DataFlowIcon },
     { key: 711980021, text: "Custom Connectors", group: "Data & Integration", icon: PowerAutomateIcon }
 ];
 
