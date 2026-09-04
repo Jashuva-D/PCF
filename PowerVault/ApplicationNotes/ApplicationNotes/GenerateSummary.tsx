@@ -28,7 +28,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
         this.setState({ generating: true });
 
         var request = {
-            entity: { entityType: "pv_application", id: currentrecordid }, // entity
+            entity: { entityType: "pv_apps", id: currentrecordid }, // entity
 
             getMetadata: function () {
                 return {
