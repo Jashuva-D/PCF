@@ -38,19 +38,19 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
 
         // Commented out the existing code to preserve it
         
-        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("cr549_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='cr549_expirationdate',PropertyValue='${today.toISOString()}') or cr549_expirationdate eq null))&$orderby=createdon desc`).then(
+        (parent as any).Xrm?.WebApi.retrieveMultipleRecords("pv_notification", `?$filter=(statecode eq 0 and (Microsoft.Dynamics.CRM.OnOrAfter(PropertyName='pv_expirationdate',PropertyValue='${today.toISOString()}') or pv_expirationdate eq null))&$orderby=createdon desc`).then(
             function success(resp : any) {
                 var recs : NotificationModel[] = []
                 resp.entities.forEach((x : any) => {
                     recs.push({
-                        icontype: x.cr549_type,
-                        title: x.cr549_name,
-                        body: x.cr549_description,
+                        icontype: x.pv_type,
+                        title: x.pv_name,
+                        body: x.pv_description,
                         createdon: x["createdon@OData.Community.Display.V1.FormattedValue"],
                         createdon_value: x.createdon,
-                        expirationdate: x["cr549_expirationdate@OData.Community.Display.V1.FormattedValue"],
-                        expirationdate_value: x.cr549_expirationdate,
-                        priority: x.cr549_priority,
+                        expirationdate: x["pv_expirationdate@OData.Community.Display.V1.FormattedValue"],
+                        expirationdate_value: x.pv_expirationdate,
+                        priority: x.pv_priority,
                         ttlinseconds: null
                     })
                 })
@@ -152,7 +152,7 @@ class Notifications extends React.Component<NotificationsProps, NotificationsSta
                                 onClick={() => {
                                     (parent as any).Xrm.Navigation.navigateTo({
                                         pageType: "entitylist",
-                                        entityName: "cr549_notification"
+                                        entityName: "pv_notification"
                                     });
                                 }}
                                 styles={{

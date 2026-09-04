@@ -93,7 +93,7 @@ const contentTokens: IStackTokens = {
   childrenGap: 6,
 };
 
-export const PowerVaultHero: React.FC = () => {
+export const PowerVaultLogo: React.FC = () => {
   const handleAddNewIntake = (): void => {
     //(parent as any).Xrm.Navigation.openUrl("https://powervault.powerappsportals.us/Intake-Form/");
     window.open("https://powervault.powerappsportals.us/Intake-Form/", "_blank");
