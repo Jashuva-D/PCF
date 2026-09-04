@@ -508,3 +508,68 @@ export const PowerAppsIcon: React.FC<{ size?: number, color?: string }> = ({ siz
 export const RestAPIIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
     <svg width={size} height={size} viewBox='0 0 2048 2048' xmlns='http://www.w3.org/2000/svg'><path d='M1661 640q80 0 150 30t123 81 83 122 31 151q0 80-30 149t-82 122-123 83-149 30h-128v-128h128q53 0 99-20t82-55 55-81 20-100q0-53-20-99t-55-82-81-55-100-20h-128v-64q0-93-35-174t-96-142-142-96-175-36q-63 0-121 17t-109 48-93 76-72 99l-25 46q-38-13-76-21t-80-9q-80 0-149 30t-122 82-83 123-30 149q0 80 30 149t82 122 122 83 150 30h105q11-36 32-65t49-51 63-32 71-12q46 0 87 17t71 48 48 72 18 87q0 47-17 87t-48 71-72 48-87 18q-37 0-71-11t-62-33-50-50-32-66H512q-106 0-199-40t-162-110-110-163T0 896q0-106 40-199t110-162 163-110 199-41q46 0 93 9 39-61 92-110t116-83 132-53 143-19q110 0 208 39t176 108 127 162 62 203zM832 832q106 0 199 40t163 109 110 163 40 200q0 106-40 199t-109 163-163 110-200 40q-103 0-196-38t-166-112l91-91q54 55 124 84t147 29q79 0 149-30t122-83 82-122 31-149q0-79-30-149t-83-122-122-82-149-31q-77 0-147 29t-124 84l-91-91q73-73 166-111t196-39z' fill='#000000'></path></svg>
 );
+
+export const ServiceNowIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 -.038 130.3 19.5" xmlns="http://www.w3.org/2000/svg"><g clip-rule="evenodd" fill-rule="evenodd"><path d="m31.7 5.862c-1.4 0-2.6.5-3.6 1.3v-1.1h-3.4v12.9h3.5v-8.2c.5-.7 1.7-1.6 3.2-1.6.5 0 1 .1 1.4.2v-3.3c-.4-.1-.8-.2-1.1-.2m-30.1 9.098c.9.8 2.3 1.3 3.5 1.3.9 0 1.7-.5 1.7-1.1 0-2-6.3-1.3-6.3-5.4 0-2.5 2.4-4 4.9-4 1.7 0 3.5.6 4.4 1.3l-1.6 2.5c-.7-.4-1.5-.9-2.5-.9s-1.7.4-1.7 1.1c0 1.7 6.3 1 6.3 5.5 0 2.5-2.4 4-5.1 4-1.8 0-3.7-.6-5.2-1.7zm21.6-2.6c0-3.6-2.5-6.6-6.1-6.6-3.8 0-6.3 3.2-6.3 6.7 0 4.1 2.9 6.7 6.7 6.7 2 0 4-.8 5.3-2.3l-2-2c-.6.7-1.8 1.5-3.2 1.5-1.8 0-3.3-1.3-3.5-3.1h8.9c.2-.2.2-.5.2-.9zm-8.8-1.5c.2-1.2 1.4-2.3 2.8-2.3s2.4 1.1 2.6 2.3zm33.6-4.798-5.9 12.9h-2.4l-5.9-12.9h3.5l3.6 7.9 3.5-7.9zm2.9-6.1c1.3 0 2.3 1 2.3 2.2 0 1.3-1 2.2-2.3 2.2s-2.2-1-2.2-2.2c0-1.3.9-2.2 2.2-2.2m-1.7 6.1h3.5v12.9h-3.5zm17.7 10.198c-1.5 2-3.4 2.9-5.8 2.9-4 0-6.9-3-6.9-6.7 0-3.8 3-6.7 6.9-6.7 2.3 0 4.2 1.1 5.4 2.6l-2.3 2.1c-.7-.9-1.7-1.5-2.9-1.5-2 0-3.5 1.6-3.5 3.5 0 2 1.4 3.5 3.5 3.5 1.4 0 2.5-.8 3.1-1.7zm12.5.6c-1.3 1.5-3.3 2.3-5.3 2.3-3.8 0-6.7-2.6-6.7-6.7 0-3.6 2.4-6.7 6.3-6.7 3.5 0 6.1 3 6.1 6.6 0 .4 0 .7-.1 1h-9c.2 1.8 1.7 3.1 3.5 3.1 1.4 0 2.6-.8 3.2-1.5zm-3.2-6c-.1-1.1-1.1-2.3-2.6-2.3-1.4 0-2.6 1.1-2.8 2.3zm4.9 8.1v-12.9h3.3v1.1c1-.8 2.2-1.3 3.6-1.3 1.8 0 3.4.8 4.5 2.1.8 1 1.4 2.3 1.4 4.5v6.6h-3.5v-6.9c0-1.3-.3-2-.8-2.4-.5-.5-1.1-.8-2-.8-1.4 0-2.6.9-3.2 1.6v8.4z" fill="#293e40"/><path d="m102.8 5.762c-4.2 0-7.5 3.3-7.5 7.5 0 2.2.9 4.2 2.3 5.6.5.5 1.4.5 2 .1.8-.7 2-1.1 3.2-1.1 1.3 0 2.3.4 3.2 1.1.6.5 1.4.4 2-.2 1.4-1.4 2.3-3.3 2.3-5.5-.1-4.1-3.4-7.5-7.5-7.5m-.1 11.4c-2.3 0-3.8-1.7-3.8-3.8s1.5-3.8 3.8-3.8 3.8 1.7 3.8 3.8-1.5 3.8-3.8 3.8" fill="#81b5a1"/><path d="m109.4 6.062h3.4l2.8 7.4 2.8-7.4h2.9l2.7 7.4 2.8-7.4h3.5l-5.1 12.9h-2.6l-2.8-7.3-2.7 7.3h-2.6z" fill="#293e40"/></g></svg>
+)
+
+export const MSPowerPagesIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_18_9995)">
+<mask id="mask2_18_9995" maskUnits="userSpaceOnUse" x="3" y="3" width="994" height="994">
+<path d="M531.265 13.4474C512.746 -0.441466 487.283 -0.441453 468.765 13.4475L24.3255 346.777C-3.45227 367.61 -3.45227 409.277 24.3255 430.11L245.008 595.622L151.808 665.523C124.03 686.356 124.03 728.023 151.808 748.856L468.749 986.561C487.266 1000.45 512.73 1000.45 531.249 986.561L975.687 653.232C1003.47 632.399 1003.47 590.732 975.687 569.899L755.005 404.386L848.206 334.486C875.983 313.653 875.983 271.986 848.206 251.153L531.265 13.4474Z" fill="white"/>
+</mask>
+<g mask="url(#mask2_18_9995)">
+<path d="M96.252 707.189L627.496 308.756L1031.24 611.565L499.999 1010L96.252 707.189Z" fill="url(#paint0_linear_18_9995)"/>
+<path d="M244.994 595.628L627.491 308.756L1031.24 611.565L679.991 875C661.472 888.888 636.009 888.889 617.491 875L244.994 595.628Z" fill="url(#paint1_linear_18_9995)"/>
+<g filter="url(#filter0_f_18_9995)">
+<path d="M-31.2305 392.61L500.015 -5.82324L903.761 296.986L403.766 671.982C385.247 685.872 359.785 685.872 341.266 671.982L-31.2305 392.61Z" fill="black" fill-opacity="0.24"/>
+</g>
+<g filter="url(#filter1_f_18_9995)">
+<path d="M-31.2305 409.277L500.015 10.8433L903.761 313.653L403.766 688.649C385.247 702.538 359.785 702.538 341.266 688.649L-31.2305 409.277Z" fill="black" fill-opacity="0.32"/>
+</g>
+<path d="M-31.2305 388.444L500.015 -9.99023L903.761 292.82L403.766 667.815C385.247 681.704 359.785 681.704 341.266 667.815L-31.2305 388.444Z" fill="url(#paint2_linear_18_9995)"/>
+<path d="M-31.2305 388.434L320.016 124.999C338.535 111.11 363.997 111.11 382.516 124.999L755.012 404.372L403.766 667.806C385.247 681.695 359.785 681.695 341.266 667.806L-31.2305 388.434Z" fill="url(#paint3_linear_18_9995)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_18_9995" x="-32.0305" y="-6.62324" width="936.591" height="689.823" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="0.4" result="effect1_foregroundBlur_18_9995"/>
+</filter>
+<filter id="filter1_f_18_9995" x="-39.2305" y="2.84326" width="950.991" height="704.222" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="4" result="effect1_foregroundBlur_18_9995"/>
+</filter>
+<linearGradient id="paint0_linear_18_9995" x1="181.246" y1="21.8833" x2="448.748" y2="979.315" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A391E8"/>
+<stop offset="1" stop-color="#685CD0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_18_9995" x1="979.166" y1="895.838" x2="796.874" y2="369.798" gradientUnits="userSpaceOnUse">
+<stop stop-color="#38389F"/>
+<stop offset="1" stop-color="#4B44C0"/>
+</linearGradient>
+<linearGradient id="paint2_linear_18_9995" x1="366.772" y1="-130.023" x2="625.79" y2="628.078" gradientUnits="userSpaceOnUse">
+<stop stop-color="#DBCEF8"/>
+<stop offset="1" stop-color="#C0AFF1"/>
+</linearGradient>
+<linearGradient id="paint3_linear_18_9995" x1="229.074" y1="-33.9057" x2="507.978" y2="962.178" gradientUnits="userSpaceOnUse">
+<stop stop-color="#C0AFF1"/>
+<stop offset="1" stop-color="#8675DD"/>
+</linearGradient>
+<clipPath id="clip0_18_9995">
+<rect width="1000" height="1000" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+);
+
+export const MSCustomConnectorsIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg width={size} height={size} id="f7bf0037-9a5e-4bb7-8b50-ac71cb035d97" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><defs><linearGradient id="acc4deac-96b1-4d46-9a2c-4b829b24be19" x1="4.76" y1="9.66" x2="4.76" y2="17.06" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#008bf1"/><stop offset="1" stop-color="#004dae"/></linearGradient><linearGradient id="a6951013-a0d6-4369-a16b-d4a62b78c934" x1="4.83" y1="1.06" x2="4.83" y2="6.38" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#76bc2d"/><stop offset="1" stop-color="#5e9624"/></linearGradient><linearGradient id="b9ef11bd-7128-47a8-8cf1-427a2a8cc53d" x1="14.4" y1="10.64" x2="14.4" y2="15.95" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#76bc2d"/><stop offset="1" stop-color="#5e9624"/></linearGradient></defs><title>Icon-integration-210</title><polygon points="5.36 12.77 5.36 6.38 4.31 6.38 4.31 12.77 4.31 13.36 4.31 13.82 12.65 13.82 12.65 12.77 5.36 12.77" fill="#949494"/><path id="bcfff480-0908-4673-8dd3-211accb6f5e9" d="M4.38,9.82,1.22,13a.55.55,0,0,0,0,.77L4.38,16.9a.55.55,0,0,0,.77,0l3.16-3.16a.55.55,0,0,0,0-.77L5.15,9.82A.55.55,0,0,0,4.38,9.82Z" fill="url(#acc4deac-96b1-4d46-9a2c-4b829b24be19)"/><path id="a2e9ce98-ac6d-463e-9773-5eed323da406" d="M7.49,5.84V1.6A.54.54,0,0,0,7,1.06H2.71a.54.54,0,0,0-.54.54V5.84a.54.54,0,0,0,.54.54H7A.54.54,0,0,0,7.49,5.84Z" fill="url(#a6951013-a0d6-4369-a16b-d4a62b78c934)"/><path id="abb7af69-4e26-4379-92b2-a9feddec43db" d="M11.74,11.18v4.23a.54.54,0,0,0,.54.54h4.24a.54.54,0,0,0,.54-.54V11.18a.54.54,0,0,0-.54-.54H12.28A.54.54,0,0,0,11.74,11.18Z" fill="url(#b9ef11bd-7128-47a8-8cf1-427a2a8cc53d)"/></svg>
+);
+
+export const AIBuilderIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#106EBE" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 192.756 192.756"><g fill-rule="evenodd" clip-rule="evenodd"><path fill="#fff" d="M0 0h192.756v192.756H0V0z"/><path d="M137.568 16.693h33.057v30.84h-33.057v-30.84zM137.568 54.287h33.057v114.545h-33.057V54.287zM96.155 121.236c.508 4.475.125 5.541.125 7.967 0 12.85-11.319 16.52-15.909 17.438-5.532 1.105-6.433 1.256-12.85.918-5.812-.305-13.955-5.557-13.955-13.105 0-6.549 5.669-11.748 13.511-11.748H90.28c2.363-.001 5.875-1.47 5.875-1.47zM80.668 50.529c7.117.404 18.039.661 28.296 6.99 12.766 7.875 19.133 20.27 19.133 31.707 0 27.299.072 70 .072 70l4.598 9.59H96.743v-6.947c-3.012 0-11.132 4.92-17.125 6.15-7.632 1.568-11.083 1.914-18.868 1.914-20.564 0-37.846-15.709-38.61-32.861 0-.088.02-1.021 0-1.641-.807-24.627 21.357-36.121 42.538-36.121h16.09c12.313 0 16.268-6.752 16.268-12.335 0-4.229-1.985-12.336-16.925-12.336h-3.94c-11.822 0-16.602 5.103-17.022 15.273v3.231H28.014v-7.342c0-15.774 16.995-37.301 52.654-35.272z"/></g></svg>
+);

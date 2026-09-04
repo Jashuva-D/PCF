@@ -344,7 +344,7 @@ class IntegrationSelector extends React.Component<
                         iconProps={{ iconName: "add" }}
                         text="Add Integrations & Services"
                         onClick={this.openSelector}
-                        style={{border: 2, borderRadius: 4, borderColor: "#01395E", color: "#01395E", fontSize: 14, fontWeight: 600, minWidth: "auto", height: 32}}
+                        style={{borderRadius: 4, borderColor: "#01395E", color: "#01395E", fontSize: 12, fontWeight: 400, minWidth: "auto"}}
                     />
                 </div>}
                 {this.renderSelectionPanel()}
