@@ -36,7 +36,7 @@ class GenerateSummary extends React.Component<GenerateSummaryProps, GenerateSumm
                     parameterTypes: {
                         entity: { typeName: "mscrm.pv_apps", structuralProperty: 5 }
                     },
-                    operationType: 0, operationName: "pv_GenerateAppNotesSummary"
+                    operationType: 0, operationName: "pv_GenerateNotesSummary"
                 };
             }
         };
