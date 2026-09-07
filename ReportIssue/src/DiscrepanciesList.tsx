@@ -586,11 +586,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     headerWrapper: {
                         paddingTop: 0
                     },
-                    
-                    
                 }}
-                
-                
             />
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dialog, DialogType, DialogFooter, DefaultButton, PrimaryButton, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label } from "@fluentui/react";
+import { Dialog, DialogType, DialogFooter, DefaultButton, PrimaryButton, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost } from "@fluentui/react";
 
 export interface IssueFieldChange {
     fieldname: string;
@@ -23,6 +23,8 @@ export interface IssueDetails {
         name: string;
         email?: string;
     };
+    status_value?: number
+    status_label?: string;
     fields: IssueFieldChange[];
 }
 
@@ -91,6 +93,18 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             </Stack>
         );
     }
+    private renderStatus(status_value: number | null, status_label: string) {
+        var textcolor = "#107C10";
+        var bgcolor = "#0D47A1";
+        
+        if(status_value == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
+        if(status_value == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}
+        if(status_value == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
+        if(status_value == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
+        if(status_value == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
+                            
+        return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
+    }
     componentDidMount(): void {
         var obj = this;
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_currentvalue,crm2_fieldname,crm2_newvalue),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
@@ -100,6 +114,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     issuetitle : result.crm2_issuetitle,
                     issuedescription: result.crm2_issuedescription,
                     reportedon: result.createdon,
+
                     fields: []
                 } as IssueDetails
                 if (result.hasOwnProperty("crm2_AssignedTo") && result["crm2_AssignedTo"] !== null) {
@@ -122,6 +137,10 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         email: result["crm2_ReportedBy"]["cr549_email_address"]
                     }
                     issuedetails.reportedby = reportedby;
+                }
+                if(result.hasOwnProperty("crm2_status") && result["crm2_status"] !== null){
+                    issuedetails.status_value = result["crm2_status"];
+                    issuedetails.status_label = result["crm2_status@OData.Community.Display.V1.FormattedValue"]
                 }
 
                 for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
@@ -175,13 +194,27 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 maxWidth={700}
             >
                 <div>
-                    <Stack style={{padding: 5}}>
-                        <Label style={{padding:0}} className="detail-label"> Issue Title </Label>
-                        <Text> {issue.issuetitle} </Text>
-                    </Stack>
-                    <Stack style={{padding: 5}}>
-                        <Label style={{padding:0}} className="detail-label"> Issue Description </Label>
-                        <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
+                    <Stack horizontal tokens={{ childrenGap: 20 }}>
+                        <StackItem>
+                            <Stack style={{padding: 5}}>
+                                <Label style={{padding:0}} className="detail-label"> Issue Title </Label>
+                                <Text> {issue.issuetitle} </Text>
+                            </Stack>
+                            <Stack style={{padding: 5}}>
+                                <Label style={{padding:0}} className="detail-label"> Issue Description </Label>
+                                <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
+                            </Stack>
+                        </StackItem>
+                        <StackItem align="end">
+                            <Stack horizontal style={{padding: 5}}>
+                                <Label>Status: </Label>
+                                {this.renderStatus(issue.status_value ?? 0,issue.status_label ?? "")}
+                            </Stack>
+                            <Stack horizontal style={{padding: 5}}>
+                                <Label>Reported On: </Label>
+                                <Text> {issue.reportedon || "---"} </Text>
+                            </Stack>
+                        </StackItem>
                     </Stack>
                     <Separator/>
                     <Stack horizontal wrap tokens={{ childrenGap: 30  }}  className="people-section" >
