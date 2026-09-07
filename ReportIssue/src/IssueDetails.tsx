@@ -107,14 +107,24 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
     }
     componentDidMount(): void {
         var obj = this;
+
+        // var issuedetails = {
+        //             issuetitle : "Test",
+        //             issuedescription: "Test Description",
+        //             reportedon: new Date().toLocaleDateString(),
+        //             status_label: "In Progress",
+        //             status_value: 289940002,
+        //             fields: []
+        // } as IssueDetails
+        // this.setState({ issue: issuedetails });
+        
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_currentvalue,crm2_fieldname,crm2_newvalue),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
 
                 var issuedetails = {
                     issuetitle : result.crm2_issuetitle,
                     issuedescription: result.crm2_issuedescription,
-                    reportedon: result.createdon,
-
+                    reportedon: result["createdon@OData.Community.Display.V1.FormattedValue"],
                     fields: []
                 } as IssueDetails
                 if (result.hasOwnProperty("crm2_AssignedTo") && result["crm2_AssignedTo"] !== null) {
@@ -152,7 +162,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     issuedetails.fields.push(field);
                 }
                 obj.setState({issue: issuedetails})
-                
             },
             function(error: any) {
                 console.log(error.message);
@@ -195,7 +204,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             >
                 <div>
                     <Stack horizontal tokens={{ childrenGap: 20 }}>
-                        <StackItem>
+                        <StackItem grow>
                             <Stack style={{padding: 5}}>
                                 <Label style={{padding:0}} className="detail-label"> Issue Title </Label>
                                 <Text> {issue.issuetitle} </Text>
@@ -205,15 +214,18 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
                             </Stack>
                         </StackItem>
-                        <StackItem align="end">
-                            <Stack horizontal style={{padding: 5}}>
-                                <Label>Status: </Label>
-                                {this.renderStatus(issue.status_value ?? 0,issue.status_label ?? "")}
+                        <StackItem align="start">
+                            <Stack tokens={{childrenGap: 5}} verticalAlign="start" horizontalAlign="start">
+                                <Stack horizontal horizontalAlign="end" verticalAlign="start">
+                                    <Text style={{fontSize: 12, fontWeight: 600}}>Status: </Text>
+                                    {this.renderStatus(issue.status_value ?? 0,issue.status_label ?? "")}
+                                </Stack>
+                                <Stack horizontal tokens={{childrenGap: 5}} horizontalAlign="end" verticalAlign="start">
+                                    <Text style={{fontSize: 12, fontWeight: 600}}>Reported On: </Text>
+                                    <Text> {issue.reportedon || "---"} </Text>
+                                </Stack>
                             </Stack>
-                            <Stack horizontal style={{padding: 5}}>
-                                <Label>Reported On: </Label>
-                                <Text> {issue.reportedon || "---"} </Text>
-                            </Stack>
+                            
                         </StackItem>
                     </Stack>
                     <Separator/>
