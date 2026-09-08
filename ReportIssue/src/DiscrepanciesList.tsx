@@ -23,7 +23,9 @@ interface DiscrepanciesState {
     dialogCancelButtonLabel?: string;
     confirmButtonColor?: string;
     dialogSubTextElement? : React.ReactElement;
-    dialogConfirmCallback?: () => void;
+    dialogtakenotes?: boolean,
+    dialognoteslabel?: string,
+    dialogConfirmCallback?: (notes: string) => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
 }
@@ -430,36 +432,36 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
-            function success(results : any) {
-                var discrepancies = [];
-                var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
-                var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
-                var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
-                for (var i = 0; i < records.length; i++) {
-                    var eachrecord = records[i];
-                    var eachdisc = {
-                        fieldid: eachrecord.crm2_name,
-                        issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: eachrecord.crm2_fieldname,
-                        issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: eachrecord.crm2_currentvalue ?? "",
-                        newvalue: eachrecord.crm2_newvalue ?? "",
-                        status_value: eachrecord.crm2_status,
-                        status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
-                        reportedby: "Anuradha I",
-                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
-                        datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
-                    }
-                    discrepancies.push(eachdisc);
-                }
-                obj.setState({items: discrepancies});
-            },
-            function(error: any) {
-                console.log(error.message);
-            }
-        );
+        // (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        //     function success(results : any) {
+        //         var discrepancies = [];
+        //         var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
+        //         var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
+        //         var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
+        //         for (var i = 0; i < records.length; i++) {
+        //             var eachrecord = records[i];
+        //             var eachdisc = {
+        //                 fieldid: eachrecord.crm2_name,
+        //                 issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
+        //                 fieldname: eachrecord.crm2_fieldname,
+        //                 issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+        //                 currentvalue: eachrecord.crm2_currentvalue ?? "",
+        //                 newvalue: eachrecord.crm2_newvalue ?? "",
+        //                 status_value: eachrecord.crm2_status,
+        //                 status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+        //                 reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+        //                 reportedby: "Anuradha I",
+        //                 issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
+        //                 datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
+        //             }
+        //             discrepancies.push(eachdisc);
+        //         }
+        //         obj.setState({items: discrepancies});
+        //     },
+        //     function(error: any) {
+        //         console.log(error.message);
+        //     }
+        // );
     }
     CreateFakeData(): any[]{
         var fakedata = [];
@@ -484,10 +486,12 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm Resolve",
             dialogSubtext: "Are you sure you want to mark this discrepancy as resolved? \n Once confirmed, the status will be updated to Resolved by BaseCamp",
+            dialogtakenotes: true,
+            dialognoteslabel: "Resolution Notes",
             dialogConfirmButtonLabel: "Resolve",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
-            dialogConfirmCallback: () => {
+            dialogConfirmCallback: (notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
@@ -507,10 +511,12 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogTitle: "Confirm Cancellation",
             dialogSubtext: "Are you sure you want to cancel this discrepancy? \n Once confirmed, the status will be updated to Cancelled",
             //dialogSubTextElement: <Text>Are you sure you want to cancel this discrepancy? <br></br> Once confirmed, the status will be updated to <Text style={{color: "#D13438", fontWeight: 600}}>Cancelled</Text></Text>,
+            dialogtakenotes: true,
+            dialognoteslabel: "Cancellation Notes",
             dialogConfirmButtonLabel: "Cancel Discrepancy",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
-            dialogConfirmCallback: () => {
+            dialogConfirmCallback: (notes: string) => {
                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
@@ -529,10 +535,12 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm Transfer to BaseCamp",
             dialogSubtext: "Are you sure you want to transfer this to BaseCamp team? \n Once confirmed, the BaseCamp team will be notified to review and resolve the issue",
+            dialogtakenotes: true,
+            dialognoteslabel: "Transfer Notes",
             dialogConfirmButtonLabel: "Transfer",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
-            dialogConfirmCallback: () => {
+            dialogConfirmCallback: (notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
@@ -552,6 +560,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm BaseCamp - In Progress",
             dialogSubtext: "Are you sure you want to change the status to BaseCamp-In Progress. \n Once confirmed, the status will be changed to BaseCamp-In Progress",
+            dialogtakenotes: false,
             dialogConfirmButtonLabel: "Confirm",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
@@ -607,7 +616,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
-                    {/* <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
+                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
                         <Text styles={{ root: { fontSize: 18, fontWeight: 600, color: "#323130" } }}>Actions:</Text>
                         <TooltipHost content={"Start working on the discrepancy"}><Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
@@ -616,7 +625,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         <TooltipHost content={"Escalate the discrepancy to the BaseCamp team for further review"}><Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
                         <TooltipHost content={"Close the discrepancy without resolution"}><Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text></TooltipHost>
-                    </Stack> */}
+                    </Stack> 
                 </Stack>
             </div>
             <StackItem style={{backgroundColor: "#F0F2FF", marginTop: 10, padding: 10}}>
@@ -658,12 +667,14 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 cancelButtonText={this.state.dialogCancelButtonLabel}
                 confirmbuttoncolor={this.state.confirmButtonColor ?? ""}
                 subTextElement={null}
+                takenotes={this.state.dialogtakenotes}
+                noteslabel={this.state.dialognoteslabel}
                 onDismiss={() => {
                     this.setState({ cmsdialog: false });
                 }}
-                onConfirm={() => {
+                onConfirm={(notes: string) => {
                     //this.setState({ cmsdialog: false });
-                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback();
+                    this.state.dialogConfirmCallback && this.state.dialogConfirmCallback(notes);
                 }}
                 onCancel={() => {
                     this.setState({ cmsdialog: false });
