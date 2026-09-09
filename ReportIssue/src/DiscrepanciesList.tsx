@@ -479,7 +479,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const paginatedRecords = this.state.items.slice(startIndex, endIndex);
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
         return <Stack>
-            <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499", fontSize: 16, fontWeight: 700}}>Data Discrepancies</Label><Text style={{backgroundColor: "#E6E9FF", padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
+            <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499", fontSize: 16, fontWeight: 700}}>Data Discrepancies</Label><Text style={{ padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
@@ -527,14 +527,15 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 <StackItem><Text styles={{ root: { fontSize: 16, fontWeight: 700, color: "#0D2499" } }}>Action Legend: </Text><Text>Use the actions below to manage the selected discrepancy</Text></StackItem>
                 <StackItem>
                         <Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text><Text> - Start working on the discrepancy</Text>
-                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
-                        <Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text>
-                        <Text> - Mark the discrepancy as Resolved</Text>
+                <StackItem>
+                    <Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text><Text> - Mark the discrepancy as Resolved</Text>
+                </StackItem>
                 </StackItem>
                 <StackItem>
                     <Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text><Text> - Escalate the discrepancy to the BaseCamp team for further review</Text>
-                    <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                <StackItem>
                     <Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text><Text> - Close the discrepancy without resolution</Text>
+                </StackItem>
                 </StackItem>
                 </Stack>
             </StackItem>
