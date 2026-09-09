@@ -638,7 +638,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             styles={{ root: { minWidth: 2, maxWidth: 3, borderRadius: 6, borderColor: "#ccc" } }}
                         />
                     </Stack>
-                    <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
+                    {/* <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { border: "1px dotted #F4C7A1", borderRadius: 4, padding: "4px 8px", backgroundColor: "#FFFDFD" } }}>
                         <Text styles={{ root: { fontSize: 18, fontWeight: 600, color: "#323130" } }}>Actions:</Text>
                         <TooltipHost content={"Start working on the discrepancy"}><Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
@@ -647,20 +647,22 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         <TooltipHost content={"Escalate the discrepancy to the BaseCamp team for further review"}><Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text></TooltipHost>
                         <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700 } }}>|</Text>
                         <TooltipHost content={"Close the discrepancy without resolution"}><Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text></TooltipHost>
-                    </Stack> 
+                    </Stack>  */}
                 </Stack>
             </div>
-            <StackItem style={{backgroundColor: "#F0F2FF", marginTop: 10, padding: 10}}>
+            <StackItem style={{backgroundColor: "#FEF2F2", marginTop: 10, padding: 10, border: "1px dotted #F4C7A1", borderRadius: 4}}>
                 <Stack tokens={{childrenGap: 10}}>
-                <StackItem><Text styles={{ root: { fontSize: 16, fontWeight: 700, color: "#323130" } }}>Action Legend: </Text><Text>Use the actions below to manage the selected discrepancy</Text></StackItem>
+                <StackItem><Text styles={{ root: { fontSize: 16, fontWeight: 700, color: "#0D2499" } }}>Action Legend: </Text><Text>Use the actions below to manage the selected discrepancy</Text></StackItem>
                 <StackItem>
-                <Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text><Text> - Start working on the discrepancy</Text>
-                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
-                <Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text><Text> - Mark the discrepancy as Resolved</Text>
-                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
-                <Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text><Text> - Escalate the discrepancy to the BaseCamp team for further review</Text>
-                <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
-                <Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text><Text> - Close the discrepancy without resolution</Text>
+                        <Text styles={{ root: { fontSize: 14, color: "#7F2A9E", fontWeight: 700 } }}>In Progress</Text><Text> - Start working on the discrepancy</Text>
+                        <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                        <Text styles={{ root: { fontSize: 14, color: "#107C10", fontWeight: 700 } }}>Resolve</Text>
+                        <Text> - Mark the discrepancy as Resolved</Text>
+                </StackItem>
+                <StackItem>
+                    <Text styles={{ root: { fontSize: 14, color: "#0D2499", fontWeight: 700 } }}>Transfer to BaseCamp Support</Text><Text> - Escalate the discrepancy to the BaseCamp team for further review</Text>
+                    <Text styles={{ root: { color: "#A19F9D", fontSize: 11, fontWeight: 700, padding: 20 } }}>|</Text>
+                    <Text styles={{ root: { fontSize: 14, color: "#D13438", fontWeight: 700 } }}>Cancel</Text><Text> - Close the discrepancy without resolution</Text>
                 </StackItem>
                 </Stack>
             </StackItem>
