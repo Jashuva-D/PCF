@@ -109,7 +109,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     //if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
                     if(item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
                     
-                    return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status"]}</Text></TooltipHost></Stack>;
+                    return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status"]}</Text></TooltipHost></Stack>;
                 }
             },
             {
@@ -261,99 +261,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                             onClick: this.onCacelClick.bind(this,item),
                         }
                     ] as any
-                    //const options = buttons.map((button : any) => ({ key: button.key, text: button.text }));
-                    const options = [
-    { key: "hcinprogress", text: "HC - In Progress", data: { iconName: "Sync", color: "#7F2A9E", bgColor: "#F1E4F7" } },
-    { key: "bcinprogress", text: "BaseCamp - In Progress", data: { iconName: "Sync", color: "#7F2A9E", bgColor: "#F1E4F7" } },
-    { key: "resolve", text: "Resolved by HC", data: { iconName: "CheckMark", color: "#107C10", bgColor: "#E8F5E8" } },
-    { key: "resolvebase", text: "Resolved by BaseCamp", data: { iconName: "CheckMark", color: "#107C10", bgColor: "#E8F5E8" } },
-    { key: "delegate", text: "Transfer to BaseCamp", data: { iconName: "People", color: "#0D2499", bgColor: "#E8ECFF" } },
-    { key: "cancel", text: "Cancel", data: { iconName: "Cancel", color: "#D13438", bgColor: "#FDE8E9" } }
-];
                     return(
-//                         <Dropdown
-//     placeholder="Select"
-//     options={options}
-//     onRenderOption={(option) => (
-//         <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}>
-//             <span
-//                 style={{
-//                     width: 18,
-//                     height: 18,
-//                     border: `1px solid ${option?.data?.color}`,
-//                     borderRadius: "50%",
-//                     display: "inline-flex",
-//                     alignItems: "center",
-//                     justifyContent: "center",
-//                     color: option?.data?.color,
-//                     backgroundColor: option?.data?.bgColor,
-//                     padding: 2
-//                 }}
-//             >
-//                 <Icon iconName={option?.data?.iconName} />
-//             </span>
-//             <span>{option?.text}</span>
-//         </Stack>
-//     )}
-//     styles={{
-//         root: { width: 100,borderRadius: 6 },
-//         dropdown: { minHeight: 24, height: 24, borderRadius: 6 },
-//         title: { minHeight: 24, height: 24, padding: "0 8px", fontSize: 13, lineHeight: "22px", borderRadius: 6 }
-//     }}
-//     calloutProps={{
-//         directionalHint: 12,
-//         styles: {
-//             calloutMain: {
-//                 minWidth: 200,
-//                 borderRadius: 6
-//             }
-//         }
-//     }}
-// />
-                        //     options={options}
-                        //     onRenderOption={(option) => <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }}><span style={{ width: 18, height: 18, border: `1px solid ${option?.data?.color}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: option?.data?.color, backgroundColor: option?.data?.bgColor, padding: 2 }}><Icon iconName={option?.data?.iconName} /></span><span>{option?.text}</span></Stack>}
-                        //     styles={{ root: { width: 180 }, dropdown: { minHeight: 20, borderRadius:6 }, title: { minHeight: 20, padding: "0 8px", fontSize: 13 } }}
-                        //     style={{borderRadius: 6}}
-                        // />)
-                    //)
-                            // <DefaultButton
-                            //     text="Select"
-                            //     menuProps={{
-                            //         items: buttons
-                            //     }}
-                            //     styles={{
-                            //         root: {
-                            //             minWidth: 90,
-                            //             height: 10,
-                            //             padding: "0 5px",
-                            //             border: "1px solid #D1D1D1",
-                            //             borderRadius: 4,
-                            //             backgroundColor: "white",
-                            //             color: "#323130",
-                            //         },
-                            //         rootHovered: {
-                            //             backgroundColor: "#F3F3F3",
-                            //             borderColor: "#A19F9D",
-                            //         },
-                            //         rootPressed: {
-                            //             backgroundColor: "#EDEBE9",
-                            //         },
-                            //         label: {
-                            //             fontSize: 12,
-                            //             fontWeight: 400,
-                            //         },
-                            //         menuIcon: {
-                            //             fontSize: 12,
-                            //             color: "#323130",
-                            //         },
-                            //     }}
-                            // />)
-                        
-                          
                         <IconButton
-                            // iconProps={{
-                            //     iconName: "MoreVertical"
-                            // }}
                             disabled={!(enableaction && validstatusforaction)}
                             title="Actions"
                             ariaLabel="Actions"
@@ -379,44 +288,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                 
                             }}
                             menuProps={{items: buttons}}
-                            
                         />)
-                        //<DefaultButton text="Select" menuProps={{ items: buttons }} styles={{ root: { minHeight: 20, height: 20, padding: "0 8px", borderRadius: 6 }, label: { fontSize: 13 } }} />)
-                    
-                        //<Dropdown placeholder="Select" options={options} onChange={this.onResolvedByBaseCampClick.bind(this)} styles={{ root: { width: 100 }, dropdown: { minHeight: 28, height: 28, borderRadius: 6 }, title: { minHeight: 28, height: 28, padding: "0 8px", fontSize: 13 } }} />)
-                        {/* <CommandBar 
-                            items={[]}
-                            overflowItems={buttons}
-                            overflowButtonProps={{
-                                    iconProps: {
-                                        iconName: "MoreVertical",
-                                        style: { fontSize: 10 }
-                                    }
-                                }
-                            }
-                            styles={{
-                                root: {
-                                    selectors: {
-                                        ":hover": {
-                                            backgroundColor: "#F3F3F3"
-                                        }
-                                    },
-                                },
-                                primarySet: {
-                                    backgroundColor: "transparent"
-                                },
-                                secondarySet: {
-                                    backgroundColor: "transparent"
-                                }
-                            }}
-                            style={{
-                                padding: 0,
-                                margin: 0
-                            }}
-                            
-                        />  */}
-                       
-                        
                 }
             }
         ] as IColumn[];
@@ -436,36 +308,36 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
-            function success(results : any) {
-                var discrepancies = [];
-                var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
-                var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
-                var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
-                for (var i = 0; i < records.length; i++) {
-                    var eachrecord = records[i];
-                    var eachdisc = {
-                        fieldid: eachrecord.crm2_name,
-                        issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: eachrecord.crm2_fieldname,
-                        issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: eachrecord.crm2_currentvalue ?? "",
-                        newvalue: eachrecord.crm2_newvalue ?? "",
-                        status_value: eachrecord.crm2_status,
-                        status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
-                        reportedby: "Anuradha I",
-                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
-                        datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
-                    }
-                    discrepancies.push(eachdisc);
-                }
-                obj.setState({items: discrepancies});
-            },
-            function(error: any) {
-                console.log(error.message);
-            }
-        );
+        // (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        //     function success(results : any) {
+        //         var discrepancies = [];
+        //         var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
+        //         var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
+        //         var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
+        //         for (var i = 0; i < records.length; i++) {
+        //             var eachrecord = records[i];
+        //             var eachdisc = {
+        //                 fieldid: eachrecord.crm2_name,
+        //                 issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
+        //                 fieldname: eachrecord.crm2_fieldname,
+        //                 issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+        //                 currentvalue: eachrecord.crm2_currentvalue ?? "",
+        //                 newvalue: eachrecord.crm2_newvalue ?? "",
+        //                 status_value: eachrecord.crm2_status,
+        //                 status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+        //                 reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+        //                 reportedby: "Anuradha I",
+        //                 issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
+        //                 datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
+        //             }
+        //             discrepancies.push(eachdisc);
+        //         }
+        //         obj.setState({items: discrepancies});
+        //     },
+        //     function(error: any) {
+        //         console.log(error.message);
+        //     }
+        // );
     }
     CreateFakeData(): any[]{
         var fakedata = [];
@@ -588,7 +460,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             
             dialogConfirmCallback: () => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
-                    obj.componentDidMount.bind(obj)();
+                    //obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false});
                     
                 },function(err: any){
