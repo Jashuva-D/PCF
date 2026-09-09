@@ -108,19 +108,19 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
     componentDidMount(): void {
         var obj = this;
 
-        var issuedetails = {
-                    issuetitle : "Test",
-                    issuedescription: "Test Description",
-                    reportedon: new Date().toLocaleDateString(),
-                    status_label: "In Progress",
-                    status_value: 289940002,
-                    fields: [],
-                    reportedby: {
-                        name: "Test Contact",
-                        email: "test@test.com"
-                    }
-        } as IssueDetails
-        this.setState({ issue: issuedetails });
+        // var issuedetails = {
+        //             issuetitle : "Test",
+        //             issuedescription: "Test Description",
+        //             reportedon: new Date().toLocaleDateString(),
+        //             status_label: "In Progress",
+        //             status_value: 289940002,
+        //             fields: [],
+        //             reportedby: {
+        //                 name: "Test Contact",
+        //                 email: "test@test.com"
+        //             }
+        // } as IssueDetails
+        // this.setState({ issue: issuedetails });
         
         // (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_currentvalue,crm2_fieldname,crm2_newvalue),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
         //     function success(result: any) {

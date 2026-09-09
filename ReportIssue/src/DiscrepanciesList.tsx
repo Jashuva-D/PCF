@@ -25,6 +25,10 @@ interface DiscrepanciesState {
     dialogSubTextElement? : React.ReactElement;
     dialogtakenotes?: boolean,
     dialognoteslabel?: string,
+    dialogcolors?: {
+        legend: string,
+        background: string
+    }
     dialogConfirmCallback?: (notes: string) => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
@@ -491,6 +495,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogConfirmButtonLabel: "Resolve",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
+            dialogcolors: {
+                legend: "#107C10",
+                background: "#ECFDF5"
+            },
             dialogConfirmCallback: (notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
@@ -516,6 +524,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogConfirmButtonLabel: "Cancel Discrepancy",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#D13438",
+            dialogcolors: {
+                legend: "#DC2626",
+                background: "#FEF2F2"
+            },
             dialogConfirmCallback: (notes: string) => {
                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
@@ -540,6 +552,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             dialogConfirmButtonLabel: "Transfer",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
+            dialogcolors: {
+                legend: "#2563EB",
+                background: "#EFF6FF"
+            },
             dialogConfirmCallback: (notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
@@ -560,10 +576,16 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             cmsdialog: true,
             dialogTitle: "Confirm BaseCamp - In Progress",
             dialogSubtext: "Are you sure you want to change the status to BaseCamp-In Progress. \n Once confirmed, the status will be changed to BaseCamp-In Progress",
-            dialogtakenotes: false,
+            dialogtakenotes: true,
+            dialognoteslabel: "In Progress Notes",
+            dialogcolors: {
+                legend: "#7C3AED",
+                background: "#F3E8FF"
+            },
             dialogConfirmButtonLabel: "Confirm",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
+            
             dialogConfirmCallback: () => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
@@ -669,6 +691,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 subTextElement={null}
                 takenotes={this.state.dialogtakenotes}
                 noteslabel={this.state.dialognoteslabel}
+                colors={this.state.dialogcolors}
                 onDismiss={() => {
                     this.setState({ cmsdialog: false });
                 }}
