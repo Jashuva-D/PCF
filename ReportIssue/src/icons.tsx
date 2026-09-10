@@ -7,3 +7,32 @@ export const FlagIcon: React.FC<{ size?: number, color?: string }> = ({ size = 2
         <path d="M56.0 36.4 C54.9 42.0 54.6 48.0 55.3 54.0 C55.6 56.8 55.9 59.0 55.8 61.4" stroke="#000000" stroke-width="1.6" stroke-linecap="round" />
     </svg>
 );
+
+export const InfoIcon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#1F3AA8" }) => (
+    <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <circle
+            cx="12"
+            cy="12"
+            r="11"
+            fill={color}
+        />
+        <path
+            d="M12 10.5V17"
+            stroke="white"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+        />
+        <circle
+            cx="12"
+            cy="7"
+            r="1.3"
+            fill="white"
+        />
+    </svg>
+);

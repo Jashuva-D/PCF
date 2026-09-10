@@ -3,6 +3,7 @@ import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, I
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
+import { ActionLegend } from "./ActionLegend";
 
 interface DiscrepanciesListProps{
     applicationid: string
@@ -522,7 +523,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     </Stack>  */}
                 </Stack>
             </div>
-            <StackItem style={{backgroundColor: "#FEF2F2", marginTop: 10, padding: 10, border: "1px dotted #F4C7A1", borderRadius: 4}}>
+            {/* <StackItem style={{backgroundColor: "#FEF2F2", marginTop: 10, padding: 10, border: "1px dotted #F4C7A1", borderRadius: 4}}>
                 <Stack tokens={{childrenGap: 10}}>
                     <StackItem>
                         <Text styles={{ root: { fontSize: 16, fontWeight: 700, color: "#0D2499" } }}>Action Legend: </Text><Text>Use the actions below to manage the selected discrepancy</Text>
@@ -536,6 +537,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         </Stack>
                     </StackItem>
                 </Stack>
+            </StackItem> */}
+            <StackItem style={{marginTop: 10}}>
+                <ActionLegend />
             </StackItem>
             {this.state.openDetails && 
             <IssueDetailsDialog 
