@@ -41,17 +41,17 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         //var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
         var enableaction = true;
         var cols = [
-            {
-                key: "fieldid",
-                name: "Field ID",
-                fieldName: "fieldid",
-                minWidth: 60,
-                maxWidth: 60,
-                onRender: (item: any) => {
-                    var obj = this;
-                    return <Text style={{fontWeight: 400}}>{item["fieldid"]}</Text>
-                }
-            },
+            // {
+            //     key: "fieldid",
+            //     name: "Field ID",
+            //     fieldName: "fieldid",
+            //     minWidth: 60,
+            //     maxWidth: 60,
+            //     onRender: (item: any) => {
+            //         var obj = this;
+            //         return <Text style={{fontWeight: 400}}>{item["fieldid"]}</Text>
+            //     }
+            // },
             {
                 key: "issueid",
                 name: "Issue ID",
@@ -65,40 +65,41 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             },
             {
                 key: "fieldname",
-                name: "Field Name",
-                fieldName: "fieldname",
+                name: "Issue Title",
+                fieldName: "issuetitle",
                 isResizable: true,
                 minWidth: 160,
                 onRender: (item: any) => {
-                    return <Text style={{fontWeight: 400}}>{item["fieldname"]}</Text>
+                    return <Text style={{fontWeight: 400}}>{item["issuetitle"]}</Text>
                 }
             },
-            {
-                key: "currentvalue",
-                name: "Current Value",
-                fieldName: "currentvalue",
-                minWidth: 100,
-                isResizable: true,
-                onRender: (item: any) => {
-                    return <Text style={{fontWeight: 400}}>{item["currentvalue"]}</Text>
-                }
-            },
-            {
-                key: "newvalue",
-                name: "New Value",
-                fieldName: "newvalue",
-                minWidth: 100,
-                isResizable: true,
-                onRender: (item: any) => {
-                    return <Text style={{color: "#107C10", fontWeight: 600}}>{item["newvalue"]}</Text>
-                }
-            },
+            // {
+            //     key: "currentvalue",
+            //     name: "Current Value",
+            //     fieldName: "currentvalue",
+            //     minWidth: 100,
+            //     isResizable: true,
+            //     onRender: (item: any) => {
+            //         return <Text style={{fontWeight: 400}}>{item["currentvalue"]}</Text>
+            //     }
+            // },
+            // {
+            //     key: "newvalue",
+            //     name: "New Value",
+            //     fieldName: "newvalue",
+            //     minWidth: 100,
+            //     isResizable: true,
+            //     onRender: (item: any) => {
+            //         return <Text style={{color: "#107C10", fontWeight: 600}}>{item["newvalue"]}</Text>
+            //     }
+            // },
             {
                 key: "status",
                 name: "Status",
                 fieldName: "status",
                 minWidth: 80,
                 onRender: (item: any) => {
+                    debugger;
                     var textcolor = "#107C10";
                     var bgcolor = "#0D47A1";
 
@@ -123,175 +124,193 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 }
             },
             {
-                key: "actions",
-                name: "Action",
-                minWidth: 50,
-                isResizable: true,
+                key: "reportedby",
+                name: "Reported By",
+                fieldName: "reportedby",
+                minWidth: 80,
                 onRender: (item: any) => {
-                    var validstatusforaction = true;
-                    if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
-                    var buttons = [
-                        {
-                            key: "bcinprogress",
-                            text: "In Progress",
-                            iconProps: { iconName: "sync"},
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #7F2A9E",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#7F2A9E",
-                                        backgroundColor: "#F1E4F7",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="sync"
-                                        styles={{
-                                            root: {
-                                                color: "#7F2A9E"
-                                            }
-                                        }}
-                                        style={{color: "#7F2A9E"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onInProgressClick.bind(this, item)
-                        },
-                        {
-                            key: "resolve",
-                            text: "Resolve",
-                            iconProps: { iconName: "checkMark"},
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #107C10",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#107C10",
-                                        backgroundColor: "#E8F5E8",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="checkMark"
-                                        styles={{
-                                            root: {
-                                                color: "#107C10"
-                                            }
-                                        }}
-                                        style={{color: "#107C10"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onResolvedClick.bind(this, item)
-                        },
-                        {
-                            key: "delegate",
-                            text: "Transfer to BaseCamp Support",
-                            iconProps: {
-                                iconName: "people",
-                            },
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #0D2499",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#0D2499",
-                                        backgroundColor: "#E8ECFF",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="people"
-                                        styles={{
-                                            root: {
-                                                color: "#0D2499"
-                                            }
-                                        }}
-                                        style={{color: "#0D2499"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onDelegateClick.bind(this,item)
-                        },
-                        {
-                            key: "cancel",
-                            text: "Cancel",
-                            iconProps: {iconName: "cancel"},
-                            onRenderIcon: () => (
-                                <span
-                                    style={{
-                                        width: "18px",
-                                        height: "18px",
-                                        border: "1px solid #D13438",
-                                        borderRadius: "50%",
-                                        display: "inline-flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        color: "#D13438",
-                                        backgroundColor: "#FDE8E9",
-                                        padding: 2
-                                    }}
-                                >
-                                    <Icon
-                                        iconName="cancel"
-                                        styles={{
-                                            root: {
-                                                color: "#D13438"
-                                            }
-                                        }}
-                                        style={{color: "#D13438"}}
-                                    />
-                                </span>
-                            ),
-                            onClick: this.onCacelClick.bind(this,item),
-                        }
-                    ] as any
-                    return(
-                        <IconButton
-                            disabled={!(enableaction && validstatusforaction)}
-                            title="Actions"
-                            ariaLabel="Actions"
-                            styles={{
-                                root: {
-                                    width: 32,
-                                    height: 20,
-                                    backgroundColor: "transparent"
-                                },
-                                rootHovered: {
-                                    backgroundColor: "#F3F3F3"
-                                },
-                                icon: {
-                                    fontSize: 24
-                                },
-                                menuIcon: {
-                                    fontSize: 16,
-                                    text: "Select",
-                                    color: "#0D2499",
-                                    fontWeight: 600
-                                },
-                                
-                                
-                            }}
-                            menuProps={{items: buttons}}
-                        />)
+                    return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
+                }
+            },
+            {
+                key: "assignedto",
+                name: "Assigned To",
+                fieldName: "assignedto",
+                minWidth: 80,
+                onRender: (item: any) => {
+                    return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
                 }
             }
+            // {
+            //     key: "actions",
+            //     name: "Action",
+            //     minWidth: 50,
+            //     isResizable: true,
+            //     onRender: (item: any) => {
+            //         var validstatusforaction = true;
+            //         if(item["status"] == "Resolved" || item["status"] == "Cancelled" || item["status"] == "Transferred to BaseCamp") validstatusforaction = false;
+            //         var buttons = [
+            //             {
+            //                 key: "bcinprogress",
+            //                 text: "In Progress",
+            //                 iconProps: { iconName: "sync"},
+            //                 onRenderIcon: () => (
+            //                     <span
+            //                         style={{
+            //                             width: "18px",
+            //                             height: "18px",
+            //                             border: "1px solid #7F2A9E",
+            //                             borderRadius: "50%",
+            //                             display: "inline-flex",
+            //                             alignItems: "center",
+            //                             justifyContent: "center",
+            //                             color: "#7F2A9E",
+            //                             backgroundColor: "#F1E4F7",
+            //                             padding: 2
+            //                         }}
+            //                     >
+            //                         <Icon
+            //                             iconName="sync"
+            //                             styles={{
+            //                                 root: {
+            //                                     color: "#7F2A9E"
+            //                                 }
+            //                             }}
+            //                             style={{color: "#7F2A9E"}}
+            //                         />
+            //                     </span>
+            //                 ),
+            //                 onClick: this.onInProgressClick.bind(this, item)
+            //             },
+            //             {
+            //                 key: "resolve",
+            //                 text: "Resolve",
+            //                 iconProps: { iconName: "checkMark"},
+            //                 onRenderIcon: () => (
+            //                     <span
+            //                         style={{
+            //                             width: "18px",
+            //                             height: "18px",
+            //                             border: "1px solid #107C10",
+            //                             borderRadius: "50%",
+            //                             display: "inline-flex",
+            //                             alignItems: "center",
+            //                             justifyContent: "center",
+            //                             color: "#107C10",
+            //                             backgroundColor: "#E8F5E8",
+            //                             padding: 2
+            //                         }}
+            //                     >
+            //                         <Icon
+            //                             iconName="checkMark"
+            //                             styles={{
+            //                                 root: {
+            //                                     color: "#107C10"
+            //                                 }
+            //                             }}
+            //                             style={{color: "#107C10"}}
+            //                         />
+            //                     </span>
+            //                 ),
+            //                 onClick: this.onResolvedClick.bind(this, item)
+            //             },
+            //             {
+            //                 key: "delegate",
+            //                 text: "Transfer to BaseCamp Support",
+            //                 iconProps: {
+            //                     iconName: "people",
+            //                 },
+            //                 onRenderIcon: () => (
+            //                     <span
+            //                         style={{
+            //                             width: "18px",
+            //                             height: "18px",
+            //                             border: "1px solid #0D2499",
+            //                             borderRadius: "50%",
+            //                             display: "inline-flex",
+            //                             alignItems: "center",
+            //                             justifyContent: "center",
+            //                             color: "#0D2499",
+            //                             backgroundColor: "#E8ECFF",
+            //                             padding: 2
+            //                         }}
+            //                     >
+            //                         <Icon
+            //                             iconName="people"
+            //                             styles={{
+            //                                 root: {
+            //                                     color: "#0D2499"
+            //                                 }
+            //                             }}
+            //                             style={{color: "#0D2499"}}
+            //                         />
+            //                     </span>
+            //                 ),
+            //                 onClick: this.onDelegateClick.bind(this,item)
+            //             },
+            //             {
+            //                 key: "cancel",
+            //                 text: "Cancel",
+            //                 iconProps: {iconName: "cancel"},
+            //                 onRenderIcon: () => (
+            //                     <span
+            //                         style={{
+            //                             width: "18px",
+            //                             height: "18px",
+            //                             border: "1px solid #D13438",
+            //                             borderRadius: "50%",
+            //                             display: "inline-flex",
+            //                             alignItems: "center",
+            //                             justifyContent: "center",
+            //                             color: "#D13438",
+            //                             backgroundColor: "#FDE8E9",
+            //                             padding: 2
+            //                         }}
+            //                     >
+            //                         <Icon
+            //                             iconName="cancel"
+            //                             styles={{
+            //                                 root: {
+            //                                     color: "#D13438"
+            //                                 }
+            //                             }}
+            //                             style={{color: "#D13438"}}
+            //                         />
+            //                     </span>
+            //                 ),
+            //                 onClick: this.onCacelClick.bind(this,item),
+            //             }
+            //         ] as any
+            //         return(
+            //             <IconButton
+            //                 disabled={!(enableaction && validstatusforaction)}
+            //                 title="Actions"
+            //                 ariaLabel="Actions"
+            //                 styles={{
+            //                     root: {
+            //                         width: 32,
+            //                         height: 20,
+            //                         backgroundColor: "transparent"
+            //                     },
+            //                     rootHovered: {
+            //                         backgroundColor: "#F3F3F3"
+            //                     },
+            //                     icon: {
+            //                         fontSize: 24
+            //                     },
+            //                     menuIcon: {
+            //                         fontSize: 16,
+            //                         text: "Select",
+            //                         color: "#0D2499",
+            //                         fontWeight: 600
+            //                     },
+                                
+                                
+            //                 }}
+            //                 menuProps={{items: buttons}}
+            //             />)
+            //     }
+            // }
         ] as IColumn[];
 
         this.state = {
@@ -309,28 +328,41 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             items: this.CreateFakeData()
         });
         
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,createdon,crm2_currentvalue,_crm2_datadiscrepancy_value,crm2_fieldname,crm2_newvalue,crm2_status&$expand=crm2_DataDiscrepancy($select=crm2_datadiscrepancyid,crm2_name,crm2_tab,crm2_section,crm2_issuetitle,crm2_issuedescription)&$filter=crm2_DataDiscrepancy/_crm2_application_value eq ${this.props.applicationid}`).then(
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancy",`?$select=crm2_datadiscrepancyid,crm2_name,crm2_issuetitle,createdon,crm2_status,crm2_tab,crm2_section&$expand=crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)&$filter=_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
+                //console.log(JSON.stringify(results));
                 var discrepancies = [];
                 var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
                 var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;
-                var records = results.entities.filter((x : any)=> x["crm2_DataDiscrepancy"]["crm2_tab"] == currenttab && x["crm2_DataDiscrepancy"]["crm2_section"] == currentsection);
+                var records = results.entities.filter((x : any)=> x["crm2_tab"] == currenttab && x["crm2_section"] == currentsection);
                 for (var i = 0; i < records.length; i++) {
                     var eachrecord = records[i];
+                    // var eachdisc1 = {
+                    //     fieldid: eachrecord.crm2_name,
+                    //     issueid: eachrecord["crm2_name"],
+                        
+                    //     fieldname: eachrecord.crm2_fieldname,
+                    //     issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
+                    //     currentvalue: eachrecord.crm2_currentvalue ?? "",
+                    //     newvalue: eachrecord.crm2_newvalue ?? "",
+                    //     status_value: eachrecord.crm2_status,
+                    //     status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+                    //     reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
+                    //     reportedby: "Anuradha I",
+                    //     issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
+                    //     datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
+                    // }
                     var eachdisc = {
-                        fieldid: eachrecord.crm2_name,
-                        issueid: eachrecord["crm2_DataDiscrepancy"]["crm2_name"],
-                        fieldname: eachrecord.crm2_fieldname,
-                        issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                        currentvalue: eachrecord.crm2_currentvalue ?? "",
-                        newvalue: eachrecord.crm2_newvalue ?? "",
+                        issueid: eachrecord["crm2_name"],
+                        issuetitle: eachrecord["crm2_issuetitle"],
                         status_value: eachrecord.crm2_status,
                         status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
-                        reportedby: "Anuradha I",
-                        issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
-                        datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
+                        reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),
+                        reportedby: eachrecord["crm2_ReportedBy"]["cr549_name"] ?? "",
+                        assignedto: eachrecord["crm2_AssignedTo"]["cr549_name"] ?? "",
+                        issuerecordid: eachrecord["crm2_datadiscrepancyid"]
                     }
+
                     discrepancies.push(eachdisc);
                 }
                 obj.setState({items: discrepancies});
