@@ -126,6 +126,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />
                             }
+                            else if(columnname == "person_cr549_direct_phone"){
+                                    return <><TextField key={columnname} 
+                                    ariaLabel={c.displayName}
+                                    aria-labelledby={`header-${c.name}`}
+                                    defaultValue={this.state.editablerecord[columnname] ?? ""} 
+                                    value={this.state.editablerecord[columnname] ?? ""} 
+                                    onChange={(e, val) => this.onFieldChange(columnname, val)}
+                                /></>;
+                            }
                             else {
                                 return <Text aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>
                                     {this.state.editablerecord[columnname] ?? ""}
@@ -291,8 +300,8 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
 
             var person = {
                 "cr549_direct_phone": this.state.editablerecord["person_cr549_direct_phone"],
-                "cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
-                "cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
+                //"cr549_email_address": this.state.editablerecord["person_cr549_email_address"],
+                //"cr549_email_address_2": this.state.editablerecord["person_cr549_email_address_2"],
                 "cr549_service_desk_agent": this.state.editablerecord["person_cr549_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_cr549_service_desk_agent_value"] == "0" ? false : true
             }
             var personupdate =await obj.props.context.webAPI.updateRecord("cr549_person", personid, person).then(function (resp) {
