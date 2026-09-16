@@ -15,7 +15,6 @@
   "dependencies": {
     "@fluentui/react": "^8.125.0",
     "quill": "^2.0.3",
-    "quill-table-better": "^1.2.3",
     "react-quill": "^2.0.0"
   },
   "devDependencies": {
