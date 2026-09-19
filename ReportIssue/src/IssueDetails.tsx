@@ -450,7 +450,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
-
+                console.log(JSON.stringify(result));
                 var issuedetails = {
                     issuetitle : result.crm2_issuetitle,
                     issuedescription: result.crm2_issuedescription,
@@ -496,6 +496,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }
                     issuedetails.fields.push(field);
                 }
+                console.log(JSON.stringify(issuedetails));
                 obj.setState({issue: issuedetails})
             },
             function(error: any) {
