@@ -76,14 +76,14 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             key: "currentvalue",
             name: "Current Value",
             fieldName: "currentvalue",
-            minWidth: 180,
+            minWidth: 120,
             isResizable: true
         },
         {
             key: "newvalue",
             name: "New Value",
             fieldName: "newvalue",
-            minWidth: 180,
+            minWidth: 120,
             isResizable: true,
             onRender: (item: IssueFieldChange) => (
                 <span className="new-value">
@@ -95,25 +95,15 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             key: "reviewwith",
             name: "Review With",
             fieldName: "reviewwith",
-            minWidth: 180,
+            minWidth: 120,
             isResizable: true,
-            onRender: (item: IssueFieldChange) => (
-                <span className="new-value">
-                    {item.reviewwith || ""}
-                </span>
-            )
         },
         {
             key: "reviewer",
             name: "Reviewer",
             fieldName: "reviewer",
-            minWidth: 180,
+            minWidth: 120,
             isResizable: true,
-            onRender: (item: IssueFieldChange) => (
-                <span className="new-value">
-                    {item.reviewer || ""}
-                </span>
-            )
         },
         {
             key: "status",
@@ -586,7 +576,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         status_value: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status"],
                         datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
                         reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
-                        reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewer@OData.Community.Display.V1.FormattedValue"],
+                        reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
                     }
                     issuedetails.fields.push(field);
                 }
