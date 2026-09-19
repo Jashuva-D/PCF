@@ -396,7 +396,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             sendForReviewCallback: (reviewwith: number, reviewer: any, notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})` }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
-                    obj.setState({cmsdialog: false})
+                    obj.setState({sendforreviewdialog: false})
                 },function(err: any){
                     alert("error occured" + err?.message)
                 })

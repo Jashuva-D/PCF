@@ -71,7 +71,7 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                             { key: 289940000, text: "Auditor"},
                             { key: 289940001, text: "HA"},
                             { key: 289940002, text: "FA"},
-                            { key: 289940003, text: "BaseCamp"},
+                            { key: 289940003, text: "BaseCamp Team"},
                             { key: 289940004, text: "Other"}
                         ]}
                         dropdownWidth={"auto"}
@@ -103,7 +103,8 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                     <PrimaryButton 
                         text={this.props.confirmButtonText || "OK"} 
                         onClick={() => this.props.onConfirm(this.state.reviewwith, this.state.person, this.state.notes)}
-                        style={{ borderRadius: 6, backgroundColor: this.props.colors?.legend, borderColor: this.props.colors?.legend }} 
+                        style={{ borderRadius: 6, backgroundColor: this.props.colors?.legend, borderColor: this.props.colors?.legend }}
+                        disabled={this.state.person == null || this.state.reviewwith == 0}
                     />
                     <DefaultButton 
                         text={this.props.cancelButtonText || "Cancel"} 
