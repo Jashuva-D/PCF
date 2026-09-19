@@ -356,7 +356,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -417,11 +417,11 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         var textcolor = "#107C10";
         var bgcolor = "#0D47A1";
         
-        if(status_value == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
-        if(status_value == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}
-        if(status_value == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
-        if(status_value == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
-        if(status_value == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
+        if(status_value == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}//New
+        if(status_value == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";} //In Progress
+        if(status_value == 289940002) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}//Review
+        if(status_value == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} // Closed
+        
                             
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
     }

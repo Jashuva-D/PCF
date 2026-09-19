@@ -103,13 +103,19 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     var textcolor = "#107C10";
                     var bgcolor = "#0D47A1";
 
-                    if(item["status_value"] == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
-                    if(item["status_value"] == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}
-                    if(item["status_value"] == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
-                    if(item["status_value"] == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
-                    //if(item["status_value"] == 289940003) { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
-                    //if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
-                    if(item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
+                    // if(item["status_value"] == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";}
+                    // if(item["status_value"] == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}
+                    // if(item["status_value"] == 289940003) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}
+                    // if(item["status_value"] == 289940002) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";}
+                    // //if(item["status_value"] == 289940003) { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
+                    // //if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
+                    // if(item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor= "#605E5C"; }
+
+
+                    if(item["status_value"] == 289940000) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}//New
+                    if(item["status_value"] == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";} //In Progress
+                    if(item["status_value"] == 289940002) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}//Review
+                    if(item["status_value"] == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} // Closed
                     
                     return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status"]}</Text></TooltipHost></Stack>;
                 }
@@ -588,7 +594,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 //         {fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"},
                 //         {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
                 //     ]}}
-                onClose={() => {this.setState({openDetails: false})}}
+                onClose={() => {this.setState({openDetails: false}); this.componentDidMount();}}
             />}
             <CMSDialog
                 isOpen={this.state.cmsdialog!}
