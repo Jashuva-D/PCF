@@ -81,7 +81,7 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                     />
                     <StackItem>
                         <Stack>
-                            <Label>Reviewver</Label>
+                            <Label>Reviewer</Label>
                             <Lookup 
                                 entityType="cr549_person"
                                 allowMultiSelect={false}

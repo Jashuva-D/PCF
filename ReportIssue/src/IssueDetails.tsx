@@ -9,6 +9,8 @@ export interface IssueFieldChange {
     newvalue: string;
     status_value: number | null | undefined;
     status_label: string | null | undefined;
+    reviewwith: string | null,
+    reviewer: string | null
 }
 export interface IssueDetails {
     issuetitle: string;
@@ -86,6 +88,30 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             onRender: (item: IssueFieldChange) => (
                 <span className="new-value">
                     {item.newvalue || "-"}
+                </span>
+            )
+        },
+        {
+            key: "reviewwith",
+            name: "Review With",
+            fieldName: "reviewwith",
+            minWidth: 180,
+            isResizable: true,
+            onRender: (item: IssueFieldChange) => (
+                <span className="new-value">
+                    {item.reviewwith || ""}
+                </span>
+            )
+        },
+        {
+            key: "reviewer",
+            name: "Reviewer",
+            fieldName: "reviewer",
+            minWidth: 180,
+            isResizable: true,
+            onRender: (item: IssueFieldChange) => (
+                <span className="new-value">
+                    {item.reviewer || ""}
                 </span>
             )
         },
@@ -514,7 +540,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         } as IssueDetails
         this.setState({ issue: issuedetails });
         
-        (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
+        (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
                 console.log(JSON.stringify(result));
                 var issuedetails = {
@@ -558,7 +584,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"],
                         status_label: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
                         status_value: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status"],
-                        datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"]
+                        datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
+                        reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
+                        reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewer@OData.Community.Display.V1.FormattedValue"],
                     }
                     issuedetails.fields.push(field);
                 }
