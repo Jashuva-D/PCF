@@ -759,14 +759,14 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     noteslabel={this.state.dialognoteslabel}
                     colors={this.state.dialogcolors}
                     onDismiss={() => {
-                        this.setState({ cmsdialog: false });
+                        this.setState({ sendforreviewdialog: false });
                     }}
                     onConfirm={(notes: string) => {
                         //this.setState({ cmsdialog: false });
                         this.state.dialogConfirmCallback && this.state.dialogConfirmCallback(notes);
                     }}
                     onCancel={() => {
-                        this.setState({ cmsdialog: false });
+                        this.setState({ sendforreviewdialog: false });
                     }}
                 />
             </Dialog>
