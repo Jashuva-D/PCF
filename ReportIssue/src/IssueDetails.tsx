@@ -748,7 +748,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }}
                 />
                 <SendForReviewPopup
-                    isOpen={this.state.cmsdialog!}
+                    isOpen={this.state.sendforreviewdialog!}
                     title={this.state.dialogTitle}
                     subText={this.state.dialogSubtext}
                     confirmButtonText={this.state.dialogConfirmButtonLabel}
