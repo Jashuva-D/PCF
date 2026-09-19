@@ -66,15 +66,18 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
             <Stack style={{border: "1px solid", borderColor: this.props.colors?.legend,backgroundColor: this.props.colors?.background, borderRadius: 6, padding: 10 }}>
                 <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between" verticalAlign="space-between">
                     <Dropdown 
-                        label="Review with      "
+                        label="Review with   "
                         options={[
                             { key: 289940000, text: "Auditor"},
                             { key: 289940001, text: "HA"},
                             { key: 289940002, text: "FA"},
-                            { key: 289940003, text: "BaseCamp Support"},
+                            { key: 289940003, text: "BaseCamp"},
                             { key: 289940004, text: "Other"}
                         ]}
                         dropdownWidth={"auto"}
+                        onChange={(event, value) => {
+                            this.setState({ reviewwith: value?.key as number})
+                        }}
                     />
                     <StackItem>
                         <Stack>
