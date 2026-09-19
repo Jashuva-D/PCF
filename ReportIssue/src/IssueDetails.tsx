@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Dialog, DialogType, DialogFooter, DefaultButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
 import CMSDialog from "./CMSDialog";
+import SendForReviewPopup from "./SendForReviewPopup";
 
 export interface IssueFieldChange {
     fieldname: string;
@@ -38,6 +39,7 @@ interface IssueDetailsDialogProps {
 }
 interface IssueDetailsDialogState{
     issue: IssueDetails | null;
+    sendforreviewdialog: boolean,
     cmsdialog: boolean;
     dialogTitle?: string;
     dialogSubtext?: string;
@@ -180,6 +182,40 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         onClick: this.onResolvedClick.bind(this, item)
                     },
                     {
+                        key: "sendforreview",
+                        text: "Send for Review",
+                        iconProps: {
+                            iconName: "people",
+                        },
+                        onRenderIcon: () => (
+                            <span
+                                style={{
+                                    width: "18px",
+                                    height: "18px",
+                                    border: "1px solid #0D2499",
+                                    borderRadius: "50%",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    color: "#0D2499",
+                                    backgroundColor: "#E8ECFF",
+                                    padding: 2
+                                }}
+                            >
+                                <Icon
+                                    iconName="people"
+                                    styles={{
+                                        root: {
+                                            color: "#0D2499"
+                                        }
+                                    }}
+                                    style={{ color: "#0D2499" }}
+                                />
+                            </span>
+                        ),
+                        onClick: this.onSendForReviewClick.bind(this, item)
+                    },
+                    {
                         key: "delegate",
                         text: "Transfer to BaseCamp Support",
                         iconProps: {
@@ -279,7 +315,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         super(props);
         this.state = {
             issue : null,
-            cmsdialog: false
+            cmsdialog: false,
+            sendforreviewdialog: false
         }
     }
     
@@ -329,6 +366,34 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             },
             dialogConfirmCallback: (notes: string) => {
                 (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
+                    obj.componentDidMount.bind(obj)();
+                    obj.setState({cmsdialog: false})
+                },function(err: any){
+                    alert("error occured"+err?.message)
+                })
+            },
+            dialogCancelCallback: () => {
+                
+            }
+        })
+    }
+    onSendForReviewClick(item: any){
+        var obj = this;
+        this.setState({
+            sendforreviewdialog: true,
+            dialogTitle: "Confirm Send for Review",
+            dialogSubtext: "Are you sure you want to transfer this to BaseCamp team? \n Once confirmed, the BaseCamp team will be notified to review and resolve the issue",
+            dialogtakenotes: true,
+            dialognoteslabel: "Reason / Comments",
+            dialogConfirmButtonLabel: "Send",
+            dialogCancelButtonLabel: "Go Back",
+            confirmButtonColor: "#0D2499",
+            dialogcolors: {
+                legend: "#2563EB",
+                background: "#EFF6FF"
+            },
+            dialogConfirmCallback: (notes: string) => {
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006 }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -661,6 +726,28 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     />
                 </DialogFooter>
                 <CMSDialog
+                    isOpen={this.state.cmsdialog!}
+                    title={this.state.dialogTitle}
+                    subText={this.state.dialogSubtext}
+                    confirmButtonText={this.state.dialogConfirmButtonLabel}
+                    cancelButtonText={this.state.dialogCancelButtonLabel}
+                    confirmbuttoncolor={this.state.confirmButtonColor ?? ""}
+                    subTextElement={null}
+                    takenotes={this.state.dialogtakenotes}
+                    noteslabel={this.state.dialognoteslabel}
+                    colors={this.state.dialogcolors}
+                    onDismiss={() => {
+                        this.setState({ cmsdialog: false });
+                    }}
+                    onConfirm={(notes: string) => {
+                        //this.setState({ cmsdialog: false });
+                        this.state.dialogConfirmCallback && this.state.dialogConfirmCallback(notes);
+                    }}
+                    onCancel={() => {
+                        this.setState({ cmsdialog: false });
+                    }}
+                />
+                <SendForReviewPopup
                     isOpen={this.state.cmsdialog!}
                     title={this.state.dialogTitle}
                     subText={this.state.dialogSubtext}
