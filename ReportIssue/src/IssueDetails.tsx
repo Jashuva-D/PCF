@@ -56,6 +56,7 @@ interface IssueDetailsDialogState{
     dialogConfirmCallback?: (notes: string) => void;
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
+    sendForReviewCallback?: (reviewwith: number, reviewer: any, notes: string) => void;
 }
 
 class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
@@ -392,12 +393,12 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 legend: "#2563EB",
                 background: "#EFF6FF"
             },
-            dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006 }).then(function(resp: any){
+            sendForReviewCallback: (reviewwith: number, reviewer: any, notes: string) => {
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})` }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
-                    alert("error occured"+err?.message)
+                    alert("error occured" + err?.message)
                 })
             },
             dialogCancelCallback: () => {
@@ -761,9 +762,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     onDismiss={() => {
                         this.setState({ sendforreviewdialog: false });
                     }}
-                    onConfirm={(notes: string) => {
-                        //this.setState({ cmsdialog: false });
-                        this.state.dialogConfirmCallback && this.state.dialogConfirmCallback(notes);
+                    onConfirm={(reviewwith: number, reviewer: any, notes: string) => {
+                        this.state.sendForReviewCallback && this.state.sendForReviewCallback(reviewwith, reviewer, notes);
                     }}
                     onCancel={() => {
                         this.setState({ sendforreviewdialog: false });

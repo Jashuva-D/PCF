@@ -18,20 +18,28 @@ interface SendForReviewProps {
         background: string
     }
     onDismiss: () => void | undefined;
-    onConfirm: (notes: string) => void | undefined;
+    onConfirm: (reviewwith: number, reviewer: any, notes: string) => void | undefined;
     onCancel: () => void | undefined;
 
 
 }
 interface SendForReviewState {
-    notes: string
+    notes: string,
+    reviewwith: number
+    person: {
+        id: string,
+        text: string | null,
+        secondaryText: string | null | undefined
+    } | null
 }
 
 class SendForReviewPopup extends React.Component<SendForReviewProps, SendForReviewState>{
     constructor(props: SendForReviewProps) {
         super(props);
         this.state = {
-            notes: ""
+            notes: "",
+            reviewwith: 0,
+            person: null
         }
     }
 
@@ -58,13 +66,13 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
             <Stack style={{border: "1px solid", borderColor: this.props.colors?.legend,backgroundColor: this.props.colors?.background, borderRadius: 6, padding: 10 }}>
                 <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between" verticalAlign="space-between">
                     <Dropdown 
-                        label="Review with"
+                        label="Review with      "
                         options={[
-                            { key: "auditor", text: "Auditor"},
-                            { key: "ha", text: "HA"},
-                            { key: "fa", text: "FA"},
-                            { key: "basecamp", text: "BaseCamp"},
-                            { key: "other", text: "Other"}
+                            { key: 289940000, text: "Auditor"},
+                            { key: 289940001, text: "HA"},
+                            { key: 289940002, text: "FA"},
+                            { key: 289940003, text: "BaseCamp Support"},
+                            { key: 289940004, text: "Other"}
                         ]}
                         dropdownWidth={"auto"}
                     />
@@ -77,7 +85,10 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                                 applystyles={true}
                                 onRecordSelect={(items) => {
                                     if(items.length > 0){
-                                    alert(JSON.stringify(items));
+                                        this.setState({ person : items[0]});
+                                    }
+                                    else {
+                                        this.setState({person: null})
                                     }
                                 }}
                             />
@@ -88,7 +99,7 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                 <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop: 20}}>
                     <PrimaryButton 
                         text={this.props.confirmButtonText || "OK"} 
-                        onClick={() => this.props.onConfirm(this.state.notes)}
+                        onClick={() => this.props.onConfirm(this.state.reviewwith, this.state.person, this.state.notes)}
                         style={{ borderRadius: 6, backgroundColor: this.props.colors?.legend, borderColor: this.props.colors?.legend }} 
                     />
                     <DefaultButton 
