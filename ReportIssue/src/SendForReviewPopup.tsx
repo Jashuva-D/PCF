@@ -56,7 +56,7 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                 minWidth={400}
             >
             <Stack style={{border: "1px solid", borderColor: this.props.colors?.legend,backgroundColor: this.props.colors?.background, borderRadius: 6, padding: 10 }}>
-                <Stack horizontal tokens={{childrenGap: 10}}>
+                <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between" verticalAlign="space-between">
                     <Dropdown 
                         label="Review with"
                         options={[
@@ -66,6 +66,7 @@ class SendForReviewPopup extends React.Component<SendForReviewProps, SendForRevi
                             { key: "basecamp", text: "BaseCamp"},
                             { key: "other", text: "Other"}
                         ]}
+                        dropdownWidth={"auto"}
                     />
                     <StackItem>
                         <Stack>
