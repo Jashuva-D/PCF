@@ -68,8 +68,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             key: "fieldname",
             name: "Field Name",
             fieldName: "fieldname",
-            minWidth: 150,
-            maxWidth: 200,
+            minWidth: 120,
             isResizable: true
         },
         {
@@ -92,20 +91,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             )
         },
         {
-            key: "reviewwith",
-            name: "Review With",
-            fieldName: "reviewwith",
-            minWidth: 120,
-            isResizable: true,
-        },
-        {
-            key: "reviewer",
-            name: "Reviewer",
-            fieldName: "reviewer",
-            minWidth: 120,
-            isResizable: true,
-        },
-        {
             key: "status",
             name: "Status",
             fieldName: "status",
@@ -124,6 +109,20 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
                 return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status_label"]}</Text></TooltipHost></Stack>;
             }
+        },
+        {
+            key: "reviewwith",
+            name: "Review With",
+            fieldName: "reviewwith",
+            minWidth: 80,
+            isResizable: true,
+        },
+        {
+            key: "reviewer",
+            name: "Reviewer",
+            fieldName: "reviewer",
+            minWidth: 120,
+            isResizable: true,
         },
         {
             key: "actions",
