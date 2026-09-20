@@ -336,7 +336,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancy",`?$select=crm2_datadiscrepancyid,crm2_name,crm2_issuetitle,createdon,crm2_status,crm2_tab,crm2_section&$expand=crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)&$filter=_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
-                console.log(JSON.stringify(results));
                 var discrepancies = [];
                 var currenttab = TabOptions.find(x => x.key == obj.props.tabname)?.text;
                 var currentsection = TabOptions.find(x => x.key == obj.props.tabname)?.sections.find(x => x.key == obj.props.sectionname)?.text;

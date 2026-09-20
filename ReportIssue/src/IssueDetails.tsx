@@ -640,11 +640,11 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             fieldname: resp.entities[j]["crm2_fieldname"],
                             currentvalue: resp.entities[j]["crm2_currentvalue"],
                             newvalue: resp.entities[j]["crm2_newvalue"],
-                            status_label: resp.entities[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
+                            status_label: resp.entities[j]["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
                             status_value: resp.entities[j]["crm2_status"],
                             datadiscrepancyfieldid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
-                            reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
-                            reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"] ,
+                            reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"] ?? "",
+                            reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"] ?? "" ,
                             modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
                             modifiedby: { name: "Anuradha Inampudi1", email: "anuradha@test1.com" }
                         }
