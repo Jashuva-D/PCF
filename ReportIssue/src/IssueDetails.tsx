@@ -516,11 +516,11 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
     }
-    private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, colors: { background: string, legend: string}){
+    private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, iconname: string, colors: { background: string, legend: string}){
         return <Stack style={{ backgroundColor: colors.background, marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: colors.legend }}>
             <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{ marginTop: 6, marginLeft: 6 }}>
                 <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
-                    <Icon iconName="checkMark" styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />
+                    <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />
                 </span>
                 <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
             </Stack>
@@ -721,12 +721,25 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940001 &&  
-                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", "Resolution notes", { background: "#E8F5E8", legend: "#107C10"})
+                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", "Resolution notes","Clock", { background: "#E0F2FE", legend: "#0369A1"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940002 &&  
-                        this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", "some hardcoded value", { background: "#E8F5E8", legend: "#107C10"})
+                        this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", "some hardcoded value","CheckMark",{ background: "#E8F5E8", legend: "#107C10"})
                     }
+                    {   this.state.showFieldStatusTile && 
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&  
+                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", "some test notes","people", { background: "#F3E8FF", legend: "#7C3AED"})
+                    }
+                    {   this.state.showFieldStatusTile && 
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940004 &&  
+                        this.renderStatusTile("Cabcellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", "some test notes","Cancel", { background: "#FDE7E5", legend: "#D13438"})
+                    }
+                    {   this.state.showFieldStatusTile && 
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940005 &&  
+                        this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes", "some test notes","Warning", { background: "#FEF9C3", legend: "#F59E0B"})
+                    }
+                    
 
                     {/* {this.state.issue?.status_value == 289940002 &&
                     <Stack style={{backgroundColor: "#DFF3E4", marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: "#107C10"}}>
