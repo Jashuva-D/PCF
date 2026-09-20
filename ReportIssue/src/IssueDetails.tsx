@@ -613,22 +613,22 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     issuedetails.status_label = result["crm2_status@OData.Community.Display.V1.FormattedValue"]
                 }
 
-                for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
-                    var field = {
-                        recordid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
-                        fieldname: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_fieldname"],
-                        currentvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_currentvalue"],
-                        newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"],
-                        status_label: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
-                        status_value: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status"],
-                        datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
-                        reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
-                        reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
-                        modifiedon: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
-                        modifiedby: { name : "Anuradha Inampudi", email: "anuradha@test.com"}
-                    }
-                    issuedetails.fields.push(field);
-                }
+                // for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
+                //     var field = {
+                //         recordid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
+                //         fieldname: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_fieldname"],
+                //         currentvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_currentvalue"],
+                //         newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"],
+                //         status_label: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
+                //         status_value: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status"],
+                //         datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
+                //         reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
+                //         reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
+                //         modifiedon: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
+                //         modifiedby: { name : "Anuradha Inampudi", email: "anuradha@test.com"}
+                //     }
+                //     issuedetails.fields.push(field);
+                // }
                 console.log(JSON.stringify(issuedetails));
                 obj.setState({issue: issuedetails})
             },
@@ -636,6 +636,29 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 console.log(error.message);
             }
         );
+        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${this.props.issuerecordid}`).then(function(resp: any){
+            var issuedetails = obj.state.issue || {};
+            var fields = [] as IssueFieldChange[];
+            for (var j = 0; j < resp.entities.length; j++) {
+                var field = {
+                    recordid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
+                    fieldname: resp.entities[j]["crm2_fieldname"],
+                    currentvalue: resp.entities[j]["crm2_currentvalue"],
+                    newvalue: resp.entities[j]["crm2_newvalue"],
+                    status_label: resp.entities[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
+                    status_value: resp.entities[j]["crm2_status"],
+                    datadiscrepancyfieldid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
+                    reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
+                    reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
+                    modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
+                    modifiedby: { name: "Anuradha Inampudi1", email: "anuradha@test1.com" }
+                }
+                fields.push(field);
+            }
+            obj.setState({ issue: {...issuedetails,fields: fields} as IssueDetails})
+        },function(err: any) {
+
+        });
     }
 
     render() {
