@@ -489,7 +489,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         })
     }
 
-    private renderPerson(title: string, person?: { name: string; email?: string; }) {
+    private renderPerson(title: string, person?: { name: string; email?: string; bgcolor?:string }) {
         return (
             <Stack className="person-container">
                 <Label> {title} </Label>
@@ -499,6 +499,16 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         secondaryText={person.email}
                         size={PersonaSize.size40}
                         showSecondaryText={!!person.email}
+                        styles={{
+                            root: {
+                                selectors: {
+                                    '.ms-Persona-initials': {
+                                        backgroundColor: person.bgcolor ?? undefined,
+                                        color: "#FFFFFF"
+                                    }
+                                }
+                            }
+                        }}
                     />
                 ) : (<Text className="empty-value"> Not assigned </Text>)}
             </Stack>
@@ -526,12 +536,12 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             </Stack>
             <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
                 <Stack className="person-column">
-                    {this.renderPerson(persontitle,{name : person?.name ?? "", email: person?.email ?? ""})}
+                    {this.renderPerson(persontitle,{name : person?.name ?? "", email: person?.email ?? "", bgcolor: colors.legend})}
                 </Stack>
                 <Stack className="person-column">
                     <Stack className="person-container">
                         <Label> {datetitle} </Label>
-                        <Stack horizontal tokens={{ childrenGap: 10 }}><Icon iconName="calendar" style={{ paddingTop: 3 }}></Icon><Text className="empty-value"> {date} </Text></Stack>
+                        <Stack horizontal tokens={{ childrenGap: 10 }}><Icon iconName="calendar" style={{ paddingTop: 3, color:colors.legend }} styles={{root: { color: colors.legend}}}></Icon><Text className="empty-value"> {date} </Text></Stack>
                     </Stack>
                 </Stack>
                 <Stack className="person-column">
