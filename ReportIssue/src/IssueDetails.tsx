@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogType, DialogFooter, DefaultButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
 import CMSDialog from "./CMSDialog";
 import SendForReviewPopup from "./SendForReviewPopup";
+import { SendForReviewICon } from "./icons";
 
 export interface IssueFieldChange {
     recordid: string;
@@ -521,7 +522,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         return <Stack style={{ backgroundColor: colors.background, marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: colors.legend }}>
             <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{ marginTop: 6, marginLeft: 6 }}>
                 <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
-                    <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />
+                    {iconname != "sendforreview" && <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />}
+                    {iconname == "sendforreview" && <SendForReviewICon size={20} color="#7028E8" />}
                 </span>
                 <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
             </Stack>
@@ -742,7 +744,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] != 289940003 &&
-                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"sendforreview", { background: "#F3E8FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&

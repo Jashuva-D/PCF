@@ -36,3 +36,14 @@ export const InfoIcon: React.FC<{ size?: number, color?: string }> = ({ size = 2
         />
     </svg>
 );
+
+export const SendForReviewICon: React.FC<{ size?: number, color?: string }> = ({ size = 22, color = "#7028E8" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 512 512">
+        <circle cx="135" cy="135" r="55" fill={color} />
+        <circle cx="377" cy="135" r="55" fill={color} />
+        <path d="M135 205 C76 205 28 253 28 312 V350 C28 362 38 372 50 372 H145 C149 332 166 297 193 270 C183 232 160 205 135 205Z" fill={color} />
+        <path d="M377 205 C436 205 484 253 484 312 V350 C484 362 474 372 462 372 H367 C363 332 346 297 319 270 C329 232 352 205 377 205Z" fill={color} />
+        <circle cx="256" cy="185" r="70" fill={color} />
+        <path d="M256 270 C174 270 108 336 108 418 V438 C108 454 121 467 137 467 H375 C391 467 404 454 404 438 V418 C404 336 338 270 256 270Z" fill={color} />
+    </svg>
+);
