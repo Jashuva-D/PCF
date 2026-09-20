@@ -637,7 +637,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             reviewwith_value: resp.entities[j]["crm2_reviewwith"],
                             //reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"] ?? "" ,
                             modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
-                            modifiedby: { name: resp.entities[j]["modifiedon"]["fullname"], email: resp.entities[j]["modifiedon"]["internalemailaddress"] ?? "" },
+                            modifiedby: { name: resp.entities[j]["modifiedby"]["fullname"], email: resp.entities[j]["modifiedby"]["internalemailaddress"] ?? "" },
                             reviewer: resp.entities[j]["crm2_Reviewer"] == null ? null : { name: resp.entities[j]["crm2_Reviewer"]["cr549_name"] ?? "", email: resp.entities[j]["crm2_Reviewer"]["cr549_email_address"] ?? ""}
                         }
                         fields.push(field);
@@ -758,7 +758,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] != 289940003 &&
-                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", "some test notes","people", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", "some test notes","people", { background: "#F3E8FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
