@@ -578,7 +578,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
-                console.log(JSON.stringify(result));
+                //console.log(JSON.stringify(result));
                 var issuedetails = {
                     issuetitle : result.crm2_issuetitle,
                     issuedescription: result.crm2_issuedescription,
@@ -629,36 +629,39 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 //     }
                 //     issuedetails.fields.push(field);
                 // }
-                console.log(JSON.stringify(issuedetails));
-                obj.setState({issue: issuedetails})
+                //console.log(JSON.stringify(issuedetails));
+                //obj.setState({issue: issuedetails});
+
+                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
+                    var fields = [] as IssueFieldChange[];
+                    for (var j = 0; j < resp.entities.length; j++) {
+                        var field = {
+                            recordid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
+                            fieldname: resp.entities[j]["crm2_fieldname"],
+                            currentvalue: resp.entities[j]["crm2_currentvalue"],
+                            newvalue: resp.entities[j]["crm2_newvalue"],
+                            status_label: resp.entities[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
+                            status_value: resp.entities[j]["crm2_status"],
+                            datadiscrepancyfieldid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
+                            reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
+                            reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"] ,
+                            modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
+                            modifiedby: { name: "Anuradha Inampudi1", email: "anuradha@test1.com" }
+                        }
+                        fields.push(field);
+                    }
+                    issuedetails.fields = fields;
+                    console.log(JSON.stringify(issuedetails));
+                    obj.setState({ issue: issuedetails});
+                },function(err: any) {
+                    
+                });
             },
             function(error: any) {
                 console.log(error.message);
             }
         );
-        (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${this.props.issuerecordid}`).then(function(resp: any){
-            var issuedetails = obj.state.issue || {};
-            var fields = [] as IssueFieldChange[];
-            for (var j = 0; j < resp.entities.length; j++) {
-                var field = {
-                    recordid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
-                    fieldname: resp.entities[j]["crm2_fieldname"],
-                    currentvalue: resp.entities[j]["crm2_currentvalue"],
-                    newvalue: resp.entities[j]["crm2_newvalue"],
-                    status_label: resp.entities[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
-                    status_value: resp.entities[j]["crm2_status"],
-                    datadiscrepancyfieldid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
-                    reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
-                    reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
-                    modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
-                    modifiedby: { name: "Anuradha Inampudi1", email: "anuradha@test1.com" }
-                }
-                fields.push(field);
-            }
-            obj.setState({ issue: {...issuedetails,fields: fields} as IssueDetails})
-        },function(err: any) {
-
-        });
+        
     }
 
     render() {
