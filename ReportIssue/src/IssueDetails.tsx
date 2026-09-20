@@ -523,7 +523,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{ marginTop: 6, marginLeft: 6 }}>
                 <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
                     {iconname != "sendforreview" && <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />}
-                    {iconname == "sendforreview" && <SendForReviewICon size={20} color="#7028E8" />}
+                    {iconname == "sendforreview" && <SendForReviewICon size={28} color="#7028E8" />}
                 </span>
                 <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
             </Stack>
