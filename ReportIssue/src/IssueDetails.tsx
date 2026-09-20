@@ -20,7 +20,8 @@ export interface IssueFieldChange {
         name: string,
         email: string | null
     } | null
-    modifiedon: string
+    modifiedon: string,
+    resolutionnotes: string
 }
 export interface IssueDetails {
     issuetitle: string;
@@ -70,7 +71,7 @@ interface IssueDetailsDialogState{
     dialogDismissCallback?: () => void;
     sendForReviewCallback?: (reviewwith: number, reviewer: any, notes: string) => void;
     showFieldStatusTile: boolean,
-    selectedrecordid: string | null
+    selectedrecordid: string | null,
 }
 
 class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
@@ -332,7 +333,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             cmsdialog: false,
             sendforreviewdialog: false,
             showFieldStatusTile: false,
-            selectedrecordid: null
+            selectedrecordid: null,
         }
     }
     
@@ -351,8 +352,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             dialogConfirmButtonLabel: "Confirm",
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
-            dialogConfirmCallback: () => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001 }).then(function(resp: any){
+            dialogConfirmCallback: (notes: string) => {
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false});
                     
@@ -381,7 +382,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#ECFDF5"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -409,7 +410,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             sendForReviewCallback: (reviewwith: number, reviewer: any, notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})` }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})`, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({sendforreviewdialog: false})
                 },function(err: any){
@@ -437,7 +438,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006 }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -466,7 +467,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#FEF2F2"
             },
             dialogConfirmCallback: (notes: string) => {
-               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004 }).then(function(resp: any){
+               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -603,26 +604,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     issuedetails.status_label = result["crm2_status@OData.Community.Display.V1.FormattedValue"]
                 }
 
-                // for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
-                //     var field = {
-                //         recordid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
-                //         fieldname: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_fieldname"],
-                //         currentvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_currentvalue"],
-                //         newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"],
-                //         status_label: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status@OData.Community.Display.V1.FormattedValue"],
-                //         status_value: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_status"],
-                //         datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
-                //         reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
-                //         reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
-                //         modifiedon: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
-                //         modifiedby: { name : "Anuradha Inampudi", email: "anuradha@test.com"}
-                //     }
-                //     issuedetails.fields.push(field);
-                // }
-                //console.log(JSON.stringify(issuedetails));
-                //obj.setState({issue: issuedetails});
+                
 
-                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
+                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon,crm2_resolutionnotes&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
                     var fields = [] as IssueFieldChange[];
                     for (var j = 0; j < resp.entities.length; j++) {
                         var field = {
@@ -635,10 +619,10 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             datadiscrepancyfieldid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
                             reviewwith: resp.entities[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"] ?? "",
                             reviewwith_value: resp.entities[j]["crm2_reviewwith"],
-                            //reviewer: resp.entities[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"] ?? "" ,
                             modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
                             modifiedby: { name: resp.entities[j]["modifiedby"]["fullname"], email: resp.entities[j]["modifiedby"]["internalemailaddress"] ?? "" },
-                            reviewer: resp.entities[j]["crm2_Reviewer"] == null ? null : { name: resp.entities[j]["crm2_Reviewer"]["cr549_name"] ?? "", email: resp.entities[j]["crm2_Reviewer"]["cr549_email_address"] ?? ""}
+                            reviewer: resp.entities[j]["crm2_Reviewer"] == null ? null : { name: resp.entities[j]["crm2_Reviewer"]["cr549_name"] ?? "", email: resp.entities[j]["crm2_Reviewer"]["cr549_email_address"] ?? ""},
+                            resolutionnotes: resp.entities[j]["crm2_resolutionnotes"] ?? ""
                         }
                         fields.push(field);
                     }
@@ -749,29 +733,29 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940001 &&  
-                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", "Resolution notes","Clock", { background: "#E0F2FE", legend: "#0369A1"})
+                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Clock", { background: "#E0F2FE", legend: "#0369A1"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940002 &&  
-                        this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", "some hardcoded value","CheckMark",{ background: "#E8F5E8", legend: "#107C10"})
+                        this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"CheckMark",{ background: "#E8F5E8", legend: "#107C10"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] != 289940003 &&
-                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", "some test notes","people", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F3E8FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] == 289940003 &&
-                        this.renderStatusTile("Transferred to BaseCamp Support Information","Transferred By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Transferred On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "BaseCamp Support Issue ID", "some test notes","people", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Transferred to BaseCamp Support Information","Transferred By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Transferred On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "BaseCamp Support Issue ID", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F3E8FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940004 &&  
-                        this.renderStatusTile("Cabcellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", "some test notes","Cancel", { background: "#FDE7E5", legend: "#D13438"})
+                        this.renderStatusTile("Cabcellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Cancel", { background: "#FDE7E5", legend: "#D13438"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940005 &&  
-                        this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes", "some test notes","Warning", { background: "#FEF9C3", legend: "#F59E0B"})
+                        this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Warning", { background: "#FEF9C3", legend: "#F59E0B"})
                     }
                     
 
