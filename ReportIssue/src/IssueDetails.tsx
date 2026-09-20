@@ -4,13 +4,19 @@ import CMSDialog from "./CMSDialog";
 import SendForReviewPopup from "./SendForReviewPopup";
 
 export interface IssueFieldChange {
+    recordid: string;
     fieldname: string;
     currentvalue: string;
     newvalue: string;
     status_value: number | null | undefined;
     status_label: string | null | undefined;
     reviewwith: string | null,
-    reviewer: string | null
+    reviewer: string | null,
+    modifiedby: {
+        name: string,
+        email: string | null
+    } | null
+    modifiedon: string
 }
 export interface IssueDetails {
     issuetitle: string;
@@ -59,6 +65,8 @@ interface IssueDetailsDialogState{
     dialogCancelCallback?: () => void;
     dialogDismissCallback?: () => void;
     sendForReviewCallback?: (reviewwith: number, reviewer: any, notes: string) => void;
+    showFieldStatusTile: boolean,
+    selectedrecordid: string | null
 }
 
 class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
@@ -332,7 +340,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         this.state = {
             issue : null,
             cmsdialog: false,
-            sendforreviewdialog: false
+            sendforreviewdialog: false,
+            showFieldStatusTile: false,
+            selectedrecordid: null
         }
     }
     
@@ -506,6 +516,33 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
     }
+    private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, colors: { background: string, legend: string}){
+        return <Stack style={{ backgroundColor: colors.background, marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: colors.legend }}>
+            <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{ marginTop: 6, marginLeft: 6 }}>
+                <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
+                    <Icon iconName="checkMark" styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />
+                </span>
+                <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
+            </Stack>
+            <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
+                <Stack className="person-column">
+                    {this.renderPerson(persontitle,{name : person?.name ?? "", email: person?.email ?? ""})}
+                </Stack>
+                <Stack className="person-column">
+                    <Stack className="person-container">
+                        <Label> {datetitle} </Label>
+                        <Stack horizontal tokens={{ childrenGap: 10 }}><Icon iconName="calendar" style={{ paddingTop: 3 }}></Icon><Text className="empty-value"> {date} </Text></Stack>
+                    </Stack>
+                </Stack>
+                <Stack className="person-column">
+                    <Stack className="person-container">
+                        <Label> {notestitle} </Label>
+                        <Text className="empty-value"> {notes} </Text>
+                    </Stack>
+                </Stack>
+            </Stack>
+        </Stack>;
+    }
     componentDidMount(): void {
         var obj = this;
 
@@ -529,7 +566,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         } as IssueDetails
         this.setState({ issue: issuedetails });
         
-        (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
+        (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
                 console.log(JSON.stringify(result));
                 var issuedetails = {
@@ -568,6 +605,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
                 for (var j = 0; j < result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy.length; j++) {
                     var field = {
+                        recordid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
                         fieldname: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_fieldname"],
                         currentvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_currentvalue"],
                         newvalue: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_newvalue"],
@@ -576,6 +614,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         datadiscrepancyfieldid: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_datadiscrepancyfieldid"],
                         reviewwith: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["crm2_reviewwith@OData.Community.Display.V1.FormattedValue"],
                         reviewer: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["_crm2_reviewer_value@OData.Community.Display.V1.FormattedValue"],
+                        modifiedon: result.crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
+                        modifiedby: { name : "Anuradha Inampudi", email: "anuradha@test.com"}
                     }
                     issuedetails.fields.push(field);
                 }
@@ -674,11 +714,21 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                         paddingTop: 0
                                     }
                                 }}
+                                onItemInvoked={(item: any) => {this.setState({selectedrecordid: item.recordid, showFieldStatusTile: true})}}
                             />
                         </div>
                     </Stack>
                     
-                    {this.state.issue?.status_value == 289940002 &&
+                    {   this.state.showFieldStatusTile && 
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940001 &&  
+                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", "Resolution notes", { background: "#E8F5E8", legend: "#107C10"})
+                    }
+                    {   this.state.showFieldStatusTile && 
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940002 &&  
+                        this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", "some hardcoded value", { background: "#E8F5E8", legend: "#107C10"})
+                    }
+
+                    {/* {this.state.issue?.status_value == 289940002 &&
                     <Stack style={{backgroundColor: "#DFF3E4", marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: "#107C10"}}>
                         <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{marginTop: 6, marginLeft: 6}}>
                             <span style={{ width: "12px", height: "12px", border: "1px solid #107C10", borderRadius: "50%", display: "inline-flex", alignItems: "center",justifyContent: "center", color: "#107C10", backgroundColor: "#E8F5E8",  padding: 2 }}>
@@ -703,8 +753,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 </Stack>
                             </Stack>
                         </Stack>
-                    </Stack>}
-                    {this.state.issue?.status_value == 289940001 &&
+                    </Stack>} */}
+                    {/* {this.state.issue?.status_value == 289940001 &&
                     <Stack style={{backgroundColor: "#F1E4F7", marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: "#7F2A9E"}}>
                         <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{marginTop: 6, marginLeft: 6}}>
                             <span style={{ width: "12px", height: "12px", border: "1px solid #7F2A9E", borderRadius: "50%", display: "inline-flex", alignItems: "center",justifyContent: "center", color: "#7F2A9E", backgroundColor: "#F1E4F7",  padding: 2 }}>
@@ -729,7 +779,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 </Stack>
                             </Stack>
                         </Stack>
-                    </Stack>}
+                    </Stack>} */}
                 </div>
                 <DialogFooter>
                     <DefaultButton
