@@ -35,6 +35,7 @@ interface ActionDialogProps {
 
 interface ActionDialogState {
     selectedAction: IssueActionKey | null;
+    actionConfirmed: boolean;
     notes: string;
     reviewwith: number;
     person: {
@@ -120,6 +121,7 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
     private getInitialState(): ActionDialogState {
         return {
             selectedAction: null,
+            actionConfirmed: false,
             notes: "",
             reviewwith: 0,
             person: null
@@ -168,6 +170,7 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
                         onChange={(_event, option) => {
                             this.setState({
                                 selectedAction: option?.key as IssueActionKey,
+                                actionConfirmed: false,
                                 notes: "",
                                 reviewwith: 0,
                                 person: null
@@ -178,9 +181,10 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
                     {details && (
                         <Stack
                             tokens={{ childrenGap: 14 }}
+                            verticalAlign="start"
                             style={{
-                                border: `1px solid ${details.color}`,
-                                backgroundColor: details.background,
+                                border: "1px solid #E1DFDD",
+                                backgroundColor: "#FFFFFF",
                                 borderRadius: 6,
                                 padding: 16,
                                 marginTop: 4
@@ -189,10 +193,41 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
                             <Text style={{ fontSize: 16, fontWeight: 600, color: "#0D2499" }}>
                                 {details.title}
                             </Text>
-                            <Text style={{ whiteSpace: "normal", lineHeight: 21 }}>
+                            <div style={{ lineHeight: "21px", width: "100%" }}>
                                 {details.message}
-                            </Text>
+                            </div>
 
+                            <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                <PrimaryButton
+                                    text={details.buttonText}
+                                    onClick={() => this.setState({ actionConfirmed: true })}
+                                    style={{
+                                        borderRadius: 6,
+                                        backgroundColor: details.color,
+                                        borderColor: details.color
+                                    }}
+                                />
+                                <DefaultButton
+                                    text="Go Back"
+                                    onClick={() => this.setState(this.getInitialState())}
+                                    style={{ borderRadius: 6 }}
+                                />
+                            </Stack>
+                        </Stack>
+                    )}
+
+                    {details && this.state.actionConfirmed && (
+                        <Stack
+                            tokens={{ childrenGap: 14 }}
+                            verticalAlign="start"
+                            style={{
+                                border: `1px solid ${details.color}`,
+                                backgroundColor: details.background,
+                                borderRadius: 6,
+                                padding: 16,
+                                marginTop: 4
+                            }}
+                        >
                             {selectedAction === "sendforreview" && (
                                 <Stack horizontal tokens={{ childrenGap: 18 }}>
                                     <Dropdown
@@ -254,8 +289,12 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
                                     }}
                                 />
                                 <DefaultButton
-                                    text="Go Back"
-                                    onClick={() => this.setState(this.getInitialState())}
+                                    text="Clear"
+                                    onClick={() => this.setState({
+                                        notes: "",
+                                        reviewwith: 0,
+                                        person: null
+                                    })}
                                     style={{ borderRadius: 6 }}
                                 />
                             </Stack>
