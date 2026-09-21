@@ -1,121 +1,270 @@
 import * as React from "react";
-import { DefaultButton, Dialog, Icon, PrimaryButton, Link, Stack, StackItem, Label, Text, TextField, Dropdown } from "@fluentui/react";   
+import {
+    ChoiceGroup,
+    DefaultButton,
+    Dialog,
+    Dropdown,
+    IChoiceGroupOption,
+    Label,
+    PrimaryButton,
+    Stack,
+    Text,
+    TextField
+} from "@fluentui/react";
 import Lookup from "./Lookup";
 
-interface SendForReviewProps {
+export type IssueActionKey =
+    | "inprogress"
+    | "resolve"
+    | "sendforreview"
+    | "transfer"
+    | "cancel"
+    | "unabletoresolve";
+
+interface ActionDialogProps {
     isOpen: boolean;
-    iserror?: boolean;
-    confirmButtonText?: string;
-    cancelButtonText?: string;
-    title: string | null | undefined;
-    subText: string | null | undefined;
-    confirmbuttoncolor: string | null;
-    subTextElement: React.ReactElement | null;
-    takenotes?: boolean 
-    noteslabel? : string
-    colors?: {
-        legend: string,
-        background: string
-    }
-    onDismiss: () => void | undefined;
-    onConfirm: (reviewwith: number, reviewer: any, notes: string) => void | undefined;
-    onCancel: () => void | undefined;
-
-
+    issueName: string;
+    onDismiss: () => void;
+    onConfirm: (
+        action: IssueActionKey,
+        notes: string,
+        reviewwith?: number,
+        reviewer?: any
+    ) => void;
 }
-interface SendForReviewState {
-    notes: string,
-    reviewwith: number
+
+interface ActionDialogState {
+    selectedAction: IssueActionKey | null;
+    notes: string;
+    reviewwith: number;
     person: {
-        id: string,
-        text: string | null,
-        secondaryText: string | null | undefined
-    } | null
+        id: string;
+        text: string | null;
+        secondaryText: string | null | undefined;
+    } | null;
 }
 
-class SendForReviewPopup extends React.Component<SendForReviewProps, SendForReviewState>{
-    constructor(props: SendForReviewProps) {
+const actionOptions: IChoiceGroupOption[] = [
+    { key: "inprogress", text: "In Progress" },
+    { key: "resolve", text: "Resolve" },
+    { key: "sendforreview", text: "Send for Review" },
+    { key: "transfer", text: "Transfer to BaseCamp Support" },
+    { key: "cancel", text: "Cancel" },
+    { key: "unabletoresolve", text: "Unable to Resolve" }
+];
+
+const actionDetails: Record<IssueActionKey, {
+    title: string;
+    message: string;
+    notesLabel: string;
+    buttonText: string;
+    color: string;
+    background: string;
+}> = {
+    inprogress: {
+        title: "Confirm In Progress",
+        message: "Are you sure you want to mark this discrepancy as In Progress? Once confirmed, the status will be updated to In Progress.",
+        notesLabel: "In Progress Notes",
+        buttonText: "Confirm",
+        color: "#0D2499",
+        background: "#E5EFFF"
+    },
+    resolve: {
+        title: "Confirm Resolution",
+        message: "Are you sure you want to mark this discrepancy as resolved? Once confirmed, the status will be updated to Resolved.",
+        notesLabel: "Resolution Notes",
+        buttonText: "Resolve",
+        color: "#107C10",
+        background: "#ECFDF5"
+    },
+    sendforreview: {
+        title: "Confirm Send for Review",
+        message: "Select the reviewer details and enter any notes before sending this discrepancy for review.",
+        notesLabel: "Reason / Comments",
+        buttonText: "Send",
+        color: "#0D2499",
+        background: "#EFF6FF"
+    },
+    transfer: {
+        title: "Confirm Transfer to BaseCamp Support",
+        message: "Are you sure you want to transfer this discrepancy to BaseCamp Support? Once confirmed, the team will be notified.",
+        notesLabel: "Transfer Notes",
+        buttonText: "Transfer",
+        color: "#0D2499",
+        background: "#EFF6FF"
+    },
+    cancel: {
+        title: "Confirm Cancellation",
+        message: "Are you sure you want to cancel this discrepancy? Once confirmed, the status will be updated to Cancelled.",
+        notesLabel: "Cancellation Notes",
+        buttonText: "Cancel Discrepancy",
+        color: "#D13438",
+        background: "#FEF2F2"
+    },
+    unabletoresolve: {
+        title: "Confirm Unable to Resolve",
+        message: "Are you sure you want to mark this discrepancy as Unable to Resolve?",
+        notesLabel: "Reason / Notes",
+        buttonText: "Confirm",
+        color: "#B45309",
+        background: "#FEF9C3"
+    }
+};
+
+class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState> {
+    constructor(props: ActionDialogProps) {
         super(props);
-        this.state = {
+        this.state = this.getInitialState();
+    }
+
+    private getInitialState(): ActionDialogState {
+        return {
+            selectedAction: null,
             notes: "",
             reviewwith: 0,
             person: null
+        };
+    }
+
+    componentDidUpdate(previousProps: ActionDialogProps): void {
+        if (this.props.isOpen && (!previousProps.isOpen || previousProps.issueName !== this.props.issueName)) {
+            this.setState(this.getInitialState());
         }
     }
 
+    private isConfirmDisabled(): boolean {
+        return this.state.selectedAction === "sendforreview" &&
+            (this.state.reviewwith === 0 || this.state.person === null);
+    }
+
     render() {
+        const selectedAction = this.state.selectedAction;
+        const details = selectedAction ? actionDetails[selectedAction] : null;
+
         return (
             <Dialog
                 hidden={!this.props.isOpen}
                 onDismiss={this.props.onDismiss}
                 dialogContentProps={{
-                    title: <Text style={{fontSize: 14, fontWeight: 600, color: this.props.colors?.legend }}>{this.props.title}</Text>,
-                    subText: this.props.takenotes != true ? this.props.subText! : "",
-                    styles: {
-                        subText: { whiteSpace: "pre-line" }
-                    },
+                    title: (
+                        <Text style={{ fontSize: 18, fontWeight: 600, color: "#0D2499" }}>
+                            Action For: {this.props.issueName}
+                        </Text>
+                    )
                 }}
                 modalProps={{
                     isBlocking: true,
-                    styles: { 
-                        main: {maxWidth: 2000, minWidth: 2000 },
-                    }
+                    styles: { main: { minWidth: 540, maxWidth: 620 } }
                 }}
-                minWidth={400}
+                minWidth={540}
             >
-            <Stack style={{border: "1px solid", borderColor: this.props.colors?.legend,backgroundColor: this.props.colors?.background, borderRadius: 6, padding: 10 }}>
-                <Stack horizontal tokens={{childrenGap: 10}} horizontalAlign="space-between" verticalAlign="space-between">
-                    <Dropdown 
-                        label="Review with   "
-                        options={[
-                            { key: 289940000, text: "Auditor"},
-                            { key: 289940001, text: "HA"},
-                            { key: 289940002, text: "FA"},
-                            { key: 289940003, text: "BaseCamp Team"},
-                            { key: 289940004, text: "Other"}
-                        ]}
-                        dropdownWidth={"auto"}
-                        onChange={(event, value) => {
-                            this.setState({ reviewwith: value?.key as number})
+                <Stack tokens={{ childrenGap: 12 }}>
+                    <Text style={{ fontSize: 18, fontWeight: 600, color: "#0D2499" }}>
+                        Select Action
+                    </Text>
+                    <ChoiceGroup
+                        selectedKey={selectedAction || undefined}
+                        options={actionOptions}
+                        onChange={(_event, option) => {
+                            this.setState({
+                                selectedAction: option?.key as IssueActionKey,
+                                notes: "",
+                                reviewwith: 0,
+                                person: null
+                            });
                         }}
                     />
-                    <StackItem>
-                        <Stack>
-                            <Label>Reviewer</Label>
-                            <Lookup 
-                                entityType="cr549_person"
-                                allowMultiSelect={false}
-                                applystyles={true}
-                                onRecordSelect={(items) => {
-                                    if(items.length > 0){
-                                        this.setState({ person : items[0]});
-                                    }
-                                    else {
-                                        this.setState({person: null})
-                                    }
+
+                    {details && (
+                        <Stack
+                            tokens={{ childrenGap: 14 }}
+                            style={{
+                                border: `1px solid ${details.color}`,
+                                backgroundColor: details.background,
+                                borderRadius: 6,
+                                padding: 16,
+                                marginTop: 4
+                            }}
+                        >
+                            <Text style={{ fontSize: 16, fontWeight: 600, color: "#0D2499" }}>
+                                {details.title}
+                            </Text>
+                            <Text style={{ whiteSpace: "normal", lineHeight: 21 }}>
+                                {details.message}
+                            </Text>
+
+                            {selectedAction === "sendforreview" && (
+                                <Stack horizontal tokens={{ childrenGap: 18 }}>
+                                    <Dropdown
+                                        label="Review with"
+                                        options={[
+                                            { key: 289940000, text: "Auditor" },
+                                            { key: 289940001, text: "HA" },
+                                            { key: 289940002, text: "FA" },
+                                            { key: 289940003, text: "BaseCamp Team" },
+                                            { key: 289940004, text: "Other" }
+                                        ]}
+                                        styles={{ root: { minWidth: 190 } }}
+                                        onChange={(_event, value) => {
+                                            this.setState({ reviewwith: value?.key as number });
+                                        }}
+                                    />
+                                    <Stack>
+                                        <Label>Reviewer</Label>
+                                        <Lookup
+                                            entityType="cr549_person"
+                                            allowMultiSelect={false}
+                                            applystyles={true}
+                                            onRecordSelect={(items) => {
+                                                this.setState({ person: items.length > 0 ? items[0] : null });
+                                            }}
+                                        />
+                                    </Stack>
+                                </Stack>
+                            )}
+
+                            <TextField
+                                multiline
+                                rows={4}
+                                label={details.notesLabel}
+                                placeholder="Enter Notes"
+                                value={this.state.notes}
+                                onChange={(_event, newValue) => {
+                                    this.setState({ notes: newValue || "" });
                                 }}
                             />
+
+                            <Stack horizontal tokens={{ childrenGap: 10 }}>
+                                <PrimaryButton
+                                    text={details.buttonText}
+                                    disabled={this.isConfirmDisabled()}
+                                    onClick={() => {
+                                        if (!selectedAction) return;
+                                        this.props.onConfirm(
+                                            selectedAction,
+                                            this.state.notes,
+                                            this.state.reviewwith,
+                                            this.state.person
+                                        );
+                                    }}
+                                    style={{
+                                        borderRadius: 6,
+                                        backgroundColor: details.color,
+                                        borderColor: details.color
+                                    }}
+                                />
+                                <DefaultButton
+                                    text="Go Back"
+                                    onClick={() => this.setState(this.getInitialState())}
+                                    style={{ borderRadius: 6 }}
+                                />
+                            </Stack>
                         </Stack>
-                    </StackItem>
+                    )}
                 </Stack>
-                {this.props.takenotes && <TextField multiline label={this.props.noteslabel ?? ""} style={{ borderRadius: 10}} styles={{root: {borderRadius: 10}}} placeholder="Enter Notes" onChange={ (evt, newvalue) => { this.setState({notes: newvalue ?? ""})} }></TextField>}
-                <Stack horizontal tokens={{childrenGap: 10}} style={{marginTop: 20}}>
-                    <PrimaryButton 
-                        text={this.props.confirmButtonText || "OK"} 
-                        onClick={() => this.props.onConfirm(this.state.reviewwith, this.state.person, this.state.notes)}
-                        style={{ borderRadius: 6, backgroundColor: this.props.colors?.legend, borderColor: this.props.colors?.legend }}
-                        disabled={this.state.person == null || this.state.reviewwith == 0}
-                    />
-                    <DefaultButton 
-                        text={this.props.cancelButtonText || "Cancel"} 
-                        onClick={this.props.onCancel}
-                        style={{ borderRadius: 6 }} 
-                    />
-                </Stack>
-            </Stack>
-            
             </Dialog>
-        );      
+        );
     }
 }
-export default SendForReviewPopup;
+
+export default ActionDialog;

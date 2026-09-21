@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Dialog, DialogType, DialogFooter, DefaultButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
 import CMSDialog from "./CMSDialog";
-import SendForReviewPopup from "./SendForReviewPopup";
+import ActionDialog, { IssueActionKey } from "./SendForReviewPopup";
 import { SendForReviewICon } from "./icons";
 
 export interface IssueFieldChange {
@@ -54,6 +54,8 @@ interface IssueDetailsDialogProps {
 }
 interface IssueDetailsDialogState{
     issue: IssueDetails | null;
+    actiondialog: boolean;
+    actionitem: IssueFieldChange | null;
     sendforreviewdialog: boolean,
     cmsdialog: boolean;
     dialogTitle?: string;
@@ -326,30 +328,30 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         onClick: this.onCacelClick.bind(this, item),
                     }
                 ] as any
+                void buttons;
                 return <IconButton
                         disabled={!validstatusforaction}
                         title="Actions"
                         ariaLabel="Actions"
+                        iconProps={{ iconName: "More" }}
+                        onClick={() => {
+                            this.setState({ actiondialog: true, actionitem: item });
+                        }}
                         styles={{
                             root: {
                                 width: 32,
-                                height: 20,
+                                height: 28,
                                 backgroundColor: "transparent"
                             },
                             rootHovered: {
                                 backgroundColor: "#F3F3F3"
                             },
                             icon: {
-                                fontSize: 24
-                            },
-                            menuIcon: {
-                                fontSize: 16,
-                                text: "Select",
+                                fontSize: 20,
                                 color: "#0D2499",
                                 fontWeight: 600
                             },
                         }}
-                        menuProps={{ items: buttons }}
                     />
             }
         }
@@ -359,11 +361,56 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         super(props);
         this.state = {
             issue : null,
+            actiondialog: false,
+            actionitem: null,
             cmsdialog: false,
             sendforreviewdialog: false,
             showFieldStatusTile: false,
             selectedrecordid: null,
         }
+    }
+
+    private onActionConfirm(
+        action: IssueActionKey,
+        notes: string,
+        reviewwith?: number,
+        reviewer?: any
+    ) {
+        const item = this.state.actionitem;
+        if (!item) return;
+
+        const statusByAction: Record<IssueActionKey, number> = {
+            inprogress: 289940001,
+            resolve: 289940002,
+            sendforreview: 289940003,
+            transfer: 289940006,
+            cancel: 289940004,
+            unabletoresolve: 289940005
+        };
+
+        const data: any = {
+            crm2_status: statusByAction[action],
+            crm2_resolutionnotes: notes
+        };
+
+        if (action === "sendforreview") {
+            data.crm2_reviewwith = reviewwith;
+            data["crm2_Reviewer@odata.bind"] = `/cr549_persons(${reviewer.id})`;
+        }
+
+        (parent as any).Xrm.WebApi.updateRecord(
+            "crm2_datadiscrepancyfield",
+            item.recordid,
+            data
+        ).then(
+            () => {
+                this.setState({ actiondialog: false, actionitem: null });
+                this.componentDidMount();
+            },
+            (err: any) => {
+                alert("Error occurred: " + (err?.message || err));
+            }
+        );
     }
     
     onInProgressClick(item: any) {
@@ -877,25 +924,14 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         this.setState({ cmsdialog: false });
                     }}
                 />
-                <SendForReviewPopup
-                    isOpen={this.state.sendforreviewdialog!}
-                    title={this.state.dialogTitle}
-                    subText={this.state.dialogSubtext}
-                    confirmButtonText={this.state.dialogConfirmButtonLabel}
-                    cancelButtonText={this.state.dialogCancelButtonLabel}
-                    confirmbuttoncolor={this.state.confirmButtonColor ?? ""}
-                    subTextElement={null}
-                    takenotes={this.state.dialogtakenotes}
-                    noteslabel={this.state.dialognoteslabel}
-                    colors={this.state.dialogcolors}
+                <ActionDialog
+                    isOpen={this.state.actiondialog}
+                    issueName={this.state.actionitem?.name || ""}
                     onDismiss={() => {
-                        this.setState({ sendforreviewdialog: false });
+                        this.setState({ actiondialog: false, actionitem: null });
                     }}
-                    onConfirm={(reviewwith: number, reviewer: any, notes: string) => {
-                        this.state.sendForReviewCallback && this.state.sendForReviewCallback(reviewwith, reviewer, notes);
-                    }}
-                    onCancel={() => {
-                        this.setState({ sendforreviewdialog: false });
+                    onConfirm={(action, notes, reviewwith, reviewer) => {
+                        this.onActionConfirm(action, notes, reviewwith, reviewer);
                     }}
                 />
             </Dialog>
