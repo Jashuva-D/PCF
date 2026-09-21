@@ -6,6 +6,7 @@ import { SendForReviewICon } from "./icons";
 
 export interface IssueFieldChange {
     recordid: string;
+    name: string;
     fieldname: string;
     currentvalue: string;
     newvalue: string;
@@ -78,6 +79,33 @@ interface IssueDetailsDialogState{
 class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
 
     private columns: IColumn[] = [
+        {
+            key: "name",
+            name: "Issue ID",
+            fieldName: "name",
+            minWidth: 90,
+            isResizable: true,
+            onRender: (item: IssueFieldChange) => (
+                <a
+                    href="#"
+                    style={{
+                        color: "#0D2499",
+                        fontWeight: 600,
+                        textDecoration: "none"
+                    }}
+                    onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        this.setState({
+                            selectedrecordid: item.recordid,
+                            showFieldStatusTile: true
+                        });
+                    }}
+                >
+                    {item.name || "-"}
+                </a>
+            )
+        },
         {
             key: "fieldname",
             name: "Field Name",
@@ -556,6 +584,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     status_label: "In Progress",
                     status_value: 289940002,
                     fields: [{
+                        name: "DDF100",
                         fieldname: "Application Short Name",
                         currentvalue: "Current Value",
                         newvalue: "New Value",
@@ -608,11 +637,12 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
                 
 
-                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon,crm2_resolutionnotes&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
+                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon,crm2_resolutionnotes&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
                     var fields = [] as IssueFieldChange[];
                     for (var j = 0; j < resp.entities.length; j++) {
                         var field = {
                             recordid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
+                            name: resp.entities[j]["crm2_name"] ?? "",
                             fieldname: resp.entities[j]["crm2_fieldname"],
                             currentvalue: resp.entities[j]["crm2_currentvalue"],
                             newvalue: resp.entities[j]["crm2_newvalue"],
@@ -728,7 +758,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                         paddingTop: 0
                                     }
                                 }}
-                                onItemInvoked={(item: any) => {this.setState({selectedrecordid: item.recordid, showFieldStatusTile: true})}}
                             />
                         </div>
                     </Stack>
