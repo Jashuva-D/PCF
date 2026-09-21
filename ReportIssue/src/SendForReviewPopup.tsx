@@ -67,8 +67,8 @@ const actionDetails: Record<IssueActionKey, {
         message: "Are you sure you want to mark this discrepancy as In Progress? Once confirmed, the status will be updated to In Progress.",
         notesLabel: "In Progress Notes",
         buttonText: "Confirm",
-        color: "#0D2499",
-        background: "#E5EFFF"
+        color: "#2563EB",
+        background: "#EFF6FF"
     },
     resolve: {
         title: "Confirm Resolution",
@@ -83,16 +83,16 @@ const actionDetails: Record<IssueActionKey, {
         message: "Select the reviewer details and enter any notes before sending this discrepancy for review.",
         notesLabel: "Reason / Comments",
         buttonText: "Send",
-        color: "#0D2499",
-        background: "#EFF6FF"
+        color: "#9333EA",
+        background: "#FAF5FF"
     },
     transfer: {
         title: "Confirm Transfer to BaseCamp Support",
         message: "Are you sure you want to transfer this discrepancy to BaseCamp Support? Once confirmed, the team will be notified.",
         notesLabel: "Transfer Notes",
         buttonText: "Transfer",
-        color: "#0D2499",
-        background: "#EFF6FF"
+        color: "#7C3AED",
+        background: "#F5F3FF"
     },
     cancel: {
         title: "Confirm Cancellation",
