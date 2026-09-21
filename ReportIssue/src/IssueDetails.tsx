@@ -811,7 +811,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940001 &&  
-                        this.renderStatusTile("In Prgoress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Clock", { background: "#E0F2FE", legend: "#0369A1"})
+                        this.renderStatusTile("In Progress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Clock", { background: "#E0F2FE", legend: "#0369A1"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940002 &&  
@@ -829,7 +829,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940004 &&  
-                        this.renderStatusTile("Cabcellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Cancel", { background: "#FDE7E5", legend: "#D13438"})
+                        this.renderStatusTile("Cancellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Cancel", { background: "#FDE7E5", legend: "#D13438"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940005 &&  
