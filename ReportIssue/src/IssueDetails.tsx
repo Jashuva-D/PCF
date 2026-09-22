@@ -151,8 +151,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 if (item["status_value"] == 289940000) { bgcolor = "#E0F2FE"; textcolor = "#0369A1"; }
                 if (item["status_value"] == 289940003) { bgcolor = "#F0E7FA"; textcolor = "#6B2FA0"; }
                 if (item["status_value"] == 289940002) { bgcolor = "#DFF3E4"; textcolor = "#0E7433"; }
-                //if(item["status_value"] == 289940003) { bgcolor = "#F1E4F7"; textcolor= "#7F2A9E";}
-                //if(item["status"] == "Unable to Resolve") { bgcolor = "#FDE7E5"; textcolor= "#C42B1C";}
+                if (item["status_value"] == 289940005) { bgcolor = "#FEF9C3"; textcolor = "#B45309"; }
                 if (item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor = "#605E5C"; }
 
                 return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status_label"]}</Text></TooltipHost></Stack>;
@@ -597,6 +596,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         if(status_value == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}//New
         if(status_value == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";} //In Progress
         if(status_value == 289940002) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}//Review
+        if(status_value == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} //Closed (parent status)
         
                             
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
@@ -891,7 +891,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940005 &&  
-                        this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Warning", { background: "#FEF9C3", legend: "#F59E0B"})
+                        this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Warning", { background: "#FEF9C3", legend: "#B45309"})
                     }
                     
 
