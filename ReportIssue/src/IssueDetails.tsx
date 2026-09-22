@@ -2,6 +2,7 @@ import * as React from "react";
 import { Dialog, DialogType, DialogFooter, DefaultButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
 import CMSDialog from "./CMSDialog";
 import ActionDialog, { IssueActionKey } from "./SendForReviewPopup";
+import StatusHistoryPanel, { StatusHistoryItem } from "./StatusHistoryPanel";
 import { SendForReviewICon } from "./icons";
 
 export interface IssueFieldChange {
@@ -23,7 +24,8 @@ export interface IssueFieldChange {
         email: string | null
     } | null
     modifiedon: string,
-    resolutionnotes: string
+    resolutionnotes: string,
+    statushistory?: StatusHistoryItem[]
 }
 export interface IssueDetails {
     issuetitle: string;
@@ -76,6 +78,7 @@ interface IssueDetailsDialogState{
     sendForReviewCallback?: (reviewwith: number, reviewer: any, notes: string) => void;
     showFieldStatusTile: boolean,
     selectedrecordid: string | null,
+    showStatusHistory: boolean,
 }
 
 class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueDetailsDialogState> {
@@ -100,7 +103,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         event.stopPropagation();
                         this.setState({
                             selectedrecordid: item.recordid,
-                            showFieldStatusTile: true
+                            showFieldStatusTile: true,
+                            showStatusHistory: false
                         });
                     }}
                 >
@@ -367,6 +371,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             sendforreviewdialog: false,
             showFieldStatusTile: false,
             selectedrecordid: null,
+            showStatusHistory: false,
         }
     }
 
@@ -594,13 +599,41 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
     }
     private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, iconname: string, colors: { background: string, legend: string}){
+        const selectedField = this.state.issue?.fields.find(
+            field => field.recordid === this.state.selectedrecordid
+        );
+        const historyCount = selectedField?.statushistory?.length ?? 0;
+
         return <Stack style={{ backgroundColor: colors.background, marginTop: 10, border: "1px solid", borderRadius: 6, borderColor: colors.legend }}>
-            <Stack verticalAlign="center" horizontalAlign="start" horizontal style={{ marginTop: 6, marginLeft: 6 }}>
-                <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
-                    {iconname != "sendforreview" && <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />}
-                    {iconname == "sendforreview" && <SendForReviewICon size={28} color="#7028E8" />}
-                </span>
-                <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
+            <Stack verticalAlign="center" horizontalAlign="space-between" horizontal style={{ marginTop: 6, marginLeft: 6, marginRight: 6 }}>
+                <Stack horizontal verticalAlign="center">
+                    <span style={{ width: "12px", height: "12px", border: `1px solid ${colors.legend}`, borderRadius: "50%", display: "inline-flex", alignItems: "center", justifyContent: "center", color: colors.legend, backgroundColor: colors.background, padding: 2 }}>
+                        {iconname != "sendforreview" && <Icon iconName={iconname} styles={{ root: { color: colors.legend } }} style={{ color: colors.legend }} />}
+                        {iconname == "sendforreview" && <SendForReviewICon size={28} color="#7028E8" />}
+                    </span>
+                    <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
+                </Stack>
+                <DefaultButton
+                    text={`View Status History (${historyCount})`}
+                    iconProps={{ iconName: "History" }}
+                    ariaLabel={`View ${historyCount} status history records`}
+                    onClick={() => this.setState({ showStatusHistory: true })}
+                    styles={{
+                        root: {
+                            height: 28,
+                            minWidth: 0,
+                            color: colors.legend,
+                            backgroundColor: "#FFFFFF",
+                            borderColor: colors.legend,
+                            borderRadius: 4
+                        },
+                        rootHovered: {
+                            color: colors.legend,
+                            backgroundColor: colors.background,
+                            borderColor: colors.legend
+                        }
+                    }}
+                />
             </Stack>
             <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
                 <Stack className="person-column">
@@ -684,9 +717,25 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
                 
 
-                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon,crm2_resolutionnotes&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
+                (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancyfield",`?$select=crm2_datadiscrepancyfieldid,crm2_name,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon,crm2_resolutionnotes&$expand=crm2_Reviewer($select=cr549_email_address,cr549_name),modifiedby($select=fullname,internalemailaddress),crm2_datadiscrepancystatuschangelog_DataDiscrepancyField_crm2_datadiscrepancyfield($select=crm2_comment,createdon,crm2_status,_crm2_updatedby_value)&$filter=_crm2_datadiscrepancy_value eq ${obj.props.issuerecordid}`).then(function(resp: any){
                     var fields = [] as IssueFieldChange[];
                     for (var j = 0; j < resp.entities.length; j++) {
+                        const statusHistoryRecords = resp.entities[j]["crm2_datadiscrepancystatuschangelog_DataDiscrepancyField_crm2_datadiscrepancyfield"] ?? [];
+                        const statusHistory = [...statusHistoryRecords]
+                            .sort((left: any, right: any) =>
+                                new Date(right["createdon"] ?? 0).getTime() - new Date(left["createdon"] ?? 0).getTime()
+                            )
+                            .map((history: any, index: number): StatusHistoryItem => ({
+                                id: `${resp.entities[j]["crm2_datadiscrepancyfieldid"]}-${history["createdon"] ?? index}`,
+                                statusValue: history["crm2_status"],
+                                statusLabel: history["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "Status Updated",
+                                updatedBy: {
+                                    name: history["_crm2_updatedby_value@OData.Community.Display.V1.FormattedValue"] ?? "System"
+                                },
+                                updatedOn: history["createdon@OData.Community.Display.V1.FormattedValue"] ?? history["createdon"] ?? "---",
+                                comments: history["crm2_comment"] ?? ""
+                            }));
+
                         var field = {
                             recordid: resp.entities[j]["crm2_datadiscrepancyfieldid"],
                             name: resp.entities[j]["crm2_name"] ?? "",
@@ -701,7 +750,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             modifiedon: resp.entities[j]["modifiedon@OData.Community.Display.V1.FormattedValue"],
                             modifiedby: { name: resp.entities[j]["modifiedby"]["fullname"], email: resp.entities[j]["modifiedby"]["internalemailaddress"] ?? "" },
                             reviewer: resp.entities[j]["crm2_Reviewer"] == null ? null : { name: resp.entities[j]["crm2_Reviewer"]["cr549_name"] ?? "", email: resp.entities[j]["crm2_Reviewer"]["cr549_email_address"] ?? ""},
-                            resolutionnotes: resp.entities[j]["crm2_resolutionnotes"] ?? ""
+                            resolutionnotes: resp.entities[j]["crm2_resolutionnotes"] ?? "",
+                            statushistory: statusHistory
                         }
                         fields.push(field);
                     }
@@ -933,6 +983,16 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     onConfirm={(action, notes, reviewwith, reviewer) => {
                         this.onActionConfirm(action, notes, reviewwith, reviewer);
                     }}
+                />
+                <StatusHistoryPanel
+                    isOpen={this.state.showStatusHistory}
+                    issueName={this.state.issue?.fields.find(
+                        field => field.recordid === this.state.selectedrecordid
+                    )?.name || ""}
+                    items={this.state.issue?.fields.find(
+                        field => field.recordid === this.state.selectedrecordid
+                    )?.statushistory || []}
+                    onDismiss={() => this.setState({ showStatusHistory: false })}
                 />
             </Dialog>
         );
