@@ -2,8 +2,6 @@ import * as React from "react";
 import {
     Icon,
     IconButton,
-    Panel,
-    PanelType,
     Persona,
     PersonaSize,
     Spinner,
@@ -223,55 +221,95 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
     public render(): React.ReactElement {
         const { isOpen, items, isLoading, errorMessage, onDismiss } = this.props;
 
+        if (!isOpen) {
+            return <React.Fragment />;
+        }
+
         return (
-            <Panel
-                isOpen={isOpen}
-                type={PanelType.medium}
-                onDismiss={onDismiss}
-                onRenderHeader={this.renderPanelHeader}
-                isLightDismiss={true}
-                closeButtonAriaLabel="Close status history"
+            <Stack
+                role="presentation"
+                onClick={onDismiss}
                 styles={{
-                    main: { borderTop: "4px solid #0D2499" },
-                    content: { paddingTop: 18, paddingBottom: 24 }
+                    root: {
+                        position: "absolute",
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        zIndex: 20,
+                        backgroundColor: "rgba(0, 0, 0, 0.20)"
+                    }
                 }}
             >
-                {isLoading && <Spinner label="Loading status history..." />}
-
-                {!isLoading && errorMessage && (
+                <Stack
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Status history"
+                    onClick={(event) => event.stopPropagation()}
+                    styles={{
+                        root: {
+                            position: "absolute",
+                            top: 0,
+                            right: 0,
+                            bottom: 0,
+                            width: "430px",
+                            maxWidth: "calc(100% - 32px)",
+                            overflow: "hidden",
+                            backgroundColor: "#FFFFFF",
+                            borderTop: "4px solid #0D2499",
+                            boxShadow: "-6px 0 18px rgba(0, 0, 0, 0.18)"
+                        }
+                    }}
+                >
+                    {this.renderPanelHeader()}
                     <Stack
-                        role="alert"
-                        horizontal
-                        verticalAlign="center"
-                        tokens={{ childrenGap: 8 }}
                         styles={{
                             root: {
-                                color: "#A4262C",
-                                backgroundColor: "#FDE7E9",
-                                border: "1px solid #A4262C",
-                                borderRadius: 6,
-                                padding: 10
+                                flex: 1,
+                                minHeight: 0,
+                                overflowY: "auto",
+                                padding: "18px 24px 24px"
                             }
                         }}
                     >
-                        <Icon iconName="ErrorBadge" />
-                        <Text>{errorMessage}</Text>
-                    </Stack>
-                )}
+                        {isLoading && <Spinner label="Loading status history..." />}
 
-                {!isLoading && !errorMessage && items.length === 0 && (
-                    <Stack horizontalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { paddingTop: 32 } }}>
-                        <Icon iconName="History" styles={{ root: { color: "#605E5C", fontSize: 24 } }} />
-                        <Text style={{ color: "#605E5C" }}>No status history is available.</Text>
-                    </Stack>
-                )}
+                        {!isLoading && errorMessage && (
+                            <Stack
+                                role="alert"
+                                horizontal
+                                verticalAlign="center"
+                                tokens={{ childrenGap: 8 }}
+                                styles={{
+                                    root: {
+                                        color: "#A4262C",
+                                        backgroundColor: "#FDE7E9",
+                                        border: "1px solid #A4262C",
+                                        borderRadius: 6,
+                                        padding: 10
+                                    }
+                                }}
+                            >
+                                <Icon iconName="ErrorBadge" />
+                                <Text>{errorMessage}</Text>
+                            </Stack>
+                        )}
 
-                {!isLoading && !errorMessage && items.length > 0 && (
-                    <Stack aria-label={`${items.length} status history records`}>
-                        {items.map(this.renderHistoryItem)}
+                        {!isLoading && !errorMessage && items.length === 0 && (
+                            <Stack horizontalAlign="center" tokens={{ childrenGap: 8 }} styles={{ root: { paddingTop: 32 } }}>
+                                <Icon iconName="History" styles={{ root: { color: "#605E5C", fontSize: 24 } }} />
+                                <Text style={{ color: "#605E5C" }}>No status history is available.</Text>
+                            </Stack>
+                        )}
+
+                        {!isLoading && !errorMessage && items.length > 0 && (
+                            <Stack aria-label={`${items.length} status history records`}>
+                                {items.map(this.renderHistoryItem)}
+                            </Stack>
+                        )}
                     </Stack>
-                )}
-            </Panel>
+                </Stack>
+            </Stack>
         );
     }
 }

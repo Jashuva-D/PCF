@@ -613,27 +613,30 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     </span>
                     <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
                 </Stack>
-                <DefaultButton
-                    text={`View Status History (${historyCount})`}
-                    iconProps={{ iconName: "History" }}
-                    ariaLabel={`View ${historyCount} status history records`}
-                    onClick={() => this.setState({ showStatusHistory: true })}
-                    styles={{
-                        root: {
-                            height: 28,
-                            minWidth: 0,
-                            color: colors.legend,
-                            backgroundColor: "#FFFFFF",
-                            borderColor: colors.legend,
-                            borderRadius: 4
-                        },
-                        rootHovered: {
-                            color: colors.legend,
-                            backgroundColor: colors.background,
-                            borderColor: colors.legend
-                        }
-                    }}
-                />
+                <TooltipHost content={`View status history (${historyCount})`}>
+                    <IconButton
+                        iconProps={{ iconName: "History" }}
+                        ariaLabel={`View ${historyCount} status history records`}
+                        onClick={() => this.setState({ showStatusHistory: true })}
+                        styles={{
+                            root: {
+                                width: 26,
+                                height: 26,
+                                color: colors.legend,
+                                backgroundColor: "#FFFFFF",
+                                border: `1px solid ${colors.legend}`,
+                                borderRadius: 4
+                            },
+                            rootHovered: {
+                                color: colors.legend,
+                                backgroundColor: colors.background
+                            },
+                            icon: {
+                                fontSize: 14
+                            }
+                        }}
+                    />
+                </TooltipHost>
             </Stack>
             <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
                 <Stack className="person-column">
@@ -792,7 +795,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 }}
                 styles={{
                     main: {
-                        borderColor: "#0D2499"
+                        borderColor: "#0D2499",
+                        position: "relative",
+                        overflow: "hidden"
                     }
                 }}
                 modalProps={{
