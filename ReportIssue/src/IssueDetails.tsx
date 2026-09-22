@@ -164,7 +164,11 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             isResizable: true,
             onRender: (item: any) => {
                 var validstatusforaction = true;
-                if (item["status_value"] == 289940002 || item["status_value"] == 289940004) validstatusforaction = false;
+                if (
+                    item["status_value"] == 289940002 ||
+                    item["status_value"] == 289940004 ||
+                    item["status_value"] == 289940005
+                ) validstatusforaction = false;
                 var buttons = [
                     {
                         key: "bcinprogress",
