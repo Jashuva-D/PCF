@@ -388,7 +388,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             inprogress: 289940001,
             resolve: 289940002,
             sendforreview: 289940003,
-            transfer: 289940006,
+            transfer: 289940003,
             cancel: 289940004,
             unabletoresolve: 289940005
         };
@@ -401,6 +401,10 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         if (action === "sendforreview") {
             data.crm2_reviewwith = reviewwith;
             data["crm2_Reviewer@odata.bind"] = `/cr549_persons(${reviewer.id})`;
+        }
+
+        if (action === "transfer") {
+            data.crm2_reviewwith = 289940003;
         }
 
         (parent as any).Xrm.WebApi.updateRecord(
@@ -519,7 +523,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940006, crm2_resolutionnotes: notes }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: 289940003, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -593,7 +597,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         if(status_value == 289940000 ) { bgcolor = "#E0F2FE"; textcolor= "#0369A1";}//New
         if(status_value == 289940001) { bgcolor = "#E5EFFF"; textcolor= "#0D47A1";} //In Progress
         if(status_value == 289940002) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}//Review
-        if(status_value == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} // Closed
         
                             
         return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
@@ -875,12 +878,12 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] != 289940003 &&
-                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"sendforreview", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"sendforreview", { background: "#FAF5FF", legend: "#9333EA"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] == 289940003 &&
-                        this.renderStatusTile("Transferred to BaseCamp Support Information","Transferred By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Transferred On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "BaseCamp Support Issue ID", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F3E8FF", legend: "#7C3AED"})
+                        this.renderStatusTile("Transferred to BaseCamp Support Information","Transferred By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Transferred On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "BaseCamp Support Issue ID", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F5F3FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
                         this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940004 &&  
