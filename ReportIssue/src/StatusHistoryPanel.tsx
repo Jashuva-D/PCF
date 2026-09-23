@@ -14,7 +14,6 @@ export interface StatusHistoryUser {
 
 export interface StatusHistoryItem {
     id: string;
-    statusValue?: number | null;
     statusLabel: string;
     updatedBy?: StatusHistoryUser | null;
     updatedOn: string;
@@ -44,23 +43,7 @@ const defaultTheme: StatusHistoryTheme = {
 
 class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
     private getStatusLabel = (item: StatusHistoryItem): string => {
-        if (item.statusLabel && item.statusLabel.trim()) {
-            return item.statusLabel;
-        }
-
-        const labelsByValue: Record<number, string> = {
-            289940000: "New",
-            289940001: "In Progress",
-            289940002: "Resolved",
-            289940003: "In Review",
-            289940004: "Cancelled",
-            289940005: "Unable to Resolve",
-            289940006: "Closed"
-        };
-
-        return item.statusValue !== null && item.statusValue !== undefined
-            ? labelsByValue[item.statusValue] || "Status Updated"
-            : "Status Updated";
+        return item.statusLabel?.trim() || "Status Updated";
     };
 
     private getTheme = (item: StatusHistoryItem): StatusHistoryTheme => {
@@ -74,11 +57,11 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
             return { legend: "#2563EB", background: "#EFF6FF", iconName: "Clock" };
         }
 
-        if (status === "sent for review" || status === "in review") {
+        if (status === "send for review" || status === "sent for review" || status === "in review") {
             return { legend: "#9333EA", background: "#FAF5FF", iconName: "Send" };
         }
 
-        if (status === "transferred to basecamp support" || status === "transferred") {
+        if (status === "transfer to basecamp support" || status === "transferred to basecamp support" || status === "transferred") {
             return { legend: "#7C3AED", background: "#F5F3FF", iconName: "People" };
         }
 

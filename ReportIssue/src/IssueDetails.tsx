@@ -737,8 +737,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             )
                             .map((history: any, index: number): StatusHistoryItem => ({
                                 id: `${resp.entities[j]["crm2_datadiscrepancyfieldid"]}-${history["createdon"] ?? index}`,
-                                statusValue: history["crm2_status"],
-                                statusLabel: history["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
+                                statusLabel: history["crm2_status"] ?? "Status Updated",
                                 updatedBy: {
                                     name: history["_crm2_updatedby_value@OData.Community.Display.V1.FormattedValue"] ?? "System"
                                 },
