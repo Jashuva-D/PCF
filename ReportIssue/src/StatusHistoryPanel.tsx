@@ -65,11 +65,11 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
             return { legend: "#7C3AED", background: "#F5F3FF", iconName: "People" };
         }
 
-        if (status === "resolved" || status === "closed") {
+        if (status === "resolve" || status === "resolved" || status === "closed") {
             return { legend: "#107C10", background: "#ECFDF5", iconName: "CheckMark" };
         }
 
-        if (status === "cancelled" || status === "canceled") {
+        if (status === "cancel" || status === "cancelled" || status === "canceled") {
             return { legend: "#D13438", background: "#FEF2F2", iconName: "Cancel" };
         }
 
