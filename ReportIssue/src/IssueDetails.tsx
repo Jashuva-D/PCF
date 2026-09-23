@@ -396,8 +396,18 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             unabletoresolve: 289940005
         };
 
+        const actionByAction: Record<IssueActionKey, number> = {
+            inprogress: 289940006,
+            resolve: 289940000,
+            sendforreview: 289940008,
+            transfer: 289940001,
+            cancel: 289940002,
+            unabletoresolve: 289940007
+        };
+
         const data: any = {
             crm2_status: statusByAction[action],
+            crm2_action: actionByAction[action],
             crm2_resolutionnotes: notes
         };
 
@@ -441,7 +451,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             dialogCancelButtonLabel: "Go Back",
             confirmButtonColor: "#0D2499",
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001, crm2_resolutionnotes: notes }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940001, crm2_action: 289940006, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false});
                     
@@ -470,7 +480,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#ECFDF5"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002, crm2_resolutionnotes: notes }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940002, crm2_action: 289940000, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -498,7 +508,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             sendForReviewCallback: (reviewwith: number, reviewer: any, notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})`, crm2_resolutionnotes: notes }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_action: 289940008, crm2_reviewwith: reviewwith, "crm2_Reviewer@odata.bind": `/cr549_persons(${reviewer.id})`, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({sendforreviewdialog: false})
                 },function(err: any){
@@ -526,7 +536,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#EFF6FF"
             },
             dialogConfirmCallback: (notes: string) => {
-                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_reviewwith: 289940003, crm2_resolutionnotes: notes }).then(function(resp: any){
+                (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940003, crm2_action: 289940001, crm2_reviewwith: 289940003, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
@@ -555,7 +565,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 background: "#FEF2F2"
             },
             dialogConfirmCallback: (notes: string) => {
-               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004, crm2_resolutionnotes: notes }).then(function(resp: any){
+               (parent as any).Xrm.WebApi.updateRecord("crm2_datadiscrepancyfield",item["datadiscrepancyfieldid"],{ crm2_status: 289940004, crm2_action: 289940002, crm2_resolutionnotes: notes }).then(function(resp: any){
                     obj.componentDidMount.bind(obj)();
                     obj.setState({cmsdialog: false})
                 },function(err: any){
