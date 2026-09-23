@@ -676,27 +676,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
     }
     componentDidMount(): void {
         var obj = this;
-
-        var issuedetails = {
-                    issuetitle : "Test",
-                    issuedescription: "Test Description",
-                    reportedon: new Date().toLocaleDateString(),
-                    status_label: "In Progress",
-                    status_value: 289940002,
-                    fields: [{
-                        name: "DDF100",
-                        fieldname: "Application Short Name",
-                        currentvalue: "Current Value",
-                        newvalue: "New Value",
-                        status_value: 289940002,
-                        status_label: "Resolved"
-                    }],
-                    reportedby: {
-                        name: "Test Contact",
-                        email: "test@test.com"
-                    }
-        } as IssueDetails
-        this.setState({ issue: issuedetails });
         
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
@@ -881,29 +860,29 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     </Stack>
                     
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940001 &&  
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940001 &&  
                         this.renderStatusTile("In Progress Information","In Progress By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"In Progress On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "In Progress Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Clock", { background: "#E0F2FE", legend: "#0369A1"})
                     }
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940002 &&  
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940002 &&  
                         this.renderStatusTile("Resolution Information","Resolved By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Resolved On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Resolution Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"CheckMark",{ background: "#E8F5E8", legend: "#107C10"})
                     }
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] != 289940003 &&
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940003 &&
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["reviewwith_value"] != 289940003 &&
                         this.renderStatusTile("Sent for Review Information","Sent for Review To",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].reviewer,"Sent for Review On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Review Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"sendforreview", { background: "#FAF5FF", legend: "#9333EA"})
                     }
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940003 &&
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["reviewwith_value"] == 289940003 &&
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940003 &&
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["reviewwith_value"] == 289940003 &&
                         this.renderStatusTile("Transferred to BaseCamp Support Information","Transferred By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Transferred On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "BaseCamp Support Issue ID", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"people", { background: "#F5F3FF", legend: "#7C3AED"})
                     }
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940004 &&  
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940004 &&  
                         this.renderStatusTile("Cancellation Information","Cancelled By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Cancelled On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Cancellation Notes", this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Cancel", { background: "#FDE7E5", legend: "#D13438"})
                     }
                     {   this.state.showFieldStatusTile && 
-                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]["status_value"] == 289940005 &&  
+                        this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0]?.["status_value"] == 289940005 &&  
                         this.renderStatusTile("Unable to Resolve Information","Marked By",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedby,"Marked On",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].modifiedon, "Reason / Notes",this.state.issue?.fields.filter(x => x.recordid == this.state.selectedrecordid)[0].resolutionnotes,"Warning", { background: "#FEF9C3", legend: "#B45309"})
                     }
                     

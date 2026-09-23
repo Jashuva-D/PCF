@@ -99,7 +99,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 fieldName: "status",
                 minWidth: 80,
                 onRender: (item: any) => {
-                    debugger;
                     var textcolor = "#107C10";
                     var bgcolor = "#0D47A1";
 
@@ -330,10 +329,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     }
     componentDidMount(): void {
         var obj = this;
-        this.setState({
-            items: this.CreateFakeData()
-        });
-        
+
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancy",`?$select=crm2_datadiscrepancyid,crm2_name,crm2_issuetitle,createdon,crm2_status,crm2_tab,crm2_section&$expand=crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)&$filter=_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
                 var discrepancies = [];
@@ -342,21 +338,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 var records = results.entities.filter((x : any)=> x["crm2_tab"] == currenttab && x["crm2_section"] == currentsection);
                 for (var i = 0; i < records.length; i++) {
                     var eachrecord = records[i];
-                    // var eachdisc1 = {
-                    //     fieldid: eachrecord.crm2_name,
-                    //     issueid: eachrecord["crm2_name"],
-                        
-                    //     fieldname: eachrecord.crm2_fieldname,
-                    //     issuetitle: eachrecord["crm2_DataDiscrepancy"]["crm2_issuetitle"],
-                    //     currentvalue: eachrecord.crm2_currentvalue ?? "",
-                    //     newvalue: eachrecord.crm2_newvalue ?? "",
-                    //     status_value: eachrecord.crm2_status,
-                    //     status: eachrecord["crm2_status@OData.Community.Display.V1.FormattedValue"] ?? "",
-                    //     reportedon: new Date(eachrecord["createdon"]).toLocaleDateString(),//eachrecord["createdon@OData.Community.Display.V1.FormattedValue"],
-                    //     reportedby: "Anuradha I",
-                    //     issuerecordid: eachrecord["_crm2_datadiscrepancy_value"],
-                    //     datadiscrepancyfieldid: eachrecord["crm2_datadiscrepancyfieldid"]
-                    // }
                     var eachdisc = {
                         issueid: eachrecord["crm2_name"],
                         issuetitle: eachrecord["crm2_issuetitle"],
@@ -377,23 +358,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             }
         );
     }
-    CreateFakeData(): any[]{
-        var fakedata = [];
-        for(var i=0; i<10; i++){
-            fakedata.push({
-                issueid: `IS-100${i.toString()}`,
-                fieldname: "Application Name (Short)",
-                issuetitle: "1115 PMDA - General - Details",
-                currentvalue: "1115 PMDA",
-                newvalue: "0000 PMDA",
-                status: i % 5 === 0 ? "Cancelled" : i % 4 === 0 ? "Transferred to BaseCamp" : i % 3 === 0 ? "Resolved" : i % 2 === 0 ? "In Progress" : "New",
-                reportedon: new Date().toLocaleDateString(),
-                reportedby: "Anuradha I"
-            });
-        }
-        return fakedata; 
-    }
-    
+
     onResolvedClick(item: any) {
         var obj = this;
         this.setState({
@@ -582,17 +547,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             <IssueDetailsDialog 
                 isOpen={this.state.openDetails}
                 issuerecordid={this.state.issuerecordidToOpen!}
-                // issue={{
-                //     issuetitle: "1115 PMDA - General - Details - Data Discrepancy", 
-                //     issuedescription: "Testing the issue report with view details feature on click of a row",
-                //     reportedon: new Date().toLocaleDateString(),
-                //     reportedby: {name : "Anuradha I", email: "anuradha.inampudi@cms.hhs.gov"},
-                //     assignedto: {name: "Pinal Jariwala", email: "pinal.jariwala@cms.hhs.gov"},
-                //     delegatedto: {name: "Swati Albal", email: "swati.albal@cms.hhs.gov"},
-                //     fields:[
-                //         {fieldname: "Application Name (Short)", currentvalue: "1115 PMDA", newvalue: "1115 WIOUER"},
-                //         {fieldname: "Application Name (Long)", currentvalue: "Test Application", newvalue: "New Application Name"}
-                //     ]}}
                 onClose={() => {this.setState({openDetails: false}); this.componentDidMount();}}
             />}
             <CMSDialog
