@@ -169,9 +169,9 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
                             minWidth: 0,
                             marginBottom: 12,
                             padding: 12,
-                            border: `1px solid ${index === 0 ? theme.legend : "#EDEBE9"}`,
+                            border: `1px solid ${theme.legend}`,
                             borderRadius: 6,
-                            backgroundColor: index === 0 ? theme.background : "#FFFFFF"
+                            backgroundColor: theme.background
                         }
                     }}
                 >
