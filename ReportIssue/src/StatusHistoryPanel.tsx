@@ -2,8 +2,6 @@ import * as React from "react";
 import {
     Icon,
     IconButton,
-    Persona,
-    PersonaSize,
     Spinner,
     Stack,
     Text
@@ -45,8 +43,28 @@ const defaultTheme: StatusHistoryTheme = {
 };
 
 class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
+    private getStatusLabel = (item: StatusHistoryItem): string => {
+        if (item.statusLabel && item.statusLabel.trim()) {
+            return item.statusLabel;
+        }
+
+        const labelsByValue: Record<number, string> = {
+            289940000: "New",
+            289940001: "In Progress",
+            289940002: "Resolved",
+            289940003: "In Review",
+            289940004: "Cancelled",
+            289940005: "Unable to Resolve",
+            289940006: "Closed"
+        };
+
+        return item.statusValue !== null && item.statusValue !== undefined
+            ? labelsByValue[item.statusValue] || "Status Updated"
+            : "Status Updated";
+    };
+
     private getTheme = (item: StatusHistoryItem): StatusHistoryTheme => {
-        const status = (item.statusLabel || "").trim().toLowerCase();
+        const status = this.getStatusLabel(item).trim().toLowerCase();
 
         if (status === "new") {
             return { legend: "#0369A1", background: "#E0F2FE", iconName: "Add" };
@@ -80,7 +98,8 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
     };
 
     private renderPanelHeader = (): React.ReactElement => {
-        const { issueName, onDismiss } = this.props;
+        const { issueName, items, onDismiss } = this.props;
+        const changeLabel = items.length === 1 ? "status change" : "status changes";
 
         return (
             <Stack
@@ -95,12 +114,12 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
                     }
                 }}
             >
-                <Stack tokens={{ childrenGap: 3 }}>
+                <Stack tokens={{ childrenGap: 8 }}>
                     <Text style={{ color: "#0D2499", fontSize: 20, fontWeight: 600 }}>
                         Status History
                     </Text>
                     <Text style={{ color: "#605E5C", fontSize: 12 }}>
-                        {issueName || "Selected discrepancy"}
+                        {issueName || "Selected discrepancy"} · {items.length} {changeLabel} · newest first
                     </Text>
                 </Stack>
                 <IconButton
@@ -115,8 +134,10 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
 
     private renderHistoryItem = (item: StatusHistoryItem, index: number): React.ReactElement => {
         const theme = this.getTheme(item);
+        const statusLabel = this.getStatusLabel(item);
         const isLast = index === this.props.items.length - 1;
         const userName = item.updatedBy?.name || "System";
+        const updatedByLabel = statusLabel.toLowerCase() === "new" ? "Created by" : "Updated by";
 
         return (
             <Stack
@@ -132,29 +153,23 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
                     <span
                         aria-hidden="true"
                         style={{
-                            width: 20,
-                            height: 20,
-                            marginTop: 12,
+                            width: 12,
+                            height: 12,
+                            marginTop: 15,
                             zIndex: 2,
                             borderRadius: "50%",
-                            border: `2px solid ${theme.legend}`,
-                            backgroundColor: theme.background,
+                            backgroundColor: theme.legend,
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center"
                         }}
-                    >
-                        <Icon
-                            iconName={theme.iconName}
-                            styles={{ root: { color: theme.legend, fontSize: 10 } }}
-                        />
-                    </span>
+                    />
                     {!isLast && (
                         <span
                             aria-hidden="true"
                             style={{
                                 position: "absolute",
-                                top: 32,
+                                top: 27,
                                 bottom: -12,
                                 width: 2,
                                 backgroundColor: "#D2D0CE"
@@ -182,32 +197,28 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
                             style={{
                                 color: theme.legend,
                                 backgroundColor: theme.background,
-                                borderRadius: 12,
-                                padding: "2px 9px",
+                                borderRadius: 4,
+                                padding: "4px 9px",
                                 fontSize: 12,
                                 fontWeight: 600
                             }}
                         >
-                            {item.statusLabel || "Status updated"}
+                            {statusLabel}
                         </Text>
                         <Text style={{ color: "#605E5C", fontSize: 12, textAlign: "right" }}>
                             {item.updatedOn || "---"}
                         </Text>
                     </Stack>
 
-                    <Persona
-                        text={userName}
-                        secondaryText={item.updatedBy?.email || undefined}
-                        size={PersonaSize.size32}
-                        hidePersonaDetails={false}
-                    />
+                    <Text style={{ fontSize: 12 }}>
+                        {updatedByLabel} {userName}
+                    </Text>
 
                     {item.comments && (
                         <Stack
                             tokens={{ childrenGap: 4 }}
                             styles={{ root: { borderTop: "1px solid #EDEBE9", paddingTop: 8 } }}
                         >
-                            <Text style={{ fontSize: 12, fontWeight: 600 }}>Comments</Text>
                             <Text style={{ fontSize: 13, whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>
                                 {item.comments}
                             </Text>
