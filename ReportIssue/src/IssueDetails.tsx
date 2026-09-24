@@ -578,10 +578,10 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         })
     }
 
-    private renderPerson(title: string, person?: { name: string; email?: string; bgcolor?:string }) {
+    private renderPerson(title: string, person?: { name: string; email?: string; bgcolor?:string }, labelColor: string = "#0D2499") {
         return (
             <Stack className="person-container">
-                <Label> {title} </Label>
+                <Label style={{ color: labelColor, fontSize: 14 }}> {title} </Label>
                 {person ? (
                     <Persona
                         text={person.name}
@@ -613,7 +613,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         if(status_value == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} //Closed (parent status)
         
                             
-        return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%", paddingLeft: "8px" }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{status_label}</Text></TooltipHost></Stack>;
+        return <Stack verticalAlign="center" horizontalAlign="start" style={{ paddingLeft: 5 }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, minHeight: 22, display: "inline-flex", alignItems: "center", paddingLeft: 8, paddingRight: 8, borderRadius: 4 }}>{status_label}</Text></TooltipHost></Stack>;
     }
     private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, iconname: string, colors: { background: string, legend: string}){
         const selectedField = this.state.issue?.fields.find(
@@ -657,7 +657,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             </Stack>
             <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
                 <Stack className="person-column">
-                    {this.renderPerson(persontitle,{name : person?.name ?? "", email: person?.email ?? "", bgcolor: colors.legend})}
+                    {this.renderPerson(persontitle,{name : person?.name ?? "", email: person?.email ?? "", bgcolor: colors.legend}, colors.legend)}
                 </Stack>
                 <Stack className="person-column">
                     <Stack className="person-container">
@@ -806,22 +806,22 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     <Stack horizontal tokens={{ childrenGap: 20 }}>
                         <StackItem grow>
                             <Stack style={{padding: 5}}>
-                                <Label style={{padding:0}} className="detail-label"> Issue Title </Label>
+                                <Label style={{ padding: 0, color: "#0D2499", fontSize: 14 }} className="detail-label"> Issue Title </Label>
                                 <Text> {issue.issuetitle} </Text>
                             </Stack>
                             <Stack style={{padding: 5}}>
-                                <Label style={{padding:0}} className="detail-label"> Issue Description </Label>
+                                <Label style={{ padding: 0, color: "#0D2499", fontSize: 14 }} className="detail-label"> Issue Description </Label>
                                 <Text className="issue-description"> {issue.issuedescription || "-"} </Text>
                             </Stack>
                         </StackItem>
                         <StackItem align="start">
                             <Stack tokens={{childrenGap: 5}} verticalAlign="start" horizontalAlign="start">
-                                <Stack horizontal horizontalAlign="end" verticalAlign="start">
-                                    <Text style={{fontSize: 12, fontWeight: 600}}>Status: </Text>
+                                <Stack horizontal horizontalAlign="end" verticalAlign="center">
+                                    <Text style={{ color: "#0D2499", fontSize: 14, fontWeight: 600 }}>Status: </Text>
                                     {this.renderStatus(issue.status_value ?? 0,issue.status_label ?? "")}
                                 </Stack>
-                                <Stack horizontal tokens={{childrenGap: 5}} horizontalAlign="end" verticalAlign="start">
-                                    <Text style={{fontSize: 12, fontWeight: 600}}>Reported On: </Text>
+                                <Stack horizontal tokens={{childrenGap: 5}} horizontalAlign="end" verticalAlign="center">
+                                    <Text style={{ color: "#0D2499", fontSize: 14, fontWeight: 600 }}>Reported On: </Text>
                                     <Text> {issue.reportedon || "---"} </Text>
                                 </Stack>
                             </Stack>
@@ -842,7 +842,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     </Stack>
                     <Separator style={{paddingBottom: 0, marginBottom: 0}}/>
                     <Stack className="section">
-                        <Label className="detail-label"> Field Changes </Label>
+                        <Label style={{ color: "#0D2499", fontSize: 14 }} className="detail-label"> Field Changes </Label>
                         <div className="field-changes-table">
                             <DetailsList
                                 items={issue.fields}
