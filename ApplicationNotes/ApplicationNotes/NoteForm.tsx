@@ -107,7 +107,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         [{ header: 1 }, { header: 2 }],
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ align: [] }],
-        ['table-better'],
         ['link', 'image', 'video'],
         ['clean'],
         [{ expand: "expand", class: "expand-button", title: "Expand" }],
@@ -126,7 +125,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     'table-better': {
       language: 'en_US',
       menus: ['column', 'row', 'merge', 'table', 'cell', 'wrap', 'copy', 'delete'],
-      toolbarTable: true
+      // Keep the table module available for existing content. To enable table
+      // insertion later, set this to true and add ['table-better'] to the toolbar.
+      toolbarTable: false
     },
     keyboard: {
       bindings: {
@@ -162,7 +163,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       'ql-list.ql-ordered': 'Numbered List',
       'ql-list.ql-bullet': 'Bullet List',
       'ql-align': 'Text Alignment',
-      'ql-table-better': 'Insert Table',
       'ql-link': 'Insert Link',
       'ql-image': 'Insert Image',
       'ql-video': 'Insert Video',
