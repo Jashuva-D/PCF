@@ -15,7 +15,8 @@
   "dependencies": {
     "@fluentui/react": "^8.125.0",
     "quill": "^2.0.3",
-    "react-quill": "^2.0.0"
+    "quill-table-better": "^1.2.3",
+    "react-quill-new": "^3.8.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

@@ -1,15 +1,37 @@
 import * as React from "react";
-const ReactQuill: any = require("react-quill");
-import "react-quill/dist/quill.snow.css";
+import ReactQuill, { Quill } from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+import QuillTableBetter from "quill-table-better";
+import "quill-table-better/dist/quill-table-better.css";
 import { Stack, StackItem, PrimaryButton, DefaultButton, Label, TextField, Dropdown, Toggle, Text, IToggleStyleProps } from "@fluentui/react";
 import { IInputs } from "./generated/ManifestTypes";
 import { CMSAlertType, Interactiontypes, NoteTabs } from "./Constants";
-import Quill from "quill";
 import ProgressBarAlert from "./ProgressBarAlert";
 import CMSSpinner from "./CMSSpinner";
 import * as ReactDOM from "react-dom";
 import { JSX } from "react";
 
+Quill.register({
+  "modules/table-better": QuillTableBetter
+}, true);
+
+// quill-table-better requires updateContents when loading existing table HTML.
+// ReactQuill normally uses setContents, so this small adapter preserves tables
+// when users reopen a saved note or switch between the two editor tabs.
+class TableReactQuill extends ReactQuill {
+  setEditorContents(editor: any, value: any): void {
+    this.value = value;
+    const selection = this.getEditorSelection();
+    const delta = typeof value === "string"
+      ? editor.clipboard.convert({ html: value })
+      : value;
+
+    editor.deleteText(0, editor.getLength(), Quill.sources.SILENT);
+    editor.updateContents(delta, Quill.sources.API);
+
+    Promise.resolve().then(() => this.setEditorSelection(editor, selection));
+  }
+}
 
 interface NoteFormProps {
   context: ComponentFramework.Context<IInputs>,
@@ -47,10 +69,10 @@ interface NoteFormState {
 }
 
 class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
-  private RQ = ReactQuill.Quill;
+  private RQ = Quill;
   private expand = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M4.22 6.53a.75.75 0 0 0 1.06 0L8 3.81l2.72 2.72a.75.75 0 1 0 1.06-1.06L8.53 2.22a.75.75 0 0 0-1.06 0L4.22 5.47a.75.75 0 0 0 0 1.06m0 2.94a.75.75 0 0 1 1.06 0L8 12.19l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0l-3.25-3.25a.75.75 0 0 1 0-1.06"/></svg>`;
   private collapse = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M11.78 3.53L8.53 6.78a.75.75 0 0 1-1.06 0L4.22 3.53a.75.75 0 0 1 1.06-1.06L8 5.19l2.72-2.72a.75.75 0 1 1 1.06 1.06M8.53 9.22a.75.75 0 0 0-1.06 0l-3.25 3.25a.75.75 0 1 0 1.06 1.06L8 10.81l2.72 2.72a.75.75 0 1 0 1.06-1.06z"/></svg>`;
-  private icons = this.RQ.import("ui/icons");
+  private icons = this.RQ.import("ui/icons") as Record<string, string>;
 
   constructor(props: NoteFormProps) {
     super(props);
@@ -85,6 +107,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
         [{ header: 1 }, { header: 2 }],
         [{ list: 'ordered' }, { list: 'bullet' }],
         [{ align: [] }],
+        ['table-better'],
         ['link', 'image', 'video'],
         ['clean'],
         [{ expand: "expand", class: "expand-button", title: "Expand" }],
@@ -98,6 +121,12 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           this.setState({ expand: false })
         }
       }
+    },
+    table: false,
+    'table-better': {
+      language: 'en_US',
+      menus: ['column', 'row', 'merge', 'table', 'cell', 'wrap', 'copy', 'delete'],
+      toolbarTable: true
     },
     keyboard: {
       bindings: {
@@ -113,19 +142,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
             (document.activeElement as HTMLElement)?.blur();
             return false;
           }
-        }
+        },
+        ...QuillTableBetter.keyboardBindings
       }
     }
   };
-
-  formats: any = [
-    'font', 'size',
-    'bold', 'italic', 'underline', 'strike',
-    'color', 'background',
-    'header', 'list', 'bullet',
-    'align',
-    'link', 'image', 'video'
-  ];
 
   private addQuillTooltips() {
     const tooltipMap: Record<string, string> = {
@@ -141,6 +162,7 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
       'ql-list.ql-ordered': 'Numbered List',
       'ql-list.ql-bullet': 'Bullet List',
       'ql-align': 'Text Alignment',
+      'ql-table-better': 'Insert Table',
       'ql-link': 'Insert Link',
       'ql-image': 'Insert Image',
       'ql-video': 'Insert Video',
@@ -150,10 +172,9 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
     };
 
     Object.keys(tooltipMap).forEach(selector => {
-      const el = document.querySelector(`.${selector.replace('.', ' ')}`);
-      if (el) {
+      document.querySelectorAll(`.${selector}`).forEach(el => {
         el.setAttribute('title', tooltipMap[selector]);
-      }
+      });
     });
   }
 
@@ -347,12 +368,11 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
 
   render() {
     const quillEditor = (
-      <ReactQuill
+      <TableReactQuill
         theme="snow"
         value={this.state.currenttab === NoteTabs.Comments ? this.state.comment : this.state.actionitems}
         onChange={this.handleChange.bind(this)}
         modules={this.modules}
-        formats={this.formats}
         placeholder="Start typing..."
         style={{
           borderRadius: 6,
@@ -361,7 +381,6 @@ class NoteForm extends React.Component<NoteFormProps, NoteFormState> {
           overflowY: "auto",
           minHeight: "200px",
         }}
-        rows={8}
       //className="ql-editor ql-container" /* Explicitly applying the class */
       />
     );

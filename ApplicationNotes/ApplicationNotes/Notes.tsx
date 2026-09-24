@@ -14,8 +14,9 @@ import CMSAlert from "./CMSAlert";
 import { CMSAlertType } from "./Constants";
 import CMSSpinner from "./CMSSpinner";
 import { PopupPortal } from "./PopupPortal";
-const ReactQuill: any = require("react-quill");
-import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
+
 
 
 interface NotesProps {
