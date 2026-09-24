@@ -62,6 +62,8 @@ export default class Comment extends Component<CommentProps, CommentState> {
   render() {
     const { text } = this.props;
     const { expanded, canExpand } = this.state;
+    const safeHtml = text ?? "";
+    const containsTable = /<table(?:\s|>)/i.test(safeHtml);
 
     const clampStyle: React.CSSProperties = {
       display: "-webkit-box",
@@ -80,16 +82,40 @@ export default class Comment extends Component<CommentProps, CommentState> {
       paddingTop: 10,
       paddingLeft: 10
     };
-    
-    const safeHtml = text ?? "";
+
+    const collapsedTableStyle: React.CSSProperties = {
+      display: "block",
+      maxHeight: 320,
+      overflow: "hidden",
+      whiteSpace: "normal",
+      wordBreak: "break-word",
+      paddingTop: 10,
+      paddingLeft: 10
+    };
+
+    const expandedTableStyle: React.CSSProperties = {
+      display: "block",
+      overflowX: "auto",
+      whiteSpace: "normal",
+      wordBreak: "break-word",
+      paddingTop: 10,
+      paddingLeft: 10
+    };
+
+    const contentStyle = containsTable
+      ? (expanded ? expandedTableStyle : collapsedTableStyle)
+      : (expanded ? fullStyle : clampStyle);
 
     return (
       <>
-        <div
-          ref={this.textRef}
-          style={expanded ? fullStyle : clampStyle}
-          dangerouslySetInnerHTML={{ __html: safeHtml }}
-        />
+        <div className="ql-snow">
+          <div
+            ref={this.textRef}
+            className="ql-editor"
+            style={contentStyle}
+            dangerouslySetInnerHTML={{ __html: safeHtml }}
+          />
+        </div>
         {canExpand && (
           <Link onClick={this.toggleExpanded} style={{ marginLeft: 5, cursor: "pointer", fontWeight: 500 }}>
             {expanded ? " Read Less" : " Read More"}
