@@ -665,7 +665,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 >
                     <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
                     <Text>
-                        This permanently deletes the parent discrepancy. Related records will follow the configured Dataverse relationship behavior.
+                        This permanently deletes the parent discrepancy and its related child records.
                     </Text>
                 </Stack>
 
