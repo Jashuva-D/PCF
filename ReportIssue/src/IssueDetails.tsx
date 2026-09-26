@@ -1079,15 +1079,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         closeButtonAriaLabel: "Close delete confirmation",
                         styles: {
                             title: {
-                                color: "#D13438",
-                                fontSize: 20,
-                                paddingTop: 4
-                            },
-                            subText: {
-                                color: "#323130",
-                                fontSize: 14,
-                                lineHeight: 20,
-                                marginTop: 8
+                                color: "#D13438"
                             }
                         }
                     }}
@@ -1097,51 +1089,14 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     styles={{
                         main: {
                             borderTop: "4px solid #D13438",
-                            width: 460,
-                            maxWidth: "calc(100% - 32px)",
-                            height: "auto",
-                            minHeight: 0,
-                            maxHeight: "calc(100vh - 48px)",
-                            selectors: {
-                                "& .ms-Modal-scrollableContent": {
-                                    height: "auto",
-                                    minHeight: 0
-                                },
-                                "& .ms-Dialog-inner": {
-                                    display: "block",
-                                    height: "auto",
-                                    minHeight: 0
-                                },
-                                "& .ms-Dialog-content": {
-                                    display: "block",
-                                    height: "auto",
-                                    minHeight: 0
-                                }
-                            }
+                            minWidth: 420
                         }
                     }}
                 >
-                    <Stack
-                        horizontal
-                        verticalAlign="start"
-                        tokens={{ childrenGap: 10 }}
-                        styles={{
-                            root: {
-                                marginTop: 8,
-                                padding: 12,
-                                width: "100%",
-                                boxSizing: "border-box",
-                                flex: "0 0 auto",
-                                color: "#A4262C",
-                                backgroundColor: "#FEF2F2",
-                                border: "1px solid #F3B7B9",
-                                borderRadius: 4
-                            }
-                        }}
-                    >
-                        <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2, fontSize: 16 } }} />
-                        <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19, flex: 1 }}>
-                            The related status history will also be deleted. This action cannot be undone.
+                    <Stack horizontal verticalAlign="start" tokens={{ childrenGap: 8 }}>
+                        <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
+                        <Text style={{ color: "#605E5C", fontSize: 12 }}>
+                            Its related status history will also be deleted. This action cannot be undone.
                         </Text>
                     </Stack>
 
@@ -1178,7 +1133,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             })}
                             styles={{
                                 root: {
-                                    minWidth: 96,
                                     borderRadius: 4
                                 }
                             }}
@@ -1190,7 +1144,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             onClick={this.onDeleteConfirm}
                             styles={{
                                 root: {
-                                    minWidth: 106,
                                     borderRadius: 4,
                                     backgroundColor: "#D13438",
                                     borderColor: "#D13438"
