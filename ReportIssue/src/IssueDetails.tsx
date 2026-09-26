@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Dialog, DialogType, DialogFooter, DefaultButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
+import { Dialog, DialogType, DialogFooter, DefaultButton, PrimaryButton, Icon, Stack, Text, DetailsList, IColumn, Persona, PersonaSize, Separator, Label, StackItem, TooltipHost, IconButton } from "@fluentui/react";
 import CMSDialog from "./CMSDialog";
 import ActionDialog, { IssueActionKey } from "./SendForReviewPopup";
 import StatusHistoryPanel, { StatusHistoryItem } from "./StatusHistoryPanel";
@@ -58,6 +58,10 @@ interface IssueDetailsDialogState{
     issue: IssueDetails | null;
     actiondialog: boolean;
     actionitem: IssueFieldChange | null;
+    deletedialog: boolean;
+    deleteitem: IssueFieldChange | null;
+    isdeleting: boolean;
+    deleteerror?: string | null;
     sendforreviewdialog: boolean,
     cmsdialog: boolean;
     dialogTitle?: string;
@@ -160,7 +164,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         {
             key: "actions",
             name: "Action",
-            minWidth: 50,
+            minWidth: 76,
             isResizable: true,
             onRender: (item: any) => {
                 var validstatusforaction = true;
@@ -336,30 +340,59 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }
                 ] as any
                 void buttons;
-                return <IconButton
-                        disabled={!validstatusforaction}
-                        title="Actions"
-                        ariaLabel="Actions"
-                        iconProps={{ iconName: "More" }}
+                return <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 2 }}>
+                    <IconButton
+                            disabled={!validstatusforaction}
+                            title="Actions"
+                            ariaLabel="Actions"
+                            iconProps={{ iconName: "More" }}
+                            onClick={() => {
+                                this.setState({ actiondialog: true, actionitem: item });
+                            }}
+                            styles={{
+                                root: {
+                                    width: 32,
+                                    height: 28,
+                                    backgroundColor: "transparent"
+                                },
+                                rootHovered: {
+                                    backgroundColor: "#F3F3F3"
+                                },
+                                icon: {
+                                    fontSize: 20,
+                                    color: "#0D2499",
+                                    fontWeight: 600
+                                },
+                            }}
+                        />
+                    <IconButton
+                        disabled={this.state.isdeleting}
+                        title="Delete"
+                        ariaLabel={`Delete ${item.name || "field change"}`}
+                        iconProps={{ iconName: "Delete" }}
                         onClick={() => {
-                            this.setState({ actiondialog: true, actionitem: item });
+                            this.setState({
+                                deletedialog: true,
+                                deleteitem: item,
+                                deleteerror: null
+                            });
                         }}
                         styles={{
                             root: {
-                                width: 32,
+                                width: 30,
                                 height: 28,
                                 backgroundColor: "transparent"
                             },
                             rootHovered: {
-                                backgroundColor: "#F3F3F3"
+                                backgroundColor: "#FDE7E9"
                             },
                             icon: {
-                                fontSize: 20,
-                                color: "#0D2499",
-                                fontWeight: 600
-                            },
+                                fontSize: 15,
+                                color: "#D13438"
+                            }
                         }}
                     />
+                </Stack>
             }
         }
     ];;
@@ -370,6 +403,10 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             issue : null,
             actiondialog: false,
             actionitem: null,
+            deletedialog: false,
+            deleteitem: null,
+            isdeleting: false,
+            deleteerror: null,
             cmsdialog: false,
             sendforreviewdialog: false,
             showFieldStatusTile: false,
@@ -377,6 +414,37 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             showStatusHistory: false,
         }
     }
+
+    private onDeleteConfirm = (): void => {
+        const item = this.state.deleteitem;
+        if (!item || this.state.isdeleting) return;
+
+        this.setState({ isdeleting: true, deleteerror: null });
+
+        (parent as any).Xrm.WebApi.deleteRecord(
+            "crm2_datadiscrepancyfield",
+            item.recordid
+        ).then(
+            () => {
+                const deletedSelectedRecord = this.state.selectedrecordid === item.recordid;
+                this.setState({
+                    deletedialog: false,
+                    deleteitem: null,
+                    isdeleting: false,
+                    deleteerror: null,
+                    selectedrecordid: deletedSelectedRecord ? null : this.state.selectedrecordid,
+                    showFieldStatusTile: deletedSelectedRecord ? false : this.state.showFieldStatusTile,
+                    showStatusHistory: deletedSelectedRecord ? false : this.state.showStatusHistory
+                }, () => this.componentDidMount());
+            },
+            (err: any) => {
+                this.setState({
+                    isdeleting: false,
+                    deleteerror: err?.message || "The field change could not be deleted."
+                });
+            }
+        );
+    };
 
     private onActionConfirm(
         action: IssueActionKey,
@@ -993,6 +1061,95 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         this.setState({ cmsdialog: false });
                     }}
                 />
+                <Dialog
+                    hidden={!this.state.deletedialog}
+                    onDismiss={() => {
+                        if (!this.state.isdeleting) {
+                            this.setState({
+                                deletedialog: false,
+                                deleteitem: null,
+                                deleteerror: null
+                            });
+                        }
+                    }}
+                    dialogContentProps={{
+                        type: DialogType.normal,
+                        title: "Delete field change?",
+                        subText: `Are you sure you want to delete field change ${this.state.deleteitem?.name || "this record"}?`,
+                        closeButtonAriaLabel: "Close delete confirmation",
+                        styles: {
+                            title: {
+                                color: "#D13438"
+                            }
+                        }
+                    }}
+                    modalProps={{
+                        isBlocking: true
+                    }}
+                    styles={{
+                        main: {
+                            borderTop: "4px solid #D13438",
+                            minWidth: 420
+                        }
+                    }}
+                >
+                    <Stack horizontal verticalAlign="start" tokens={{ childrenGap: 8 }}>
+                        <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
+                        <Text style={{ color: "#605E5C", fontSize: 12 }}>
+                            Its related status history will also be deleted. This action cannot be undone.
+                        </Text>
+                    </Stack>
+
+                    {this.state.deleteerror && (
+                        <Stack
+                            role="alert"
+                            horizontal
+                            verticalAlign="center"
+                            tokens={{ childrenGap: 8 }}
+                            styles={{
+                                root: {
+                                    marginTop: 14,
+                                    padding: 10,
+                                    color: "#A4262C",
+                                    backgroundColor: "#FDE7E9",
+                                    border: "1px solid #A4262C",
+                                    borderRadius: 4
+                                }
+                            }}
+                        >
+                            <Icon iconName="ErrorBadge" />
+                            <Text>{this.state.deleteerror}</Text>
+                        </Stack>
+                    )}
+
+                    <DialogFooter>
+                        <DefaultButton
+                            text="Cancel"
+                            disabled={this.state.isdeleting}
+                            onClick={() => this.setState({
+                                deletedialog: false,
+                                deleteitem: null,
+                                deleteerror: null
+                            })}
+                        />
+                        <PrimaryButton
+                            text={this.state.isdeleting ? "Deleting..." : "Delete"}
+                            iconProps={{ iconName: "Delete" }}
+                            disabled={this.state.isdeleting}
+                            onClick={this.onDeleteConfirm}
+                            styles={{
+                                root: {
+                                    backgroundColor: "#D13438",
+                                    borderColor: "#D13438"
+                                },
+                                rootHovered: {
+                                    backgroundColor: "#A4262C",
+                                    borderColor: "#A4262C"
+                                }
+                            }}
+                        />
+                    </DialogFooter>
+                </Dialog>
                 <ActionDialog
                     isOpen={this.state.actiondialog}
                     issueName={this.state.actionitem?.name || ""}
