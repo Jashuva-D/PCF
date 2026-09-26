@@ -792,7 +792,18 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     main: {
                         borderColor: "#0D2499",
                         position: "relative",
-                        overflow: "hidden"
+                        overflow: "hidden",
+                        selectors: {
+                            "& .ms-Modal-scrollableContent": {
+                                position: "static"
+                            },
+                            "& .ms-Dialog-inner": {
+                                position: "static"
+                            },
+                            "& .ms-Dialog-content": {
+                                position: "static"
+                            }
+                        }
                     }
                 }}
                 modalProps={{
@@ -852,7 +863,15 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 isHeaderVisible={true}
                                 styles={{
                                     headerWrapper: {
-                                        paddingTop: 0
+                                        paddingTop: 0,
+                                        selectors: {
+                                            ".ms-DetailsHeader-cellTitle": {
+                                                color: "#000000"
+                                            },
+                                            ".ms-DetailsHeader-cellName": {
+                                                color: "#000000"
+                                            }
+                                        }
                                     }
                                 }}
                             />
