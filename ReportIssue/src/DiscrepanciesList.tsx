@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, PrimaryButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem, Dialog, DialogFooter, DialogType } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
@@ -17,6 +17,10 @@ interface DiscrepanciesState {
     pageSize: number,
     openDetails: boolean,
     issuerecordidToOpen?: string,
+    deletedialog: boolean,
+    deleteitem: any | null,
+    isdeleting: boolean,
+    deleteerror?: string | null,
     cmsdialog: boolean,
     dialogTitle?: string;
     dialogSubtext?: string;
@@ -144,6 +148,41 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 minWidth: 80,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
+                }
+            },
+            {
+                key: "delete",
+                name: "Action",
+                minWidth: 48,
+                maxWidth: 48,
+                onRender: (item: any) => {
+                    return <TooltipHost content={`Delete ${item["issueid"] || "discrepancy"}`}>
+                        <IconButton
+                            disabled={this.state.isdeleting}
+                            title="Delete"
+                            ariaLabel={`Delete ${item["issueid"] || "discrepancy"}`}
+                            iconProps={{ iconName: "Delete" }}
+                            onClick={() => this.setState({
+                                deletedialog: true,
+                                deleteitem: item,
+                                deleteerror: null
+                            })}
+                            styles={{
+                                root: {
+                                    width: 30,
+                                    height: 28,
+                                    backgroundColor: "transparent"
+                                },
+                                rootHovered: {
+                                    backgroundColor: "#FDE7E9"
+                                },
+                                icon: {
+                                    fontSize: 15,
+                                    color: "#D13438"
+                                }
+                            }}
+                        />
+                    </TooltipHost>
                 }
             }
             // {
@@ -324,9 +363,46 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             currentPage: 1,
             pageSize: 10,
             openDetails: false,
+            deletedialog: false,
+            deleteitem: null,
+            isdeleting: false,
+            deleteerror: null,
             cmsdialog: false,
         }
     }
+
+    private onDeleteConfirm = (): void => {
+        const item = this.state.deleteitem;
+        if (!item || this.state.isdeleting) return;
+
+        this.setState({ isdeleting: true, deleteerror: null });
+
+        (parent as any).Xrm.WebApi.deleteRecord(
+            "crm2_datadiscrepancy",
+            item.issuerecordid
+        ).then(
+            () => {
+                const remainingCount = Math.max(0, this.state.items.length - 1);
+                const totalPagesAfterDelete = Math.max(1, Math.ceil(remainingCount / this.state.pageSize));
+
+                this.setState({
+                    deletedialog: false,
+                    deleteitem: null,
+                    isdeleting: false,
+                    deleteerror: null,
+                    currentPage: Math.min(this.state.currentPage, totalPagesAfterDelete),
+                    openDetails: false,
+                    issuerecordidToOpen: undefined
+                }, () => this.componentDidMount());
+            },
+            (err: any) => {
+                this.setState({
+                    isdeleting: false,
+                    deleteerror: err?.message || "The discrepancy could not be deleted."
+                });
+            }
+        );
+    };
     componentDidMount(): void {
         var obj = this;
 
@@ -549,6 +625,102 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 issuerecordid={this.state.issuerecordidToOpen!}
                 onClose={() => {this.setState({openDetails: false}); this.componentDidMount();}}
             />}
+            <Dialog
+                hidden={!this.state.deletedialog}
+                onDismiss={() => {
+                    if (!this.state.isdeleting) {
+                        this.setState({
+                            deletedialog: false,
+                            deleteitem: null,
+                            deleteerror: null
+                        });
+                    }
+                }}
+                dialogContentProps={{
+                    type: DialogType.normal,
+                    title: "Delete discrepancy?",
+                    subText: `Are you sure you want to delete discrepancy ${this.state.deleteitem?.issueid || "this record"}?`,
+                    closeButtonAriaLabel: "Close delete confirmation",
+                    styles: {
+                        title: {
+                            color: "#D13438"
+                        }
+                    }
+                }}
+                modalProps={{
+                    isBlocking: true
+                }}
+                styles={{
+                    main: {
+                        borderTop: "4px solid #D13438",
+                        minWidth: 420
+                    }
+                }}
+            >
+                <Stack
+                    horizontal
+                    verticalAlign="start"
+                    tokens={{ childrenGap: 8 }}
+                    styles={{ root: { marginTop: 8, color: "#A4262C" } }}
+                >
+                    <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
+                    <Text>
+                        This permanently deletes the parent discrepancy. Related records will follow the configured Dataverse relationship behavior.
+                    </Text>
+                </Stack>
+
+                {this.state.deleteerror && (
+                    <Stack
+                        role="alert"
+                        horizontal
+                        verticalAlign="center"
+                        tokens={{ childrenGap: 8 }}
+                        styles={{
+                            root: {
+                                marginTop: 12,
+                                padding: 10,
+                                color: "#A4262C",
+                                backgroundColor: "#FDE7E9",
+                                border: "1px solid #A4262C",
+                                borderRadius: 4
+                            }
+                        }}
+                    >
+                        <Icon iconName="ErrorBadge" />
+                        <Text>{this.state.deleteerror}</Text>
+                    </Stack>
+                )}
+
+                <DialogFooter>
+                    <DefaultButton
+                        text="Cancel"
+                        disabled={this.state.isdeleting}
+                        onClick={() => this.setState({
+                            deletedialog: false,
+                            deleteitem: null,
+                            deleteerror: null
+                        })}
+                        styles={{ root: { borderRadius: 4 } }}
+                    />
+                    <PrimaryButton
+                        text={this.state.isdeleting ? "Deleting..." : "Delete"}
+                        iconProps={{ iconName: "Delete" }}
+                        disabled={this.state.isdeleting}
+                        onClick={this.onDeleteConfirm}
+                        styles={{
+                            root: {
+                                borderRadius: 4,
+                                backgroundColor: "#D13438",
+                                borderColor: "#D13438"
+                            },
+                            rootHovered: {
+                                backgroundColor: "#A4262C",
+                                borderColor: "#A4262C"
+                            }
+                        }}
+                    />
+                </DialogFooter>
+            </Dialog>
             <CMSDialog
                 isOpen={this.state.cmsdialog!}
                 title={this.state.dialogTitle}
