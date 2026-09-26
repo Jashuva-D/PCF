@@ -147,18 +147,16 @@ class StatusHistoryPanel extends React.Component<StatusHistoryPanelProps> {
                             justifyContent: "center"
                         }}
                     />
-                    {!isLast && (
-                        <span
-                            aria-hidden="true"
-                            style={{
-                                position: "absolute",
-                                top: 27,
-                                bottom: -12,
-                                width: 2,
-                                backgroundColor: "#D2D0CE"
-                            }}
-                        />
-                    )}
+                    <span
+                        aria-hidden="true"
+                        style={{
+                            position: "absolute",
+                            top: 27,
+                            bottom: isLast ? 12 : -12,
+                            width: 2,
+                            backgroundColor: "#D2D0CE"
+                        }}
+                    />
                 </Stack>
 
                 <Stack
