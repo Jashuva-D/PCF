@@ -1098,7 +1098,26 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         main: {
                             borderTop: "4px solid #D13438",
                             width: 460,
-                            maxWidth: "calc(100% - 32px)"
+                            maxWidth: "calc(100% - 32px)",
+                            height: "auto",
+                            minHeight: 0,
+                            maxHeight: "calc(100vh - 48px)",
+                            selectors: {
+                                "& .ms-Modal-scrollableContent": {
+                                    height: "auto",
+                                    minHeight: 0
+                                },
+                                "& .ms-Dialog-inner": {
+                                    display: "block",
+                                    height: "auto",
+                                    minHeight: 0
+                                },
+                                "& .ms-Dialog-content": {
+                                    display: "block",
+                                    height: "auto",
+                                    minHeight: 0
+                                }
+                            }
                         }
                     }}
                 >
@@ -1110,6 +1129,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             root: {
                                 marginTop: 8,
                                 padding: 12,
+                                width: "100%",
+                                boxSizing: "border-box",
+                                flex: "0 0 auto",
                                 color: "#A4262C",
                                 backgroundColor: "#FEF2F2",
                                 border: "1px solid #F3B7B9",
@@ -1118,8 +1140,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         }}
                     >
                         <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2, fontSize: 16 } }} />
-                        <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19 }}>
-                            Its related status history will also be deleted. This action cannot be undone.
+                        <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19, flex: 1 }}>
+                            The related status history will also be deleted. This action cannot be undone.
                         </Text>
                     </Stack>
 
