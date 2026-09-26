@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost, IDropdownOption, DatePicker} from "@fluentui/react";
+import { DefaultButton, Dropdown, Icon, Label,IconButton, PrimaryButton, TextField, initializeIcons, DetailsList, DetailsListLayoutMode, IColumn, Text, Stack, StackItem, SelectionMode, TooltipHost, IDropdownOption, DatePicker} from "@fluentui/react";
 import "./index.css";
 import { TabOptions, DataField } from "./data";
 import Lookup from "./Lookup";
@@ -83,8 +83,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "fieldname",
           name: "Field Name",
           fieldName: "FieldName",
-          minWidth: 220,
-          maxWidth: 220,
+          minWidth: 150,
+          maxWidth: 240,
+          flexGrow: 2,
+          isResizable: true,
           onRender: (item: any) => {
             if(item.newrecord){
               var fields = TabOptions.find(x => x.key === this.state.selectedTab)?.sections.find(x => x.key === this.state.selectedSection)?.fields ?? [];
@@ -141,7 +143,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "currentvalue",
           name: "Current Value",
           fieldName: "CurrentValue",
-          minWidth: 180,
+          minWidth: 140,
+          maxWidth: 240,
+          flexGrow: 2,
+          isResizable: true,
           onRender: (item: any) => {
             if(item.newrecord){
               var currentvalue = (this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && (this.state.currentrecord?.currentvalue == null || this.state.currentrecord?.currentvalue == "")) ? "------" : this.state.currentrecord?.currentvalue; 
@@ -170,7 +175,10 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "newvalue",
           name: "New Value",
           fieldName: "NewValue",
-          minWidth: 180,
+          minWidth: 140,
+          maxWidth: 240,
+          flexGrow: 2,
+          isResizable: true,
           onRender: (item: any) => {
             if(item.newrecord){
               var field = TabOptions.find(x => x.key == this.state.selectedTab)?.sections?.find(x => x.key == this.state.selectedSection)?.fields?.find(x => x.key == this.state.currentrecord?.fieldname);
@@ -215,7 +223,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "actions",
           name: "Actions",
           fieldName: "Actions",
-          minWidth: 50,
+          minWidth: 42,
+          maxWidth: 52,
           onRender: (item: any) => {
             if (item.newrecord) {
               var enablesavebutton = this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && this.state.currentrecord?.newvalue != null && this.state.currentrecord?.newvalue != "" && this.state.currentrecord.currentvalue != this.state.currentrecord.newvalue;
@@ -547,10 +556,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
                       className="appuserroles"
                       items={[...this.state.datafields]}
                       columns={[...this.state.datacolumns]}
-                      selectionMode={SelectionMode.none} 
+                      selectionMode={SelectionMode.none}
+                      layoutMode={DetailsListLayoutMode.justified}
                       styles={{
                         root: {
-                          width: "98%"
+                          width: "100%",
+                          overflowX: "hidden"
                         },
                         contentWrapper: {
                           backgroundColor: "white",
