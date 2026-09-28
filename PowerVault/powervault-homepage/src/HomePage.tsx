@@ -29,7 +29,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
     }
     componentDidMount(): void {
         var hctafadashboardallowedroles = ["Hosting Coordinator", "Financial Analyst", "Technical Advisor", "System Administrator"];
-        var managerdashboardallowedroles = ["Manager", "System Administrator"];
+        var managerdashboardallowedroles = ["Management", "System Administrator"];
         
         var roles = (parent as any).Xrm?.Utility.getGlobalContext().userSettings.roles.get();
 
@@ -49,14 +49,14 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
             <Stack tokens={{childrenGap: 10}}>
                 {/* <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Notifications /></StackItem> */}
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Applications /></StackItem>
-                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
+                {this.state.enableManagerDashboard && <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
-                        environmentVariableName="crm2_mainpage_executivedashboard_url"
-                        title="Executive BaseCamp Dashboard"
+                        environmentVariableName="pv_hompage_executivedashboard_url"
+                        title="Executive Dashboard"
                         subtitle="Executive visibility across cloud platforms and operational activities"
                         reporticon={<CMSExecutiveDashboardIcon size={24} />}
                     />
-                </StackItem>
+                </StackItem>}
                 <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
                         environmentVariableName="crm2_mainpage_hctafadashboard_url"
@@ -65,14 +65,14 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
                         reporticon={<CMSHCTADDashBoardIcon size={24} />}
                     />
                 </StackItem>
-                <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
+                {/* <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}>
                     <PowerBIReport 
                         environmentVariableName="crm2_mainpage_auditingdashboard_url"
                         title="Auditor Dashboard"
                         subtitle="View and manage audit records, compliance reviews, and audit findings."
                         reporticon={<CMSAuditingDashboardIcon size={24} />}
                     />
-                </StackItem>
+                </StackItem> */}
             </Stack>
         </>
     }
