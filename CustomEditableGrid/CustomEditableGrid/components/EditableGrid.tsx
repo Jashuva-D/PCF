@@ -46,10 +46,13 @@ const detailsListStyles: Partial<IDetailsListStyles> = {
         overflow: "hidden"
     },
     headerWrapper: {
-        background: "#DFF1E8"
+        background: "#DFF1E8",
+        overflow: "hidden",
+        willChange: "transform"
     },
     contentWrapper: {
-        overflowX: "auto"
+        overflowX: "auto",
+        overflowY: "visible"
     }
 };
 
@@ -66,6 +69,9 @@ const addButtonStyles = {
 };
 
 export class EditableGrid extends React.Component<EditableGridProps, EditableGridState> {
+    private detailsListContainer = React.createRef<HTMLDivElement>();
+    private contentScroller?: HTMLElement;
+
     public state: EditableGridState = {
         searchText: ""
     };
@@ -106,22 +112,36 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
                     </Text>
                 )}
 
-                <DetailsList
-                    items={visibleRows}
-                    columns={this.getColumns(visibleRows, allVisibleSelected, selectedVisibleCount)}
-                    getKey={this.getRowKey}
-                    selectionMode={SelectionMode.none}
-                    layoutMode={DetailsListLayoutMode.justified}
-                    compact
-                    styles={detailsListStyles}
-                    onRenderRow={this.renderRow}
-                />
+                <div ref={this.detailsListContainer}>
+                    <DetailsList
+                        items={visibleRows}
+                        columns={this.getColumns(visibleRows, allVisibleSelected, selectedVisibleCount)}
+                        getKey={this.getRowKey}
+                        selectionMode={SelectionMode.none}
+                        layoutMode={DetailsListLayoutMode.fixedColumns}
+                        compact
+                        styles={detailsListStyles}
+                        onRenderRow={this.renderRow}
+                    />
+                </div>
 
                 <Text variant="small" styles={{ root: { color: "#616161" } }}>
                     {visibleRows.length} record(s) · {this.props.selectedIds.size} selected
                 </Text>
             </Stack>
         );
+    }
+
+    public componentDidMount(): void {
+        this.connectHorizontalScroll();
+    }
+
+    public componentDidUpdate(): void {
+        this.connectHorizontalScroll();
+    }
+
+    public componentWillUnmount(): void {
+        this.contentScroller?.removeEventListener("scroll", this.synchroniseHeaderPosition);
     }
 
     private getVisibleRows(): GridRow[] {
@@ -134,6 +154,26 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
             this.displayValue(row.values[column.name]).toLowerCase().includes(searchText)
         ));
     }
+
+    private connectHorizontalScroll(): void {
+        const content = this.detailsListContainer.current?.querySelector(".ms-DetailsList-contentWrapper") as HTMLElement | null;
+        if (!content || this.contentScroller === content) {
+            return;
+        }
+
+        this.contentScroller?.removeEventListener("scroll", this.synchroniseHeaderPosition);
+        this.contentScroller = content;
+        this.contentScroller.addEventListener("scroll", this.synchroniseHeaderPosition, { passive: true });
+        this.synchroniseHeaderPosition();
+    }
+
+    private synchroniseHeaderPosition = (): void => {
+        const root = this.detailsListContainer.current;
+        const header = root?.querySelector(".ms-DetailsList-headerWrapper") as HTMLElement | null;
+        if (header && this.contentScroller) {
+            header.style.transform = `translateX(-${this.contentScroller.scrollLeft}px)`;
+        }
+    };
 
     private getColumns(
         visibleRows: GridRow[],
