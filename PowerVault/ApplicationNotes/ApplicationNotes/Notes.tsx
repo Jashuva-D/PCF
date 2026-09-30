@@ -215,6 +215,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                     },
                                                 }} />
                                         </StackItem>
+                                        {this.props.parent_entityname == "pv_apps" &&
                                         <StackItem>
                                             <PrimaryButton iconProps={{ iconName: "ContextMenu" }} text="Generate Summary" onClick={this.onGenerateSummaryClick.bind(this)} 
                                                 style={{ borderRadius: 6, backgroundColor: (this.state.generateSummary) ? "#F2F2F2" : "#01395E", color: (this.state.generateSummary) ? "#5A5A5A" : "white", width: "100%" }}
@@ -230,7 +231,7 @@ class Notes extends React.Component<NotesProps, NotesState> {
                                                 }}
                                                 disabled={this.state.generateSummary}
                                             />
-                                        </StackItem>
+                                        </StackItem>}
                                     </Stack>
                                 </StackItem>
                             </Stack>
