@@ -118,7 +118,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />
                             }
-                            else if(columnname == "person_cr549_direct_phone"){
+                            else if(columnname == "person_pv_direct_phone"){
                                     return <><TextField key={columnname} 
                                         ariaLabel={c.displayName}
                                         aria-labelledby={`header-${c.name}`}
