@@ -118,6 +118,15 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                                     }}
                                 />
                             }
+                            else if(columnname == "person_cr549_direct_phone"){
+                                    return <><TextField key={columnname} 
+                                        ariaLabel={c.displayName}
+                                        aria-labelledby={`header-${c.name}`}
+                                        defaultValue={this.state.editablerecord[columnname] ?? ""} 
+                                        value={this.state.editablerecord[columnname] ?? ""} 
+                                        onChange={(e, val) => this.onFieldChange(columnname, val)}
+                                    /></>;
+                            }
                             else {
                                 return <Text aria-label={c.displayName} aria-labelledby={`header-${c.name}`}>
                                     {this.state.editablerecord[columnname] ?? ""}
@@ -264,27 +273,27 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
                 "pv_Person@odata.bind" : personid == undefined ? null : `/pv_persons(${personid})`
             }
             var appuserroleupdate = await this.props.context.webAPI.updateRecord("pv_appuserrole", appuserroleid, appuserrole).then(function(resp){
-                obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
-                obj.setState({ editablerecord: null });
-                obj.props.context.parameters.sampleDataSet.refresh();
+                return true;
             },function(err){
                 obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${err.message}`);
                 return false;
             });
-            // if(!appuserroleupdate) return;
+            if(!appuserroleupdate) return;
 
-            // var person = {
-            //     "pv_direct_phone": this.state.editablerecord["person_pv_direct_phone"],
-            //     "pv_email_address": this.state.editablerecord["person_pv_email_address"],
-            //     "pv_email_address_2": this.state.editablerecord["person_pv_email_address_2"],
-            //     //"pv_service_desk_agent": this.state.editablerecord["person_pv_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_pv_service_desk_agent_value"] == "0" ? false : true
-            // }
-            // var personupdate =await obj.props.context.webAPI.updateRecord("pv_person", personid, person).then(function (resp) {
-            //     return true;
-            // }, function (error) {
-            //     obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
-            //     return false;
-            // });
+            var person = {
+                "pv_direct_phone": this.state.editablerecord["person_pv_direct_phone"],
+                //"pv_email_address": this.state.editablerecord["person_pv_email_address"],
+                //"pv_email_address_2": this.state.editablerecord["person_pv_email_address_2"],
+                //"pv_service_desk_agent": this.state.editablerecord["person_pv_service_desk_agent_value"] == null ? null : this.state.editablerecord["person_pv_service_desk_agent_value"] == "0" ? false : true
+            }
+            var personupdate =await obj.props.context.webAPI.updateRecord("pv_person", personid, person).then(function (resp) {
+                obj.showAlertMessage(CMSAlertType.Success, "Record updated successfully");
+                obj.setState({ editablerecord: null });
+                obj.props.context.parameters.sampleDataSet.refresh();
+            }, function (error) {
+                obj.showAlertMessage(CMSAlertType.Error, `Error in updating record: ${error.message}`);
+                return false;
+            });
 
             // if(appuserroleupdate && personupdate){
             //     var currentapprecord = await this.props.context.webAPI.retrieveRecord("pv_apps", (obj.props.context as any).page.entityId, "?$select=pv_id").then(function(resp){ return resp; }, function(err){ throw new Error(`error occured while fetching the record, details: ${err?.message}`) });
