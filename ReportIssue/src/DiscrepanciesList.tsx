@@ -119,7 +119,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported On",
                 fieldName: "reportedon",
                 minWidth: 100,
-                flexGrow: 1,
+                maxWidth: 100,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
