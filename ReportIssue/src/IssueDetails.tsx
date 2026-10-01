@@ -1075,7 +1075,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     dialogContentProps={{
                         type: DialogType.normal,
                         title: "Delete Field Discrepancy?",
-                        subText: "Are you sure you want to delete this field discrepancy record?",
+                        subText: "Are you sure you want to delete this field discrepancy record? This will permanently delete the record and its information. This action cannot be undone.",
                         closeButtonAriaLabel: "Close delete confirmation",
                         styles: {
                             title: {
@@ -1093,16 +1093,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         }
                     }}
                 >
-                    <Stack horizontal verticalAlign="start" tokens={{ childrenGap: 8 }}>
-                        <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
-                        <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19 }}>
-                            This will permanently delete the record and its information.{" "}
-                            <span style={{ color: "#D13438", fontWeight: 600 }}>
-                                This action cannot be undone.
-                            </span>
-                        </Text>
-                    </Stack>
-
                     {this.state.deleteerror && (
                         <Stack
                             role="alert"
