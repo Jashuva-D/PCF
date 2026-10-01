@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,DetailsListLayoutMode,IColumn, Stack, Text, DefaultButton, PrimaryButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem, Dialog, DialogFooter, DialogType } from "@fluentui/react";
+import { DetailsList,IColumn, Stack, Text, DefaultButton, PrimaryButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem, Dialog, DialogFooter, DialogType } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
@@ -40,6 +40,23 @@ interface DiscrepanciesState {
 }
 
 class DiscrepanciesList extends React.Component<DiscrepanciesListProps,DiscrepanciesState>{
+    private gridContainerRef = React.createRef<HTMLDivElement>();
+
+    private updateColumnWidths = () => {
+        const containerWidth = this.gridContainerRef.current?.clientWidth;
+        if (!containerWidth) return;
+
+        const remainingWidth = containerWidth - 80 - 120 - 48;
+        const flexibleColumnWidth = Math.max(130, Math.floor(remainingWidth / 3));
+
+        this.setState({
+            columns: this.state.columns.map(column =>
+                column.key === "reportedon" || column.key === "reportedby" || column.key === "assignedto"
+                    ? { ...column, minWidth: flexibleColumnWidth, maxWidth: flexibleColumnWidth }
+                    : column
+            )
+        });
+    };
     constructor(props: DiscrepanciesListProps){
         super(props);
         //var enableaction = (parent as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().filter((x : any) => x.name == "Hosting Coordinator" || x.name == "System Administrator").length > 0
@@ -119,7 +136,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported On",
                 fieldName: "reportedon",
                 minWidth: 130,
-                targetWidthProportion: 1,
+                maxWidth: 130,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
@@ -130,7 +147,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported By",
                 fieldName: "reportedby",
                 minWidth: 130,
-                targetWidthProportion: 1,
+                maxWidth: 130,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
@@ -141,7 +158,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Assigned To",
                 fieldName: "assignedto",
                 minWidth: 130,
-                targetWidthProportion: 1,
+                maxWidth: 130,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
@@ -402,6 +419,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
     };
     componentDidMount(): void {
         var obj = this;
+        this.updateColumnWidths();
+        window.removeEventListener("resize", this.updateColumnWidths);
+        window.addEventListener("resize", this.updateColumnWidths);
 
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancy",`?$select=crm2_datadiscrepancyid,crm2_name,crm2_issuetitle,createdon,crm2_status,crm2_tab,crm2_section&$expand=crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)&$filter=_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
@@ -430,6 +450,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 console.log(error.message);
             }
         );
+    }
+
+    componentWillUnmount(): void {
+        window.removeEventListener("resize", this.updateColumnWidths);
     }
 
     onResolvedClick(item: any) {
@@ -556,11 +580,11 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
         return <Stack>
             <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499", fontSize: 16, fontWeight: 700}}>Data Discrepancies</Label><Text style={{ padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
+            <div ref={this.gridContainerRef}>
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
                 selectionMode={SelectionMode.none}
-                layoutMode={DetailsListLayoutMode.justified}
                 onItemInvoked={()=> {this.setState({openDetails: true})}}
                 styles={{
                     headerWrapper: {
@@ -568,6 +592,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     },
                 }}
             />
+            </div>
             <div style={{ marginTop: "auto", paddingTop: 10, borderTop: "1px solid #ddd" }}>
                 <Stack horizontal horizontalAlign="space-between" verticalAlign="center">
                     {/* <Text>&nbsp;</Text> */}
