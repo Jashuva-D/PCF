@@ -21,11 +21,14 @@ export class ActionLegend extends React.Component {
                 grow
                 style={{
                     border: `1px solid ${color}30`,
-                    borderRadius: 6,
+                    borderRadius: 8,
                     backgroundColor: backgroundColor,
-                    padding: "8px 10px",
-                    minHeight: 68,
-                    boxSizing: "border-box"
+                    padding: "10px 12px",
+                    minHeight: 78,
+                    minWidth: 220,
+                    flexBasis: "calc(33.333% - 8px)",
+                    boxSizing: "border-box",
+                    boxShadow: "0 1px 2px rgba(0, 0, 0, 0.04)"
                 }}
             >
                 <Stack
@@ -42,7 +45,8 @@ export class ActionLegend extends React.Component {
                                 height: 32,
                                 minWidth: 32,
                                 borderRadius: "50%",
-                                backgroundColor: `${color}18`
+                                backgroundColor: "#FFFFFF",
+                                border: `1px solid ${color}25`
                             }}
                         >
                             <Icon
@@ -63,7 +67,7 @@ export class ActionLegend extends React.Component {
                             styles={{
                                 root: {
                                     fontSize: 13,
-                                    fontWeight: 600,
+                                    fontWeight: 700,
                                     color: color,
                                     marginBottom: 2
                                 }
@@ -95,10 +99,11 @@ export class ActionLegend extends React.Component {
             <Stack
                 style={{
                     border: "1px solid #D8D8D8",
-                    borderRadius: 6,
-                    padding: 10,
+                    borderRadius: 8,
+                    padding: 12,
                     backgroundColor: "#FFFFFF",
-                    boxSizing: "border-box"
+                    boxSizing: "border-box",
+                    boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)"
                 }}
             >
                 {/* Header */}
@@ -142,15 +147,16 @@ export class ActionLegend extends React.Component {
                 {/* Legend Items */}
                 <Stack
                     horizontal
+                    wrap
                     verticalAlign="stretch"
-                    tokens={{ childrenGap: 8 }}
+                    tokens={{ childrenGap: 10 }}
                 >
                     {this.renderLegendItem(
                         "Clock",
                         "In Progress",
                         "Start working on the discrepancy.",
-                        "#174EA6",
-                        "#F5F8FF"
+                        "#0369A1",
+                        "#E0F2FE"
                     )}
 
                     {this.renderLegendItem(
@@ -158,23 +164,39 @@ export class ActionLegend extends React.Component {
                         "Resolve",
                         "Mark the discrepancy as resolved.",
                         "#107C10",
-                        "#F4FBF4"
+                        "#E8F5E8"
+                    )}
+
+                    {this.renderLegendItem(
+                        "Send",
+                        "Send for Review",
+                        "Send the discrepancy to a reviewer for validation.",
+                        "#9333EA",
+                        "#FAF5FF"
                     )}
 
                     {this.renderLegendItem(
                         "People",
                         "Transfer to BaseCamp Support",
-                        "Send to the BaseCamp team for further review.",
-                        "#6B1FAE",
-                        "#FBF5FF"
+                        "Escalate the discrepancy to BaseCamp Support.",
+                        "#7C3AED",
+                        "#F5F3FF"
                     )}
 
                     {this.renderLegendItem(
                         "Cancel",
                         "Cancel",
                         "Close the discrepancy without resolution.",
-                        "#A4262C",
-                        "#FFF7F7"
+                        "#D13438",
+                        "#FDE7E5"
+                    )}
+
+                    {this.renderLegendItem(
+                        "Warning",
+                        "Unable to Resolve",
+                        "Indicate that the discrepancy cannot be resolved.",
+                        "#B45309",
+                        "#FEF9C3"
                     )}
                 </Stack>
             </Stack>
