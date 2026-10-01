@@ -91,7 +91,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "status",
                 name: "Status",
                 fieldName: "status",
-                minWidth: 80,
+                minWidth: 110,
+                maxWidth: 110,
                 onRender: (item: any) => {
                     var textcolor = "#107C10";
                     var bgcolor = "#0D47A1";
@@ -117,7 +118,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "reportedon",
                 name: "Reported On",
                 fieldName: "reportedon",
-                minWidth: 130,
+                minWidth: 100,
+                flexGrow: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
@@ -127,7 +129,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "reportedby",
                 name: "Reported By",
                 fieldName: "reportedby",
-                minWidth: 130,
+                minWidth: 100,
+                flexGrow: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
@@ -137,7 +140,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "assignedto",
                 name: "Assigned To",
                 fieldName: "assignedto",
-                minWidth: 130,
+                minWidth: 100,
+                flexGrow: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
