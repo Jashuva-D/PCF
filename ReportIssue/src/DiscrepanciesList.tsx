@@ -119,7 +119,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported On",
                 fieldName: "reportedon",
                 minWidth: 120,
-                maxWidth: 100,
+                maxWidth: 120,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
@@ -130,6 +130,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported By",
                 fieldName: "reportedby",
                 minWidth: 120,
+                maxWidth: 120,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
@@ -140,6 +141,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Assigned To",
                 fieldName: "assignedto",
                 minWidth: 120,
+                maxWidth: 120,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
