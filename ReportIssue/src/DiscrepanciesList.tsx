@@ -639,7 +639,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 dialogContentProps={{
                     type: DialogType.normal,
                     title: "Delete discrepancy?",
-                    subText: `Are you sure you want to delete discrepancy ${this.state.deleteitem?.issueid || "this record"}?`,
+                    subText: `Are you sure you want to delete this Data Discrepancy record ${this.state.deleteitem?.issueid || ""}?`,
                     closeButtonAriaLabel: "Close delete confirmation",
                     styles: {
                         title: {
@@ -665,7 +665,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 >
                     <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
                     <Text>
-                        This permanently deletes the parent discrepancy and its related child records.
+                        This will permanently delete the record and all associated child records (fields) and their information. This action cannot be undone.
                     </Text>
                 </Stack>
 
@@ -693,7 +693,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
 
                 <DialogFooter>
                     <DefaultButton
-                        text="Cancel"
+                        text="No, Cancel"
                         disabled={this.state.isdeleting}
                         onClick={() => this.setState({
                             deletedialog: false,
@@ -703,7 +703,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         styles={{ root: { borderRadius: 4 } }}
                     />
                     <PrimaryButton
-                        text={this.state.isdeleting ? "Deleting..." : "Delete"}
+                        text={this.state.isdeleting ? "Deleting..." : "Yes, Delete"}
                         iconProps={{ iconName: "Delete" }}
                         disabled={this.state.isdeleting}
                         onClick={this.onDeleteConfirm}

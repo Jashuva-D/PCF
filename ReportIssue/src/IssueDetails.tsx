@@ -1074,8 +1074,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     }}
                     dialogContentProps={{
                         type: DialogType.normal,
-                        title: "Delete field change?",
-                        subText: `Are you sure you want to delete field change ${this.state.deleteitem?.name || "this record"}?`,
+                        title: "Delete Field Discrepancy?",
+                        subText: "Are you sure you want to delete this field discrepancy record?",
                         closeButtonAriaLabel: "Close delete confirmation",
                         styles: {
                             title: {
@@ -1095,9 +1095,14 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 >
                     <Stack horizontal verticalAlign="start" tokens={{ childrenGap: 8 }}>
                         <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
-                        <Text style={{ color: "#605E5C", fontSize: 12 }}>
-                            Its related status history will also be deleted. This action cannot be undone.
-                        </Text>
+                        <Stack tokens={{ childrenGap: 4 }}>
+                            <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19 }}>
+                                This will permanently delete the record and its information.
+                            </Text>
+                            <Text style={{ color: "#D13438", fontSize: 13, lineHeight: 19, fontWeight: 600 }}>
+                                This action cannot be undone.
+                            </Text>
+                        </Stack>
                     </Stack>
 
                     {this.state.deleteerror && (
@@ -1124,7 +1129,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
                     <DialogFooter>
                         <DefaultButton
-                            text="Cancel"
+                            text="No, Cancel"
                             disabled={this.state.isdeleting}
                             onClick={() => this.setState({
                                 deletedialog: false,
@@ -1138,7 +1143,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             }}
                         />
                         <PrimaryButton
-                            text={this.state.isdeleting ? "Deleting..." : "Delete"}
+                            text={this.state.isdeleting ? "Deleting..." : "Yes, Delete"}
                             iconProps={{ iconName: "Delete" }}
                             disabled={this.state.isdeleting}
                             onClick={this.onDeleteConfirm}
