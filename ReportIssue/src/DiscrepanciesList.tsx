@@ -580,7 +580,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const totalPages = Math.ceil(this.state.items.length / this.state.pageSize);
         return <Stack>
             <Stack horizontal verticalAlign="center" tokens={{childrenGap: 10}}><Label style={{color: "#0D2499", fontSize: 16, fontWeight: 700}}>Data Discrepancies</Label><Text style={{ padding: 5, fontWeight: 600, color: "#0D2499"}}>{this.state.items.length}</Text></Stack>
-            <div ref={this.gridContainerRef}>
+            <div ref={this.gridContainerRef} style={{width: "100%", minWidth: 0, overflowX: "hidden"}}>
             <DetailsList className="discrepancies"
                 columns={this.state.columns}
                 items={paginatedRecords}
