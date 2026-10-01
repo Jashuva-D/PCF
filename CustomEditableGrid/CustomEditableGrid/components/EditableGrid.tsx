@@ -70,7 +70,6 @@ const addButtonStyles = {
 
 export class EditableGrid extends React.Component<EditableGridProps, EditableGridState> {
     private detailsListContainer = React.createRef<HTMLDivElement>();
-    private contentScroller?: HTMLElement;
 
     public state: EditableGridState = {
         searchText: ""
@@ -112,7 +111,7 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
                     </Text>
                 )}
 
-                <div ref={this.detailsListContainer}>
+                <div ref={this.detailsListContainer} onScrollCapture={this.onGridScrollCapture}>
                     <DetailsList
                         items={visibleRows}
                         columns={this.getColumns(visibleRows, allVisibleSelected, selectedVisibleCount)}
@@ -132,18 +131,6 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
         );
     }
 
-    public componentDidMount(): void {
-        this.connectHorizontalScroll();
-    }
-
-    public componentDidUpdate(): void {
-        this.connectHorizontalScroll();
-    }
-
-    public componentWillUnmount(): void {
-        this.contentScroller?.removeEventListener("scroll", this.synchroniseHeaderPosition);
-    }
-
     private getVisibleRows(): GridRow[] {
         const searchText = this.state.searchText.trim().toLowerCase();
         if (!searchText) {
@@ -155,23 +142,17 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
         ));
     }
 
-    private connectHorizontalScroll(): void {
-        const content = this.detailsListContainer.current?.querySelector(".ms-DetailsList-contentWrapper") as HTMLElement | null;
-        if (!content || this.contentScroller === content) {
+    private onGridScrollCapture = (event: React.UIEvent<HTMLDivElement>): void => {
+        const contentScroller = event.target as HTMLElement;
+        if (!contentScroller.classList.contains("ms-DetailsList-contentWrapper")) {
             return;
         }
 
-        this.contentScroller?.removeEventListener("scroll", this.synchroniseHeaderPosition);
-        this.contentScroller = content;
-        this.contentScroller.addEventListener("scroll", this.synchroniseHeaderPosition, { passive: true });
-        this.synchroniseHeaderPosition();
-    }
-
-    private synchroniseHeaderPosition = (): void => {
         const root = this.detailsListContainer.current;
         const header = root?.querySelector(".ms-DetailsList-headerWrapper") as HTMLElement | null;
-        if (header && this.contentScroller) {
-            header.style.transform = `translateX(-${this.contentScroller.scrollLeft}px)`;
+        if (header) {
+            header.style.width = `${contentScroller.scrollWidth}px`;
+            header.style.transform = `translateX(-${contentScroller.scrollLeft}px)`;
         }
     };
 
