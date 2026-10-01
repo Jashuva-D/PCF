@@ -67,16 +67,6 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     return <Link onClick={() => {obj.setState({openDetails: true,issuerecordidToOpen: item.issuerecordid})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
                 }
             },
-            {
-                key: "fieldname",
-                name: "Issue Title",
-                fieldName: "issuetitle",
-                isResizable: true,
-                minWidth: 160,
-                onRender: (item: any) => {
-                    return <Text style={{fontWeight: 400}}>{item["issuetitle"]}</Text>
-                }
-            },
             // {
             //     key: "currentvalue",
             //     name: "Current Value",
