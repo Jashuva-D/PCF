@@ -46,8 +46,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
         const containerWidth = this.gridContainerRef.current?.clientWidth;
         if (!containerWidth) return;
 
-        const remainingWidth = containerWidth - 80 - 120 - 48;
-        const flexibleColumnWidth = Math.max(130, Math.floor(remainingWidth / 3));
+        const remainingWidth = containerWidth - 80 - 120 - 48 - 96;
+        const flexibleColumnWidth = Math.max(0, Math.floor(remainingWidth / 3));
 
         this.setState({
             columns: this.state.columns.map(column =>
