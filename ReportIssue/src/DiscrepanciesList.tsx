@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DetailsList,IColumn, Stack, Text, DefaultButton, PrimaryButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem, Dialog, DialogFooter, DialogType } from "@fluentui/react";
+import { DetailsList,DetailsListLayoutMode,IColumn, Stack, Text, DefaultButton, PrimaryButton, Link, SelectionMode, Icon, TooltipHost, Dropdown, IconButton, Label, StackItem, Dialog, DialogFooter, DialogType } from "@fluentui/react";
 import IssueDetailsDialog from "./IssueDetails";
 import CMSDialog from "./CMSDialog";
 import { TabOptions } from "./data";
@@ -119,7 +119,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported On",
                 fieldName: "reportedon",
                 minWidth: 130,
-                maxWidth: 130,
+                targetWidthProportion: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedon"]}</Text>
@@ -130,7 +130,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Reported By",
                 fieldName: "reportedby",
                 minWidth: 130,
-                maxWidth: 130,
+                targetWidthProportion: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
@@ -141,7 +141,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 name: "Assigned To",
                 fieldName: "assignedto",
                 minWidth: 130,
-                maxWidth: 130,
+                targetWidthProportion: 1,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
@@ -560,6 +560,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 columns={this.state.columns}
                 items={paginatedRecords}
                 selectionMode={SelectionMode.none}
+                layoutMode={DetailsListLayoutMode.justified}
                 onItemInvoked={()=> {this.setState({openDetails: true})}}
                 styles={{
                     headerWrapper: {
