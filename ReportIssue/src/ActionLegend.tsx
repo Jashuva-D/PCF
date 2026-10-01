@@ -18,15 +18,14 @@ export class ActionLegend extends React.Component {
     ): React.ReactElement => {
         return (
             <StackItem
-                grow
                 style={{
                     border: `1px solid ${color}30`,
                     borderRadius: 8,
                     backgroundColor: backgroundColor,
                     padding: "10px 12px",
                     minHeight: 78,
-                    minWidth: 220,
-                    flexBasis: "calc(33.333% - 8px)",
+                    minWidth: 0,
+                    width: "100%",
                     boxSizing: "border-box",
                     boxShadow: "0 1px 2px rgba(0, 0, 0, 0.04)"
                 }}
@@ -145,11 +144,13 @@ export class ActionLegend extends React.Component {
                 </Stack>
 
                 {/* Legend Items */}
-                <Stack
-                    horizontal
-                    wrap
-                    verticalAlign="stretch"
-                    tokens={{ childrenGap: 10 }}
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                        gap: 10,
+                        alignItems: "stretch"
+                    }}
                 >
                     {this.renderLegendItem(
                         "Clock",
@@ -198,7 +199,7 @@ export class ActionLegend extends React.Component {
                         "#B45309",
                         "#FEF9C3"
                     )}
-                </Stack>
+                </div>
             </Stack>
         );
     }
