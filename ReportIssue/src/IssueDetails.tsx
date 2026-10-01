@@ -1095,14 +1095,12 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 >
                     <Stack horizontal verticalAlign="start" tokens={{ childrenGap: 8 }}>
                         <Icon iconName="Warning" styles={{ root: { color: "#D13438", marginTop: 2 } }} />
-                        <Stack tokens={{ childrenGap: 4 }}>
-                            <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19 }}>
-                                This will permanently delete the record and its information.
-                            </Text>
-                            <Text style={{ color: "#D13438", fontSize: 13, lineHeight: 19, fontWeight: 600 }}>
+                        <Text style={{ color: "#605E5C", fontSize: 13, lineHeight: 19 }}>
+                            This will permanently delete the record and its information.{" "}
+                            <span style={{ color: "#D13438", fontWeight: 600 }}>
                                 This action cannot be undone.
-                            </Text>
-                        </Stack>
+                            </span>
+                        </Text>
                     </Stack>
 
                     {this.state.deleteerror && (
