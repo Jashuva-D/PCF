@@ -60,8 +60,8 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "issueid",
                 name: "Issue ID",
                 fieldName: "issueid",
-                minWidth: 50,
-                maxWidth: 50,
+                minWidth: 70,
+                maxWidth: 70,
                 onRender: (item: any) => {
                     var obj = this;
                     return <Link onClick={() => {obj.setState({openDetails: true,issuerecordidToOpen: item.issuerecordid})}} style={{color: "#0D2499", fontWeight: 600}}>{item["issueid"]}</Link>
@@ -118,7 +118,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "reportedon",
                 name: "Reported On",
                 fieldName: "reportedon",
-                minWidth: 100,
+                minWidth: 120,
                 maxWidth: 100,
                 isResizable: true,
                 onRender: (item: any) => {
@@ -129,8 +129,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "reportedby",
                 name: "Reported By",
                 fieldName: "reportedby",
-                minWidth: 100,
-                flexGrow: 1,
+                minWidth: 120,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["reportedby"]}</Text>
@@ -140,8 +139,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 key: "assignedto",
                 name: "Assigned To",
                 fieldName: "assignedto",
-                minWidth: 100,
-                flexGrow: 1,
+                minWidth: 120,
                 isResizable: true,
                 onRender: (item: any) => {
                     return <Text style={{fontWeight: 400}}>{item["assignedto"]}</Text>
