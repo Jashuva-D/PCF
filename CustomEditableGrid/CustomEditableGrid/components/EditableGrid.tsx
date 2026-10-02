@@ -331,7 +331,10 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
                 root: {
                     background: isSelected ? selectedRowBackground : undefined,
                     borderLeft: isSelected ? `3px solid ${green}` : "3px solid transparent",
-                    borderBottom: "1px solid #F0F0F0"
+                    borderBottom: "none"
+                },
+                cell: {
+                    boxShadow: "inset 0 -1px 0 #E5E5E5"
                 }
             }
         });

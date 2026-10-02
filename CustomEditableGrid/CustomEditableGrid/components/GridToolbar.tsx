@@ -22,7 +22,7 @@ export class GridToolbar extends React.PureComponent<GridToolbarProps> {
         const savedSelection = selectedCount === selectedSavedCount;
         return (
             <Stack horizontal wrap verticalAlign="center" tokens={{ childrenGap: 6 }}>
-                <PrimaryButton text="New record" iconProps={{ iconName: "Add" }}
+                <PrimaryButton text="New" iconProps={{ iconName: "Add" }}
                     disabled={busy || editing} onClick={this.props.onNewRecord}
                     styles={{ root: { borderRadius: 6, background: "#00814F", borderColor: "#00814F" },
                         rootHovered: { background: "#005C39", borderColor: "#005C39" } }} />
