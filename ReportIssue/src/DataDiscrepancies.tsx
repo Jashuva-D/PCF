@@ -79,7 +79,7 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         <PrimaryButton
                             text="Go Back"
                             iconProps={{iconName: "chevronleftmed"}}
-                            style={{ alignItems: "end",padding:10, borderRadius: 6, backgroundColor: this.state.openreportissue ? "#F2F2F2" : "#0D2499", color: this.state.openreportissue ? "#5A5A5A" : "white" }}
+                            style={{ alignItems: "end", padding: 10, borderRadius: 6, backgroundColor: "#0D2499", color: "white" }}
                             onClick={() => {
                                 this.setState({
                                     openreportissue: false,
@@ -89,12 +89,12 @@ class DataDescripancies extends React.Component<DataDiscrepnaciesProps, DataDisc
                         />
                     </StackItem>}
                 </Stack>
-                <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6}}>
+                {!this.state.openreportissue && <StackItem style={{backgroundColor: "#E6E9FF", borderRadius: 6}}>
                         <Stack horizontal horizontalAlign="center" verticalAlign="center" style={{padding: 5}} tokens={{childrenGap: 10}}>
                             <Icon iconName="info" color="#0D2499" style={{color: "#0D2499", fontSize: 24, }}></Icon>
                             <Text >This view shows all data discrepancies for the selected application, tab and section</Text>
                         </Stack>
-                </StackItem>
+                </StackItem>}
                 {/* <Separator></Separator> */}
                 {this.state.displaylist && (
                     <StackItem style={{border: "1px solid #EDEBE9", marginTop: 5, paddingBottom: 5}}><DiscrepanciesList 

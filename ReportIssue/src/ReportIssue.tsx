@@ -223,8 +223,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
           key: "actions",
           name: "Actions",
           fieldName: "Actions",
-          minWidth: 42,
-          maxWidth: 52,
+          minWidth: 80,
+          maxWidth: 80,
           onRender: (item: any) => {
             if (item.newrecord) {
               var enablesavebutton = this.state.currentrecord?.fieldname != null && this.state.currentrecord?.fieldname != "" && this.state.currentrecord?.newvalue != null && this.state.currentrecord?.newvalue != "" && this.state.currentrecord.currentvalue != this.state.currentrecord.newvalue;
