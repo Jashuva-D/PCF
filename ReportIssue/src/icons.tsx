@@ -47,3 +47,41 @@ export const SendForReviewICon: React.FC<{ size?: number, color?: string }> = ({
         <path d="M256 270 C174 270 108 336 108 418 V438 C108 454 121 467 137 467 H375 C391 467 404 454 404 438 V418 C404 336 338 270 256 270Z" fill={color} />
     </svg>
 );
+
+export interface ActionIconProps {
+    size?: number;
+    color?: string;
+    disabled?: boolean;
+}
+
+export const ActionIcon: React.FC<ActionIconProps> = ({
+    size = 22,
+    color = "#0D2499",
+    disabled = false
+}) => {
+    const strokeColor = disabled ? "#8A8886" : color;
+
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={size}
+            height={size}
+            viewBox="0 0 64 64"
+            fill="none"
+            aria-hidden="true"
+            focusable="false"
+        >
+            <g
+                stroke={strokeColor}
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <circle cx="32" cy="32" r="27" />
+                <path d="M16.5 32.5l8 8 17-18" />
+                <path d="M36 40h14" />
+                <path d="M44 33l7 7-7 7" />
+            </g>
+        </svg>
+    );
+};

@@ -3,7 +3,7 @@ import { Dialog, DialogType, DialogFooter, DefaultButton, PrimaryButton, Icon, S
 import CMSDialog from "./CMSDialog";
 import ActionDialog, { IssueActionKey } from "./SendForReviewPopup";
 import StatusHistoryPanel, { StatusHistoryItem } from "./StatusHistoryPanel";
-import { SendForReviewICon } from "./icons";
+import { ActionIcon, SendForReviewICon } from "./icons";
 
 export interface IssueFieldChange {
     recordid: string;
@@ -345,7 +345,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             disabled={!validstatusforaction}
                             title="Actions"
                             ariaLabel="Actions"
-                            iconProps={{ iconName: "More" }}
+                            onRenderIcon={() => (
+                                <ActionIcon size={21} disabled={!validstatusforaction} />
+                            )}
                             onClick={() => {
                                 this.setState({ actiondialog: true, actionitem: item });
                             }}
@@ -357,11 +359,6 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 },
                                 rootHovered: {
                                     backgroundColor: "#F3F3F3"
-                                },
-                                icon: {
-                                    fontSize: 20,
-                                    color: "#0D2499",
-                                    fontWeight: 600
                                 },
                             }}
                         />
