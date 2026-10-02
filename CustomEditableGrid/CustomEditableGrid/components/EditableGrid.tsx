@@ -197,6 +197,7 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
             isResizable: false,
             onRenderHeader: () => (
                 <Checkbox
+                    theme={gridTheme}
                     styles={{
                         root: { height: 42, alignItems: "center" },
                         label: { alignItems: "center" },
@@ -214,6 +215,7 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
             ),
             onRender: (row: GridRow) => (
                 <Checkbox
+                    theme={gridTheme}
                     ariaLabel="Select row"
                     disabled={this.isBusy()}
                     checked={this.props.selectedIds.has(row.id)}
