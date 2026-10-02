@@ -44,7 +44,7 @@ class HomePage extends React.Component<HomePageProps, HomePageState> {
         return <>
             <Stack style={{marginTop: 10, marginBottom: 10}} tokens={{childrenGap: 10}}>
                 <PowerVaultLogo/>
-                <ApplicationSummaryCards />
+                {/* <ApplicationSummaryCards /> */}
             </Stack>
             <Stack tokens={{childrenGap: 10}}>
                 {/* <StackItem style={{border:"1px solid #ccc", borderRadius:6, paddingLeft: 10, paddingTop: 5, paddingBottom: 10, paddingRight: 10, backgroundColor: "white"}}><Notifications /></StackItem> */}
