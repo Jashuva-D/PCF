@@ -698,30 +698,60 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     </span>
                     <Text style={{ color: colors.legend, paddingLeft: "8px", paddingRight: "8px", fontSize: 14, fontWeight: 600 }}>{title}</Text>
                 </Stack>
-                <TooltipHost content={`View status history (${historyCount})`}>
-                    <IconButton
-                        iconProps={{ iconName: "History" }}
-                        ariaLabel={`View ${historyCount} status history records`}
-                        onClick={() => this.setState({ showStatusHistory: true })}
-                        styles={{
-                            root: {
-                                width: 26,
-                                height: 26,
-                                color: colors.legend,
-                                backgroundColor: "#FFFFFF",
-                                border: `1px solid ${colors.legend}`,
-                                borderRadius: 4
-                            },
-                            rootHovered: {
-                                color: colors.legend,
-                                backgroundColor: colors.background
-                            },
-                            icon: {
-                                fontSize: 14
-                            }
-                        }}
-                    />
-                </TooltipHost>
+                <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 6 }}>
+                    <TooltipHost content={`View status history (${historyCount})`}>
+                        <IconButton
+                            iconProps={{ iconName: "History" }}
+                            ariaLabel={`View ${historyCount} status history records`}
+                            onClick={() => this.setState({ showStatusHistory: true })}
+                            styles={{
+                                root: {
+                                    width: 26,
+                                    height: 26,
+                                    color: colors.legend,
+                                    backgroundColor: "#FFFFFF",
+                                    border: `1px solid ${colors.legend}`,
+                                    borderRadius: 4
+                                },
+                                rootHovered: {
+                                    color: colors.legend,
+                                    backgroundColor: colors.background
+                                },
+                                icon: {
+                                    fontSize: 14
+                                }
+                            }}
+                        />
+                    </TooltipHost>
+                    <TooltipHost content="Close status details">
+                        <IconButton
+                            iconProps={{ iconName: "Cancel" }}
+                            ariaLabel="Close status details"
+                            onClick={() => this.setState({
+                                showFieldStatusTile: false,
+                                selectedrecordid: null,
+                                showStatusHistory: false
+                            })}
+                            styles={{
+                                root: {
+                                    width: 26,
+                                    height: 26,
+                                    color: colors.legend,
+                                    backgroundColor: "#FFFFFF",
+                                    border: `1px solid ${colors.legend}`,
+                                    borderRadius: 4
+                                },
+                                rootHovered: {
+                                    color: colors.legend,
+                                    backgroundColor: colors.background
+                                },
+                                icon: {
+                                    fontSize: 13
+                                }
+                            }}
+                        />
+                    </TooltipHost>
+                </Stack>
             </Stack>
             <Stack horizontal wrap tokens={{ childrenGap: 30 }} className="people-section" style={{ paddingLeft: 30 }}>
                 <Stack className="person-column">
