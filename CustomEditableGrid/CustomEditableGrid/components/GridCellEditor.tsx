@@ -1,8 +1,13 @@
 import * as React from "react";
 import { Checkbox, DatePicker, TextField } from "@fluentui/react";
-import { GridValue } from "../models/GridModels";
+import { GridValue, isLookupColumn } from "../models/GridModels";
+import { IInputs } from "../generated/ManifestTypes";
+import { LookupCellEditor } from "./LookupCellEditor";
 
 export interface GridCellEditorProps {
+    context: ComponentFramework.Context<IInputs>;
+    isNew: boolean;
+    disabled?: boolean;
     column: ComponentFramework.PropertyHelper.DataSetApi.Column;
     value: GridValue;
     ariaLabelledBy: string;
@@ -13,9 +18,18 @@ export class GridCellEditor extends React.PureComponent<GridCellEditorProps> {
     public render(): React.ReactNode {
         const dataType = (this.props.column.dataType || "").toLowerCase();
 
+        if (dataType.includes("partylist")) {
+            return <TextField readOnly value="Party list editing is not supported in this POC." />;
+        }
+
+        if (isLookupColumn(this.props.column)) {
+            return <LookupCellEditor {...this.props} />;
+        }
+
         if (dataType.indexOf("boolean") >= 0 || dataType.indexOf("twooptions") >= 0) {
             return (
                 <Checkbox
+                    disabled={this.props.disabled}
                     aria-labelledby={this.props.ariaLabelledBy}
                     checked={Boolean(this.props.value)}
                     onChange={(_, checked) => this.props.onChange(!!checked)}
@@ -26,6 +40,7 @@ export class GridCellEditor extends React.PureComponent<GridCellEditorProps> {
         if (dataType.indexOf("date") >= 0) {
             return (
                 <DatePicker
+                    disabled={this.props.disabled}
                     aria-labelledby={this.props.ariaLabelledBy}
                     value={this.asDate(this.props.value)}
                     onSelectDate={(value) => this.props.onChange(value || null)}
@@ -36,6 +51,7 @@ export class GridCellEditor extends React.PureComponent<GridCellEditorProps> {
 
         return (
             <TextField
+                disabled={this.props.disabled}
                 aria-labelledby={this.props.ariaLabelledBy}
                 value={this.displayValue(this.props.value)}
                 type={this.isNumber(dataType) ? "number" : "text"}

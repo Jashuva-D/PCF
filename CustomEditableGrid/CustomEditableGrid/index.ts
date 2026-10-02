@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot, Root } from "react-dom/client";
 import { EditableGrid } from "./components/EditableGrid";
 import { GridDataService } from "./services/GridDataService";
 import { GridRow, GridValue } from "./models/GridModels";
@@ -8,6 +8,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 export class CustomEditableGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     private context!: ComponentFramework.Context<IInputs>;
     private container!: HTMLDivElement;
+    private reactRoot!: Root;
     private rows = new Map<string, GridRow>();
     private selectedIds = new Set<string>();
     private editingRowId?: string;
@@ -17,6 +18,7 @@ export class CustomEditableGrid implements ComponentFramework.StandardControl<II
     public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): void {
         this.context = context;
         this.container = container;
+        this.reactRoot = createRoot(container);
         context.mode.trackContainerResize(true);
     }
 
@@ -29,7 +31,7 @@ export class CustomEditableGrid implements ComponentFramework.StandardControl<II
     public getOutputs(): IOutputs { return {}; }
 
     public destroy(): void {
-        ReactDOM.unmountComponentAtNode(this.container);
+        this.reactRoot.unmount();
         this.rows.clear();
         this.selectedIds.clear();
     }
@@ -53,7 +55,8 @@ export class CustomEditableGrid implements ComponentFramework.StandardControl<II
     }
 
     private render(): void {
-        ReactDOM.render(React.createElement(EditableGrid, {
+        this.reactRoot.render(React.createElement(EditableGrid, {
+            context: this.context,
             rows: Array.from(this.rows.values()),
             dataColumns: this.context.parameters.grid.columns,
             selectedIds: this.selectedIds,
@@ -67,7 +70,7 @@ export class CustomEditableGrid implements ComponentFramework.StandardControl<II
             onSaveEdit: this.saveEdit,
             onAddRow: this.addRow,
             onValueChange: this.changeValue
-        }), this.container);
+        }));
     }
 
     private toggleRow = (rowId: string, checked: boolean): void => {
@@ -139,6 +142,9 @@ export class CustomEditableGrid implements ComponentFramework.StandardControl<II
             this.saving = false;
             this.editingRowId = undefined;
             this.selectedIds.delete(row.id);
+            if (row.isNew) this.rows.delete(row.id);
+            else row.originalValues = { ...row.values };
+            this.render();
             this.context.parameters.grid.refresh();
         } catch (error) {
             this.saving = false;

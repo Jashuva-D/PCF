@@ -13,11 +13,13 @@ import {
     Text,
     TextField
 } from "@fluentui/react";
-import { GridRow, GridValue } from "../models/GridModels";
+import { GridRow, GridValue, displayGridValue } from "../models/GridModels";
+import { IInputs } from "../generated/ManifestTypes";
 import { GridCellEditor } from "./GridCellEditor";
 import { GridRowActions } from "./GridRowActions";
 
 export interface EditableGridProps {
+    context: ComponentFramework.Context<IInputs>;
     rows: GridRow[];
     dataColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[];
     selectedIds: Set<string>;
@@ -213,12 +215,15 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
                 <Text id={this.getHeaderId(column.name)}>{column.displayName || column.name}</Text>
             ),
             onRender: (row: GridRow) => {
-                if (this.props.editingRowId !== row.id) {
+                if (this.props.editingRowId !== row.id || column.name.includes(".")) {
                     return <Text>{this.displayValue(row.values[column.name])}</Text>;
                 }
 
                 return (
                     <GridCellEditor
+                        context={this.props.context}
+                        isNew={row.isNew}
+                        disabled={this.props.saving}
                         column={column}
                         value={row.values[column.name]}
                         ariaLabelledBy={this.getHeaderId(column.name)}
@@ -260,9 +265,6 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
     }
 
     private displayValue(value: GridValue): string {
-        if (value === null || value === undefined) {
-            return "";
-        }
-        return value instanceof Date ? value.toLocaleDateString() : String(value);
+        return displayGridValue(value);
     }
 }
