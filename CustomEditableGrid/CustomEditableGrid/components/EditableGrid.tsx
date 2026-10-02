@@ -48,6 +48,8 @@ interface EditableGridState {
 }
 
 const green = "#00814F";
+const headerBackground = "#B4DECD";
+const selectedRowBackground = "#F3FAF6";
 
 // Keep the organization theme local to this grid; do not change the hosting form.
 const gridTheme = createTheme({
@@ -78,7 +80,7 @@ const detailsListStyles: Partial<IDetailsListStyles> = {
         overflow: "hidden"
     },
     headerWrapper: {
-        background: "#DFF1E8",
+        background: headerBackground,
         overflow: "hidden",
         willChange: "transform"
     },
@@ -216,6 +218,11 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
             onRender: (row: GridRow) => (
                 <Checkbox
                     theme={gridTheme}
+                    styles={{
+                        root: { height: 32, alignItems: "center" },
+                        label: { alignItems: "center" },
+                        checkbox: { margin: 0 }
+                    }}
                     ariaLabel="Select row"
                     disabled={this.isBusy()}
                     checked={this.props.selectedIds.has(row.id)}
@@ -293,7 +300,7 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
                     paddingTop: 0,
                     paddingBottom: 0,
                     height: 42,
-                    background: "#DFF1E8",
+                    background: headerBackground,
                     borderBottom: "1px solid #B4DECD",
                     selectors: {
                         ".ms-DetailsHeader-cellTitle": {
@@ -322,7 +329,7 @@ export class EditableGrid extends React.Component<EditableGridProps, EditableGri
             ...rowProps,
             styles: {
                 root: {
-                    background: isSelected ? "#E8F5EF" : undefined,
+                    background: isSelected ? selectedRowBackground : undefined,
                     borderLeft: isSelected ? `3px solid ${green}` : "3px solid transparent"
                 }
             }
