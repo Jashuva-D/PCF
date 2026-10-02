@@ -45,6 +45,7 @@ export class GridRowActions extends React.PureComponent<GridRowActionsProps> {
                 title="Edit row"
                 iconProps={{ iconName: "Edit" }}
                 styles={iconButtonStyles}
+                disabled={this.props.disabled}
                 onClick={this.props.onEdit}
             />
         );
