@@ -134,7 +134,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             key: "newvalue",
             name: "New Value",
             fieldName: "newvalue",
-            minWidth: 120,
+            minWidth: 150,
+            flexGrow: 1,
             isResizable: true,
             onRender: (item: IssueFieldChange) => (
                 <span className="new-value">
@@ -165,7 +166,8 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             key: "actions",
             name: "Action",
             minWidth: 76,
-            isResizable: true,
+            maxWidth: 76,
+            isResizable: false,
             onRender: (item: any) => {
                 var validstatusforaction = true;
                 if (

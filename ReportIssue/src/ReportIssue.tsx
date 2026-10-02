@@ -42,6 +42,8 @@ interface ReportIssueState {
     datacolumns : IColumn[];
     currentrecord: DataField | null;
     submitted: boolean;
+    submitting: boolean;
+    savedDiscrepancyId: string | null;
     appuserroledata?: any
 }
 
@@ -69,6 +71,8 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
     
     this.state = {
       submitted: false,
+      submitting: false,
+      savedDiscrepancyId: null,
       issueTitle: `${this.props.appname ?? ""} - ${tab?.text ?? ""} - ${section?.text ?? ""} - Data Discrepancy`,
       issueDescription: "",
       useremail: "",
@@ -352,6 +356,9 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
   async OnSubmitIssue() {
     var obj = this;
 
+    if (this.state.submitting) return;
+    this.setState({ submitting: true });
+
     const selectedTabData = TabOptions.find(x => x.key === this.props.tabname);
     const selectedSectionData = selectedTabData?.sections.find(x => x.key === this.props.sectionname);
     const selectedfields = this.state.datafields.filter(x => x.newrecord == false).map(function(x){ return {fieldname : x.fieldlabel, currentvalue: x.currentvalue, newvalue: x.newvalue}});
@@ -374,69 +381,92 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
 
     //alert(JSON.stringify(discrepancy));
 
-    var discrepancyid = await (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancy", discrepancy).then(function success(result: any) { return result.id; },function(error: any) { alert(error?.message); });
-    //alert(discrepancyid);
+    try {
+      const webApi = (parent as any).Xrm.WebApi;
+      let discrepancyid = this.state.savedDiscrepancyId;
 
-    await Promise.all(this.state.datafields.filter(x => x.newrecord == false).map(eachrecord => {
-      var discrepancyfield = {} as any;
-      discrepancyfield["crm2_DataDiscrepancy@odata.bind"] = `/crm2_datadiscrepancies(${discrepancyid})`; 
-      discrepancyfield.crm2_fieldname = eachrecord.fieldlabel, 
-      discrepancyfield.crm2_currentvalue = eachrecord.currentvalue,
-      discrepancyfield.crm2_newvalue = eachrecord.newvalue
+      if (!discrepancyid) {
+        const createResult = await webApi.createRecord("crm2_datadiscrepancy", discrepancy);
+        discrepancyid = createResult?.id;
 
-      return (parent as any).Xrm.WebApi.createRecord("crm2_datadiscrepancyfield",discrepancyfield);
-    })).then(function(resp: any){
-      //alert('success');
-    },function(err: any){
-        alert(err?.message);
-    });
+        if (!discrepancyid) {
+          throw new Error("The discrepancy was created without returning a record ID.");
+        }
 
-    obj.setState({submitted: true});
+        await Promise.all(this.state.datafields.filter(x => x.newrecord == false).map(eachrecord => {
+          var discrepancyfield = {} as any;
+          discrepancyfield["crm2_DataDiscrepancy@odata.bind"] = `/crm2_datadiscrepancies(${discrepancyid})`;
+          discrepancyfield.crm2_fieldname = eachrecord.fieldlabel;
+          discrepancyfield.crm2_currentvalue = eachrecord.currentvalue;
+          discrepancyfield.crm2_newvalue = eachrecord.newvalue;
 
-    // var request = {
-    //   entityname: "cr549_application",
-    //   recordid: obj.props.recordid,
-    //   recordname: obj.props.appname,
-    //   tab: selectedTabData?.text,
-    //   section: selectedSectionData?.text,
-    //   fields: JSON.stringify(selectedfields),
-    //   title: obj.state.issueTitle,
-    //   description: obj.state.issueDescription,
-    //   assignedto_email: obj.state.hostingcoordinator?.email,
-    //   delegateto_email: obj.state.delegateuser?.email,
-    //   reportedby_email: obj.state.useremail,
+          return webApi.createRecord("crm2_datadiscrepancyfield", discrepancyfield);
+        }));
 
-    //   getMetadata: function () {
-    //     return {
-    //       boundParameter: null,
-    //       parameterTypes: {
-    //         entityname: { typeName: "Edm.String", structuralProperty: 1 },
-    //         recordid: { typeName: "Edm.String", structuralProperty: 1 },
-    //         recordname: { typeName: "Edm.String", structuralProperty: 1 },
-    //         tab: { typeName: "Edm.String", structuralProperty: 1 },
-    //         section: { typeName: "Edm.String", structuralProperty: 1 },
-    //         fields: { typeName: "Edm.String", structuralProperty: 1 },
-    //         title: { typeName: "Edm.String", structuralProperty: 1 },
-    //         description: { typeName: "Edm.String", structuralProperty: 1 },
-    //         assignedto_email: { typeName: "Edm.String", structuralProperty: 1 },
-    //         delegateto_email: { typeName: "Edm.String", structuralProperty: 1 },
-    //         reportedby_email: { typeName: "Edm.String", structuralProperty: 1 }
-    //       },
-    //       operationType: 0, operationName: "crm2_ReportIssueCreateIssue"
-    //     };
-    //   }
-    // };
+        this.setState({ savedDiscrepancyId: discrepancyid });
+      }
 
-    // (parent as any).Xrm.WebApi.execute(request).then(
-    //   function success(response: any) {
-    //     if (response.ok) { 
-    //       console.log("Success"); 
-    //       obj.setState({submitted: true})
-    //     }
-    //   }
-    // ).catch(function (error: any) {
-    //   console.log(error.message);
-    // });
+      const request = {
+        entityname: "cr549_application",
+        recordid: obj.props.recordid ?? "",
+        recordname: obj.props.appname ?? "",
+        tab: selectedTabData?.text ?? "",
+        section: selectedSectionData?.text ?? "",
+        fields: JSON.stringify(selectedfields),
+        title: obj.state.issueTitle ?? "",
+        description: obj.state.issueDescription ?? "",
+        assignedto_email: obj.state.hostingcoordinator?.email ?? "",
+        delegateto_email: obj.state.delegateuser?.email ?? "",
+        reportedby_email: obj.state.reportedby?.email ?? obj.state.useremail ?? "",
+
+        getMetadata: function () {
+          return {
+            boundParameter: null,
+            parameterTypes: {
+              entityname: { typeName: "Edm.String", structuralProperty: 1 },
+              recordid: { typeName: "Edm.String", structuralProperty: 1 },
+              recordname: { typeName: "Edm.String", structuralProperty: 1 },
+              tab: { typeName: "Edm.String", structuralProperty: 1 },
+              section: { typeName: "Edm.String", structuralProperty: 1 },
+              fields: { typeName: "Edm.String", structuralProperty: 1 },
+              title: { typeName: "Edm.String", structuralProperty: 1 },
+              description: { typeName: "Edm.String", structuralProperty: 1 },
+              assignedto_email: { typeName: "Edm.String", structuralProperty: 1 },
+              delegateto_email: { typeName: "Edm.String", structuralProperty: 1 },
+              reportedby_email: { typeName: "Edm.String", structuralProperty: 1 }
+            },
+            operationType: 0,
+            operationName: "crm2_ReportIssueCreateIssue"
+          };
+        }
+      };
+
+      const execute = webApi.online?.execute
+        ? webApi.online.execute.bind(webApi.online)
+        : webApi.execute?.bind(webApi);
+
+      if (!execute) {
+        throw new Error("The Dataverse Web API execute method is not available.");
+      }
+
+      const response = await execute(request);
+      if (!response?.ok) {
+        let actionMessage = `The report action failed${response?.status ? ` with status ${response.status}` : ""}.`;
+        try {
+          const errorBody = await response.json();
+          actionMessage = errorBody?.error?.message ?? errorBody?.message ?? actionMessage;
+        } catch {
+          // The action may return an empty response body.
+        }
+        throw new Error(actionMessage);
+      }
+
+      obj.setState({ submitted: true, submitting: false });
+    } catch (error: any) {
+      console.error("Unable to submit the data discrepancy or execute the report action.", error);
+      obj.setState({ submitting: false });
+      alert(error?.message ?? "The issue could not be submitted. Please try again.");
+    }
   }
 
   render() {
@@ -629,12 +659,12 @@ export default class ReportIssue extends Component<ReportIssueProps, ReportIssue
             onClick={this.props.onClose}
           />
           <PrimaryButton
-            text="Submit Issue"
+            text={this.state.submitting ? "Submitting..." : "Submit Issue"}
             iconProps={{ iconName: "Send" }}
             className="submit-button"
             style={{ borderRadius: 6, backgroundColor: this.state.datafields.filter(x => x.newrecord == false).length != 0 && (this.state.issueDescription != null && this.state.issueDescription?.trim() != "") ? "#0D2499" : "#F2F2F2" , color: (this.state.datafields.filter(x => x.newrecord == false).length != 0 && this.state.issueDescription != null && this.state.issueDescription != "") ? "white" : "#5A5A5A" }}
             onClick={this.OnSubmitIssue.bind(this)}
-            disabled = {this.state.datafields.filter(x => x.newrecord == false).length == 0 || this.state.issueDescription == null || this.state.issueDescription?.trim() == ""}
+            disabled = {this.state.submitting || this.state.datafields.filter(x => x.newrecord == false).length == 0 || this.state.issueDescription == null || this.state.issueDescription?.trim() == ""}
           />
         </div>
       </div>
