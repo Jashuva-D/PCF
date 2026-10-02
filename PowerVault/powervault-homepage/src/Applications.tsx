@@ -224,7 +224,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                             onClick={() => {
                                 (parent as any).Xrm.Navigation.navigateTo({
                                     pageType: "entitylist",
-                                    entityName: "cr549_application"
+                                    entityName: "pv_apps"
                                 });
                             }}
                             styles={{
