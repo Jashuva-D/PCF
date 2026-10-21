@@ -1,7 +1,7 @@
 import * as React from "react";
-import { IconButton, Stack, TextField } from "@fluentui/react";
+import { ITag, TagPicker, Text } from "@fluentui/react";
 import { IInputs } from "../generated/ManifestTypes";
-import { GridValue, displayGridValue, getLookupValue } from "../models/GridModels";
+import { GridValue, getLookupValue } from "../models/GridModels";
 import { LookupMetadataService } from "../services/LookupMetadataService";
 
 export interface LookupCellEditorProps {
@@ -14,18 +14,22 @@ export interface LookupCellEditorProps {
     onChange: (value: GridValue) => void;
 }
 
+interface LookupTag extends ITag {
+    lookup: ComponentFramework.LookupValue;
+}
+
 interface LookupCellEditorState {
-    loading: boolean;
-    busy: boolean;
     targets: string[];
+    loading: boolean;
     editable: boolean;
     error?: string;
 }
 
 export class LookupCellEditor extends React.Component<LookupCellEditorProps, LookupCellEditorState> {
+    public state: LookupCellEditorState = { targets: [], loading: true, editable: false };
     private mounted = false;
-    private requestId = 0;
-    public state: LookupCellEditorState = { loading: true, busy: false, targets: [], editable: false };
+    private metadataId = 0;
+    private searchId = 0;
 
     public componentDidMount(): void {
         this.mounted = true;
@@ -41,69 +45,127 @@ export class LookupCellEditor extends React.Component<LookupCellEditorProps, Loo
 
     public componentWillUnmount(): void {
         this.mounted = false;
-        this.requestId++;
-    }
-
-    public render(): React.ReactNode {
-        const disabled = this.props.disabled || this.state.loading || this.state.busy || !this.state.editable;
-        const label = this.props.column.displayName || this.props.column.name;
-        return (
-            <Stack tokens={{ childrenGap: 2 }}>
-                <Stack horizontal verticalAlign="center">
-                    <TextField
-                        aria-labelledby={this.props.ariaLabelledBy}
-                        value={displayGridValue(this.props.value)}
-                        readOnly
-                        placeholder={this.state.loading ? "Loading lookup…" : "Select a record"}
-                        onKeyDown={(event) => {
-                            if (!disabled && event.key === "Enter") { event.preventDefault(); void this.openLookup(); }
-                        }}
-                        styles={{ root: { flex: 1, minWidth: 0 }, fieldGroup: { borderColor: "#00814F" } }}
-                        errorMessage={this.state.error}
-                    />
-                    <IconButton iconProps={{ iconName: "Search" }} ariaLabel={`Select ${label}`} title={`Select ${label}`}
-                        disabled={disabled} onClick={() => { void this.openLookup(); }} styles={{ root: { color: "#00814F" } }} />
-                    <IconButton iconProps={{ iconName: "Clear" }} ariaLabel={`Clear ${label}`} title={`Clear ${label}`}
-                        disabled={disabled || !getLookupValue(this.props.value)} onClick={() => this.props.onChange(null)} />
-                </Stack>
-            </Stack>
-        );
+        this.metadataId++;
+        this.searchId++;
     }
 
     private async loadMetadata(): Promise<void> {
-        const request = ++this.requestId;
-        this.setState({ loading: true, editable: false, error: undefined });
+        const request = ++this.metadataId;
+        this.searchId++;
+        this.setState({ targets: [], loading: true, editable: false, error: undefined });
         try {
             const metadata = await LookupMetadataService.getField(
                 this.props.context.parameters.grid.getTargetEntityType(), this.props.column.name
             );
-            if (!this.mounted || request !== this.requestId) return;
-            const editable = this.props.isNew ? metadata.IsValidForCreate : metadata.IsValidForUpdate;
-            this.setState({ loading: false, targets: metadata.Targets, editable,
-                error: editable ? undefined : "This lookup is read-only." });
+            if (this.mounted && request === this.metadataId) {
+                const editable = this.props.isNew ? metadata.IsValidForCreate : metadata.IsValidForUpdate;
+                this.setState({ targets: metadata.Targets, loading: false, editable,
+                    error: editable ? undefined : "This lookup is read-only." });
+            }
         } catch (error) {
-            if (this.mounted && request === this.requestId) this.setState({ loading: false,
-                error: error instanceof Error ? error.message : "Unable to load this lookup." });
+            if (this.mounted && request === this.metadataId) {
+                this.setState({ loading: false });
+                this.showError(error);
+            }
         }
     }
 
-    private async openLookup(): Promise<void> {
-        if (this.props.disabled || this.state.loading || this.state.busy || !this.state.editable) return;
-        const request = this.requestId;
-        this.setState({ busy: true, error: undefined });
+    public render(): React.ReactNode {
+        const current = getLookupValue(this.props.value);
+        const selectedItems: LookupTag[] = current ? [{
+            key: `${current.entityType}:${current.id}`,
+            name: current.name || current.id,
+            lookup: current
+        }] : [];
+        return (
+            <>
+                <TagPicker
+                    styles={{
+                        root: {
+                            width: "100%",
+                            minWidth: 0,
+                            boxSizing: "border-box",
+                            padding: "2px 4px"
+                        },
+                        text: {
+                            width: "100%",
+                            minWidth: 0,
+                            boxSizing: "border-box"
+                        },
+                        input: {
+                            minWidth: 0,
+                            maxWidth: "100%",
+                            boxSizing: "border-box",
+                            padding: "4px 6px"
+                        }
+                    }}
+                    itemLimit={1}
+                    disabled={this.props.disabled || this.state.loading || !this.state.editable}
+                    selectedItems={selectedItems}
+                    onResolveSuggestions={this.searchRecords}
+                    resolveDelay={300}
+                    getTextFromItem={(item) => item.name}
+                    onChange={(items) => {
+                        const selected = items?.[0] as LookupTag | undefined;
+                        this.props.onChange(selected?.lookup || null);
+                    }}
+                    inputProps={{
+                        placeholder: this.state.loading ? "Loading lookup…" : "Search records",
+                        "aria-label": this.props.column.displayName || this.props.column.name,
+                        "aria-labelledby": this.props.ariaLabelledBy
+                    }}
+                    pickerSuggestionsProps={{
+                        suggestionsHeaderText: "Records",
+                        noResultsFoundText: "No records found",
+                        loadingText: "Searching…"
+                    }}
+                />
+                {this.state.error && (
+                    <Text role="alert" styles={{ root: { color: "#A4262C" } }}>{this.state.error}</Text>
+                )}
+            </>
+        );
+    }
+
+    private searchRecords = async (searchText: string): Promise<LookupTag[]> => {
+        const request = ++this.searchId;
+        const text = searchText.trim();
+        if (text.length < 2 || this.props.disabled || !this.state.editable || this.state.loading) return [];
+        this.setState({ error: undefined });
+        const context = this.props.context;
+        const targets = this.state.targets;
         try {
-            const current = getLookupValue(this.props.value);
-            const selected = await this.props.context.utils.lookupObjects({
-                allowMultiSelect: false,
-                entityTypes: this.state.targets,
-                defaultEntityType: current?.entityType || this.state.targets[0]
-            });
-            if (this.mounted && request === this.requestId && selected?.length) this.props.onChange(selected[0]);
+            const results = await Promise.all(targets.map(async (entityType): Promise<LookupTag[]> => {
+                const metadata = await context.utils.getEntityMetadata(entityType);
+                const idField = (metadata.PrimaryIdAttribute || metadata.primaryIdAttribute) as string;
+                const nameField = (metadata.PrimaryNameAttribute || metadata.primaryNameAttribute) as string;
+                if (!idField || !nameField) throw new Error(`Search fields are unavailable for ${entityType}.`);
+                const filter = `startswith(${nameField},'${text.replace(/'/g, "''")}')`;
+                // Encode apostrophes as well as URL delimiters after escaping the OData literal.
+                const encodedFilter = encodeURIComponent(filter).replace(/'/g, "%27");
+                const query = `?$select=${idField},${nameField}&$filter=${encodedFilter}` +
+                    `&$orderby=${nameField} asc&$top=10`;
+                const response = await context.webAPI.retrieveMultipleRecords(entityType, query);
+                return response.entities.map((record): LookupTag => {
+                    const id = String(record[idField]);
+                    const name = String(record[nameField] || id);
+                    return {
+                        key: `${entityType}:${id}`,
+                        name: targets.length > 1 ? `${name} (${entityType})` : name,
+                        lookup: { id, name, entityType }
+                    };
+                });
+            }));
+            return this.mounted && request === this.searchId ? results.flat() : [];
         } catch (error) {
-            if (this.mounted && request === this.requestId) this.setState({
-                error: error instanceof Error ? error.message : "Unable to open the lookup picker." });
-        } finally {
-            if (this.mounted && request === this.requestId) this.setState({ busy: false });
+            if (request === this.searchId) this.showError(error);
+            return [];
         }
+    };
+
+    private showError(error: unknown): void {
+        if (this.mounted) this.setState({
+            error: error instanceof Error ? error.message : "Unable to search lookup records."
+        });
     }
 }

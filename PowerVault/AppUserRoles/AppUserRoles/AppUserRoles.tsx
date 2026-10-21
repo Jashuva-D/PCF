@@ -585,7 +585,7 @@ class AppUserRoles extends React.Component<AppUserRolesProps, AppUserRolesState>
     }
     render(): React.ReactNode {
         var items = this.state.filterApplied ? this.state.fitlteredrecords : this.state.items;
-        var haseditrole = (window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().some((r: any) => r.name == "Manager" || r.name == "Hosting Coordinator" || r.name == "Financial Operations (Funding)" || r.name == "System Administrator");
+        var haseditrole = (window as any).Xrm.Utility.getGlobalContext().userSettings.roles.get().some((r: any) => r.name == "Management" || r.name == "POC" || r.name == "Financial Analyst" || r.name == "Technical Advisor" || r.name == "System Administrator");
 
         return <div>
             { this.state.showalert && <CMSAlert type={this.state.alert!.messagetype} message={this.state.alert?.message} />}
