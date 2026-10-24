@@ -66,6 +66,7 @@ interface IssueDetailsDialogState{
     deletedialog: boolean;
     deleteitem: IssueFieldChange | null;
     isdeleting: boolean;
+    canDelete: boolean;
     deleteerror?: string | null;
     sendforreviewdialog: boolean,
     cmsdialog: boolean;
@@ -369,8 +370,9 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                                 },
                             }}
                         />
+                    <TooltipHost content={this.state.canDelete ? `Delete ${item.name || "field change"}` : "Only members of the Data Discrepancies Management team can delete records."}>
                     <IconButton
-                        disabled={this.state.isdeleting}
+                        disabled={!this.state.canDelete || this.state.isdeleting}
                         title="Delete"
                         ariaLabel={`Delete ${item.name || "field change"}`}
                         iconProps={{ iconName: "Delete" }}
@@ -393,9 +395,13 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                             icon: {
                                 fontSize: 15,
                                 color: "#D13438"
+                            },
+                            iconDisabled: {
+                                color: "#A19F9D"
                             }
                         }}
                     />
+                    </TooltipHost>
                 </Stack>
             }
         }
@@ -410,6 +416,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             deletedialog: false,
             deleteitem: null,
             isdeleting: false,
+            canDelete: false,
             deleteerror: null,
             cmsdialog: false,
             sendforreviewdialog: false,
@@ -421,7 +428,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
 
     private onDeleteConfirm = (): void => {
         const item = this.state.deleteitem;
-        if (!item || this.state.isdeleting) return;
+        if (!item || this.state.isdeleting || !this.state.canDelete) return;
 
         this.setState({ isdeleting: true, deleteerror: null });
 
@@ -448,6 +455,31 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 });
             }
         );
+    };
+
+    private loadDeletePermission = (): void => {
+        try {
+            const xrm = (parent as any).Xrm;
+            const userId = xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
+            const fetchXml = [
+                "<fetch top='1'>",
+                "<entity name='team'>",
+                "<attribute name='teamid'/>",
+                "<filter><condition attribute='name' operator='eq' value='Data Discrepancies Management'/></filter>",
+                "<link-entity name='teammembership' from='teamid' to='teamid' intersect='true'>",
+                `<filter><condition attribute='systemuserid' operator='eq' value='${userId}'/></filter>`,
+                "</link-entity>",
+                "</entity>",
+                "</fetch>"
+            ].join("");
+
+            xrm.WebApi.retrieveMultipleRecords("team", `?fetchXml=${encodeURIComponent(fetchXml)}`).then(
+                (result: any) => this.setState({ canDelete: result.entities.length > 0 }),
+                () => this.setState({ canDelete: false })
+            );
+        } catch {
+            this.setState({ canDelete: false });
+        }
     };
 
     private onActionConfirm(
@@ -784,6 +816,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
     }
     componentDidMount(): void {
         var obj = this;
+        this.loadDeletePermission();
         
         (parent as any).Xrm.WebApi.retrieveRecord("crm2_datadiscrepancy", this.props.issuerecordid, "?$select=createdon,crm2_issuetitle,crm2_issuedescription,crm2_status&$expand=crm2_datadiscrepancyfield_DataDiscrepancy_crm2_datadiscrepancy($select=crm2_datadiscrepancyfieldid,crm2_currentvalue,crm2_fieldname,crm2_newvalue,crm2_status,crm2_reviewwith,_crm2_reviewer_value,modifiedon),crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)").then(
             function success(result: any) {
@@ -1179,7 +1212,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                         <PrimaryButton
                             text={this.state.isdeleting ? "Deleting..." : "Yes, Delete"}
                             iconProps={{ iconName: "Delete" }}
-                            disabled={this.state.isdeleting}
+                            disabled={this.state.isdeleting || !this.state.canDelete}
                             onClick={this.onDeleteConfirm}
                             styles={{
                                 root: {

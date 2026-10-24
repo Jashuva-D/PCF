@@ -20,6 +20,7 @@ interface DiscrepanciesState {
     deletedialog: boolean,
     deleteitem: any | null,
     isdeleting: boolean,
+    canDelete: boolean,
     deleteerror?: string | null,
     cmsdialog: boolean,
     dialogTitle?: string;
@@ -153,9 +154,10 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                 minWidth: 48,
                 maxWidth: 48,
                 onRender: (item: any) => {
-                    return <TooltipHost content={`Delete ${item["issueid"] || "discrepancy"}`}>
+                    const canDelete = this.state.canDelete && !this.state.isdeleting;
+                    return <TooltipHost content={canDelete ? `Delete ${item["issueid"] || "discrepancy"}` : "Only members of the Data Discrepancies Management team can delete records."}>
                         <IconButton
-                            disabled={this.state.isdeleting}
+                            disabled={!canDelete}
                             title="Delete"
                             ariaLabel={`Delete ${item["issueid"] || "discrepancy"}`}
                             iconProps={{ iconName: "Delete" }}
@@ -176,6 +178,9 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                                 icon: {
                                     fontSize: 15,
                                     color: "#D13438"
+                                },
+                                iconDisabled: {
+                                    color: "#A19F9D"
                                 }
                             }}
                         />
@@ -363,6 +368,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             deletedialog: false,
             deleteitem: null,
             isdeleting: false,
+            canDelete: false,
             deleteerror: null,
             cmsdialog: false,
         }
@@ -370,7 +376,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
 
     private onDeleteConfirm = (): void => {
         const item = this.state.deleteitem;
-        if (!item || this.state.isdeleting) return;
+        if (!item || this.state.isdeleting || !this.state.canDelete) return;
 
         this.setState({ isdeleting: true, deleteerror: null });
 
@@ -400,8 +406,36 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
             }
         );
     };
+
+    private loadDeletePermission = (): void => {
+        try {
+            const xrm = (parent as any).Xrm;
+            const userId = xrm.Utility.getGlobalContext().userSettings.userId.replace(/[{}]/g, "");
+            const fetchXml = [
+                "<fetch top='1'>",
+                "<entity name='team'>",
+                "<attribute name='teamid'/>",
+                "<filter><condition attribute='name' operator='eq' value='Data Discrepancies Management'/></filter>",
+                "<link-entity name='teammembership' from='teamid' to='teamid' intersect='true'>",
+                `<filter><condition attribute='systemuserid' operator='eq' value='${userId}'/></filter>`,
+                "</link-entity>",
+                "</entity>",
+                "</fetch>"
+            ].join("");
+
+            xrm.WebApi.retrieveMultipleRecords("team", `?fetchXml=${encodeURIComponent(fetchXml)}`).then(
+                (result: any) => this.setState({ canDelete: result.entities.length > 0 }),
+                () => this.setState({ canDelete: false })
+            );
+        } catch {
+            this.setState({ canDelete: false });
+        }
+    };
+
     componentDidMount(): void {
         var obj = this;
+
+        this.loadDeletePermission();
 
         (parent as any).Xrm.WebApi.retrieveMultipleRecords("crm2_datadiscrepancy",`?$select=crm2_datadiscrepancyid,crm2_name,crm2_issuetitle,createdon,crm2_status,crm2_tab,crm2_section&$expand=crm2_AssignedTo($select=cr549_email_address,cr549_name),crm2_DelegateTo($select=cr549_email_address,cr549_name),crm2_ReportedBy($select=cr549_email_address,cr549_name)&$filter=_crm2_application_value eq ${this.props.applicationid}`).then(
             function success(results : any) {
@@ -702,7 +736,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     <PrimaryButton
                         text={this.state.isdeleting ? "Deleting..." : "Yes, Delete"}
                         iconProps={{ iconName: "Delete" }}
-                        disabled={this.state.isdeleting}
+                        disabled={this.state.isdeleting || !this.state.canDelete}
                         onClick={this.onDeleteConfirm}
                         styles={{
                             root: {
