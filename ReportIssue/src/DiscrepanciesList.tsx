@@ -112,7 +112,26 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                     if(item["status_value"] == 289940002) { bgcolor = "#F0E7FA"; textcolor= "#6B2FA0";}//Review
                     if(item["status_value"] == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} // Closed
                     
-                    return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, fontWeight: 600, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status"]}</Text></TooltipHost></Stack>;
+                    return <Stack verticalAlign="center" style={{ height: "100%", width: "100%" }}>
+                        <TooltipHost content={item["status"]} styles={{ root: { width: "100%" } }}>
+                            <Text style={{
+                                width: "100%",
+                                boxSizing: "border-box",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                                color: textcolor,
+                                backgroundColor: bgcolor,
+                                fontWeight: 600,
+                                paddingLeft: 8,
+                                paddingRight: 8,
+                                borderRadius: 4
+                            }}>
+                                {item["status"]}
+                            </Text>
+                        </TooltipHost>
+                    </Stack>;
                 }
             },
             {

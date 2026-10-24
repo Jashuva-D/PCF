@@ -165,7 +165,26 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                 if (item["status_value"] == 289940005) { bgcolor = "#FEF9C3"; textcolor = "#B45309"; }
                 if (item["status_value"] == 289940004) { bgcolor = "#EDEDED"; textcolor = "#605E5C"; }
 
-                return <Stack verticalAlign="center" horizontalAlign="start" style={{ height: "100%" }}><TooltipHost content={item["status"]}><Text style={{ color: textcolor, backgroundColor: bgcolor, fontWeight: 600, paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px" }}>{item["status_label"]}</Text></TooltipHost></Stack>;
+                return <Stack verticalAlign="center" style={{ height: "100%", width: "100%" }}>
+                    <TooltipHost content={item["status_label"]} styles={{ root: { width: "100%" } }}>
+                        <Text style={{
+                            width: "100%",
+                            boxSizing: "border-box",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            textAlign: "center",
+                            color: textcolor,
+                            backgroundColor: bgcolor,
+                            fontWeight: 600,
+                            paddingLeft: 8,
+                            paddingRight: 8,
+                            borderRadius: 4
+                        }}>
+                            {item["status_label"]}
+                        </Text>
+                    </TooltipHost>
+                </Stack>;
             }
         },
         {
