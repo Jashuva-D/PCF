@@ -169,6 +169,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
                     <TooltipHost content={item["status_label"]} styles={{ root: { width: "100%" } }}>
                         <Text style={{
                             width: "100%",
+                            minHeight: 26,
                             boxSizing: "border-box",
                             display: "inline-flex",
                             alignItems: "center",
@@ -736,7 +737,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
         if(status_value == 289940006) { bgcolor = "#DFF3E4"; textcolor= "#0E7433";} //Closed (parent status)
         
                             
-        return <Stack verticalAlign="center" horizontalAlign="start" style={{ paddingLeft: 5 }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, minHeight: 22, display: "inline-flex", alignItems: "center", paddingLeft: 8, paddingRight: 8, borderRadius: 4 }}>{status_label}</Text></TooltipHost></Stack>;
+        return <Stack verticalAlign="center" horizontalAlign="start" style={{ paddingLeft: 5 }}><TooltipHost content={status_label}><Text style={{ color: textcolor, backgroundColor: bgcolor, minHeight: 26, display: "inline-flex", alignItems: "center", justifyContent: "center", textAlign: "center", paddingLeft: 8, paddingRight: 8, borderRadius: 4 }}>{status_label}</Text></TooltipHost></Stack>;
     }
     private renderStatusTile(title: string, persontitle: string, person: { name: string | null; email?: string | null;} | null, datetitle: string, date: string | null, notestitle: string, notes: string, iconname: string, colors: { background: string, legend: string}, disableHistory: boolean = false){
         const selectedField = this.state.issue?.fields.find(

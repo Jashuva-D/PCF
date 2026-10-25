@@ -116,6 +116,7 @@ class DiscrepanciesList extends React.Component<DiscrepanciesListProps,Discrepan
                         <TooltipHost content={item["status"]} styles={{ root: { width: "100%" } }}>
                             <Text style={{
                                 width: "100%",
+                                minHeight: 26,
                                 boxSizing: "border-box",
                                 display: "inline-flex",
                                 alignItems: "center",
