@@ -1,0 +1,180 @@
+
+.hiring-actions {
+  width: 100%;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(20, 40, 70, 0.05);
+}
+
+.hiring-actions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.hiring-actions-header h2 {
+  margin: 0;
+  color: #102f60;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.hiring-actions-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 0;
+  border: none;
+  background: transparent;
+  color: #1261ad;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hiring-actions-view-all:hover {
+  color: #08477f;
+  text-decoration: underline;
+}
+
+.hiring-actions-view-all:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 3px;
+}
+
+.hiring-actions-view-all svg {
+  width: 16px;
+  height: 16px;
+}
+
+.hiring-actions-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.hiring-actions-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: left;
+  font-size: 13px;
+}
+
+.hiring-actions-table thead {
+  background: #f0f5fb;
+}
+
+.hiring-actions-table th {
+  position: relative;
+  padding: 13px 12px;
+  color: #24466f;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  border-bottom: 1px solid #e3eaf3;
+  border-right: 1px solid #e5eaf1;
+}
+
+.hiring-actions-table th:last-child {
+  border-right: none;
+}
+
+.hiring-actions-column-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hiring-actions-resize-handle {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  width: 8px;
+  height: 100%;
+  cursor: col-resize;
+  touch-action: none;
+  z-index: 2;
+}
+
+.hiring-actions-resize-handle:hover {
+  background: rgba(0, 120, 212, 0.15);
+}
+
+.hiring-actions-table td {
+  padding: 15px 12px;
+  color: #34445a;
+  font-size: 13px;
+  border-bottom: 1px solid #edf0f5;
+  border-right: 1px solid #e5eaf1;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hiring-actions-table td:last-child {
+  border-right: none;
+}
+
+.hiring-actions-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hiring-actions-table tbody tr:hover {
+  background: #f8fbff;
+}
+
+.hiring-actions-id {
+  color: #1765ad !important;
+  font-weight: 600;
+}
+
+.hiring-actions-stage {
+  display: inline-block;
+  max-width: 100%;
+  padding: 5px 10px;
+  background: #eaf2ff;
+  color: #235b9e;
+  border-radius: 5px;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.hiring-actions-days {
+  text-align: center;
+  font-weight: 600;
+}
+
+.hiring-actions-table th:last-child {
+  text-align: center;
+}
+
+.hiring-actions-message {
+  padding: 28px 12px !important;
+  text-align: center;
+  color: #66758b !important;
+}
+
+.hiring-actions-error {
+  color: #b42318 !important;
+}
+
+@media (max-width: 768px) {
+  .hiring-actions {
+    padding: 15px;
+  }
+
+  .hiring-actions-header h2 {
+    font-size: 17px;
+  }
+}

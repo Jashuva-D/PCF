@@ -39,14 +39,24 @@ function KpiIcon({ type }: { type: IconType }) {
       );
 
     case "attention":
-      return (
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="9" cy="8" r="3" />
-          <circle cx="17" cy="9" r="2.5" />
-          <path d="M2 19v-2c0-3 3-5 7-5s7 2 7 5v2H2Z" />
-          <path d="M17 13c3 0 5 2 5 5v1h-4v-2c0-1.5-.4-2.8-1-4Z" />
-        </svg>
-      );
+        return (
+            <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+            >
+            <circle cx="12" cy="7" r="3.3" />
+            <circle cx="4.8" cy="9" r="2.6" />
+            <circle cx="19.2" cy="9" r="2.6" />
+
+            <path d="M4.8 12.5C2.2 12.5 1 14.6 1 17.2V19H5.5V17.5C5.5 15.7 6 14.3 7 13.2C6.3 12.7 5.6 12.5 4.8 12.5Z" />
+
+            <path d="M19.2 12.5C21.8 12.5 23 14.6 23 17.2V19H18.5V17.5C18.5 15.7 18 14.3 17 13.2C17.7 12.7 18.4 12.5 19.2 12.5Z" />
+
+            <path d="M12 11.5C8.2 11.5 6 14.2 6 17.5V20H18V17.5C18 14.2 15.8 11.5 12 11.5Z" />
+            </svg>
+        );
 
     case "date":
       return (

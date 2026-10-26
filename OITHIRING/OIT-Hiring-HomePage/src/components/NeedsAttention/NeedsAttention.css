@@ -1,0 +1,137 @@
+
+.needs-attention {
+  width: 100%;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(20, 40, 70, 0.05);
+}
+
+.needs-attention-header {
+  margin-bottom: 18px;
+}
+
+.needs-attention-header h2 {
+  margin: 0;
+  color: #102f60;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.needs-attention-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.needs-attention-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 0;
+  border: none;
+  border-bottom: 1px solid #edf0f5;
+  background: transparent;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.needs-attention-item:first-child {
+  padding-top: 4px;
+}
+
+.needs-attention-item:last-child {
+  border-bottom: none;
+  padding-bottom: 4px;
+}
+
+.needs-attention-item:hover .needs-attention-title {
+  color: #1261ad;
+}
+
+.needs-attention-item:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.needs-attention-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+}
+
+.needs-attention-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.needs-attention-icon-milestones {
+  color: #b06b18;
+  background: #fff2db;
+}
+
+.needs-attention-icon-updates {
+  color: #3266a7;
+  background: #e8f1ff;
+}
+
+.needs-attention-icon-aging {
+  color: #a34c54;
+  background: #fce9eb;
+}
+
+.needs-attention-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.needs-attention-title {
+  color: #17365e;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.needs-attention-description {
+  color: #6b788b;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.needs-attention-chevron {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: #8290a3;
+}
+
+@media (max-width: 768px) {
+  .needs-attention {
+    padding: 15px;
+  }
+
+  .needs-attention-header h2 {
+    font-size: 17px;
+  }
+
+  .needs-attention-item {
+    gap: 10px;
+    padding: 14px 0;
+  }
+
+  .needs-attention-icon {
+    width: 38px;
+    height: 38px;
+  }
+}

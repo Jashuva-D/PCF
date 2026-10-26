@@ -23,3 +23,19 @@ body {
   margin: 0 auto;
   padding: 5px;
 }
+
+
+.homepage-main-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .homepage-main-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
