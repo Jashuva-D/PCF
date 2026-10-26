@@ -1,0 +1,136 @@
+
+.kpi-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.kpi-tile {
+  appearance: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  min-height: 86px;
+  padding: 12px 14px;
+
+  background: #ffffff;
+  border: 1px solid #e8edf3;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(20, 40, 70, 0.06);
+
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.kpi-tile:hover {
+  border-color: #b9d0eb;
+  box-shadow: 0 4px 12px rgba(20, 40, 70, 0.12);
+}
+
+.kpi-tile:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+/* Circular icon background */
+
+.kpi-tile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.kpi-tile-icon svg {
+  display: block;
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+}
+
+/* Tile-specific icon colors */
+
+.kpi-tile--total .kpi-tile-icon {
+  background: #e5f2ff;
+  color: #1681df;
+}
+
+.kpi-tile--pending .kpi-tile-icon {
+  background: #fff0d2;
+  color: #a87515;
+}
+
+.kpi-tile--attention .kpi-tile-icon {
+  background: #ffe7ea;
+  color: #c82138;
+}
+
+.kpi-tile--date .kpi-tile-icon {
+  background: #dff5f2;
+  color: #15928f;
+}
+
+/* Number and label */
+
+.kpi-tile-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.kpi-tile-value {
+  display: block;
+  color: #092b60;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.kpi-tile-title {
+  display: block;
+  color: #183b70;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* Right chevron */
+
+.kpi-tile-arrow {
+  display: block;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  margin-left: auto;
+  color: #45658d;
+}
+
+.kpi-tile:hover .kpi-tile-arrow {
+  transform: translateX(2px);
+}
+
+/* Responsive */
+
+@media (max-width: 1050px) {
+  .kpi-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .kpi-tiles {
+    grid-template-columns: 1fr;
+  }
+}
