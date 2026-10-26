@@ -87,15 +87,9 @@ function HiringActions() {
     0
   );
 
-  const effectiveTableWidth = Math.max(totalWidth, containerWidth);
+  const effectiveTableWidth = containerWidth || totalWidth;
 
-  const effectiveColumnWidths =
-    totalWidth < containerWidth
-      ? columns.map(
-          (column) =>
-            (column.width / totalWidth) * containerWidth
-        )
-      : columns.map((column) => column.width);
+  const effectiveColumnWidths = columns.map((column) => (column.width / totalWidth) * effectiveTableWidth);
 
   useEffect(() => {
     let active = true;
