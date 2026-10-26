@@ -1,0 +1,124 @@
+
+.navigation-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.navigation-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-width: 0;
+  min-height: 112px;
+  padding: 20px;
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(20, 40, 70, 0.05);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navigation-card:hover {
+  border-color: #c5d7eb;
+  box-shadow: 0 4px 12px rgba(20, 40, 70, 0.09);
+}
+
+.navigation-card:focus-visible {
+  outline: 2px solid #0078d4;
+  outline-offset: 3px;
+}
+
+.navigation-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.navigation-card-icon svg {
+  width: 25px;
+  height: 25px;
+}
+
+.navigation-card-icon-dashboard {
+  color: #2865ad;
+  background: #e8f1ff;
+}
+
+.navigation-card-icon-aids {
+  color: #387d62;
+  background: #e6f5ed;
+}
+
+.navigation-card-icon-support {
+  color: #9462a7;
+  background: #f3eafa;
+}
+
+.navigation-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.navigation-card-title {
+  color: #17365e;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.navigation-card-description {
+  color: #6b788b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.navigation-card-chevron {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  color: #8290a3;
+  transition: transform 0.2s ease;
+}
+
+.navigation-card:hover .navigation-card-chevron {
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .navigation-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .navigation-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .navigation-card {
+    min-height: 96px;
+    padding: 16px;
+  }
+
+  .navigation-card-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .navigation-card-title {
+    font-size: 15px;
+  }
+}
