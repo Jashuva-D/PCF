@@ -51,11 +51,11 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_hostingplatform', name: 'Phase', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 100, isResizable: true, 
+                { key: 'pv_phase', name: 'Phase', fieldName: 'pv_phase@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 100, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
-                        if(item.pv_hostingplatform){
-                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{"TBD"}</Text></Stack>;
+                        if(item.pv_phase){
+                            return <Stack verticalAlign="center" horizontalAlign="start" style={{height: "100%", paddingLeft: "8px"}}><Text style={{backgroundColor: "#d8dcee", paddingLeft: "8px", paddingRight: "8px", borderRadius: "4px"}}>{item["pv_phase@OData.Community.Display.V1.FormattedValue"]}</Text></Stack>;
                         }
                         return null;
                     }
@@ -117,6 +117,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         <attribute name="pv_pointofcontact" />
                         <attribute name="pv_financialanalyst" />
                         <attribute name="pv_hostingdeliverymodel" />
+                        <attribute name="pv_phase" />
                         <attribute name="modifiedon"/>
                         <order attribute="pv_id" descending="false"/>
                         <link-entity name="pv_appuserrole" from="pv_app" to="pv_appsid" link-type="inner" alias="ai">
