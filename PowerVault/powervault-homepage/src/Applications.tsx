@@ -51,7 +51,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_hostingplatform', name: 'Stage', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 100, isResizable: true, 
+                { key: 'pv_hostingplatform', name: 'Phase', fieldName: 'pv_hostingplatform@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 100, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.pv_hostingplatform){
