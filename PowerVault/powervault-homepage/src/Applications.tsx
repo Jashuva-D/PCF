@@ -51,7 +51,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_phase', name: 'Phase', fieldName: 'pv_phase@OData.Community.Display.V1.FormattedValue', currentWidth: 100, minWidth: 100, maxWidth: 100, isResizable: true, 
+                { key: 'pv_phase', name: 'Phase', fieldName: 'pv_phase@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.pv_phase){
