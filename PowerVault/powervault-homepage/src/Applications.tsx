@@ -42,7 +42,7 @@ class Applications extends React.Component<MyApplicationsProps, MyApplicationsSt
                         return null;
                     }
                 },
-                { key: 'pv_hostingdeliverymodel', name: 'Hosting Delivery Model', fieldName: 'pv_hostingdeliverymodel@OData.Community.Display.V1.FormattedValue', currentWidth: 150, minWidth: 150, maxWidth: 150, isResizable: true, 
+                { key: 'pv_hostingdeliverymodel', name: 'Hosting Delivery Model', fieldName: 'pv_hostingdeliverymodel@OData.Community.Display.V1.FormattedValue', currentWidth: 200, minWidth: 200, maxWidth: 200, isResizable: true, 
                     onColumnClick: this.onColumnClick.bind(this),
                     onRender: (item: any) => {
                         if(item.pv_hostingdeliverymodel){
