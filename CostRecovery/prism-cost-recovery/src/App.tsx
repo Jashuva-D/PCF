@@ -41,7 +41,7 @@ const monthOptions = [
     'July', 'August', 'September', 'October', 'November', 'December'
 ].map((month, index) => ({
     key: index + 1,
-    text: month
+    text: `${month} (2026)`
 }));
 
 const optionPeriodOptions = Array.from({ length: 6 }, (_, index) => ({
@@ -109,16 +109,15 @@ const toAmount = (value: string): number => {
 const sampleSchedules: ISchedule[] = optionPeriodOptions.flatMap(period =>
     (['OIT', 'OC'] as BudgetSource[]).flatMap(budgetSource =>
         [
-            { budgetedAmount: 500000, availableBalance: 170000 },
-            { budgetedAmount: 400000, availableBalance: 150000 },
-            { budgetedAmount: 300000, availableBalance: 100000 },
-            { budgetedAmount: 200000, availableBalance: 75000 },
-            { budgetedAmount: 150000, availableBalance: 60000 }
-        ].map((amounts, index) => ({
-            id: `${period.key}-${budgetSource}-SCH-00${index + 1}`,
+            { id: '25354', budgetedAmount: 500000, availableBalance: 170000 },
+            { id: '25357', budgetedAmount: 400000, availableBalance: 150000 },
+            { id: '25364', budgetedAmount: 300000, availableBalance: 100000 },
+            { id: '25365', budgetedAmount: 200000, availableBalance: 75000 },
+            { id: '25363', budgetedAmount: 150000, availableBalance: 60000 }
+        ].map(schedule => ({
+            ...schedule,
             optionPeriod: period.key,
-            budgetSource,
-            ...amounts
+            budgetSource
         }))
     )
 );
@@ -137,7 +136,7 @@ export default class App extends React.Component<object, IAppState> {
     };
 
     private getDraftKey = (scheduleId: string): string =>
-        `${this.state.invoiceMonth}-${scheduleId}`;
+        `${this.state.invoiceMonth}-${this.state.optionPeriod}-${this.state.budgetSource}-${scheduleId}`;
 
     private getDraft = (scheduleId: string): IAllocationDraft =>
         this.state.drafts[this.getDraftKey(scheduleId)] ?? {
