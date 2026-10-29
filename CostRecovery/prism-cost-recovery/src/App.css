@@ -1,0 +1,347 @@
+.cost-recovery-page {
+    width: 100%;
+    padding: 24px 32px;
+    color: #203b64;
+}
+
+.cost-recovery-page h1 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.page-description {
+    margin: 0 0 24px;
+    color: #687b95;
+    font-size: 13px;
+}
+
+.invoice-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.05fr 1.45fr;
+    gap: 16px;
+    padding: 20px;
+    background: #f4f7fd;
+    border: 1px solid #dce2ec;
+    border-radius: 16px;
+    box-shadow: 0 2px 3px #0000001a;
+}
+
+.invoice-panel > * {
+    min-width: 0;
+}
+
+.invoice-panel .ms-Label,
+.schedule-search .ms-Label {
+    color: #687b95;
+    font-size: 12px;
+}
+
+.invoice-panel .ms-TextField-fieldGroup {
+    border-color: #d7deea;
+    border-radius: 5px;
+}
+
+.invoice-panel .ms-Dropdown-title {
+    color: #203b64;
+}
+
+.editable-field .ms-TextField-fieldGroup,
+.editable-field .ms-TextField-field,
+.editable-field .ms-TextField-prefix {
+    background: #f3dcdf;
+    color: #203b64;
+}
+
+.budget-source-options .ms-ChoiceFieldGroup-flexContainer {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 32px;
+}
+
+.budget-source-options .ms-ChoiceField {
+    margin-top: 0;
+}
+
+.schedules-section {
+    margin-top: 48px;
+}
+
+.schedules-toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.schedules-toolbar h2,
+.confirmation-summary h2,
+.confirmation-schedules h2 {
+    margin: 0 0 12px;
+    font-size: 17px;
+}
+
+.schedule-search {
+    width: 260px;
+    flex-shrink: 0;
+}
+
+.schedule-table-container {
+    width: 100%;
+    border: 1px solid #d7deea;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.schedule-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.schedule-table th,
+.schedule-table td {
+    padding: 10px 8px;
+    text-align: left;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+    border-right: 1px solid #d7deea;
+    border-bottom: 1px solid #d7deea;
+}
+
+.schedule-table th {
+    background: #e9f1fc;
+    font-weight: 600;
+}
+
+.schedule-table td {
+    background: #f8fbff;
+}
+
+.schedule-table th:last-child,
+.schedule-table td:last-child {
+    border-right: none;
+}
+
+.schedule-table tr:last-child td {
+    border-bottom: none;
+}
+
+.schedule-table .editable-cell {
+    padding: 4px;
+}
+
+.editable-cell .ms-TextField-fieldGroup {
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+.editable-cell input {
+    min-width: 0;
+    padding: 0 6px;
+    font-size: 12px;
+}
+
+.schedule-table .empty-message {
+    padding: 24px;
+    text-align: center;
+    color: #687b95;
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 12px;
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 18px;
+    background: #eaf3fc;
+    border: 1px solid #d7deea;
+    border-radius: 12px;
+    box-shadow: 0 2px 3px #0000001a;
+}
+
+.summary-card span {
+    font-size: 12px;
+}
+
+.summary-card strong {
+    font-size: 23px;
+    overflow-wrap: anywhere;
+}
+
+.unallocated-card {
+    background: #fff0c7;
+}
+
+.page-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.editable-legend {
+    padding: 5px 12px;
+    background: #f3dcdf;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.footer-actions,
+.confirmation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.footer-actions .ms-Button,
+.confirmation-actions .ms-Button {
+    min-width: 130px;
+    border-radius: 5px;
+}
+
+.confirmation-banner {
+    padding: 20px;
+    text-align: center;
+    background: #e7f6ee;
+    border-radius: 12px;
+    box-shadow: 0 2px 3px #00000026;
+}
+
+.confirmation-banner h1 {
+    margin: 0;
+    color: #197b43;
+    font-size: 25px;
+}
+
+.confirmation-banner p {
+    margin: 8px 0 0;
+    color: #416652;
+    font-size: 13px;
+}
+
+.confirmation-summary {
+    margin-top: 14px;
+    padding: 20px;
+    background: #f8fbff;
+    border: 1px solid #dce2ec;
+    border-radius: 20px;
+    box-shadow: 0 2px 3px #00000026;
+}
+
+.confirmation-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 16px 0 8px;
+}
+
+.confirmation-summary-grid > div {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+}
+
+.confirmation-summary-grid dt {
+    color: #687b95;
+    font-size: 12px;
+}
+
+.confirmation-summary-grid dd {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.confirmation-schedules {
+    margin-top: 24px;
+}
+
+.confirmation-notes {
+    white-space: pre-wrap;
+}
+
+.confirmation-audit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin: 18px 8px 0;
+    font-size: 12px;
+}
+
+.confirmation-actions {
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (max-width: 800px) {
+    .cost-recovery-page {
+        padding: 16px;
+    }
+
+    .invoice-panel {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .schedules-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .schedule-search {
+        width: 100%;
+    }
+
+    .summary-cards {
+        gap: 10px;
+    }
+
+    .summary-card {
+        padding: 12px;
+    }
+
+    .summary-card strong {
+        font-size: 18px;
+    }
+
+    .page-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .confirmation-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .invoice-panel,
+    .summary-cards,
+    .confirmation-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .confirmation-banner h1 {
+        font-size: 21px;
+    }
+}
