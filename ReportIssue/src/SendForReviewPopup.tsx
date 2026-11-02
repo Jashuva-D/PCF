@@ -234,8 +234,8 @@ class ActionDialog extends React.Component<ActionDialogProps, ActionDialogState>
                                         label="Review with"
                                         options={[
                                             { key: 289940000, text: "Auditor" },
-                                            { key: 289940001, text: "HA" },
-                                            { key: 289940002, text: "FA" },
+                                            { key: 289940001, text: "Hosting Coordinator" },
+                                            { key: 289940002, text: "Financial Analyst" },
                                             { key: 289940004, text: "Other" }
                                         ]}
                                         styles={{ root: { minWidth: 190 } }}
