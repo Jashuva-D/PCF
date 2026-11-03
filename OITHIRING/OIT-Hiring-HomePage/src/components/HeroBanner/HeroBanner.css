@@ -1,3 +1,4 @@
+
 .hero-banner {
   position: relative;
   display: flex;
@@ -7,9 +8,9 @@
   padding: 30px 36px;
   background-color: #ffffff;
   background-image: url("../../assets/images/hiring-banner.png");
-  background-position: center right;
+  background-size: 100% 100%;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
   border: 1px solid #e5eaf1;
   border-radius: 10px;
   overflow: hidden;
@@ -79,51 +80,16 @@
   background-color: #edf5ff;
 }
 
+.hero-button:focus-visible {
+  outline: 2px solid #071f60;
+  outline-offset: 3px;
+}
+
 .hero-plus {
   font-size: 21px;
   font-weight: 400;
   line-height: 1;
 }
-
-@media (max-width: 768px) {
-  .hero-banner {
-    min-height: 180px;
-    padding: 24px;
-    background-position: 60% center;
-  }
-
-  .hero-content {
-    width: 75%;
-  }
-
-  .hero-content h1 {
-    font-size: 25px;
-  }
-
-  .hero-content p {
-    font-size: 14px;
-  }
-
-  .hero-button {
-    font-size: 12px;
-    padding: 9px 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-content {
-    width: 100%;
-  }
-
-  .hero-banner {
-    background-position: right center;
-  }
-
-  .hero-content h1 {
-    font-size: 22px;
-  }
-}
-
 
 .hero-oit-branding {
   position: absolute;
@@ -159,6 +125,28 @@
 }
 
 @media (max-width: 768px) {
+  .hero-banner {
+    min-height: 180px;
+    padding: 24px;
+  }
+
+  .hero-content {
+    width: 75%;
+  }
+
+  .hero-content h1 {
+    font-size: 25px;
+  }
+
+  .hero-content p {
+    font-size: 14px;
+  }
+
+  .hero-button {
+    font-size: 12px;
+    padding: 9px 14px;
+  }
+
   .hero-oit-branding {
     top: 14px;
     right: 14px;
@@ -180,6 +168,33 @@
 }
 
 @media (max-width: 480px) {
+  .hero-banner {
+    padding: 20px;
+  }
+
+  .hero-content {
+    width: 100%;
+    padding-top: 32px;
+  }
+
+  .hero-content h1 {
+    font-size: 22px;
+  }
+
+  .hero-content p {
+    font-size: 13px;
+  }
+
+  .hero-actions {
+    gap: 8px;
+  }
+
+  .hero-button {
+    min-height: 36px;
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
   .hero-oit-branding {
     transform: scale(0.8);
     transform-origin: top right;
