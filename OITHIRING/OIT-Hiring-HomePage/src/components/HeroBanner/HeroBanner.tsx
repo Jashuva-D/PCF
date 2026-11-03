@@ -1,3 +1,4 @@
+
 import "./HeroBanner.css";
 
 function HeroBanner() {
@@ -34,6 +35,16 @@ function HeroBanner() {
             View Hiring Actions
           </button>
         </div>
+      </div>
+
+      <div className="hero-oit-branding">
+        <span className="hero-oit-logo">OIT</span>
+        <span className="hero-oit-divider" />
+        <span className="hero-oit-name">
+          Office of
+          <span>Information</span>
+          <span>Technology</span>
+        </span>
       </div>
     </section>
   );

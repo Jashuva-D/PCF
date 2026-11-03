@@ -32,7 +32,7 @@
 
 .hero-content p {
   margin: 0 0 22px;
-  color: #526b90;
+  color: #344a68;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -121,5 +121,67 @@
 
   .hero-content h1 {
     font-size: 22px;
+  }
+}
+
+
+.hero-oit-branding {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #071f60;
+}
+
+.hero-oit-logo {
+  font-size: 43px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.hero-oit-divider {
+  width: 2px;
+  height: 44px;
+  background-color: #071f60;
+}
+
+.hero-oit-name {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .hero-oit-branding {
+    top: 14px;
+    right: 14px;
+    gap: 7px;
+  }
+
+  .hero-oit-logo {
+    font-size: 29px;
+    letter-spacing: -2px;
+  }
+
+  .hero-oit-divider {
+    height: 32px;
+  }
+
+  .hero-oit-name {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-oit-branding {
+    transform: scale(0.8);
+    transform-origin: top right;
   }
 }
