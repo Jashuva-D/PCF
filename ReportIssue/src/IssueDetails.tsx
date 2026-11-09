@@ -539,11 +539,7 @@ class IssueDetailsDialog extends React.Component<IssueDetailsDialogProps, IssueD
             data.crm2_reviewwith = reviewwith;
             data["crm2_Reviewer@odata.bind"] = `/cr549_persons(${reviewer.id})`;
         }
-
-        if (action === "transfer") {
-            data.crm2_reviewwith = 289940003;
-        }
-
+        
         (parent as any).Xrm.WebApi.updateRecord(
             "crm2_datadiscrepancyfield",
             item.recordid,
